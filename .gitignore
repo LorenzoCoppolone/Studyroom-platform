@@ -1,0 +1,25 @@
+# File di sistema
+.DS_Store
+Thumbs.db
+
+# Log e cache
+*.log
+*.cache
+
+# File sensibili
+.env
+config.php
+
+# Uploads
+uploads/
+upload/
+files/
+
+# Backup o file temporanei
+*.bak
+*.tmp
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
