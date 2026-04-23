@@ -1,47 +1,47 @@
 <?php
 
 class Insegnamento {
-    private int $id_insegnamento;
+    private int $Codice_insegnamento;
     private string $nome_insegnamento;
-    private int $id_corso_di_laurea;
+    private int $Codice_corso_di_laurea;
     private int $id_materiale;
 
 
     /**
      * Costruttore di insegnamento.
      * 
-     * @param int $id_insegnamento ID dell'insegnamento.
+     * @param int $Codice_insegnamento Codice dell'insegnamento.
      * @param string $nome_insegnamento Nome dell'insegnamento.
-     * @param int $id_corso_di_laurea ID del corso di laurea associato all'insegnamento.
+     * @param int $Codice_corso_di_laurea Codice del corso di laurea associato all'insegnamento.
      * @param int $id_materiale ID del materiale associato all'insegnamento.
      */
-    public function __construct(int $id_insegnamento, string $nome_insegnamento, int $id_corso_di_laurea, int $id_materiale) {
-        $this->id_insegnamento = $id_insegnamento;
+    public function __construct(int $Codice_insegnamento, string $nome_insegnamento, int $Codice_corso_di_laurea, int $id_materiale) {
+        $this->Codice_insegnamento = $Codice_insegnamento;
         $this->nome_insegnamento = $nome_insegnamento;
-        $this->id_corso_di_laurea = $id_corso_di_laurea;
+        $this->Codice_corso_di_laurea = $Codice_corso_di_laurea;
         $this->id_materiale = $id_materiale;
     }
 
 
 
     /**
-     * Ottiene l'ID dell'insegnamento.
+     * Ottiene il codice dell'insegnamento.
      * 
-     * @return int L'ID dell'insegnamento.
+     * @return int Il codice dell'insegnamento.
      */
-    public function getIdInsegnamento(): int {
-        return $this->id_insegnamento;
+    public function getCodiceInsegnamento(): int {
+        return $this->Codice_insegnamento;
     }
 
 
 
     /**
-     * Imposta l'ID dell'insegnamento.
+     * Imposta il codice dell'insegnamento.
      * 
-     * @param int $id_insegnamento L'ID dell'insegnamento.
+     * @param int $Codice_insegnamento Il codice dell'insegnamento.
      */
-    public function setIdInsegnamento(int $id_insegnamento): void {
-        $this->id_insegnamento = $id_insegnamento;
+    public function setCodiceInsegnamento(int $Codice_insegnamento): void {
+        $this->Codice_insegnamento = $Codice_insegnamento;
     }
 
 
@@ -67,36 +67,36 @@ class Insegnamento {
     }
 
     /**
-     * Ottiene l'ID del corso di laurea associato all'insegnamento.
+     * Ottiene il codice del corso di laurea associato all'insegnamento.
      * 
-     * @return int L'ID del corso di laurea associato all'insegnamento.
+     * @return int Il codice del corso di laurea associato all'insegnamento.
      */
-    public function getIdCorsoDiLaurea(): int {
-        return $this->id_corso_di_laurea;
+    public function getCodiceCorsoDiLaurea(): int {
+        return $this->Codice_corso_di_laurea;
     }
 
     /**
-     * Imposta l'ID del corso di laurea associato all'insegnamento.
+     * Imposta il codice del corso di laurea associato all'insegnamento.
      * 
-     * @param int $id_corso_di_laurea L'ID del corso di laurea associato all'insegnamento.
+     * @param int $Codice_corso_di_laurea Il codice del corso di laurea associato all'insegnamento.
      */
-    public function setIdCorsoDiLaurea(int $id_corso_di_laurea): void {
-        $this->id_corso_di_laurea = $id_corso_di_laurea;
+    public function setCodiceCorsoDiLaurea(int $Codice_corso_di_laurea): void {
+        $this->Codice_corso_di_laurea = $Codice_corso_di_laurea;
     }
 
     /**
-     * Ottiene l'ID del materiale associato all'insegnamento.
+     * Ottiene Id del materiale associato all'insegnamento.
      * 
-     * @return int L'ID del materiale associato all'insegnamento.
+     * @return int Id del materiale associato all'insegnamento.
      */
     public function getIdMateriale(): int {
         return $this->id_materiale;
     }
 
     /**
-     * Imposta l'ID del materiale associato all'insegnamento.
+     * Imposta il codice del materiale associato all'insegnamento.
      * 
-     * @param int $id_materiale L'ID del materiale associato all'insegnamento.
+     * @param int $Codice_materiale Il codice del materiale associato all'insegnamento.
      */
     public function setIdMateriale(int $id_materiale): void {
         $this->id_materiale = $id_materiale;
