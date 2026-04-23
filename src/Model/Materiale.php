@@ -2,9 +2,9 @@
 abstract class Materiale {
     private int $id_materiale;
     private string $Titolo_materiale;
-    private Insegnamento $insegnamento_materiale;
-    private Utente $possessore_materiale;
-    private File $file;
+    private int $id_insegnamento;
+    private int $id_utente;
+    private int $id_file;
 
 
 
@@ -12,16 +12,16 @@ abstract class Materiale {
      * Costruttore della classe Materiale.
      * @param int $id_materiale L'ID del materiale.
      * @param string $Titolo_materiale Il titolo del materiale.
-     * @param Insegnamento $insegnamento_materiale L'insegnamento associato al materiale.
-     * @param Utente $possessore_materiale L'utente che ha caricato il materiale.
-     * @param File $file Il file associato al materiale.
+     * @param int $id_insegnamento L'ID dell'insegnamento associato al materiale.
+     * @param int $id_utente L'ID dell'utente che ha caricato il materiale.
+     * @param int $id_file L'ID del file associato al materiale.
      */
-    public function __construct(int $id_materiale, string $Titolo_materiale, Insegnamento $insegnamento_materiale, Utente $possessore_materiale, File $file) {
+    public function __construct(int $id_materiale, string $Titolo_materiale, int $id_insegnamento, int $id_utente, int $id_file) {
         $this->id_materiale = $id_materiale;
         $this->Titolo_materiale = $Titolo_materiale;
-        $this->insegnamento_materiale = $insegnamento_materiale;
-        $this->possessore_materiale = $possessore_materiale;
-        $this->file = $file;
+        $this->id_insegnamento = $id_insegnamento;
+        $this->id_utente = $id_utente;
+        $this->id_file = $id_file;
     }
 
 
@@ -69,56 +69,56 @@ abstract class Materiale {
     }
 
     /**
-     * Ottiene l'insegnamento associato al materiale.
+     * Ottiene l'ID dell'insegnamento associato al materiale.
      * 
-     * @return Insegnamento L'insegnamento associato al materiale.
+     * @return int L'ID dell'insegnamento associato al materiale.
      */
-    public function getInsegnamento(): Insegnamento {
-        return $this->insegnamento;
+    public function getIdInsegnamento(): int {
+        return $this->id_insegnamento;
     }
 
     /**
-     * Imposta l'insegnamento associato al materiale.
+     * Imposta l'ID dell'insegnamento associato al materiale.
      * 
-     * @param Insegnamento $insegnamento L'insegnamento associato al materiale.
+     * @param int $id_insegnamento L'ID dell'insegnamento associato al materiale.
      */
-    public function setInsegnamento(Insegnamento $insegnamento_materiale): void {
-        $this->insegnamento = $insegnamento_materiale;
+    public function setIdInsegnamento(int $id_insegnamento): void {
+        $this->id_insegnamento = $id_insegnamento;
     }
 
     /**
-     * Ottiene l'utente che ha caricato il materiale.
+     * Ottiene l'ID dell'utente che ha caricato il materiale.
      * 
-     * @return Utente L'utente che ha caricato il materiale.
+     * @return int L'ID dell'utente che ha caricato il materiale.
      */
-    public function getUtente(): Utente {
-        return $this->possessore_materiale;
+    public function getIdUtente(): int {
+        return $this->id_utente;
     }
 
     /**
-     * Imposta l'utente che ha caricato il materiale.
+     * Imposta l'ID dell'utente che ha caricato il materiale.
      * 
-     * @param Utente $utente L'utente che ha caricato il materiale.
+     * @param int $id_utente L'ID dell'utente che ha caricato il materiale.
      */
-    public function setUtente(Utente $utente): void {
-        $this->possessore_materiale = $utente;   
+    public function setIdUtente(int $id_utente): void {
+        $this->id_utente = $id_utente;
     }
 
     /**
-     * Ottiene il file associato al materiale.
+     * Ottiene l'ID del file associato al materiale.
      * 
-     * @return File Il file associato al materiale.
+     * @return int L'ID del file associato al materiale.
      */
-    public function getFile(): File {
-        return $this->file;
+    public function getIdFile(): int {
+        return $this->id_file;
     }
 
     /**
-     * Imposta il file associato al materiale.
+     * Imposta l'ID del file associato al materiale.
      * 
-     * @param File $file Il file associato al materiale.
+     * @param int $id_file L'ID del file associato al materiale.
      */
-    public function setFile(File $file): void {
-        $this->file = $file;
+    public function setIdFile(int $id_file): void {
+        $this->id_file = $id_file;
     }
 }

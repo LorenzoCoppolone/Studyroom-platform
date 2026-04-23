@@ -4,30 +4,30 @@ class Segnalazione {
     private int $id_segnalazione;
     private string $motivo_segnalazione;
     private datetime $data_segnalazione;
-    private Studente $Utente_segnalatore;
-    private Studente $Utente_segnalato;
-    private Amministratore $amministratore;
-    private Materiale $materiale;
+    private int $id_studente_segnalatore;
+    private int $id_studente_segnalato;
+    private int $id_amministratore;
+    private int $id_materiale;
 
 
     /**
      * Costruttore di segnalazione.
      * @param int $id_segnalazione ID della segnalazione.
-     * @param Studente $Utente_segnalatore Utente che ha segnalato.
-     * @param Studente $Utente_segnalato Utente segnalato.
-     * @param Amministratore $amministratore Amministratore che ha segnalato.
-     * @param Materiale $materiale Materiale segnalato.
-     * @param datetime $data_segnalazione Data della segnalazione.
      * @param string $motivo_segnalazione Motivo della segnalazione.
+     * @param datetime $data_segnalazione Data della segnalazione.
+     * @param int $id_studente_segnalatore ID dello studente che ha segnalato.
+     * @param int $id_studente_segnalato ID dello studente segnalato.
+     * @param int $id_amministratore ID dell'amministratore.
+     * @param int $id_materiale ID del materiale segnalato.
      */
-    public function __construct(int $id_segnalazione, string $motivo_segnalazione, datetime $data_segnalazione, Studente $Utente_segnalatore, Studente $Utente_segnalato, Amministratore $amministratore, Materiale $materiale) {
+    public function __construct(int $id_segnalazione, string $motivo_segnalazione, datetime $data_segnalazione, int $id_studente_segnalatore, int $id_studente_segnalato, int $id_amministratore, int $id_materiale) {
         $this->id_segnalazione = $id_segnalazione;
         $this->motivo_segnalazione = $motivo_segnalazione;
         $this->data_segnalazione = $data_segnalazione;
-        $this->Utente_segnalatore = $Utente_segnalatore;
-        $this->Utente_segnalato = $Utente_segnalato;
-        $this->amministratore = $amministratore;
-        $this->materiale = $materiale;
+        $this->id_studente_segnalatore = $id_studente_segnalatore;
+        $this->id_studente_segnalato = $id_studente_segnalato;
+        $this->id_amministratore = $id_amministratore;
+        $this->id_materiale = $id_materiale;
     }
 
 
@@ -81,19 +81,19 @@ class Segnalazione {
 
     
     /**
-     * Ottiene il materiale associato alla segnalazione.
-      * @return Materiale Il materiale associato alla segnalazione.
+     * Ottiene l'ID del materiale associato alla segnalazione.
+      * @return int L'ID del materiale associato alla segnalazione.
      */
-    public function getMateriale(): Materiale {
-        return $this->materiale;
+    public function getIdMateriale(): int {
+        return $this->id_materiale;
     }
 
     /**
-     * Imposta il materiale associato alla segnalazione.
-      * @param Materiale $materiale Il materiale associato alla segnalazione.
+     * Imposta l'ID del materiale associato alla segnalazione.
+      * @param int $id_materiale L'ID del materiale associato alla segnalazione.
      */
-    public function setMateriale(Materiale $materiale): void {
-        $this->materiale = $materiale;
+    public function setIdMateriale(int $id_materiale): void {
+        $this->id_materiale = $id_materiale;
     }
 
     /**

@@ -3,8 +3,8 @@
 class Insegnamento {
     private int $id_insegnamento;
     private string $nome_insegnamento;
-    private CorsoDiLaurea $corso_di_laurea;
-    private Materiale $materiale;
+    private int $id_corso_di_laurea;
+    private int $id_materiale;
 
 
     /**
@@ -12,14 +12,14 @@ class Insegnamento {
      * 
      * @param int $id_insegnamento ID dell'insegnamento.
      * @param string $nome_insegnamento Nome dell'insegnamento.
-     * @param int $id_corso ID del corso di laurea associato all'insegnamento.
-     * @param int $id_Materiale ID del materiale associato all'insegnamento.
+     * @param int $id_corso_di_laurea ID del corso di laurea associato all'insegnamento.
+     * @param int $id_materiale ID del materiale associato all'insegnamento.
      */
-    public function __construct(int $id_insegnamento, string $nome_insegnamento, int $id_corso, int $id_Materiale) {
+    public function __construct(int $id_insegnamento, string $nome_insegnamento, int $id_corso_di_laurea, int $id_materiale) {
         $this->id_insegnamento = $id_insegnamento;
         $this->nome_insegnamento = $nome_insegnamento;
-        $this->id_corso = $id_corso;
-        $this->id_Materiale = $id_Materiale;
+        $this->id_corso_di_laurea = $id_corso_di_laurea;
+        $this->id_materiale = $id_materiale;
     }
 
 
@@ -67,39 +67,39 @@ class Insegnamento {
     }
 
     /**
-     * Ottiene il corso di laurea associato all'insegnamento.
+     * Ottiene l'ID del corso di laurea associato all'insegnamento.
      * 
-     * @return CorsoDiLaurea Il corso di laurea associato all'insegnamento.
+     * @return int L'ID del corso di laurea associato all'insegnamento.
      */
-    public function getCorsoDiLaurea(): CorsoDiLaurea {
-        return $this->corso_di_laurea;
+    public function getIdCorsoDiLaurea(): int {
+        return $this->id_corso_di_laurea;
     }
 
     /**
-     * Imposta il corso di laurea associato all'insegnamento.
+     * Imposta l'ID del corso di laurea associato all'insegnamento.
      * 
-     * @param CorsoDiLaurea $corso_di_laurea Il corso di laurea associato all'insegnamento.
+     * @param int $id_corso_di_laurea L'ID del corso di laurea associato all'insegnamento.
      */
-    public function setCorsoDiLaurea(CorsoDiLaurea $corso_di_laurea): void {
-        $this->corso_di_laurea = $corso_di_laurea;
+    public function setIdCorsoDiLaurea(int $id_corso_di_laurea): void {
+        $this->id_corso_di_laurea = $id_corso_di_laurea;
     }
 
     /**
-     * Ottiene il materiale associato all'insegnamento.
+     * Ottiene l'ID del materiale associato all'insegnamento.
      * 
-     * @return Materiale Il materiale associato all'insegnamento.
+     * @return int L'ID del materiale associato all'insegnamento.
      */
-    public function getMateriale(): Materiale {
-        return $this->materiale;
+    public function getIdMateriale(): int {
+        return $this->id_materiale;
     }
 
     /**
-     * Imposta il materiale associato all'insegnamento.
+     * Imposta l'ID del materiale associato all'insegnamento.
      * 
-     * @param Materiale $materiale Il materiale associato all'insegnamento.
+     * @param int $id_materiale L'ID del materiale associato all'insegnamento.
      */
-    public function setMateriale(Materiale $materiale): void {
-        $this->materiale = $materiale;
+    public function setIdMateriale(int $id_materiale): void {
+        $this->id_materiale = $id_materiale;
     }
 
 }

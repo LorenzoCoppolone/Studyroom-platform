@@ -1,19 +1,19 @@
 <?php
 class Preferito {
     private int $id_preferito;
-    private Studente $studente_preferito;
-    private Materiale $materiale_preferito;
+    private int $id_studente;
+    private int $id_materiale;
 
     /**
      * Costruttore di preferito.
      * @param int $id_preferito ID del preferito.
-     * @param Studente $studente_preferito Studente che ha aggiunto il materiale ai preferiti.
-     * @param Materiale $materiale_preferito Materiale aggiunto ai preferiti.
+     * @param int $id_studente ID dello studente che ha aggiunto il materiale ai preferiti.
+     * @param int $id_materiale ID del materiale aggiunto ai preferiti.
      */
-    public function __construct(int $id_preferito, Studente $studente_preferito, Materiale $materiale_preferito) {
+    public function __construct(int $id_preferito, int $id_studente, int $id_materiale) {
         $this->id_preferito = $id_preferito;
-        $this->studente_preferito = $studente_preferito;
-        $this->materiale_preferito = $materiale_preferito;
+        $this->id_studente = $id_studente;
+        $this->id_materiale = $id_materiale;
     }
 
     /**
@@ -25,19 +25,19 @@ class Preferito {
     }
 
     /**
-     * Ottiene lo studente che ha aggiunto il materiale ai preferiti.
-     * @return Studente Lo studente che ha aggiunto il materiale ai preferiti.
+     * Ottiene l'ID dello studente che ha aggiunto il materiale ai preferiti.
+     * @return int L'ID dello studente che ha aggiunto il materiale ai preferiti.
      */
-    public function getStudente_preferito(): Studente {
-        return $this->studente_preferito;
+    public function getIdStudente(): int {
+        return $this->id_studente;
     }
 
     /**
-     * Ottiene il materiale aggiunto ai preferiti.
-     * @return Materiale Il materiale aggiunto ai preferiti.
+     * Ottiene l'ID del materiale aggiunto ai preferiti.
+     * @return int L'ID del materiale aggiunto ai preferiti.
      */
-    public function getMateriale_preferito(): Materiale {
-        return $this->materiale_preferito;
+    public function getIdMateriale(): int {
+        return $this->id_materiale;
     }
 
     /**
@@ -49,20 +49,18 @@ class Preferito {
     }
 
     /**
-     * Imposta lo studente che ha aggiunto il materiale ai preferiti.
-     * @param Studente &$studente Lo studente che ha aggiunto il materiale ai preferiti.
-     * Nota: Passare lo studente per riferimento per evitare problemi di copia dell'oggetto.
+     * Imposta l'ID dello studente che ha aggiunto il materiale ai preferiti.
+     * @param int $id_studente L'ID dello studente che ha aggiunto il materiale ai preferiti.
      */
-    public function setStudente_preferito(Studente &$studente_preferito): void {
-        $this->studente_preferito = $studente_preferito;
+    public function setIdStudente(int $id_studente): void {
+        $this->id_studente = $id_studente;
     }
 
     /**
-     * Imposta il materiale aggiunto ai preferiti.
-     * @param Materiale &$materiale Il materiale aggiunto ai preferiti.
-     * Nota: Passare il materiale per riferimento per evitare problemi di copia dell'oggetto.
+     * Imposta l'ID del materiale aggiunto ai preferiti.
+     * @param int $id_materiale L'ID del materiale aggiunto ai preferiti.
      */
-    public function setMateriale_preferito(Materiale &$materiale_preferito): void {
-        $this->materiale_preferito = $materiale_preferito;
+    public function setIdMateriale(int $id_materiale): void {
+        $this->id_materiale = $id_materiale;
     }
 }

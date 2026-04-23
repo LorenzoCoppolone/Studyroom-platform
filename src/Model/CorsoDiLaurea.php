@@ -1,7 +1,7 @@
 <?php
 
 class CorsoDiLaurea {
-    private int $id_corso;
+    private int $Codice_corso_di_laurea;
     private string $nome_corso;
 
 
@@ -10,11 +10,11 @@ class CorsoDiLaurea {
     /**
      * Costruttore di corso di laurea.
      * 
-     * @param int $id_corso ID del corso di laurea.
+     * @param int $Codice_corso_di_laurea Codice del corso di laurea.
      * @param string $nome_corso Nome del corso di laurea.
      */
-    public function __construct(int $id_corso, string $nome_corso) {
-        $this->id_corso = $id_corso;
+    public function __construct(int $Codice_corso_di_laurea, string $nome_corso) {
+        $this->Codice_corso_di_laurea = $Codice_corso_di_laurea;
         $this->nome_corso = $nome_corso;
     }
 
@@ -22,25 +22,25 @@ class CorsoDiLaurea {
 
 
     /**
-     * Ottiene l'ID del corso di laurea.
-     * @return int L'ID del corso di laurea.
+     * Ottiene il codice del corso di laurea.
+     * @return int Il codice del corso di laurea.
      */
-    public function getId_corso(): int {
-        return $this->id_corso;
+    public function getCodice_corso_di_laurea(): int {
+        return $this->Codice_corso_di_laurea;
     }
 
 
 
     /**
-     * Imposta l'ID del corso di laurea.
-     * @param int $id_corso L'ID del corso di laurea.
+     * Imposta il codice del corso di laurea.
+     * @param int $Codice_corso_di_laurea Il codice del corso di laurea.
      */
-    public function setId_corso(int $id_corso): void {
-        $this->id_corso = $id_corso;
+    public function setCodice_corso_di_laurea(int $Codice_corso_di_laurea): void {
+        $this->Codice_corso_di_laurea = $Codice_corso_di_laurea;
     }
 
 
-
+    
     /**
      * Ottiene il nome del corso di laurea.
      * @return string Il nome del corso di laurea.

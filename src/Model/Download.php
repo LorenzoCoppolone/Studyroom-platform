@@ -2,21 +2,21 @@
 class Download {
     private int $id_download;
     private int $Numero_download;
-    private Materiale $materiale;
-    private Studente $Studente_download;
+    private int $id_materiale;
+    private int $id_studente;
 
     /**
      * Costruttore di download.
      * @param int $id_download ID del download.
      * @param int $Numero_download Numero di download.
-     * @param Materiale $materiale Materiale scaricato.
-     * @param Studente $Studente_download Studente che ha effettuato il download.
+     * @param int $id_materiale ID del materiale scaricato.
+     * @param int $id_studente ID dello studente che ha effettuato il download.
      */
-    public function __construct(int $id_download, int $Numero_download, Materiale $materiale, Studente $Studente_download) {
+    public function __construct(int $id_download, int $Numero_download, int $id_materiale, int $id_studente) {
         $this->id_download = $id_download;
         $this->Numero_download = $Numero_download;
-        $this->materiale = $materiale;
-        $this->Studente_download = $Studente_download;
+        $this->id_materiale = $id_materiale;
+        $this->id_studente = $id_studente;
     }
 
     /**
@@ -36,19 +36,19 @@ class Download {
     }
 
     /**
-     * Ottiene il materiale scaricato.
-     * @return Materiale Il materiale scaricato.
+     * Ottiene l'ID del materiale scaricato.
+     * @return int L'ID del materiale scaricato.
      */
-    public function getMateriale(): Materiale {
-        return $this->materiale;
+    public function getIdMateriale(): int {
+        return $this->id_materiale;
     }
 
     /**
-     * Ottiene lo studente che ha effettuato il download.
-     * @return Studente Lo studente che ha effettuato il download.
+     * Ottiene l'ID dello studente che ha effettuato il download.
+     * @return int L'ID dello studente che ha effettuato il download.
      */
-    public function getStudenteDownload(): Studente {
-        return $this->Studente_download;
+    public function getIdStudente(): int {
+        return $this->id_studente;
     }
 
     /**
@@ -68,19 +68,19 @@ class Download {
     }
 
     /**
-     * Imposta il materiale scaricato.
-     * @param Materiale $materiale Il materiale scaricato.
+     * Imposta l'ID del materiale scaricato.
+     * @param int $id_materiale L'ID del materiale scaricato.
      */
-    public function setMateriale(Materiale $materiale): void {
-        $this->materiale = $materiale;
+    public function setIdMateriale(int $id_materiale): void {
+        $this->id_materiale = $id_materiale;
     }
 
     /**
-     * Imposta lo studente che ha effettuato il download.
-     * @param Studente $Studente_download Lo studente che ha effettuato il download.
+     * Imposta l'ID dello studente che ha effettuato il download.
+     * @param int $id_studente L'ID dello studente che ha effettuato il download.
      */
-    public function setStudenteDownload(Studente $Studente_download): void {
-        $this->Studente_download = $Studente_download;
+    public function setIdStudente(int $id_studente): void {
+        $this->id_studente = $id_studente;
     }
     
 }

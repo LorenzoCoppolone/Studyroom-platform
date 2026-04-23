@@ -4,6 +4,7 @@ class File{
     private int $id_file;
     private string $url_file;
     private float $Dimensione_file;
+    private int $id_materiale;
 
 
     
@@ -12,11 +13,13 @@ class File{
      * @param int $id_file ID del file.
      * @param string $url_file URL del file.
      * @param float $Dimensione_file Dimensione del file in MB.
+     * @param int $id_materiale ID del materiale a cui il file è associato.
      */
-    public function __construct(int $id_file, string $url_file, float $Dimensione_file) {
+    public function __construct(int $id_file, string $url_file, float $Dimensione_file, int $id_materiale) {
         $this->id_file = $id_file;
         $this->url_file = $url_file;
         $this->Dimensione_file = $Dimensione_file;
+        $this->id_materiale = $id_materiale;
     }
 
 
@@ -77,5 +80,21 @@ class File{
      */
     public function setUrlFile(string $url_file): void {
         $this->url_file = $url_file;
+    }
+
+    /**
+     * Ottiene l'ID del materiale a cui il file è associato.
+     * @return int L'ID del materiale a cui il file è associato.
+     */
+    public function getIdMateriale(): int {
+        return $this->id_materiale;
+    }
+
+    /**
+     * Imposta l'ID del materiale a cui il file è associato.
+     * @param int $id_materiale L'ID del materiale a cui il file è associato.
+     */
+    public function setIdMateriale(int $id_materiale): void {
+        $this->id_materiale = $id_materiale;
     }
 }
