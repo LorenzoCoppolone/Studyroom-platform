@@ -6,6 +6,7 @@ class Login_Utente {
 
 
     public function Richiedi_login(): string {
+        return "___";
         // logica per richiedere il login dell'utente, mostrando il modulo di login
     }
 
@@ -13,6 +14,7 @@ class Login_Utente {
 
 
     public function Effettua_login(string $email, string $password): bool {
+        return true;
         // logica per verificare le credenziali dell'utente e effettuare il login
     }
 

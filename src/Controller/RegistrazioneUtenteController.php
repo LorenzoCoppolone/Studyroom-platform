@@ -4,6 +4,7 @@ class Registrazione_Utente {
 
 
     public function Richiedi_registrazione(): string {
+        return "___";
         // logica per richiedere la registrazione dell'utente, mostrando il modulo di registrazione
     }
 
@@ -58,6 +59,7 @@ class Registrazione_Utente {
 
 
     public function InviaEmailConferma(string $email): bool {
+        return true;
         // logica per l'invio di un'email di conferma all'indirizzo fornito
         // e restituendo true se l'invio è avvenuto con successo, false altrimenti
     }
@@ -67,6 +69,7 @@ class Registrazione_Utente {
 
 
     public function ConfermaEmail(string $token): bool {
+        return true;
         // logica per confermare l'email dell'utente utilizzando un token di conferma
         // e restituendo true se la conferma è avvenuta con successo, false altrimenti
     }
@@ -78,6 +81,7 @@ class Registrazione_Utente {
 
 
     public function recuperaPassword(string $email): bool {
+        return true;
         // logica per il recupero della password, inviando un'email con le istruzioni per reimpostare la password
         // e restituendo true se l'operazione è avvenuta con successo, false altrimenti
     }

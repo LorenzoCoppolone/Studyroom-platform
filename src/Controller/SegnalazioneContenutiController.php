@@ -7,6 +7,7 @@ class Segnalazione_Contenuti {
      * @return string
      */
     public function Richiedi_segnalazione(): string {
+        return "___";
         // logica per richiedere la segnalazione di un materiale, mostrando il modulo di segnalazione
     }
 

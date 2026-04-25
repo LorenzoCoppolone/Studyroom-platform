@@ -6,6 +6,7 @@ class Recensione_Materiale {
      * @return string
     */
     public function Avvia_recensione(): string {
+        return "___";
         // logica per avviare la recensione del materiale, mostrando il modulo di recensione
     }
 

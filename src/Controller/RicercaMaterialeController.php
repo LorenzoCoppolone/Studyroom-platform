@@ -96,6 +96,7 @@ class Ricerca_materiale {
 
 
         public function OrdinaMateriale(string $ordinamento): array {
+            return [];
 
                 // Logica per ordinare i materiali
         }

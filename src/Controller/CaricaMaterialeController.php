@@ -35,6 +35,7 @@ class Caricamento_Materiale {
      * @return string
      */
     public function Richiedi_caricamento(): string {
+        return "__";
         // logica per richiedere il caricamento del materiale, mostrando il modulo di caricamento
     }
 
@@ -51,6 +52,7 @@ class Caricamento_Materiale {
      * @return bool
      */
     public function Carica_materiale(string $titolo, string $insegnamento, string $tipologia, string $corso_di_laurea, string $tag, string $file, bool $termini_condizioni): bool {
+        return true;
         // logica per caricare il materiale nel sistema
     }
 
