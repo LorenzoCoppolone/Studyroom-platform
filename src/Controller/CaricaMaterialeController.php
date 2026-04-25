@@ -1,5 +1,5 @@
 <?php
-class Caricamento_Materiale {
+class CaricaMaterialeController {
 
     private bool $termini_condizioni; // Variabile per memorizzare se l'utente ha accettato i termini e condizioni
 

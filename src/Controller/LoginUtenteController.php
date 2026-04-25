@@ -1,5 +1,5 @@
 <?php
-class Login_Utente {
+class LoginUtenteController {
 
 
 

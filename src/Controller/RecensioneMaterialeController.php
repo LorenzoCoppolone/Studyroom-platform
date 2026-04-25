@@ -1,5 +1,5 @@
 <?php
-class Recensione_Materiale {
+class RecensioneMaterialeController {
 
     /**
      * Avvia la recensione del materiale, mostrando il modulo di recensione.

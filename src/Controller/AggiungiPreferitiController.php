@@ -1,6 +1,6 @@
 <?php
 
-class Inserisci_Preferiti {
+class AggiungiPreferitiController {
 
     /**
      * Aggiunge un materiale ai preferiti dell'utente.

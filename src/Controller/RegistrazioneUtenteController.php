@@ -1,6 +1,6 @@
 <?php
 
-class Registrazione_Utente {
+class RegistrazioneUtenteController {
 
 
     public function Richiedi_registrazione(): string {

@@ -1,5 +1,5 @@
 <?php
-class Ricerca_materiale {
+class RicercaMaterialeController {
 
 
     /**

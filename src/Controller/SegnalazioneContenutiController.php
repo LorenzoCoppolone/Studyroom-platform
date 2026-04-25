@@ -1,6 +1,6 @@
 <?php
 
-class Segnalazione_Contenuti {
+class SegnalazioneContenutiController {
 
     /**
      * Richiede la segnalazione di un materiale, mostrando il modulo di segnalazione.

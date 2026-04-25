@@ -1,6 +1,6 @@
 <?php
 
-class Moderazione_Contenuti {
+class ModerazioneContenutiControlleri {
 
 
 
