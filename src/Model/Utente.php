@@ -1,11 +1,11 @@
 <?php
 abstract class Utente {
-    // Private properties
-    private int $id_utente;
-    private string $nome;
-    private string $cognome;  
-    private string $email;
-    private string $password;
+    // Protected properties
+    protected int $id_utente;
+    protected string $nome;
+    protected string $cognome;  
+    protected string $email;
+    protected string $password;
 
 
 

@@ -1,10 +1,11 @@
 <?php
 abstract class Materiale {
-    private int $id_materiale;
-    private string $Titolo_materiale;
-    private int $id_insegnamento;
-    private int $id_utente;
-    private int $id_file;
+    // Protected properties
+    protected int $id_materiale;
+    protected string $Titolo_materiale;
+    protected int $id_insegnamento;
+    protected int $id_utente;
+    protected int $id_file;
 
 
 
