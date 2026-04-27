@@ -11,18 +11,25 @@ class Studente extends Utente {
      * @param string $nome Nome dello studente.
      * @param string $cognome Cognome dello studente.
      * @param string $email Email dello studente.
-     * @param string $password Password dello studente.
+     * @param string $passwordHash Password dello studente.
      * @param string $username Username dello studente.
      * @param bool $stato_studente Stato dello studente (attivo o non attivo).
      */
-    public function __construct(int $id, string $nome, string $cognome, string $email, string $password, string $username, bool $stato_studente) {
-        parent::__construct($id, $nome, $cognome, $email, $password);
+    public function __construct(
+        int $id,
+        string $nome, 
+        string $cognome, 
+        string $email, 
+        string $passwordHash, 
+        string $username, 
+        bool $stato_studente
+        ) {
+        parent::__construct($id, $nome, $cognome, $email, $passwordHash);
         $this->username = $username;
         $this->stato_studente = $stato_studente;
     }
 
 
-    
     /**
      * Inserisce lo username dello studente.
      * 

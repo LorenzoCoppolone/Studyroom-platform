@@ -1,11 +1,11 @@
 <?php
 abstract class Utente {
     // Protected properties
-    protected int $id_utente;
+    protected int $id;
     protected string $nome;
     protected string $cognome;  
     protected string $email;
-    protected string $password;
+    protected string $passwordHash;
 
 
 
@@ -16,14 +16,20 @@ abstract class Utente {
      * @param string $nome Nome dell'utente.
      * @param string $cognome Cognome dell'utente.
      * @param string $email Email dell'utente.
-     * @param string $password Password dell'utente.
+     * @param string $passwordHash Password dell'utente.
      */
-    public function __construct(int $id, string $nome, string $cognome, string $email, string $password) {
+    public function __construct(
+        int $id, 
+        string $nome, 
+        string $cognome, 
+        string $email, 
+        string $passwordHash
+        ) {
         $this->id_utente = $id;
         $this->nome = $nome;
         $this->cognome = $cognome;
         $this->email = $email;
-        $this->password = $password;
+        $this->passwordHash = $passwordHash;
     }
 
     /**
@@ -79,8 +85,8 @@ abstract class Utente {
     * 
     * @param string $password Password dell'utente.
     */
-    public function setPassword(string $password): void {
-        $this->password = $password;
+    public function setPassword(string $passwordHash): void {
+        $this->passwordHash = $passwordHash;
     }
 
 
@@ -92,7 +98,7 @@ abstract class Utente {
      * @return int ID dell'utente.
      */
     public function getId(): int{
-        return $this->id_utente;
+        return $this->id;
     }
 
 
@@ -140,6 +146,6 @@ abstract class Utente {
      * @return string Password dell'utente.
      */
     public function getPassword(): string {
-        return $this->password;
+        return $this->passwordHash;
     }
 }

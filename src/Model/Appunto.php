@@ -1,48 +1,55 @@
 <?php
+require_once 'Tag.php';
 
 class Appunto extends Materiale {
-    private string $tag_appunti;
-
+    private Tag $tag;
+}
 
 
     /**
      * Costruttore di appunti.
      * 
-     * @param int $id_materiale ID del materiale.
-     * @param string $Titolo_materiale Titolo del materiale.
-     * @param int $id_insegnamento L'ID dell'insegnamento associato al materiale.
-     * @param int $id_utente L'ID dell'utente che ha caricato il materiale.
-     * @param int $id_file L'ID del file associato al materiale.
-     * @param string $tag_appunti Tag degli appunti.
+     * @param int $id ID del materiale.
+     * @param string $titolo Titolo del materiale.
+     * @param Insegnamento $insegnamento insegnamento associato al materiale.
+     * @param Studente $studente studente che ha caricato il materiale.
+     * @param File $file file associato al materiale.
+     * @param  Tag $tag Tag degli appunti.
      */
-    public function __construct(int $id_materiale, string $Titolo_materiale, int $id_insegnamento, int $id_utente, int $id_file, string $tag_appunti) {
-        parent::__construct($id_materiale, $Titolo_materiale, $id_insegnamento, $id_utente, $id_file);
-        $this->tag_appunti = $tag_appunti;
+    public function __construct(
+        int $id, 
+        string $titolo, 
+        Insegnamento $insegnamento, 
+        Steudente $studente, 
+        File $file, 
+        Tag $tag
+        ) {
+        parent::__construct(
+            $id, 
+            $titolo, 
+            $insegnamento, 
+            $studente, 
+            $file);
+        $this->tag = $tag;
     }
-
-
 
 
     /**
      * Ottiene il tag degli appunti.
      * 
-     * @return string Il tag degli appunti.
+     * @return Tag Il tag degli appunti.
      */
-    public function getTagAppunti(): string {
-        return $this->tag_appunti;
+    public function getTag(): Tag {
+        return $this->tag;
     }
-
-
-
-
 
     /**
      * Imposta il tag degli appunti.
      * 
-     * @param string $tag_appunti Il tag degli appunti.
+     * @param Tag $tag_appunti Il tag degli appunti.
      */
-    public function setTagAppunti(string $tag_appunti): void {
-        $this->tag_appunti = $tag_appunti;
+    public function setTag(Tag $tag): void {
+        $this->tag = $tag;
     }
 
 }

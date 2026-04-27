@@ -1,10 +1,10 @@
 <?php
 abstract class Materiale {
     // Protected properties
-    protected int $id_materiale;
-    protected string $Titolo_materiale;
+    protected int $id;
+    protected string $titolo;
     protected Insegnamento $insegnamento;
-    protected Studente $studente_caricatore;
+    protected Studente $studente;
     protected File $file;
 
 
@@ -17,13 +17,18 @@ abstract class Materiale {
      * @param string $url_file L'URL del file associato al materiale.
      * @param float $Dimensione_file La dimensione del file associato al materiale.
      */
-    public function __construct(int $id_materiale, string $Titolo_materiale, int $id_insegnamento, int $id_studente, string $url_file, float $Dimensione_file) {
-        $this->id_materiale = $id_materiale;
-        $this->Titolo_materiale = $Titolo_materiale;
-        $this->id_insegnamento = $id_insegnamento;
-        $this->id_studente = $id_studente;
-        $this->url_file = $url_file;
-        $this->Dimensione_file = $Dimensione_file;
+    public function __construct(
+        int $id,
+        string $titolo, 
+        Insegnamento $insegnamento, 
+        Studente $studente, 
+        File $file
+        ) {
+        $this->id = $id;
+        $this->titolo = $titolo;
+        $this->insegnamento = $insegnamento;
+        $this->studente = $studente;
+        $this->file = $file;
     }
 
 
@@ -32,113 +37,88 @@ abstract class Materiale {
      * Ottiene l'ID del materiale.
      * @return int L'ID del materiale.
      */
-    public function getIdMateriale(): int {
-        return $this->id_materiale;
+    public function getId(): int {
+        return $this->id;
     }
-
-
-
 
     /**
      * Imposta l'ID del materiale.
      * @param int $id_materiale L'ID del materiale.
      */
-    public function setIdMateriale(int $id_materiale): void {
-        $this->id_materiale = $id_materiale;
+    public function setId(int $id): void {
+        $this->id= $id;
     }
-
-
 
     /**
      * Ottiene il titolo del materiale.
      * 
      * @return string Il titolo del materiale.
      */
-    public function getTitoloMateriale(): string {
-        return $this->Titolo_materiale;
+    public function getTitolo(): string {
+        return $this->titolo;
     }
-
-
-
 
     /**
      * Imposta il titolo del materiale.
      * 
      * @param string $Titolo_materiale Il titolo del materiale.
      */
-    public function setTitoloMateriale(string $Titolo_materiale): void {
-        $this->Titolo_materiale = $Titolo_materiale;
+    public function setTitolo(string $titolo): void {
+        $this->titolo = $titolo;
     }
 
     /**
-     * Ottiene l'ID dell'insegnamento associato al materiale.
+     * Restituisce l'insegnamento associato al materiale.
      * 
-     * @return int L'ID dell'insegnamento associato al materiale.
+     * @return Insegnamento
      */
-    public function getIdInsegnamento(): int {
-        return $this->id_insegnamento;
+    public function getInsegnamento(): Insegnamento {
+        return $this->insegnamento;
     }
 
     /**
-     * Imposta l'ID dell'insegnamento associato al materiale.
+     * Imposta l'insegnamento associato al materiale.
      * 
-     * @param int $id_insegnamento L'ID dell'insegnamento associato al materiale.
+     * @param Insegnamento $insegnamento
      */
-    public function setIdInsegnamento(int $id_insegnamento): void {
-        $this->id_insegnamento = $id_insegnamento;
+    public function setInsegnamento(Insegnamento $insegnamento): void {
+        $this->insegnamento = $insegnamento;
     }
 
     /**
-     * Ottiene l'ID dell'utente che ha caricato il materiale.
+     * Restituisce lo studente che ha caricato il materiale.
      * 
-     * @return int L'ID dello studente che ha caricato il materiale.
+     * @return Studente
      */
-    public function getIdStudente(): int {
-        return $this->id_studente;
+    public function getStudente(): Studente {
+        return $this->studente;
     }
 
     /**
-     * Imposta l'ID dello studente che ha caricato il materiale.
+     * Imposta lo studente associato al materiale.
      * 
-     * @param int $id_studente L'ID dello studente che ha caricato il materiale.
+     * @param Studente $studente
      */
-    public function setIdStudente(int $id_studente): void {
-        $this->id_studente = $id_studente;
+    public function setStudente(Studente $studente): void {
+        $this->studente = $studente;
     }
 
     /**
-     * Ottiene l'URL del file associato al materiale.
+     * Ottiene il file associato al materiale.
      * 
-     * @return string L'URL del file associato al materiale.
+     * @return File file associato al materiale.
      */
-    public function getUrlFile(): string {
-        return $this->url_file;
+    public function getFile(): File {
+        return $this->file;
     }
 
     /**
-     * Imposta l'URL del file associato al materiale.
+     * Imposta il file associato al materiale.
      * 
-     * @param string $url_file L'URL del file associato al materiale.
+     * @param File file associato al materiale.
      */
-    public function setUrlFile(string $url_file): void {
-        $this->url_file = $url_file;
+    public function setFile(File $file): void {
+        $this->file = $file;
     }
 
-    /**
-     * Ottiene la dimensione del file associato al materiale.
-     * 
-     * @return float La dimensione del file associato al materiale.
-     */
-    public function getDimensioneFile(): float {
-        return $this->Dimensione_file;
-    }
-
-    /**
-     * Imposta la dimensione del file associato al materiale.
-     * 
-     * @param float $Dimensione_file La dimensione del file associato al materiale.
-     */
-    public function setDimensioneFile(float $Dimensione_file): void {
-        $this->Dimensione_file = $Dimensione_file;
-    }
 }
