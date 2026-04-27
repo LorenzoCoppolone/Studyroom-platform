@@ -3,11 +3,9 @@ abstract class Materiale {
     // Protected properties
     protected int $id_materiale;
     protected string $Titolo_materiale;
-    protected int $id_insegnamento;
-    protected int $id_studente;
-    protected string $url_file;
-    protected float $Dimensione_file;
-
+    protected Insegnamento $insegnamento;
+    protected Studente $studente_caricatore;
+    protected File $file;
 
 
   /**
