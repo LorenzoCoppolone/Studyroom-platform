@@ -1,0 +1,18 @@
+CREATE DATABASE if not exists StudyRoom;
+USE StudyRoom;
+CREATE TABLE if not exists Studente (
+    Id INT PRIMARY KEY AUTO_INCREMENT,
+    Nome VARCHAR(255) NOT NULL,
+    Cognome VARCHAR(255) NOT NULL,
+    Username VARCHAR(255) NOT NULL UNIQUE,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    Password VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE if not exists Amministratore (
+    Id INT PRIMARY KEY AUTO_INCREMENT,
+    Nome VARCHAR(255) NOT NULL,
+    Cognome VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    Password VARCHAR(255) NOT NULL
+);
