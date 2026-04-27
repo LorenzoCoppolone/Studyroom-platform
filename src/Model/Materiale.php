@@ -106,7 +106,7 @@ abstract class Materiale {
     /**
      * Ottiene il file associato al materiale.
      * 
-     * @return File file associato al materiale.
+     * @return File $file
      */
     public function getFile(): File {
         return $this->file;
@@ -115,7 +115,7 @@ abstract class Materiale {
     /**
      * Imposta il file associato al materiale.
      * 
-     * @param File file associato al materiale.
+     * @param File $file
      */
     public function setFile(File $file): void {
         $this->file = $file;

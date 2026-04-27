@@ -20,7 +20,7 @@ class Appunto extends Materiale {
         int $id, 
         string $titolo, 
         Insegnamento $insegnamento, 
-        Steudente $studente, 
+        Studente $studente, 
         File $file, 
         Tag $tag
         ) {
