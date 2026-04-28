@@ -1,187 +1,172 @@
 <?php
 
 class Segnalazione {
-    private int $id_segnalazione;
-    private string $motivo_segnalazione;
-    private datetime $data_segnalazione;
-    private int $id_studente_segnalatore;
-    private int $id_studente_segnalato;
-    private int $id_amministratore;
-    private int $id_materiale;
-
+    private int $id;
+    private string $motivo;
+    private DateTime $timeStamp;
+    
+    private Studente $segnalante;
+    private Studente $segnalato;
+    private Materiale $materiale;
+    private Amministratore $amministratore;
 
     /**
      * Costruttore di segnalazione.
      * @param int $id_segnalazione ID della segnalazione.
      * @param string $motivo_segnalazione Motivo della segnalazione.
-     * @param datetime $data_segnalazione Data della segnalazione.
-     * @param int $id_studente_segnalatore ID dello studente che ha segnalato.
-     * @param int $id_studente_segnalato ID dello studente segnalato.
-     * @param int $id_amministratore ID dell'amministratore.
-     * @param int $id_materiale ID del materiale segnalato.
+     * @param Studente $segnalante studente che ha segnalato.
+     * @param Studente $segnalato studente segnalato.
+     * @param Materiale $materiale materiale segnalato.
+     * @param Amministratore $amministratore amministratore che gestisce la segnalazione.
      */
-    public function __construct(int $id_segnalazione, string $motivo_segnalazione, datetime $data_segnalazione, int $id_studente_segnalatore, int $id_studente_segnalato, int $id_amministratore, int $id_materiale) {
-        $this->id_segnalazione = $id_segnalazione;
-        $this->motivo_segnalazione = $motivo_segnalazione;
-        $this->data_segnalazione = $data_segnalazione;
-        $this->id_studente_segnalatore = $id_studente_segnalatore;
-        $this->id_studente_segnalato = $id_studente_segnalato;
-        $this->id_amministratore = $id_amministratore;
-        $this->id_materiale = $id_materiale;
-    }
-
-
-    /**
-     * Ottiene l'ID della segnalazione.
-     * @return int L'ID della segnalazione.
-     */
-    public function getIdSegnalazione(): int {
-        return $this->id_segnalazione;
+    public function __construct(
+        int $id, 
+        string $motivo,  
+        Studente $segnalante,
+        Studente $segnalato,
+        Materiale $materiale,
+        Amministratore $amministratore
+        ) {
+        $this->id = $id;
+        $this->motivo = $motivo;
+        $this->timeStamp = new DateTime();
+        $this->segnalante = $segnalante;
+        $this->segnalato = $segnalato;
+        $this->materiale = $materiale;
+        $this->amministratore = $amministratore;
     }
 
     /**
-     * Imposta l'ID della segnalazione.
-     * @param int $id_segnalazione L'ID della segnalazione.
+     * Restituisce l'ID della segnalazione.
+     * 
+     * @return int
      */
-    public function setIdSegnalazione(int $id_segnalazione): void {
-        $this->id_segnalazione = $id_segnalazione;
+    public function getId(): int {
+        return $this->id;
     }
 
     /**
-     * Ottiene la descrizione della segnalazione.
-     * @return string La descrizione della segnalazione.
+     * Imposta/modifica l'ID della segnalazione.
+     * 
+     * @param int $id Nuovo ID.
+     * @return void
      */
-    public function getDescrizione(): string {
-        return $this->descrizione;
+    public function setId(int $id): void {
+        $this->id = $id;
     }
 
     /**
-     * Imposta la descrizione della segnalazione.
-     * @param string $descrizione La descrizione della segnalazione.
+     * Restituisce il motivo della segnalazione.
+     * 
+     * @return string
      */
-    public function setDescrizione(string $descrizione): void {
-        $this->descrizione = $descrizione;
-    }
-    
-    /**
-     * Ottiene l'utente associato alla segnalazione.
-     * @return Utente L'utente associato alla segnalazione.
-     */
-    public function getUtente(): Utente {
-        return $this->utente;
+    public function getMotivo(): string {
+        return $this->motivo;
     }
 
     /**
-     * Imposta l'utente associato alla segnalazione.
-     * @param Utente $utente L'utente associato alla segnalazione.
+     * Imposta/modifica il motivo della segnalazione.
+     * 
+     * @param string $motivo Nuovo motivo.
+     * @return void
      */
-    public function setUtente(Utente $utente): void {
-        $this->utente = $utente;
-    }
-
-    
-    /**
-     * Ottiene l'ID del materiale associato alla segnalazione.
-      * @return int L'ID del materiale associato alla segnalazione.
-     */
-    public function getIdMateriale(): int {
-        return $this->id_materiale;
+    public function setMotivo(string $motivo): void {
+        $this->motivo = $motivo;
     }
 
     /**
-     * Imposta l'ID del materiale associato alla segnalazione.
-      * @param int $id_materiale L'ID del materiale associato alla segnalazione.
+     * Restituisce la data/ora della segnalazione.
+     * 
+     * @return DateTime
      */
-    public function setIdMateriale(int $id_materiale): void {
-        $this->id_materiale = $id_materiale;
+    public function getTimeStamp(): DateTime {
+        return $this->timeStamp;
     }
 
     /**
-     * Ottiene l'amministratore associato alla segnalazione.
-      * @return Amministratore L'amministratore associato alla segnalazione.
+     * Imposta/modifica il timestamp della segnalazione.
+     * 
+     * @param DateTime $timeStamp Nuova data/ora.
+     * @return void
+     */
+    public function setTimeStamp(DateTime $timeStamp): void {
+        $this->timeStamp = $timeStamp;
+    }
+
+    /**
+     * Restituisce lo studente che ha effettuato la segnalazione.
+     * 
+     * @return Studente
+     */
+    public function getSegnalante(): Studente {
+        return $this->segnalante;
+    }
+
+    /**
+     * Imposta/modifica lo studente segnalante.
+     * 
+     * @param Studente $segnalante Nuovo segnalante.
+     * @return void
+     */
+    public function setSegnalante(Studente $segnalante): void {
+        $this->segnalante = $segnalante;
+    }
+
+    /**
+     * Restituisce lo studente segnalato.
+     * 
+     * @return Studente
+     */
+    public function getSegnalato(): Studente {
+        return $this->segnalato;
+    }
+
+    /**
+     * Imposta/modifica lo studente segnalato.
+     * 
+     * @param Studente $segnalato Nuovo segnalato.
+     * @return void
+     */
+    public function setSegnalato(Studente $segnalato): void {
+        $this->segnalato = $segnalato;
+    }
+
+    /**
+     * Restituisce il materiale segnalato.
+     * 
+     * @return Materiale
+     */
+    public function getMateriale(): Materiale {
+        return $this->materiale;
+    }
+
+    /**
+     * Imposta/modifica il materiale segnalato.
+     * 
+     * @param Materiale $materiale Nuovo materiale.
+     * @return void
+     */
+    public function setMateriale(Materiale $materiale): void {
+        $this->materiale = $materiale;
+    }
+
+    /**
+     * Restituisce l'amministratore che gestisce la segnalazione.
+     * 
+     * @return Amministratore
      */
     public function getAmministratore(): Amministratore {
         return $this->amministratore;
     }
 
-
     /**
-     * Imposta l'amministratore associato alla segnalazione.
-      * @param Amministratore $amministratore L'amministratore associato alla segnalazione.
+     * Imposta/modifica l'amministratore.
+     * 
+     * @param Amministratore $amministratore Nuovo amministratore.
+     * @return void
      */
     public function setAmministratore(Amministratore $amministratore): void {
         $this->amministratore = $amministratore;
     }
-
-    /**
-     * Ottiene l'utente segnalatore.
-     * @return Studente L'utente segnalatore.
-     */
-    public function getUtenteSegnalatore(): Studente {
-        return $this->Utente_segnalatore;
-    }
-
-    /**
-     * Imposta l'utente segnalatore.
-     * @param Studente $Utente_segnalatore L'utente segnalatore.
-     */
-    public function setUtenteSegnalatore(Studente $Utente_segnalatore): void {
-        $this->Utente_segnalatore = $Utente_segnalatore;
-    }
-
-    /**
-     * Ottiene l'utente segnalato.
-     * @return Studente L'utente segnalato.
-     */
-    public function getUtenteSegnalato(): Studente {
-        return $this->Utente_segnalato;
-    }
-
-    /**
-     * Imposta l'utente segnalato.
-     * @param Studente $Utente_segnalato L'utente segnalato.
-     */
-    public function setUtenteSegnalato(Studente $Utente_segnalato): void {
-        $this->Utente_segnalato = $Utente_segnalato;
-    }
-
-    /**
-     * Ottiene la data della segnalazione.
-      * @return datetime La data della segnalazione.
-     */
-    public function getDataSegnalazione(): datetime {
-        return $this->data_segnalazione;
-    }
-
-    /**
-     * Imposta la data della segnalazione.
-      * @param datetime $data_segnalazione La data della segnalazione.
-     */
-    public function setDataSegnalazione(datetime $data_segnalazione): void {
-        $this->data_segnalazione = $data_segnalazione;
-    }
-
-    /**
-     * Ottiene il motivo della segnalazione.
-     * @return string Il motivo della segnalazione.
-     */
-    public function getMotivoSegnalazione(): string {
-        return $this->motivo_segnalazione;
-    }
-
-    /**
-     * Imposta il motivo della segnalazione.
-     * @param string $motivo_segnalazione Il motivo della segnalazione.
-     */
-    public function setMotivoSegnalazione(string $motivo_segnalazione): void {
-        if (strlen($motivo_segnalazione) > 255) {
-            throw new Exception("Il motivo della segnalazione non può essere più lungo di 255 caratteri."); 
-    }
-        $this->motivo_segnalazione = $motivo_segnalazione;
-    }
-
-    
-
-
 
 }

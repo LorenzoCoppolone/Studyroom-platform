@@ -3,7 +3,7 @@ require_once 'Tag.php';
 
 class Appunto extends Materiale {
     private Tag $tag;
-}
+
 
 
     /**
@@ -29,7 +29,8 @@ class Appunto extends Materiale {
             $titolo, 
             $insegnamento, 
             $studente, 
-            $file);
+            $file
+        );
         $this->tag = $tag;
     }
 
@@ -46,7 +47,7 @@ class Appunto extends Materiale {
     /**
      * Imposta il tag degli appunti.
      * 
-     * @param Tag $tag_appunti Il tag degli appunti.
+     * @param Tag $tag Il tag degli appunti.
      */
     public function setTag(Tag $tag): void {
         $this->tag = $tag;

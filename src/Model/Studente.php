@@ -2,7 +2,13 @@
 class Studente extends Utente {
     // Private properties
     private string $username;
-    private bool $stato_studente;
+    private bool $stato;
+
+    /** @var Segnalazione[] */
+    private array $segnalazioniFatte = [];
+
+    /** @var Segnalazione[] */
+    private array $segnalazioniRicevute = [];
 
     /**
      * Costruttore di studente.
@@ -22,13 +28,18 @@ class Studente extends Utente {
         string $email, 
         string $passwordHash, 
         string $username, 
-        bool $stato_studente
+        bool $stato
         ) {
-        parent::__construct($id, $nome, $cognome, $email, $passwordHash);
+        parent::__construct(
+            $id, 
+            $nome, 
+            $cognome, 
+            $email, 
+            $passwordHash
+            );
         $this->username = $username;
-        $this->stato_studente = $stato_studente;
+        $this->stato = $stato;
     }
-
 
     /**
      * Inserisce lo username dello studente.
@@ -44,8 +55,8 @@ class Studente extends Utente {
      * 
      * @param bool $stato_studente Stato dello studente (attivo o non attivo).
      */
-    public function setStatoStudente(bool $stato_studente): void {
-        $this->stato_studente = $stato_studente;
+    public function setStato(bool $stato): void {
+        $this->stato = $stato;
     }
 
     /**
@@ -62,7 +73,46 @@ class Studente extends Utente {
      * 
      * @return bool Stato dello studente (attivo o non attivo).
      */
-    public function getStatoStudente(): bool {
-        return $this->stato_studente;
+    public function getStato(): bool {
+        return $this->stato;
     }
+
+    /**
+     * Restituisce le segnalazioni effettuate dallo studente.
+     * 
+     * @return Segnalazione[]
+     */
+    public function getSegnalazioniFatte(): array {
+        return $this->segnalazioniFatte;
+    }
+
+    /**
+     * Aggiunge una segnalazione fatta dallo studente.
+     * 
+     * @param Segnalazione $segnalazione Segnalazione da aggiungere.
+     * @return void
+     */
+    public function aggiungiSegnalazioneFatta(Segnalazione $segnalazione): void {
+        $this->segnalazioniFatte[] = $segnalazione;
+    }
+
+    /**
+     * Restituisce le segnalazioni ricevute dallo studente.
+     * 
+     * @return Segnalazione[]
+     */
+    public function getSegnalazioniRicevute(): array {
+        return $this->segnalazioniRicevute;
+    }
+
+    /**
+     * Aggiunge una segnalazione ricevuta dallo studente.
+     * 
+     * @param Segnalazione $segnalazione Segnalazione da aggiungere.
+     * @return void
+     */
+    public function aggiungiSegnalazioneRicevuta(Segnalazione $segnalazione): void {
+        $this->segnalazioniRicevute[] = $segnalazione;
+    }
+    
 }
