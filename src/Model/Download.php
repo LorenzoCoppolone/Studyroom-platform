@@ -1,86 +1,105 @@
 <?php
 class Download {
-    private int $id_download;
-    private int $Numero_download;
-    private int $id_materiale;
-    private int $id_studente;
+    private int $id;
+    private int $numeroDownload;
+    
+    private Materiale $materiale;
+    private Studente $studente;
 
     /**
      * Costruttore di download.
      * @param int $id_download ID del download.
-     * @param int $Numero_download Numero di download.
-     * @param int $id_materiale ID del materiale scaricato.
-     * @param int $id_studente ID dello studente che ha effettuato il download.
+     * @param int $numeroDownload Numero di download.
+     * @param Materiale $materiale materiale scaricato.
+     * @param Studente $studente studente che ha effettuato il download.
      */
-    public function __construct(int $id_download, int $Numero_download, int $id_materiale, int $id_studente) {
-        $this->id_download = $id_download;
-        $this->Numero_download = $Numero_download;
-        $this->id_materiale = $id_materiale;
-        $this->id_studente = $id_studente;
+    public function __construct(
+        int $id, 
+        int $numeroDownload, 
+        Materiale $materiale, 
+        Studente $studente
+        ) {
+        $this->id = $id;
+        $this->numeroDownload = $numeroDownload;
+        $this->materiale = $materiale;
+        $this->studente = $studente;
+
+        $materiale->aggiungiDownload($this);
     }
 
     /**
-     * Ottiene l'ID del download.
-     * @return int L'ID del download.
+     * Restituisce l'ID del download.
+     * 
+     * @return int
      */
-    public function getIdDownload(): int {
-        return $this->id_download;
+    public function getId(): int {
+        return $this->id;
     }
 
     /**
-     * Ottiene il numero di download.
-     * @return int Il numero di download.
+     * Imposta/modifica l'ID del download.
+     * 
+     * @param int $id Nuovo ID.
+     * @return void
+     */
+    public function setId(int $id): void {
+        $this->id = $id;
+    }
+
+    /**
+     * Restituisce il numero di download.
+     * 
+     * @return int
      */
     public function getNumeroDownload(): int {
-        return $this->Numero_download;
+        return $this->numeroDownload;
     }
 
     /**
-     * Ottiene l'ID del materiale scaricato.
-     * @return int L'ID del materiale scaricato.
+     * Imposta/modifica il numero di download.
+     * 
+     * @param int $numeroDownload Nuovo numero di download.
+     * @return void
      */
-    public function getIdMateriale(): int {
-        return $this->id_materiale;
+    public function setNumeroDownload(int $numeroDownload): void {
+        $this->numeroDownload = $numeroDownload;
     }
 
     /**
-     * Ottiene l'ID dello studente che ha effettuato il download.
-     * @return int L'ID dello studente che ha effettuato il download.
+     * Restituisce il materiale associato al download.
+     * 
+     * @return Materiale
      */
-    public function getIdStudente(): int {
-        return $this->id_studente;
+    public function getMateriale(): Materiale {
+        return $this->materiale;
     }
 
     /**
-     * Imposta l'ID del download.
-     * @param int $id_download L'ID del download.
+     * Imposta/modifica il materiale associato al download.
+     * 
+     * @param Materiale $materiale Nuovo materiale.
+     * @return void
      */
-    public function setIdDownload(int $id_download): void {
-        $this->id_download = $id_download;
+    public function setMateriale(Materiale $materiale): void {
+        $this->materiale = $materiale;
     }
 
     /**
-     * Imposta il numero di download.
-     * @param int $Numero_download Il numero di download.
+     * Restituisce lo studente che ha effettuato il download.
+     * 
+     * @return Studente
      */
-    public function setNumeroDownload(int $Numero_download): void {
-        $this->Numero_download = $Numero_download;
+    public function getStudente(): Studente {
+        return $this->studente;
     }
 
     /**
-     * Imposta l'ID del materiale scaricato.
-     * @param int $id_materiale L'ID del materiale scaricato.
+     * Imposta/modifica lo studente associato al download.
+     * 
+     * @param Studente $studente Nuovo studente.
+     * @return void
      */
-    public function setIdMateriale(int $id_materiale): void {
-        $this->id_materiale = $id_materiale;
+    public function setStudente(Studente $studente): void {
+        $this->studente = $studente;
     }
-
-    /**
-     * Imposta l'ID dello studente che ha effettuato il download.
-     * @param int $id_studente L'ID dello studente che ha effettuato il download.
-     */
-    public function setIdStudente(int $id_studente): void {
-        $this->id_studente = $id_studente;
-    }
-    
 }

@@ -3,35 +3,35 @@ abstract class Materiale {
     // Protected properties
     protected int $id;
     protected string $titolo;
-    protected Insegnamento $insegnamento;
-    protected Studente $studente;
-    protected File $file;
+    protected File $file; //relazione 1:1
 
+    /** @var Segnalazione[] */
+    protected array $segnalazioni = [];
+
+    /** @var Recensione[] */
+    protected array $recensioni = [];
+
+    /** @var Download[] */
+    protected array $downloads = [];
+
+    /** @var Preferito[] */
+    protected array $preferiti = [];
 
   /**
      * Costruttore della classe Materiale.
      * @param int $id_materiale L'ID del materiale.
      * @param string $Titolo_materiale Il titolo del materiale.
-     * @param int $id_insegnamento L'ID dell'insegnamento associato al materiale.
-     * @param int $id_studente L'ID dello studente che ha caricato il materiale.
-     * @param string $url_file L'URL del file associato al materiale.
-     * @param float $Dimensione_file La dimensione del file associato al materiale.
+     * @param File file del materiale
      */
     public function __construct(
         int $id,
         string $titolo, 
-        Insegnamento $insegnamento, 
-        Studente $studente, 
         File $file
         ) {
         $this->id = $id;
         $this->titolo = $titolo;
-        $this->insegnamento = $insegnamento;
-        $this->studente = $studente;
         $this->file = $file;
     }
-
-
 
     /**
      * Ottiene l'ID del materiale.
@@ -68,42 +68,6 @@ abstract class Materiale {
     }
 
     /**
-     * Restituisce l'insegnamento associato al materiale.
-     * 
-     * @return Insegnamento
-     */
-    public function getInsegnamento(): Insegnamento {
-        return $this->insegnamento;
-    }
-
-    /**
-     * Imposta l'insegnamento associato al materiale.
-     * 
-     * @param Insegnamento $insegnamento
-     */
-    public function setInsegnamento(Insegnamento $insegnamento): void {
-        $this->insegnamento = $insegnamento;
-    }
-
-    /**
-     * Restituisce lo studente che ha caricato il materiale.
-     * 
-     * @return Studente
-     */
-    public function getStudente(): Studente {
-        return $this->studente;
-    }
-
-    /**
-     * Imposta lo studente associato al materiale.
-     * 
-     * @param Studente $studente
-     */
-    public function setStudente(Studente $studente): void {
-        $this->studente = $studente;
-    }
-
-    /**
      * Ottiene il file associato al materiale.
      * 
      * @return File $file
@@ -121,4 +85,107 @@ abstract class Materiale {
         $this->file = $file;
     }
 
+    /**
+     * Ottiene Segnalazioni
+     * @return array Segnalazione
+     */
+    public function getSegnalazioni() : array {
+        return $this->segnalazioni;
+    }
+
+    /**
+     * Aggiunge Segnalazione
+     * @param Segnalazione
+     */
+    public function aggiungiSegnalazione(Segnalazione $segnalazione): void {
+        $this->segnalazioni[] = $segnalazione;
+    }
+
+    /**
+     * Ottiene Recensioni
+     * @return array Recensione
+     */
+    public function getRecensioni() : array {
+       return $this->recensioni;
+    }
+
+    /**
+     * Aggiunge Recensione
+     * @param Recensione
+     */
+    public function aggiungiRecensione(Recensione $recensione): void {
+        $this->recensioni[] = $recensione;
+    }
+
+    /**
+     * Ottiene Download
+     * @return array Download
+     */
+    public function getDownload() : array {
+        return $this->downloads;
+    }
+
+    /**
+     * Aggiunge Download
+     * @param Download
+     */
+    public function aggiungiDownload(Download $download): void {
+        $this->download[] = $download;
+    }
+
+    /**
+     * Ottiene Preferiti
+     * @return array Preferito
+     */
+    public function getPreferiti() : array {
+        return $this->preferiti;
+    }
+
+    /**
+     * Aggiunge Preferito
+     * @param Preferito
+     */
+    public function aggiungiPreferito(Preferito $preferito): void {
+        $this->preferiti[] = $preferito;
+    }
+
+    /**
+     * Aggiunge una segnalazione al materiale.
+     * 
+     * @param Segnalazione $segnalazione Segnalazione da aggiungere.
+     * @return void
+     */
+    public function aggiungiSegnalazione(Segnalazione $segnalazione): void {
+        $this->segnalazioni[] = $segnalazione;
+    }
+
+    /**
+     * Aggiunge una recensione al materiale.
+     * 
+     * @param Recensione $recensione Recensione da aggiungere.
+     * @return void
+     */
+    public function aggiungiRecensione(Recensione $recensione): void {
+        $this->recensioni[] = $recensione;
+    }
+
+    /**
+     * Aggiunge un download al materiale.
+     * 
+     * @param Download $download Download da aggiungere.
+     * @return void
+     */
+    public function aggiungiDownload(Download $download): void {
+        $this->downloads[] = $download;
+    }
+
+    /**
+     * Aggiunge un preferito al materiale.
+     * 
+     * @param Preferito $preferito Preferito da aggiungere.
+     * @return void
+     */
+    public function aggiungiPreferito(Preferito $preferito): void {
+        $this->preferiti[] = $preferito;
+    }
 }

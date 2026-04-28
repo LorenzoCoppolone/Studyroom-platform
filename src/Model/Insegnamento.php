@@ -1,83 +1,95 @@
 <?php
 
 class Insegnamento {
-    private int $Codice_insegnamento;
-    private string $nome_insegnamento;
-    private int $Codice_corso_di_laurea;
+    private int $codiceInsegnamento;
+    private string $nomeInsegnamento;
 
+    /** @var Materiale[] */
+    private array $materiali = [];
 
     /**
-     * Costruttore di insegnamento.
+     * Costruttore di Insegnamento.
      * 
-     * @param int $Codice_insegnamento Codice dell'insegnamento.
-     * @param string $nome_insegnamento Nome dell'insegnamento.
-     * @param int $Codice_corso_di_laurea Codice del corso di laurea associato all'insegnamento.
+     * @param int $codiceInsegnamento Codice dell'insegnamento.
+     * @param string $nomeInsegnamento Nome dell'insegnamento.
      */
-    public function __construct(int $Codice_insegnamento, string $nome_insegnamento, int $Codice_corso_di_laurea) {
-        $this->Codice_insegnamento = $Codice_insegnamento;
-        $this->nome_insegnamento = $nome_insegnamento;
-        $this->Codice_corso_di_laurea = $Codice_corso_di_laurea;
+    public function __construct(
+        int $codiceInsegnamento, 
+        string $nomeInsegnamento
+        ) {
+        $this->codiceInsegnamento = $codiceInsegnamento;
+        $this->nomeInsegnamento = $nomeInsegnamento;
     }
 
-
-
     /**
-     * Ottiene il codice dell'insegnamento.
+     * Restituisce il codice dell'insegnamento.
      * 
-     * @return int Il codice dell'insegnamento.
+     * @return int
      */
     public function getCodiceInsegnamento(): int {
-        return $this->Codice_insegnamento;
+        return $this->codiceInsegnamento;
     }
 
-
-
     /**
-     * Imposta il codice dell'insegnamento.
+     * Imposta/modifica il codice dell'insegnamento.
      * 
-     * @param int $Codice_insegnamento Il codice dell'insegnamento.
+     * @param int $codiceInsegnamento Nuovo codice.
+     * @return void
      */
-    public function setCodiceInsegnamento(int $Codice_insegnamento): void {
-        $this->Codice_insegnamento = $Codice_insegnamento;
+    public function setCodiceInsegnamento(int $codiceInsegnamento): void {
+        $this->codiceInsegnamento = $codiceInsegnamento;
     }
 
-
-
     /**
-     * Ottiene il nome dell'insegnamento.
+     * Restituisce il nome dell'insegnamento.
      * 
-     * @return string Il nome dell'insegnamento.
+     * @return string
      */
     public function getNomeInsegnamento(): string {
-        return $this->nome_insegnamento;
-    }
-
-
-
-    /**
-     * Imposta il nome dell'insegnamento.
-     * 
-     * @param string $nome_insegnamento Il nome dell'insegnamento.
-     */
-    public function setNomeInsegnamento(string $nome_insegnamento): void {
-        $this->nome_insegnamento = $nome_insegnamento;
+        return $this->nomeInsegnamento;
     }
 
     /**
-     * Ottiene il codice del corso di laurea associato all'insegnamento.
+     * Imposta/modifica il nome dell'insegnamento.
      * 
-     * @return int Il codice del corso di laurea associato all'insegnamento.
+     * @param string $nomeInsegnamento Nuovo nome.
+     * @return void
      */
-    public function getCodiceCorsoDiLaurea(): int {
-        return $this->Codice_corso_di_laurea;
+    public function setNomeInsegnamento(string $nomeInsegnamento): void {
+        $this->nomeInsegnamento = $nomeInsegnamento;
     }
 
     /**
-     * Imposta il codice del corso di laurea associato all'insegnamento.
+     * Restituisce la lista dei materiali.
      * 
-     * @param int $Codice_corso_di_laurea Il codice del corso di laurea associato all'insegnamento.
+     * @return Materiale[]
      */
-    public function setCodiceCorsoDiLaurea(int $Codice_corso_di_laurea): void {
-        $this->Codice_corso_di_laurea = $Codice_corso_di_laurea;
+    public function getMateriali(): array {
+        return $this->materiali;
+    }
+
+    /**
+     * Aggiunge un materiale all'insegnamento.
+     * 
+     * @param Materiale $materiale Materiale da aggiungere.
+     * @return void
+     */
+    public function aggiungiMateriale(Materiale $materiale): void {
+        $this->materiali[] = $materiale;
+    }
+
+    /**
+     * Rimuove un materiale dall'insegnamento.
+     * 
+     * @param Materiale $materiale Materiale da rimuovere.
+     * @return void
+     */
+    public function rimuoviMateriale(Materiale $materiale): void {
+        foreach ($this->materiali as $key => $mat) {
+            if ($mat === $materiale) {
+                unset($this->materiali[$key]);
+            }
+        }
+        $this->materiali = array_values($this->materiali);
     }
 }

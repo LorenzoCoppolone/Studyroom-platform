@@ -8,7 +8,6 @@ abstract class Utente {
     protected string $passwordHash;
 
 
-
     /**
      * Costruttore di utente.
      * 
@@ -41,9 +40,6 @@ abstract class Utente {
         $this->id_utente = $id;
     }
 
-
-
-
      /**
      * Inserisce il nome dell'utente.
      * 
@@ -52,9 +48,6 @@ abstract class Utente {
     public function setNome(string $nome): void {
         $this->nome = $nome;
     }
-
-
-
 
     /**
     * Inserisce il cognome dell'utente.
@@ -65,9 +58,6 @@ abstract class Utente {
         $this->cognome = $cognome;
     }
 
-
-
-
     /**
     * Inserisce l'email dell'utente.
     * 
@@ -76,9 +66,6 @@ abstract class Utente {
     public function setEmail(string $email): void {
         $this->email = $email;
     }
-
-
-
 
     /**
     * Inserisce la password dell'utente.
@@ -89,9 +76,6 @@ abstract class Utente {
         $this->passwordHash = $passwordHash;
     }
 
-
-
-
     /**
      * Ritorna l'ID dell'utente.
      * 
@@ -100,8 +84,6 @@ abstract class Utente {
     public function getId(): int{
         return $this->id;
     }
-
-
 
     /**
      * Ritorna il nome dell'utente.
@@ -112,10 +94,6 @@ abstract class Utente {
         return $this->nome;
     }
 
-
-
-
-
     /**
      * Ritorna il cognome dell'utente.
      * 
@@ -124,9 +102,6 @@ abstract class Utente {
     public function getCognome(): string{
         return $this->cognome;
     }
-
-
-
 
     /**
      * Ritorna l'email dell'utente.
@@ -137,9 +112,6 @@ abstract class Utente {
         return $this->email;
     }
 
-
-
-
     /**
      * Ritorna la password dell'utente.
      * 
@@ -148,4 +120,5 @@ abstract class Utente {
     public function getPassword(): string {
         return $this->passwordHash;
     }
+
 }

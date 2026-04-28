@@ -2,18 +2,21 @@
 
 class File{
 
-private string $url_file;
-private float $Dimensione_file;
+private string $urlFile;
+private float $dimensioneFile;
 
     /**
      * Costruttore di file.
      * 
-     * @param string $url_file URL del file.
-     * @param float $Dimensione_file Dimensione del file in megabyte.
+     * @param string $urlFile URL del file.
+     * @param float $dimensioneFile Dimensione del file in megabyte.
      */
-    public function __construct(string $url_file, float $Dimensione_file) {
-        $this->url_file = $url_file;
-        $this->Dimensione_file = $Dimensione_file;
+    public function __construct(
+        string $urlFile, 
+        float $dimensioneFile
+        ) {
+        $this->urlFile = $urlFile;
+        $this->dimensioneFile = $dimensioneFile;
     }
 
     /**
@@ -22,7 +25,7 @@ private float $Dimensione_file;
      * @return string L'URL del file.
      */
     public function getUrlFile(): string {
-        return $this->url_file;
+        return $this->urlFile;
     }
 
     /**
@@ -30,8 +33,8 @@ private float $Dimensione_file;
      * 
      * @param string $url_file L'URL del file.
      */
-    public function setUrlFile(string $url_file): void {
-        $this->url_file = $url_file;
+    public function setUrlFile(string $urlFile): void {
+        $this->urlFile = $urlFile;
     }
 
     /**
@@ -40,7 +43,7 @@ private float $Dimensione_file;
      * @return float La dimensione del file in megabyte.
      */
     public function getDimensioneFile(): float {
-        return $this->Dimensione_file;
+        return $this->dimensioneFile;
     }
 
     /**
@@ -48,8 +51,8 @@ private float $Dimensione_file;
      * 
      * @param float $Dimensione_file La dimensione del file in megabyte.
      */
-    public function setDimensioneFile(float $Dimensione_file): void {
-        $this->Dimensione_file = $Dimensione_file;
+    public function setDimensioneFile(float $dimensioneFile): void {
+        $this->dimensioneFile = $dimensioneFile;
     }
 
 }

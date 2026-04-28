@@ -1,62 +1,97 @@
 <?php
 
 class CorsoDiLaurea {
-    private int $Codice_corso_di_laurea;
-    private string $nome_corso;
+    private int $codiceCorso;
+    private string $nomeCorso;
 
-
+    /** @var Insegnamento[] */
+    private array $insegnamenti = [];
 
     
     /**
      * Costruttore di corso di laurea.
      * 
-     * @param int $Codice_corso_di_laurea Codice del corso di laurea.
-     * @param string $nome_corso Nome del corso di laurea.
+     * @param int $codiceCorso Codice del corso di laurea.
+     * @param string $nomeCorso Nome del corso di laurea.
      */
-    public function __construct(int $Codice_corso_di_laurea, string $nome_corso) {
-        $this->Codice_corso_di_laurea = $Codice_corso_di_laurea;
-        $this->nome_corso = $nome_corso;
+    public function __construct(
+        int $codiceCorso, 
+        string $nomeCorso
+        ) {
+        $this->codiceCorso = $codiceCorso;
+        $this->nomeCorso = $nomeCorso;
     }
 
-
-
-
     /**
-     * Ottiene il codice del corso di laurea.
-     * @return int Il codice del corso di laurea.
+     * Restituisce il codice del corso di laurea.
+     * 
+     * @return int
      */
-    public function getCodice_corso_di_laurea(): int {
-        return $this->Codice_corso_di_laurea;
+    public function getCodiceCorso(): int {
+        return $this->codiceCorso;
     }
 
-
-
     /**
-     * Imposta il codice del corso di laurea.
-     * @param int $Codice_corso_di_laurea Il codice del corso di laurea.
+     * Imposta/modifica il codice del corso di laurea.
+     * 
+     * @param int $codiceCorso Nuovo codice del corso.
+     * @return void
      */
-    public function setCodice_corso_di_laurea(int $Codice_corso_di_laurea): void {
-        $this->Codice_corso_di_laurea = $Codice_corso_di_laurea;
+    public function setCodiceCorso(int $codiceCorso): void {
+        $this->codiceCorso = $codiceCorso;
     }
 
-
-    
     /**
-     * Ottiene il nome del corso di laurea.
-     * @return string Il nome del corso di laurea.
+     * Restituisce il nome del corso di laurea.
+     * 
+     * @return string
      */
-
-    public function getNome_corso(): string {
-        return $this->nome_corso;
+    public function getNomeCorso(): string {
+        return $this->nomeCorso;
     }
 
-
+    /**
+     * Imposta/modifica il nome del corso di laurea.
+     * 
+     * @param string $nomeCorso Nuovo nome del corso.
+     * @return void
+     */
+    public function setNomeCorso(string $nomeCorso): void {
+        $this->nomeCorso = $nomeCorso;
+    }
 
     /**
-     * Imposta il nome del corso di laurea.
-     * @param string $nome_corso Il nome del corso di laurea.
+     * Restituisce la lista degli insegnamenti.
+     * 
+     * @return Insegnamento[]
      */
-    public function setNome_corso(string $nome_corso): void {
-        $this->nome_corso = $nome_corso;
+    public function getInsegnamenti(): array {
+        return $this->insegnamenti;
+    }
+
+    /**
+     * Aggiunge un insegnamento al corso di laurea.
+     * 
+     * @param Insegnamento $insegnamento Insegnamento da aggiungere.
+     * @return void
+     */
+    public function aggiungiInsegnamento(Insegnamento $insegnamento): void {
+        $this->insegnamenti[] = $insegnamento;
+    }
+
+    /**
+     * Rimuove un insegnamento dal corso di laurea.
+     * 
+     * @param Insegnamento $insegnamento Insegnamento da rimuovere.
+     * @return void
+     */
+    public function rimuoviInsegnamento(Insegnamento $insegnamento): void {
+        foreach ($this->insegnamenti as $key => $ins) {
+            if ($ins === $insegnamento) {
+                unset($this->insegnamenti[$key]);
+            }
+        }
+        // Riordina gli indici
+        $this->insegnamenti = array_values($this->insegnamenti);
     }
 }

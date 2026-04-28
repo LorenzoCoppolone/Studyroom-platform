@@ -1,33 +1,42 @@
 <?php
 class Recensione {
-    private int $id_recensione;
+    private int $id;
     private float $voto;
     private string $commento;
-    private int $id_studente;
-    private int $id_materiale;
+    
+    private Materiale $materiale;
+    private Studente $studente
 
     /**
      * Costruttore di recensione.
      * @param int $id_recensione ID della recensione.
      * @param float $voto Voto della recensione.
      * @param string $commento Commento della recensione.
-     * @param int $id_studente ID dello studente che ha scritto la recensione.
-     * @param int $id_materiale ID del materiale recensito.
+     * @param Studente $studente  studente che ha scritto la recensione.
+     * @param Materiale $materiale materiale recensito.
      */
-    public function __construct(int $id_recensione, float $voto, string $commento, int $id_studente, int $id_materiale) {
-        $this->id_recensione = $id_recensione;
+    public function __construct(
+        int $id, 
+        float $voto, 
+        string $commento, 
+        Studente $studente, 
+        Materiale $materiale
+        ) {
+        $this->id = $id;
         $this->voto = $voto;
         $this->commento = $commento;
-        $this->id_studente = $id_studente;
-        $this->id_materiale = $id_materiale;
+        $this->studente = $studente;
+        $this->materiale = $materiale;
+
+        $materiale->aggiungiRecensione($this);
     }
 
     /**
      * Ottiene l'ID della recensione.
      * @return int L'ID della recensione.
      */
-    public function getIdRecensione(): int {
-        return $this->id_recensione;
+    public function getId(): int {
+        return $this->id;
     }
 
     /**
@@ -47,27 +56,27 @@ class Recensione {
     }
 
     /**
-     * Ottiene l'ID dello studente che ha scritto la recensione.
-     * @return int L'ID dello studente che ha scritto la recensione.
+     * Ottiene lo studente che ha scritto la recensione.
+     * @return Studente studente che ha scritto la recensione.
      */
-    public function getIdStudente(): int {
-        return $this->id_studente;
+    public function getStudente(): Studente {
+        return $this->studente;
     }
 
     /**
-     * Ottiene l'ID del materiale recensito.
-     * @return int L'ID del materiale recensito.
+     * Ottiene il materiale recensito.
+     * @return Materiale materiale recensito.
      */
-    public function getIdMateriale(): int {
-        return $this->id_materiale;
+    public function getMateriale(): Materiale {
+        return $this->materiale;
     }
 
     /**
      * Imposta l'ID della recensione.
      * @param int $id_recensione L'ID della recensione.
      */
-    public function setIdRecensione(int $id_recensione): void {
-        $this->id_recensione = $id_recensione;
+    public function setId(int $id): void {
+        $this->id = $id;
     }
 
     /**
@@ -87,19 +96,20 @@ class Recensione {
     }
 
     /**
-     * Imposta l'ID dello studente che ha scritto la recensione.
-     * @param int $id_studente L'ID dello studente che ha scritto la recensione.
+     * Imposta lo studente che ha scritto la recensione.
+     * @param Studente $studente  studente che ha scritto la recensione.
      */
-    public function setIdStudente(int $id_studente): void {
-        $this->id_studente = $id_studente;
+    public function setStudente(Studente $studente): void {
+        $this->studente = $studente;
     }
      
     /**
-     * Imposta l'ID del materiale recensito.
-     * @param int $id_materiale L'ID del materiale recensito.
+     * Imposta il materiale recensito.
+     * @param Materiale $materiale materiale recensito.
      * Nota: Passare il materiale per riferimento per evitare problemi di copia dell'oggetto.
      */
-    public function setMateriale_recensito(Materiale &$materiale_recensito): void {
+    public function setMateriale(Materiale &$materiale_recensito): void {
         $this->materiale_recensito = $materiale_recensito;
     }
+    // Che cos'e' &$materiale? Riga 111
 }
