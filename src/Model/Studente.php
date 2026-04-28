@@ -1,6 +1,12 @@
 <?php
+
+use Doctrine\ORM\Mapping as ORM;
+
+#[ORM\Entity]
+#[ORM\Table(name: "studenti")]
 class Studente extends Utente {
     // Private properties
+    
     private string $username;
     private bool $stato;
 

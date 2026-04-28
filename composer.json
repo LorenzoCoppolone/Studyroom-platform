@@ -1,0 +1,17 @@
+{
+    "name": "studyroom/project",
+    "description": "Progetto universitario StudyRoom",
+    "type": "project",
+    "require": {
+        "php": ">=8.1",
+        "doctrine/orm": "^2.18"
+    },
+    "autoload": {
+        "psr-4": {
+            "Entity\\": "src/entity/",
+            "Controller\\": "src/controller/",
+            "Foundation\\": "src/foundation/",
+            "UI\\": "src/UI/"
+        }
+    }
+}

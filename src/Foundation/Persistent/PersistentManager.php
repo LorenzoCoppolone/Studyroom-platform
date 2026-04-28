@@ -1,6 +1,8 @@
 <?php
-class PerstistentManager {
+/*
+class PersistentManager {
 
+    
     public function cercaMateriale( String $titolo) : Array{
         $tuttiIMateriali = [
             new Appunto("M001", "Fondamenti di Informatica", "Rossi",    2020),
@@ -12,5 +14,6 @@ class PerstistentManager {
         ];
         return $tuttiIMateriali;
     }
-
+    
 }
+*/
