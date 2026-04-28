@@ -1,3 +1,5 @@
+<?php
+
 enum Tag {
     case Riassunto;
     case Note;
