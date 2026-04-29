@@ -16,7 +16,7 @@ Gli studenti possono caricare, cercare, recensire e segnalare materiali didattic
 - Composer
 - MySQL (o altro DB compatibile con Doctrine)
 
-##  Installazione
+##  Setup e Installazioni
 
 ### 1. Clona il repository
 ```bash
