@@ -15,6 +15,7 @@ config.php
 uploads/
 upload/
 files/
+/vendor/
 
 # Backup o file temporanei
 *.bak
