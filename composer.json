@@ -9,9 +9,9 @@
     },
     "autoload": {
         "psr-4": {
-            "Entity\\": "src/entity/",
-            "Controller\\": "src/controller/",
-            "Foundation\\": "src/foundation/",
+            "Entity\\": "src/Model/",
+            "Controller\\": "src/Controller/",
+            "Foundation\\": "src/Foundation/",
             "UI\\": "src/UI/"
         }
     }
