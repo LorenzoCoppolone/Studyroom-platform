@@ -41,8 +41,8 @@ Modifica il file `.env` con i tuoi parametri:
 DB_HOST=localhost
 DB_PORT=3306
 DB_NAME=studyroom
-DB_USER=utente
-DB_PASSWORD=password
+DB_USER=root
+DB_PASSWORD=
 ```
 ### 5. Crea il Database
 ```bash
