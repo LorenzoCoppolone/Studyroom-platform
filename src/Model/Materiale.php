@@ -64,6 +64,7 @@ abstract class Materiale {
      * quindi è una relazione molti a uno tra Materiale e Insegnamento,
      */
     #[ORM\ManyToOne(targetEntity: Insegnamento::class, inversedBy: "materiali")]
+    #[ORM\JoinColumn(name: "insegnamento_codice", referencedColumnName: "codiceInsegnamento")]
     protected Insegnamento $insegnamento; //relazione molti a uno
 
 

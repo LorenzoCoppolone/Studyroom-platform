@@ -3,7 +3,7 @@
 namespace Model;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Doctrine\DBAL\Types\Types;
 
 #[ORM\Entity]
 class Recensione {
@@ -11,6 +11,7 @@ class Recensione {
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
+    #[ORM\Column(type: Types::INTEGER)] 
     private int $id;
 
 

@@ -1,6 +1,8 @@
 <?php
 namespace Model;
 
+use Doctrine\ORM\Mapping as ORM;
+#[ORM\Entity]
 class Esame extends Materiale {
 
    /**

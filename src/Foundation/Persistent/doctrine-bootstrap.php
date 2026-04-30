@@ -8,11 +8,12 @@ use Dotenv\Dotenv;
 
 $dotenv = Dotenv::createImmutable(__DIR__ . '/../../../');
 $dotenv->load();
+
 // 1. Configurazione metadata (attribute mapping)
-$config = ORMSetup::createAttributeMetadataConfiguration(
-    paths: [__DIR__ . '/../../Model/'],
-    isDevMode: true
-);
+$config = ORMSetup::createConfiguration(true);
+$driver = new \Doctrine\ORM\Mapping\Driver\AttributeDriver([__DIR__ . '/../../Model']);
+$config->setMetadataDriverImpl($driver);
+
 
 // 2. Configurazione DB (array)
 $connectionParams = [

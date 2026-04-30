@@ -1,5 +1,6 @@
 <?php
 namespace Model;
+
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -34,6 +35,7 @@ class Insegnamento {
     * La colonna "corso_di_laurea_id" nella tabella "insegnamento" fa riferimento alla colonna "id" della tabella "corso_di_laurea".
     */
     #[ORM\ManyToOne(targetEntity: CorsoDiLaurea::class, inversedBy: 'insegnamenti')]
+    #[ORM\JoinColumn(name: "corsoDiLaurea_codice", referencedColumnName: "codiceCorso")]
     private CorsoDiLaurea $corsoDiLaurea; //relazione molti a uno
 
     /**
