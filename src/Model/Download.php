@@ -1,30 +1,53 @@
 <?php
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+#[ORM\Entity]
 class Download {
-    private int $id;
-    private int $numeroDownload;
     
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: Types::INTEGER)]
+    private int $id;
+    
+    /** @var Materiale
+     * Ogni download è associato a un solo materiale, 
+     * ma un materiale può essere scaricato in più download.
+     * quindi è una relazione molti a uno tra Download e Materiale,
+     * La proprietà "materiale" rappresenta il materiale scaricato.
+     */
+    #[ORM\ManyToOne(targetEntity: Materiale::class, inversedBy: 'downloads')]
     private Materiale $materiale;
+
+
+    /** @var Studente
+    * Ogni download è associato a un solo studente,
+    * ma uno studente può effettuare più download.
+    * quindi è una relazione molti a uno tra Download e Studente,
+    * La proprietà "studente" rappresenta lo studente che ha effettuato il download.
+    */
+    #[ORM\ManyToOne(targetEntity: Studente::class, inversedBy: 'downloads')]
     private Studente $studente;
+
+
+
+
 
     /**
      * Costruttore di download.
-     * @param int $id_download ID del download.
-     * @param int $numeroDownload Numero di download.
+     * @param int $id ID del download.
      * @param Materiale $materiale materiale scaricato.
      * @param Studente $studente studente che ha effettuato il download.
      */
     public function __construct(
         int $id, 
-        int $numeroDownload, 
         Materiale $materiale, 
         Studente $studente
         ) {
         $this->id = $id;
-        $this->numeroDownload = $numeroDownload;
         $this->materiale = $materiale;
         $this->studente = $studente;
-
-        $materiale->aggiungiDownload($this);
     }
 
     /**
@@ -46,24 +69,8 @@ class Download {
         $this->id = $id;
     }
 
-    /**
-     * Restituisce il numero di download.
-     * 
-     * @return int
-     */
-    public function getNumeroDownload(): int {
-        return $this->numeroDownload;
-    }
 
-    /**
-     * Imposta/modifica il numero di download.
-     * 
-     * @param int $numeroDownload Nuovo numero di download.
-     * @return void
-     */
-    public function setNumeroDownload(int $numeroDownload): void {
-        $this->numeroDownload = $numeroDownload;
-    }
+
 
     /**
      * Restituisce il materiale associato al download.
@@ -75,8 +82,7 @@ class Download {
     }
 
     /**
-     * Imposta/modifica il materiale associato al download.
-     * 
+     * Imposta il materiale associato al download.
      * @param Materiale $materiale Nuovo materiale.
      * @return void
      */
@@ -86,7 +92,6 @@ class Download {
 
     /**
      * Restituisce lo studente che ha effettuato il download.
-     * 
      * @return Studente
      */
     public function getStudente(): Studente {
@@ -95,11 +100,12 @@ class Download {
 
     /**
      * Imposta/modifica lo studente associato al download.
-     * 
      * @param Studente $studente Nuovo studente.
      * @return void
      */
     public function setStudente(Studente $studente): void {
         $this->studente = $studente;
     }
+
+    
 }

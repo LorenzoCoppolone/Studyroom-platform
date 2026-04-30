@@ -1,10 +1,43 @@
 <?php
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
+#[ORM\Entity]
 class Preferito {
+
+    // Attributi
+
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: Types::INTEGER)] 
     private int $id;
-    
+
+    /** @var Studente
+     * Relazione molti a uno tra Preferito e Studente.
+     * Ogni preferito è associato a un solo studente, ma uno studente può avere più preferiti.
+     * quindi è una relazione molti a uno tra Preferito e Studente,
+     * La proprietà "studente" rappresenta lo studente che ha aggiunto il materiale ai preferiti.
+     * La colonna "studente_id" nella tabella "preferito" fa riferimento alla colonna "id" della tabella "studente".
+     */
+    #[ORM\ManyToOne(targetEntity: Studente::class, inversedBy: 'preferiti')]
     private Studente $studente;
+
+    /** @var Materiale
+     * Relazione molti a uno tra Preferito e Materiale.
+     * Ogni preferito è associato a un solo materiale, 
+     * ma un materiale può essere aggiunto a più preferiti.
+     * quindi è una relazione molti a uno tra Preferito e Materiale,
+     * La proprietà "materiale" rappresenta il materiale aggiunto ai preferiti.
+     * La colonna "materiale_id" nella tabella "preferito" fa riferimento alla colonna "id" della tabella "materiale".
+     */
+    #[ORM\ManyToOne(targetEntity: Materiale::class, inversedBy: 'preferiti')]
     private Materiale $materiale;
 
+
+
+
+
+
+    
     /**
      * Costruttore di preferito.
      * @param int $id ID del preferito.
@@ -19,9 +52,6 @@ class Preferito {
         $this->id = $id;
         $this->studente = $studente;
         $this->materiale = $materiale;
-
-        $materiale->aggiungiPreferito($this);
-        $studente->aggiungiPreferito($this);
     }
 
     /**

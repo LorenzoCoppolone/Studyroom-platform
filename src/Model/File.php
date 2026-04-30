@@ -1,9 +1,24 @@
 <?php
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
 
+
+/**
+ * Classe che rappresenta un file associato a un materiale.
+ * La classe è definita come un'entità Doctrine ma non è mappata in una tabella separata, 
+ * poiché è incorporata all'interno della classe Materiale.
+ * lo notiamo dalla presenza dell'annotazione #[ORM\Embeddable] 
+ * e dall'uso di #[ORM\Embedded] nella classe Materiale.
+ */
+
+#[ORM\Embeddable]
 class File{
 
-private string $urlFile;
-private float $dimensioneFile;
+    #[ORM\Column(type: Types::STRING)]
+    private string $urlFile;
+
+    #[ORM\Column(type: Types::FLOAT)]
+    private float $dimensioneFile;
 
     /**
      * Costruttore di file.

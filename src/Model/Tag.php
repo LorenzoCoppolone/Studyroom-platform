@@ -1,7 +1,7 @@
 <?php
 
-enum Tag {
-    case Riassunto;
-    case Note;
-    case Esercizi;
+enum Tag: string {
+    case RIASSUNTO = "Riassunto";
+    case NOTE = "Note";
+    case ESERCIZI = "Esercizi";
 }

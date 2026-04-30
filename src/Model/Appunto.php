@@ -1,9 +1,15 @@
 <?php
 require_once 'Tag.php';
 
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
+
+#[ORM\Entity]
 class Appunto extends Materiale {
-    
-    private Tag $tag;
+
+    #[ORM\Column(type: Types::STRING, enumType: Tag::class)]
+     private Tag $tag;
 
 
 
@@ -15,22 +21,34 @@ class Appunto extends Materiale {
      * @param Insegnamento $insegnamento insegnamento associato al materiale.
      * @param Studente $studente studente che ha caricato il materiale.
      * @param File $file file associato al materiale.
+     * @param Collection $segnalazioni segnalazioni associate al materiale.
+     * @param Collection $recensioni recensioni associate al materiale.
+     * @param Collection $downloads downloads associate al materiale.
+     * @param Collection $preferiti preferiti associate al materiale.
      * @param  Tag $tag Tag degli appunti.
      */
     public function __construct(
         int $id, 
         string $titolo, 
+        File $file,
         Insegnamento $insegnamento, 
         Studente $studente, 
-        File $file, 
+        Collection $segnalazioni,
+        Collection $recensioni,
+        Collection $downloads,
+        Collection $preferiti,
         Tag $tag
         ) {
         parent::__construct(
             $id, 
             $titolo, 
+            $file, 
             $insegnamento, 
-            $studente, 
-            $file
+            $studente,
+            $segnalazioni,
+            $recensioni,
+            $downloads,
+            $preferiti
         );
         $this->tag = $tag;
     }

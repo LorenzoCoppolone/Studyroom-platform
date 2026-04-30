@@ -1,4 +1,6 @@
 <?php
+
+
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
 use doctrine\Common\Collections\ArrayCollection;
@@ -9,9 +11,14 @@ use Doctrine\Common\Collections\Collection;
 #[ORM\DiscriminatorColumn(name: 'tipo', type: 'string')] // Definisce la colonna che identifica i tipi di materiale (nel db ci saranno solo materiali in un unica tabella, ma in php ci saranno appunti ed esami che estendono materiale)
 #[ORM\DiscriminatorMap(['Materiale' => Materiale::class, 'appunto' => Appunto::class, 'esame' => Esame::class])]
 abstract class Materiale {
-    // Protected properties
+    // Protected propertiesù
+    #[ORM\Column(type: Types::INTEGER), ORM\Id, ORM\GeneratedValue(strategy: "AUTO")]
     protected int $id;
+
+    #[ORM\Column(type: Types::STRING)]
     protected string $titolo;
+
+     #[ORM\Embedded(class: File::class)]
     protected File $file; //relazione 1:1
 
     /** @var Collection<int, Segnalazione> 
@@ -19,15 +26,17 @@ abstract class Materiale {
      * quindi è una relazione OneToMany tra Materiale e Segnalazione,
      * ma ogni segnalazione è associata a un solo materiale.
     */
-    #[ORM\OneToMany(targetEntity: "Segnalazione", mappedBy: "materiale")]
+    #[ORM\OneToMany(targetEntity: Segnalazione::class, mappedBy: "materiale")]
     protected Collection $segnalazioni;
 
+
+    
     /** @var Collection<int, Recensione> 
      * un materiale puo' avere piu' recensioni,
      * quindi è una relazione OneToMany tra Materiale e Recensione,
      * ma ogni recensione associata a un solo materiale
     */
-    #[ORM\OneToMany(targetEntity: "Recensione", mappedBy: "materiale")]
+    #[ORM\OneToMany(targetEntity: Recensione::class, mappedBy: "materiale")]
     protected Collection $recensioni;
 
     /** @var Collection<int, Download> 
@@ -35,7 +44,7 @@ abstract class Materiale {
      * quindi è una relazione OneToMany tra Materiale e Download,
      * ma ogni download associato a un solo materiale
     */
-    #[ORM\OneToMany(targetEntity: "Download", mappedBy: "materiale")]
+    #[ORM\OneToMany(targetEntity: Download::class, mappedBy: "materiale")]
     protected Collection $downloads;
 
     /** @var Collection<int, Preferito>
@@ -43,18 +52,32 @@ abstract class Materiale {
      * quindi è una relazione OneToMany tra Materiale e Preferito,
      * ma ogni preferito associato a un solo materiale
      */
-    #[ORM\OneToMany(targetEntity: "Preferito", mappedBy: "materiale")]
+    #[ORM\OneToMany(targetEntity: Preferito::class, mappedBy: "materiale")]
     protected Collection $preferiti;
 
 
-    //???????? bisogna vedere se bidirezionale
-    #[ORM\ManyToOne(targetEntity: "Insegnamento", inversedBy: "materiali")]
+
+    /** @var Insegnamento
+     * un materiale puo' essere associato a un solo insegnamento,
+     * ma ogni insegnamento puo' avere piu' materiali,
+     * quindi è una relazione molti a uno tra Materiale e Insegnamento,
+     */
+    #[ORM\ManyToOne(targetEntity: Insegnamento::class, inversedBy: "materiali")]
     protected Insegnamento $insegnamento; //relazione molti a uno
 
 
-    //???????? bisogna vedere se bidirezionale
-    #[ORM\ManyToOne(targetEntity: "Studente")]
+    
+    /** @var Studente
+     * un materiale puo' essere caricato da un solo studente,
+     * ma ogni studente puo' caricare piu' materiali,
+     * quindi è una relazione molti a uno tra Materiale e Studente,
+     */
+    #[ORM\ManyToOne(targetEntity: Studente::class, inversedBy: "materiali")]
     protected Studente $studente; //relazione molti a uno
+
+
+
+
 
   /**
      * Costruttore della classe Materiale.
@@ -74,7 +97,6 @@ abstract class Materiale {
         Collection $recensioni = new ArrayCollection(),
         Collection $downloads = new ArrayCollection(),
         Collection $preferiti = new ArrayCollection()
-        
         ) {
         $this->id = $id;
         $this->titolo = $titolo;
@@ -212,4 +234,6 @@ abstract class Materiale {
     public function aggiungiPreferito(Preferito $preferito): void {
         $this->preferiti[] = $preferito;
     }
+
+
 }

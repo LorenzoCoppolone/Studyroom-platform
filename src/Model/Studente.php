@@ -22,7 +22,7 @@ class Studente extends Utente {
      * quindi è una relazione OneToMany tra Utente e Segnalazione, 
      * ma ogni segnalazione e associata a un solo utente segnalante.
     */
-    #[ORM\OneToMany(targetEntity: "Segnalazione", mappedBy: "segnalante")]
+    #[ORM\OneToMany(targetEntity: Segnalazione::class, mappedBy: "segnalante")]
     private Collection $segnalazioniFatte;
 
 
@@ -32,7 +32,7 @@ class Studente extends Utente {
      * quindi è una relazione OneToMany tra Utente e Materiale,  
      * ma ogni materiale è associato a un solo utente.
     */
-    #[ORM\OneToMany(targetEntity: "Materiale", mappedBy: "studente")]
+    #[ORM\OneToMany(targetEntity: Materiale::class, mappedBy: "studente")]
     private Collection $uploadEffettuati;
 
     /** @var Collection<int, Download>
@@ -40,7 +40,7 @@ class Studente extends Utente {
      * quindi è una relazione OneToMany tra Utente e Download,  
      * ma ogni download è associato a un solo utente.
     */
-    #[ORM\OneToMany(targetEntity: "Download", mappedBy: "studente")]
+    #[ORM\OneToMany(targetEntity: Download::class, mappedBy: "studente")]
     private Collection $downloadEffettuati;
 
     /** @var Collection<int, Preferito>
@@ -48,7 +48,7 @@ class Studente extends Utente {
      * quindi è una relazione OneToMany tra Utente e Preferito, 
      * ma ogni preferito è associato a un solo utente.
     */
-    #[ORM\OneToMany(targetEntity: "Preferito", mappedBy: "studente")]
+    #[ORM\OneToMany(targetEntity: Preferito::class, mappedBy: "studente")]
     private Collection $preferiti;
 
 
@@ -79,10 +79,10 @@ class Studente extends Utente {
         string $passwordHash, 
         string $username, 
         bool $stato, 
-        Collection $segnalazioniFatte, 
-        Collection $uploadEffettuati, 
-        Collection $downloadEffettuati, 
-        Collection $preferiti
+        Collection $segnalazioniFatte = new ArrayCollection(), 
+        Collection $uploadEffettuati = new ArrayCollection(), 
+        Collection $downloadEffettuati = new ArrayCollection(), 
+        Collection $preferiti = new ArrayCollection()
         ) {
         parent::__construct(
             $id, 

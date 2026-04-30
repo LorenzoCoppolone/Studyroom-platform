@@ -12,16 +12,17 @@ class Esame extends Materiale {
     */
     public function __construct(
         int $id, 
-        string $titolo
-        Insegnamento $insegnamento, 
-        Studente $studente, 
-        File $file, 
+        string $titolo,
+        File $file,
+        Insegnamento $insegnamento,
+        Studente $studente
         ) {
         parent::__construct(
             $id, 
-            $titolo
+            $titolo,
+            $file, 
             $insegnamento, 
-            $studente, 
-            $file);
+            $studente
+            );
     }
 }

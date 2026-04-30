@@ -1,38 +1,49 @@
 <?php
-
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
+use doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+#[ORM\Entity]
 class Segnalazione {
+    #[ORM\Column(type: Types::INTEGER), ORM\Id, ORM\GeneratedValue(strategy: "AUTO")]
     private int $id;
+
+    #[ORM\Column(type: Types::STRING)]
     private string $motivo;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private DateTime $timeStamp;
     
+    #[ORM\ManyToOne(targetEntity: Studente::class, inversedBy: "segnalazioniFatte")]
     private Studente $segnalante;
-    private Studente $segnalato;
-    private Materiale $materiale;
+
+
+    #[ORM\OneToMany(targetEntity: Materiale::class, inversedBy: "segnalazioni")]
+    private Materiale $materialeSegnalato;
+
+    #[ORM\ManyToOne(targetEntity: Amministratore::class, inversedBy: "segnalazioni")]
     private Amministratore $amministratore;
 
     /**
      * Costruttore di segnalazione.
-     * @param int $id_segnalazione ID della segnalazione.
-     * @param string $motivo_segnalazione Motivo della segnalazione.
+     * @param int $id ID della segnalazione.
+     * @param string $motivo Motivo della segnalazione.
      * @param Studente $segnalante studente che ha segnalato.
-     * @param Studente $segnalato studente segnalato.
-     * @param Materiale $materiale materiale segnalato.
+     * @param Materiale $materialeSegnalato materiale segnalato.
      * @param Amministratore $amministratore amministratore che gestisce la segnalazione.
      */
     public function __construct(
         int $id, 
         string $motivo,  
         Studente $segnalante,
-        Studente $segnalato,
-        Materiale $materiale,
+        Materiale $materialeSegnalato,
         Amministratore $amministratore
         ) {
         $this->id = $id;
         $this->motivo = $motivo;
         $this->timeStamp = new DateTime();
         $this->segnalante = $segnalante;
-        $this->segnalato = $segnalato;
-        $this->materiale = $materiale;
+        $this->materialeSegnalato = $materialeSegnalato;
         $this->amministratore = $amministratore;
     }
 
@@ -112,32 +123,16 @@ class Segnalazione {
         $this->segnalante = $segnalante;
     }
 
-    /**
-     * Restituisce lo studente segnalato.
-     * 
-     * @return Studente
-     */
-    public function getSegnalato(): Studente {
-        return $this->segnalato;
-    }
 
-    /**
-     * Imposta/modifica lo studente segnalato.
-     * 
-     * @param Studente $segnalato Nuovo segnalato.
-     * @return void
-     */
-    public function setSegnalato(Studente $segnalato): void {
-        $this->segnalato = $segnalato;
-    }
 
+    
     /**
      * Restituisce il materiale segnalato.
      * 
      * @return Materiale
      */
     public function getMateriale(): Materiale {
-        return $this->materiale;
+        return $this->materialeSegnalato;
     }
 
     /**
@@ -147,7 +142,7 @@ class Segnalazione {
      * @return void
      */
     public function setMateriale(Materiale $materiale): void {
-        $this->materiale = $materiale;
+        $this->materialeSegnalato = $materiale;
     }
 
     /**

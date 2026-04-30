@@ -1,11 +1,26 @@
 <?php
 
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
+use Doctrine\Common\Collections\ArrayCollection;
+#[ORM\Entity]
 class CorsoDiLaurea {
+
+    #[ORM\Id]
+    #[ORM\Column(type: Types::STRING, unique: true)]
     private int $codiceCorso;
+
+    #[ORM\Column(type: Types::STRING)]
     private string $nomeCorso;
 
-    /** @var Insegnamento[] */
-    private array $insegnamenti = [];
+    /** @var Collection<int, Insegnamento>
+    * un corso di laurea può avere più insegnamenti associati,
+    * quindi è una relazione OneToMany tra CorsoDiLaurea e Insegnamento,
+    * ma ogni insegnamento è associato a un solo corso di laurea.
+    */
+    #[ORM\OneToMany(mappedBy: 'corsoDiLaurea', targetEntity: Insegnamento::class)]
+    private Collection $insegnamenti; //relazione uno a molti con Insegnamento
 
     
     /**
@@ -16,10 +31,12 @@ class CorsoDiLaurea {
      */
     public function __construct(
         int $codiceCorso, 
-        string $nomeCorso
+        string $nomeCorso,
+        Collection $insegnamenti = new ArrayCollection()
         ) {
         $this->codiceCorso = $codiceCorso;
         $this->nomeCorso = $nomeCorso;
+        $this->insegnamenti = $insegnamenti;
     }
 
     /**
@@ -63,9 +80,9 @@ class CorsoDiLaurea {
     /**
      * Restituisce la lista degli insegnamenti.
      * 
-     * @return Insegnamento[]
+     * @return Collection<Insegnamento> La collezione di insegnamenti associati al corso di laurea.
      */
-    public function getInsegnamenti(): array {
+    public function getInsegnamenti(): Collection {
         return $this->insegnamenti;
     }
 
@@ -79,19 +96,5 @@ class CorsoDiLaurea {
         $this->insegnamenti[] = $insegnamento;
     }
 
-    /**
-     * Rimuove un insegnamento dal corso di laurea.
-     * 
-     * @param Insegnamento $insegnamento Insegnamento da rimuovere.
-     * @return void
-     */
-    public function rimuoviInsegnamento(Insegnamento $insegnamento): void {
-        foreach ($this->insegnamenti as $key => $ins) {
-            if ($ins === $insegnamento) {
-                unset($this->insegnamenti[$key]);
-            }
-        }
-        // Riordina gli indici
-        $this->insegnamenti = array_values($this->insegnamenti);
-    }
+    
 }
