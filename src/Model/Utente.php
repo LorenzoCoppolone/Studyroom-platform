@@ -1,10 +1,28 @@
 <?php
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
+
+
+#[ORM\MappedSuperclass]
 abstract class Utente {
+
     // Protected properties
+
+    #[ORM\Column(type: Types::INTEGER)]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: "AUTO")]
     protected int $id;
+
+    #[ORM\Column(type: Types::STRING)]
     protected string $nome;
-    protected string $cognome;  
+
+    #[ORM\Column(type: Types::STRING)]
+    protected string $cognome; 
+
+    #[ORM\Column(type: Types::STRING)]
     protected string $email;
+
+    #[ORM\Column(type: Types::STRING)]
     protected string $passwordHash;
 
 
@@ -24,7 +42,7 @@ abstract class Utente {
         string $email, 
         string $passwordHash
         ) {
-        $this->id_utente = $id;
+        $this->id = $id;
         $this->nome = $nome;
         $this->cognome = $cognome;
         $this->email = $email;
@@ -37,7 +55,7 @@ abstract class Utente {
      * @param int $id The ID of the utente.
      */
     public function setId(int $id): void {
-        $this->id_utente = $id;
+        $this->id = $id;
     }
 
      /**
@@ -70,7 +88,7 @@ abstract class Utente {
     /**
     * Inserisce la password dell'utente.
     * 
-    * @param string $password Password dell'utente.
+    * @param string $passwordHash Password dell'utente.
     */
     public function setPassword(string $passwordHash): void {
         $this->passwordHash = $passwordHash;

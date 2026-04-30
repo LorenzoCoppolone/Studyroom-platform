@@ -1,36 +1,90 @@
 <?php
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
+use doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+
+#[ORM\Entity]
+#[ORM\InheritanceType('SINGLE_TABLE')]
+#[ORM\DiscriminatorColumn(name: 'tipo', type: 'string')] // Definisce la colonna che identifica i tipi di materiale (nel db ci saranno solo materiali in un unica tabella, ma in php ci saranno appunti ed esami che estendono materiale)
+#[ORM\DiscriminatorMap(['Materiale' => Materiale::class, 'appunto' => Appunto::class, 'esame' => Esame::class])]
 abstract class Materiale {
     // Protected properties
     protected int $id;
     protected string $titolo;
     protected File $file; //relazione 1:1
 
-    /** @var Segnalazione[] */
-    protected array $segnalazioni = [];
+    /** @var Collection<int, Segnalazione> 
+     * un materiale può essere segnalato più volte,
+     * quindi è una relazione OneToMany tra Materiale e Segnalazione,
+     * ma ogni segnalazione è associata a un solo materiale.
+    */
+    #[ORM\OneToMany(targetEntity: "Segnalazione", mappedBy: "materiale")]
+    protected Collection $segnalazioni;
 
-    /** @var Recensione[] */
-    protected array $recensioni = [];
+    /** @var Collection<int, Recensione> 
+     * un materiale puo' avere piu' recensioni,
+     * quindi è una relazione OneToMany tra Materiale e Recensione,
+     * ma ogni recensione associata a un solo materiale
+    */
+    #[ORM\OneToMany(targetEntity: "Recensione", mappedBy: "materiale")]
+    protected Collection $recensioni;
 
-    /** @var Download[] */
-    protected array $downloads = [];
+    /** @var Collection<int, Download> 
+     * un materiale puo' essere scaricato più volte,
+     * quindi è una relazione OneToMany tra Materiale e Download,
+     * ma ogni download associato a un solo materiale
+    */
+    #[ORM\OneToMany(targetEntity: "Download", mappedBy: "materiale")]
+    protected Collection $downloads;
 
-    /** @var Preferito[] */
-    protected array $preferiti = [];
+    /** @var Collection<int, Preferito>
+     * un materiale puo' essere aggiunto più volte ai preferiti,
+     * quindi è una relazione OneToMany tra Materiale e Preferito,
+     * ma ogni preferito associato a un solo materiale
+     */
+    #[ORM\OneToMany(targetEntity: "Preferito", mappedBy: "materiale")]
+    protected Collection $preferiti;
+
+
+    //???????? bisogna vedere se bidirezionale
+    #[ORM\ManyToOne(targetEntity: "Insegnamento", inversedBy: "materiali")]
+    protected Insegnamento $insegnamento; //relazione molti a uno
+
+
+    //???????? bisogna vedere se bidirezionale
+    #[ORM\ManyToOne(targetEntity: "Studente")]
+    protected Studente $studente; //relazione molti a uno
 
   /**
      * Costruttore della classe Materiale.
-     * @param int $id_materiale L'ID del materiale.
-     * @param string $Titolo_materiale Il titolo del materiale.
-     * @param File file del materiale
+     * @param int $id L'ID del materiale.
+     * @param string $titolo Il titolo del materiale.
+     * @param File $file Il file del materiale.
+     * @param Insegnamento $insegnamento L'insegnamento associato al materiale.
+     * @param Studente $studente Lo studente che ha caricato il materiale.
      */
     public function __construct(
         int $id,
         string $titolo, 
-        File $file
+        File $file,
+        Insegnamento $insegnamento,
+        Studente $studente,
+        Collection $segnalazioni = new ArrayCollection(),
+        Collection $recensioni = new ArrayCollection(),
+        Collection $downloads = new ArrayCollection(),
+        Collection $preferiti = new ArrayCollection()
+        
         ) {
         $this->id = $id;
         $this->titolo = $titolo;
         $this->file = $file;
+        $this->insegnamento = $insegnamento;
+        $this->studente = $studente;
+        $this->segnalazioni = $segnalazioni;
+        $this->recensioni = $recensioni;
+        $this->downloads = $downloads;
+        $this->preferiti = $preferiti;
     }
 
     /**
@@ -43,7 +97,7 @@ abstract class Materiale {
 
     /**
      * Imposta l'ID del materiale.
-     * @param int $id_materiale L'ID del materiale.
+     * @param int $id L'ID del materiale.
      */
     public function setId(int $id): void {
         $this->id= $id;
@@ -61,7 +115,7 @@ abstract class Materiale {
     /**
      * Imposta il titolo del materiale.
      * 
-     * @param string $Titolo_materiale Il titolo del materiale.
+     * @param string $titolo Il titolo del materiale.
      */
     public function setTitolo(string $titolo): void {
         $this->titolo = $titolo;
@@ -87,9 +141,9 @@ abstract class Materiale {
 
     /**
      * Ottiene Segnalazioni
-     * @return array Segnalazione
+     * @return Collection<int, Segnalazione>
      */
-    public function getSegnalazioni() : array {
+    public function getSegnalazioni() : Collection {
         return $this->segnalazioni;
     }
 
@@ -103,61 +157,31 @@ abstract class Materiale {
 
     /**
      * Ottiene Recensioni
-     * @return array Recensione
+     * @return Collection<int, Recensione>
      */
-    public function getRecensioni() : array {
+    public function getRecensioni() : Collection {
        return $this->recensioni;
     }
 
-    /**
-     * Aggiunge Recensione
-     * @param Recensione
-     */
-    public function aggiungiRecensione(Recensione $recensione): void {
-        $this->recensioni[] = $recensione;
-    }
+
 
     /**
      * Ottiene Download
-     * @return array Download
+     * @return Collection<int, Download>
      */
-    public function getDownload() : array {
+    public function getDownload() : Collection {
         return $this->downloads;
     }
 
     /**
-     * Aggiunge Download
-     * @param Download
-     */
-    public function aggiungiDownload(Download $download): void {
-        $this->download[] = $download;
-    }
-
-    /**
      * Ottiene Preferiti
-     * @return array Preferito
+     * @return Collection<int, Preferito>
      */
-    public function getPreferiti() : array {
+    public function getPreferiti() : Collection {
         return $this->preferiti;
     }
 
-    /**
-     * Aggiunge Preferito
-     * @param Preferito
-     */
-    public function aggiungiPreferito(Preferito $preferito): void {
-        $this->preferiti[] = $preferito;
-    }
 
-    /**
-     * Aggiunge una segnalazione al materiale.
-     * 
-     * @param Segnalazione $segnalazione Segnalazione da aggiungere.
-     * @return void
-     */
-    public function aggiungiSegnalazione(Segnalazione $segnalazione): void {
-        $this->segnalazioni[] = $segnalazione;
-    }
 
     /**
      * Aggiunge una recensione al materiale.
