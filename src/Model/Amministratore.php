@@ -1,7 +1,8 @@
 <?php
 
+namespace Model;
+
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\DBAL\Types\Types;
 use doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 

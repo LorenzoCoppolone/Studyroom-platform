@@ -1,4 +1,5 @@
 <?php
+namespace Model;
 require_once 'Tag.php';
 
 use Doctrine\Common\Collections\Collection;

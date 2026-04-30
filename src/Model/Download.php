@@ -1,8 +1,10 @@
 <?php
+
+namespace Model;
+
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+
 #[ORM\Entity]
 class Download {
     
@@ -107,5 +109,5 @@ class Download {
         $this->studente = $studente;
     }
 
-    
+
 }

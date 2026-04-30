@@ -1,4 +1,5 @@
 <?php
+namespace Model;
 
 enum Tag: string {
     case RIASSUNTO = "Riassunto";

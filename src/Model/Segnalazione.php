@@ -1,4 +1,6 @@
 <?php
+namespace Model;
+
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
 use doctrine\Common\Collections\ArrayCollection;
@@ -11,8 +13,8 @@ class Segnalazione {
     #[ORM\Column(type: Types::STRING)]
     private string $motivo;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private DateTime $timeStamp;
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
+    private \DateTimeImmutable $timeStamp;
     
     #[ORM\ManyToOne(targetEntity: Studente::class, inversedBy: "segnalazioniFatte")]
     private Studente $segnalante;
@@ -41,7 +43,7 @@ class Segnalazione {
         ) {
         $this->id = $id;
         $this->motivo = $motivo;
-        $this->timeStamp = new DateTime();
+        $this->timeStamp = new \DateTimeImmutable();
         $this->segnalante = $segnalante;
         $this->materialeSegnalato = $materialeSegnalato;
         $this->amministratore = $amministratore;
@@ -88,19 +90,19 @@ class Segnalazione {
     /**
      * Restituisce la data/ora della segnalazione.
      * 
-     * @return DateTime
+     * @return \DateTimeImmutable
      */
-    public function getTimeStamp(): DateTime {
+    public function getTimeStamp(): \DateTimeImmutable {
         return $this->timeStamp;
     }
 
     /**
      * Imposta/modifica il timestamp della segnalazione.
      * 
-     * @param DateTime $timeStamp Nuova data/ora.
+     * @param \DateTimeImmutable $timeStamp Nuova data/ora.
      * @return void
      */
-    public function setTimeStamp(DateTime $timeStamp): void {
+    public function setTimeStamp(\DateTimeImmutable $timeStamp): void {
         $this->timeStamp = $timeStamp;
     }
 

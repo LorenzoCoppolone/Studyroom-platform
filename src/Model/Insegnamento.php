@@ -1,4 +1,5 @@
 <?php
+namespace Model;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -46,19 +47,22 @@ class Insegnamento {
     public function __construct(
         int $codiceInsegnamento,
         string $nomeInsegnamento,
-        Collection $materiali = new ArrayCollection(),
-        CorsoDiLaurea $corsoDiLaurea
-        ) {
+        CorsoDiLaurea $corsoDiLaurea,
+        Collection $materiali = new ArrayCollection()
+        ){
         $this->codiceInsegnamento = $codiceInsegnamento;
         $this->nomeInsegnamento = $nomeInsegnamento;
-        $this->materiali = $materiali;
         $this->corsoDiLaurea = $corsoDiLaurea;
+        $this->materiali = $materiali;
     }
+
+
+
 
     /**
      * Restituisce il codice dell'insegnamento.
      * 
-     * @return int
+     * @return int Il codice dell'insegnamento.
      */
     public function getCodiceInsegnamento(): int {
         return $this->codiceInsegnamento;
@@ -77,7 +81,7 @@ class Insegnamento {
     /**
      * Restituisce il nome dell'insegnamento.
      * 
-     * @return string
+     * @return string Il nome dell'insegnamento.
      */
     public function getNomeInsegnamento(): string {
         return $this->nomeInsegnamento;
@@ -96,7 +100,7 @@ class Insegnamento {
     /**
      * Restituisce la collezione di materiali associati all'insegnamento.
      * 
-     * @return Collection|Materiale[]
+     * @return Collection|Materiale[] La collezione di materiali associati all'insegnamento.
      */
     public function getMateriali(): Collection {
         return $this->materiali;
@@ -111,4 +115,24 @@ class Insegnamento {
     public function aggiungiMateriale(Materiale $materiale): void {
         $this->materiali[] = $materiale;
     }
+
+    /**
+     * Restituisce il corso di laurea a cui l'insegnamento è associato.
+     * 
+     * @return CorsoDiLaurea Il corso di laurea associato all'insegnamento.
+     */
+    public function getCorsoDiLaurea(): CorsoDiLaurea {
+        return $this->corsoDiLaurea;
+    }
+
+    /**
+     * Imposta/modifica il corso di laurea associato all'insegnamento.
+     * 
+     * @param CorsoDiLaurea $corsoDiLaurea Il nuovo corso di laurea da associare.
+     * @return void
+     */
+    public function setCorsoDiLaurea(CorsoDiLaurea $corsoDiLaurea): void {
+    $this->corsoDiLaurea = $corsoDiLaurea;
+    }
+    
 }

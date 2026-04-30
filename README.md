@@ -36,13 +36,13 @@ composer install
 ```bash
 cp .env.example .env
 ```
-Modifica il file `.env` con i tuoi parametri:
+Modifica il file `.env` con i tuoi parametri (le variabili riportate sotto , sono fittizie) :
 ```env
 DB_HOST=localhost
 DB_PORT=3306
-DB_NAME=studyroom
-DB_USER=root
-DB_PASSWORD=
+DB_NAME=DataBaseExample
+DB_USER=User
+DB_PASSWORD=psw
 ```
 ### 5. Crea il Database
 ```bash

@@ -6,7 +6,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\DBAL\DriverManager;
 use Dotenv\Dotenv;
 
-$dotenv = Dotenv::createImmutable(__DIR__ . '/../');
+$dotenv = Dotenv::createImmutable(__DIR__ . '/../../../');
 $dotenv->load();
 // 1. Configurazione metadata (attribute mapping)
 $config = ORMSetup::createAttributeMetadataConfiguration(
