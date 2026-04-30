@@ -9,6 +9,7 @@ Thumbs.db
 # File sensibili
 .env
 config.php
+testEnv.php
 
 
 # Uploads
