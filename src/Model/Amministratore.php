@@ -14,12 +14,9 @@ class Amministratore extends Utente{
     * quindi è una relazione OneToMany tra Amministratore e Segnalazione, 
     * ma ogni segnalazione è gestita da un solo amministratore.
     */
+    
     #[ORM\OneToMany(targetEntity: Segnalazione::class, mappedBy: "amministratore")]
     private Collection $segnalazioni;
-
-
-
-
 
      /**
      * Costruttore di amministratore.
@@ -32,16 +29,6 @@ class Amministratore extends Utente{
      * @param Collection $segnalazioniRicevute Segnalazioni ricevute dall'amministratore.
      */ 
 
-    /**
-     * Costruttore di amministratore.
-     * 
-     * @param int $id ID dell'amministratore.
-     * @param string $nome Nome dell'amministratore.
-     * @param string $cognome Cognome dell'amministratore.
-     * @param string $email Email dell'amministratore.
-     * @param string $passwordHash Password dell'amministratore.
-     * @param Collection $segnalazioni Segnalazioni ricevute dall'amministratore.
-     */
     public function __construct(
         int $id, 
         string $nome, 
@@ -50,20 +37,23 @@ class Amministratore extends Utente{
         string $passwordHash,
         Collection $segnalazioni = new ArrayCollection()
         ) {
-        parent::__construct($id, $nome, $cognome, $email, $passwordHash);
+        parent::__construct(
+            $id, $nome, 
+            $cognome, 
+            $email, 
+            $passwordHash
+            );
         $this->segnalazioni = $segnalazioni;
     }
 
-        /**
-        * Ottiene le segnalazioni ricevute dall'amministratore.
-        * 
-        * @return Collection Le segnalazioni ricevute dall'amministratore.
-        */
+    /**
+    * Ottiene le segnalazioni ricevute dall'amministratore.
+    * 
+    * @return Collection Le segnalazioni ricevute dall'amministratore.
+    */
     public function getSegnalazioni(): Collection {
         return $this->segnalazioni;
     }
-
-
 
     /**
      * Imposta le segnalazioni ricevute dall'amministratore.

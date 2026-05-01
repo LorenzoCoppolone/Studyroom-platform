@@ -8,36 +8,30 @@ use Doctrine\DBAL\Types\Types;
 #[ORM\Entity]
 class Recensione {
 
-
     #[ORM\Id]
+
     #[ORM\GeneratedValue]
+
     #[ORM\Column(type: Types::INTEGER)] 
     private int $id;
-
 
     #[ORM\Column(type: "float")]
     private float $voto;
 
-
     #[ORM\Column(type: "string", length: 255)]
     private string $commento;
 
-
-
-
-    
     /**
      * Relazione molti a uno tra Recensione e Materiale.
      * Ogni recensione è associata a un solo materiale, ma un materiale può avere più recensioni.
      * La proprietà "materiale" rappresenta il materiale recensito.
      * La colonna "materiale_id" nella tabella "recensione" fa riferimento alla colonna "id" della tabella "materiale".
      */
+
     #[ORM\ManyToOne(targetEntity: Materiale::class, inversedBy: "recensioni")]
+
     #[ORM\JoinColumn(name: "materiale_id", referencedColumnName: "id")]
     private Materiale $materiale;
-
-
-
 
     /**
     * Relazione molti a uno tra Recensione e Studente.
@@ -45,7 +39,9 @@ class Recensione {
     * La proprietà "studente" rappresenta lo studente che ha scritto la recensione.
     * La colonna "studente_id" nella tabella "recensione" fa riferimento alla colonna "id" della tabella "studente".
     */
+
     #[ORM\ManyToOne(targetEntity: Studente::class, inversedBy: "recensioni")]
+    
     #[ORM\JoinColumn(name: "studente_id", referencedColumnName: "id")]
     private Studente $studente;
 
@@ -57,6 +53,7 @@ class Recensione {
      * @param Studente $studente  studente che ha scritto la recensione.
      * @param Materiale $materiale materiale recensito.
      */
+
     public function __construct(
         int $id, 
         float $voto, 
@@ -151,5 +148,5 @@ class Recensione {
     public function setMateriale(Materiale $materiale): void {
         $this->materiale = $materiale;
     }
-    // Che cos'e' &$materiale? Riga 111
+    
 }

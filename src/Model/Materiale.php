@@ -12,7 +12,8 @@ use Doctrine\Common\Collections\Collection;
 #[ORM\DiscriminatorColumn(name: 'tipo', type: 'string')] // Definisce la colonna che identifica i tipi di materiale (nel db ci saranno solo materiali in un unica tabella, ma in php ci saranno appunti ed esami che estendono materiale)
 #[ORM\DiscriminatorMap(['Materiale' => Materiale::class, 'appunto' => Appunto::class, 'esame' => Esame::class])]
 abstract class Materiale {
-    // Protected propertiesù
+    
+    // Protected properties
     #[ORM\Column(type: Types::INTEGER), ORM\Id, ORM\GeneratedValue(strategy: "AUTO")]
     protected int $id;
 
@@ -27,16 +28,16 @@ abstract class Materiale {
      * quindi è una relazione OneToMany tra Materiale e Segnalazione,
      * ma ogni segnalazione è associata a un solo materiale.
     */
+
     #[ORM\OneToMany(targetEntity: Segnalazione::class, mappedBy: "materiale")]
     protected Collection $segnalazioni;
-
-
     
     /** @var Collection<int, Recensione> 
      * un materiale puo' avere piu' recensioni,
      * quindi è una relazione OneToMany tra Materiale e Recensione,
      * ma ogni recensione associata a un solo materiale
     */
+
     #[ORM\OneToMany(targetEntity: Recensione::class, mappedBy: "materiale")]
     protected Collection $recensioni;
 
@@ -45,6 +46,7 @@ abstract class Materiale {
      * quindi è una relazione OneToMany tra Materiale e Download,
      * ma ogni download associato a un solo materiale
     */
+
     #[ORM\OneToMany(targetEntity: Download::class, mappedBy: "materiale")]
     protected Collection $downloads;
 
@@ -53,33 +55,29 @@ abstract class Materiale {
      * quindi è una relazione OneToMany tra Materiale e Preferito,
      * ma ogni preferito associato a un solo materiale
      */
+
     #[ORM\OneToMany(targetEntity: Preferito::class, mappedBy: "materiale")]
     protected Collection $preferiti;
-
-
 
     /** @var Insegnamento
      * un materiale puo' essere associato a un solo insegnamento,
      * ma ogni insegnamento puo' avere piu' materiali,
      * quindi è una relazione molti a uno tra Materiale e Insegnamento,
      */
+
     #[ORM\ManyToOne(targetEntity: Insegnamento::class, inversedBy: "materiali")]
+
     #[ORM\JoinColumn(name: "insegnamento_codice", referencedColumnName: "codiceInsegnamento")]
     protected Insegnamento $insegnamento; //relazione molti a uno
 
-
-    
     /** @var Studente
      * un materiale puo' essere caricato da un solo studente,
      * ma ogni studente puo' caricare piu' materiali,
      * quindi è una relazione molti a uno tra Materiale e Studente,
      */
+    
     #[ORM\ManyToOne(targetEntity: Studente::class, inversedBy: "materiali")]
     protected Studente $studente; //relazione molti a uno
-
-
-
-
 
   /**
      * Costruttore della classe Materiale.
@@ -89,6 +87,7 @@ abstract class Materiale {
      * @param Insegnamento $insegnamento L'insegnamento associato al materiale.
      * @param Studente $studente Lo studente che ha caricato il materiale.
      */
+
     public function __construct(
         int $id,
         string $titolo, 
@@ -187,8 +186,6 @@ abstract class Materiale {
        return $this->recensioni;
     }
 
-
-
     /**
      * Ottiene Download
      * @return Collection<int, Download>
@@ -204,8 +201,6 @@ abstract class Materiale {
     public function getPreferiti() : Collection {
         return $this->preferiti;
     }
-
-
 
     /**
      * Aggiunge una recensione al materiale.
@@ -236,6 +231,5 @@ abstract class Materiale {
     public function aggiungiPreferito(Preferito $preferito): void {
         $this->preferiti[] = $preferito;
     }
-
 
 }

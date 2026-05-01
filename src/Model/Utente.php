@@ -5,14 +5,15 @@ namespace Model;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
 
-
 #[ORM\MappedSuperclass]
 abstract class Utente {
 
     // Protected properties
 
     #[ORM\Column(type: Types::INTEGER)]
+   
     #[ORM\Id]
+
     #[ORM\GeneratedValue(strategy: "AUTO")]
     protected int $id;
 
@@ -28,7 +29,6 @@ abstract class Utente {
     #[ORM\Column(type: Types::STRING)]
     protected string $passwordHash;
 
-
     /**
      * Costruttore di utente.
      * 
@@ -38,6 +38,7 @@ abstract class Utente {
      * @param string $email Email dell'utente.
      * @param string $passwordHash Password dell'utente.
      */
+    
     public function __construct(
         int $id, 
         string $nome, 

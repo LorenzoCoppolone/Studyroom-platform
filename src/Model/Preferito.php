@@ -19,6 +19,7 @@ class Preferito {
      * La proprietà "studente" rappresenta lo studente che ha aggiunto il materiale ai preferiti.
      * La colonna "studente_id" nella tabella "preferito" fa riferimento alla colonna "id" della tabella "studente".
      */
+
     #[ORM\ManyToOne(targetEntity: Studente::class, inversedBy: 'preferiti')]
     private Studente $studente;
 
@@ -30,21 +31,17 @@ class Preferito {
      * La proprietà "materiale" rappresenta il materiale aggiunto ai preferiti.
      * La colonna "materiale_id" nella tabella "preferito" fa riferimento alla colonna "id" della tabella "materiale".
      */
+
     #[ORM\ManyToOne(targetEntity: Materiale::class, inversedBy: 'preferiti')]
     private Materiale $materiale;
 
-
-
-
-
-
-    
     /**
      * Costruttore di preferito.
      * @param int $id ID del preferito.
      * @param Studente $studente studente che ha aggiunto il materiale ai preferiti.
      * @param Materiale $materiale materiale aggiunto ai preferiti.
      */
+
     public function __construct(
         int $id, 
         Studente $studente, 
@@ -102,4 +99,5 @@ class Preferito {
     public function setMateriale(Materiale $materiale): void {
         $this->materiale = $materiale;
     }
+    
 }

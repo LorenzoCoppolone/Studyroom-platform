@@ -9,7 +9,9 @@ use Doctrine\DBAL\Types\Types;
 class Download {
     
     #[ORM\Id]
+
     #[ORM\GeneratedValue]
+
     #[ORM\Column(type: Types::INTEGER)]
     private int $id;
     
@@ -19,9 +21,9 @@ class Download {
      * quindi è una relazione molti a uno tra Download e Materiale,
      * La proprietà "materiale" rappresenta il materiale scaricato.
      */
+
     #[ORM\ManyToOne(targetEntity: Materiale::class, inversedBy: 'downloads')]
     private Materiale $materiale;
-
 
     /** @var Studente
     * Ogni download è associato a un solo studente,
@@ -29,12 +31,9 @@ class Download {
     * quindi è una relazione molti a uno tra Download e Studente,
     * La proprietà "studente" rappresenta lo studente che ha effettuato il download.
     */
+    
     #[ORM\ManyToOne(targetEntity: Studente::class, inversedBy: 'downloads')]
     private Studente $studente;
-
-
-
-
 
     /**
      * Costruttore di download.
@@ -42,6 +41,7 @@ class Download {
      * @param Materiale $materiale materiale scaricato.
      * @param Studente $studente studente che ha effettuato il download.
      */
+
     public function __construct(
         int $id, 
         Materiale $materiale, 
@@ -70,9 +70,6 @@ class Download {
     public function setId(int $id): void {
         $this->id = $id;
     }
-
-
-
 
     /**
      * Restituisce il materiale associato al download.
@@ -108,6 +105,5 @@ class Download {
     public function setStudente(Studente $studente): void {
         $this->studente = $studente;
     }
-
 
 }

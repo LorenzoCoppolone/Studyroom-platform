@@ -7,9 +7,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 #[ORM\Entity]
 class Insegnamento {
-
     
     #[ORM\Id]
+
     #[ORM\Column(type: Types::STRING, length: 10, unique: true)]
     private int $codiceInsegnamento;
 
@@ -21,12 +21,10 @@ class Insegnamento {
      * quindi è una relazione OneToMany tra Insegnamento e Materiale,
      * ma ogni materiale è associato a un solo insegnamento.
     */
+
     #[ORM\OneToMany(mappedBy: 'insegnamento', targetEntity: Materiale::class)]
     private Collection $materiali;
     
-
-
-
     /** @var CorsoDiLaurea
     * un insegnamento può essere associato a un solo corso di laurea,
     * ma ogni corso di laurea può avere più insegnamenti associati,
@@ -34,7 +32,9 @@ class Insegnamento {
     * La proprietà "corsoDiLaurea" rappresenta il corso di laurea a cui l'insegnamento è associato.
     * La colonna "corso_di_laurea_id" nella tabella "insegnamento" fa riferimento alla colonna "id" della tabella "corso_di_laurea".
     */
+
     #[ORM\ManyToOne(targetEntity: CorsoDiLaurea::class, inversedBy: 'insegnamenti')]
+    
     #[ORM\JoinColumn(name: "corsoDiLaurea_codice", referencedColumnName: "codiceCorso")]
     private CorsoDiLaurea $corsoDiLaurea; //relazione molti a uno
 
@@ -46,6 +46,7 @@ class Insegnamento {
      * @param Collection $materiali Collezione di materiali associati all'insegnamento.
      * @param CorsoDiLaurea $corsoDiLaurea Corso di laurea a cui l'insegnamento è associato (opzionale).
      */
+
     public function __construct(
         int $codiceInsegnamento,
         string $nomeInsegnamento,
@@ -57,9 +58,6 @@ class Insegnamento {
         $this->corsoDiLaurea = $corsoDiLaurea;
         $this->materiali = $materiali;
     }
-
-
-
 
     /**
      * Restituisce il codice dell'insegnamento.

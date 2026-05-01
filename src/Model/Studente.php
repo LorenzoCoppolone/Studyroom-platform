@@ -16,22 +16,21 @@ class Studente extends Utente {
     #[ORM\Column(type: Types::BOOLEAN)]
     private bool $stato;
 
-
     /** @var Collection<int, Segnalazione> 
      * un utente può segnalare più utenti, 
      * quindi è una relazione OneToMany tra Utente e Segnalazione, 
      * ma ogni segnalazione e associata a un solo utente segnalante.
     */
+
     #[ORM\OneToMany(targetEntity: Segnalazione::class, mappedBy: "segnalante")]
     private Collection $segnalazioniFatte;
-
-
 
     /** @var Collection<int, Materiale>
      * un utente può caricare più materiali, 
      * quindi è una relazione OneToMany tra Utente e Materiale,  
      * ma ogni materiale è associato a un solo utente.
     */
+
     #[ORM\OneToMany(targetEntity: Materiale::class, mappedBy: "studente")]
     private Collection $uploadEffettuati;
 
@@ -40,6 +39,7 @@ class Studente extends Utente {
      * quindi è una relazione OneToMany tra Utente e Download,  
      * ma ogni download è associato a un solo utente.
     */
+
     #[ORM\OneToMany(targetEntity: Download::class, mappedBy: "studente")]
     private Collection $downloadEffettuati;
 
@@ -48,13 +48,9 @@ class Studente extends Utente {
      * quindi è una relazione OneToMany tra Utente e Preferito, 
      * ma ogni preferito è associato a un solo utente.
     */
+
     #[ORM\OneToMany(targetEntity: Preferito::class, mappedBy: "studente")]
     private Collection $preferiti;
-
-
-
-
-    // Costruttore, getter e setter
 
     /**
      * Costruttore di studente.
@@ -71,6 +67,7 @@ class Studente extends Utente {
      * @param Collection<int, Download> $downloadEffettuati Download effettuati dallo studente.
      * @param Collection<int, Preferito> $preferiti Preferiti dello studente.
      */
+
     public function __construct(
         int $id,
         string $nome, 
@@ -117,8 +114,6 @@ class Studente extends Utente {
         $this->stato = $stato;
     }
 
-    
-
     /**
      * Ottiene lo username dello studente.
      * 
@@ -151,7 +146,6 @@ class Studente extends Utente {
         $this->segnalazioniFatte[] = $segnalazioneEffettuata;
     }
     
-
      /** @return Collection<int, Materiale> 
       * Restituisce i materiali caricati dallo studente.
      */

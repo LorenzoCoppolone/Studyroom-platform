@@ -5,8 +5,10 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
 use doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+
 #[ORM\Entity]
 class Segnalazione {
+
     #[ORM\Column(type: Types::INTEGER), ORM\Id, ORM\GeneratedValue(strategy: "AUTO")]
     private int $id;
 
@@ -18,7 +20,6 @@ class Segnalazione {
     
     #[ORM\ManyToOne(targetEntity: Studente::class, inversedBy: "segnalazioniFatte")]
     private Studente $segnalante;
-
 
     #[ORM\ManyToOne(targetEntity: Materiale::class, inversedBy: "segnalazioni")]
     private Materiale $materialeSegnalato;
@@ -34,6 +35,7 @@ class Segnalazione {
      * @param Materiale $materialeSegnalato materiale segnalato.
      * @param Amministratore $amministratore amministratore che gestisce la segnalazione.
      */
+
     public function __construct(
         int $id, 
         string $motivo,  
@@ -124,10 +126,7 @@ class Segnalazione {
     public function setSegnalante(Studente $segnalante): void {
         $this->segnalante = $segnalante;
     }
-
-
-
-    
+  
     /**
      * Restituisce il materiale segnalato.
      * 

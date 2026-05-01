@@ -12,8 +12,6 @@ class Appunto extends Materiale {
     #[ORM\Column(type: Types::STRING, enumType: Tag::class)]
      private Tag $tag;
 
-
-
     /**
      * Costruttore di appunti.
      * 
@@ -28,6 +26,7 @@ class Appunto extends Materiale {
      * @param Collection $preferiti preferiti associate al materiale.
      * @param  Tag $tag Tag degli appunti.
      */
+    
     public function __construct(
         int $id, 
         string $titolo, 
@@ -53,7 +52,6 @@ class Appunto extends Materiale {
         );
         $this->tag = $tag;
     }
-
 
     /**
      * Ottiene il tag degli appunti.
