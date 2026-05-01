@@ -8,6 +8,7 @@ Thumbs.db
 
 # File sensibili
 .env
+.env.example
 config.php
 testEnv.php
 

@@ -15,6 +15,7 @@ Gli studenti possono caricare, cercare, recensire e segnalare materiali didattic
 - PHP >= 8.1
 - Composer
 - MySQL (o altro DB compatibile con Doctrine)
+- XAMPP (o equivalente con Apache + MySQL)
 
 ##  Setup e Installazioni
 
@@ -23,9 +24,9 @@ Gli studenti possono caricare, cercare, recensire e segnalare materiali didattic
 git clone https://github.com/utente/studyroom-platform.git
 cd studyroom-platform
 ```
-### 2. Installa Composer
-Scaricare composer dal seguente link : ```https://getcomposer.org/download/```
 
+### 2. Installa Composer
+Scaricare composer dal seguente link: `https://getcomposer.org/download/`
 
 ### 3. Installa le dipendenze
 ```bash
@@ -36,7 +37,7 @@ composer install
 ```bash
 cp .env.example .env
 ```
-Modifica il file `.env` con i tuoi parametri (le variabili riportate sotto , sono fittizie) :
+Modifica il file `.env` con i tuoi parametri (le variabili riportate sotto sono fittizie):
 ```env
 DB_HOST=localhost
 DB_PORT=3306
@@ -44,25 +45,55 @@ DB_NAME=DataBaseExample
 DB_USER=User
 DB_PASSWORD=psw
 ```
-### 5. Crea il Database
+
+---
+
+### 5. Configurazione del Database
+
+#### 5.1 Avvia XAMPP
+Apri il pannello di controllo di XAMPP e avvia i servizi:
+-  **Apache**
+-  **MySQL**
+
+#### 5.2 Crea il database vuoto
+Vai su `http://localhost/phpmyadmin`, accedi e crea un nuovo database con lo **stesso nome** indicato nel tuo `.env` (es. `DataBaseExample`).
+
+In alternativa, puoi crearlo da terminale:
 ```bash
 mysql -u root -p
-CREATE DATABASE studyroom;
+CREATE DATABASE DataBaseExample;
 exit;
 ```
 
-### 6. Genera il database tramite Doctrine
+#### 5.3 Se necessario, installa la dipendenza per la cache di Doctrine
 ```bash
-# Crea lo schema da zero
-php vendor/bin/doctrine orm:schema-tool:create
-
-# Oppure aggiorna uno schema esistente
-php vendor/bin/doctrine orm:schema-tool:update --force
+composer require symfony/cache
 ```
+
+#### 5.4 Genera le tabelle tramite Doctrine
+```bash
+# Crea lo schema da zero (primo avvio)
+php bin/doctrine.php orm:schema-tool:create
+
+# Visualizza l'SQL che verrà eseguito, senza applicarlo
+php bin/doctrine.php orm:schema-tool:update --dump-sql
+
+# Aggiorna lo schema se hai modificato i Model
+php bin/doctrine.php orm:schema-tool:update --force
+```
+
+#### 5.5 Visualizzazione DB
+
+Per visualizzare il DB appena creato , andare su  **phpMyAdmin** oppure installare su VS l`estensione **"DataBase Client"** e connettersi al db impostando le variabili dambiente .
+
+
+---
 
 ##  Struttura del progetto
 ```
 studyroom-platform/
+├── bin/
+│   └── doctrine.php                        # CLI Doctrine per gestione schema DB
 ├── src/
 │   ├── Controller/                         # Logica di controllo (MVC)
 │   │   ├── LoginUtenteController.php
@@ -94,6 +125,7 @@ studyroom-platform/
 ├── composer.lock
 └── .env
 ```
+
 ##  Funzionalità principali
 
 - **Registrazione e login** degli utenti
@@ -109,6 +141,6 @@ studyroom-platform/
 |-------------------|----------|------------------------------------|
 | doctrine/orm      | ^3.0     | ORM per la gestione delle entità   |
 | doctrine/dbal     | ^4.0     | Astrazione del database            |
+| symfony/cache     | *        | Cache richiesta da Doctrine ORM    |
 
 > Vedi `composer.json` per la lista completa.
-
