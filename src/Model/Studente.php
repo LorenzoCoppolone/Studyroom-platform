@@ -88,13 +88,14 @@ class Studente extends Utente {
             $email, 
             $passwordHash
             );
-        $this->username = $username;
-        $this->stato = $stato;
-        $this->segnalazioniFatte = $segnalazioniFatte;
-        $this->uploadEffettuati = $uploadEffettuati;
-        $this->downloadEffettuati = $downloadEffettuati;
-        $this->preferiti = $preferiti;
+        $this->stato = true;
+        $this->username = $username?:"";
+        $this->segnalazioniFatte = $segnalazioniFatte?:new ArrayCollection();
+        $this->uploadEffettuati = $uploadEffettuati?:new ArrayCollection();
+        $this->downloadEffettuati = $downloadEffettuati?:new ArrayCollection();
+        $this->preferiti = $preferiti?:new ArrayCollection();
     }
+
 
     /**
      * Inserisce lo username dello studente.
