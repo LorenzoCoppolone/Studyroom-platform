@@ -1,4 +1,8 @@
 <?php
+
+use Doctrine\ORM\EntityManagerInterface;
+use Foundation\Persistent\PersistentManager;
+
 class RicercaMaterialeController {
 
 
@@ -19,8 +23,8 @@ class RicercaMaterialeController {
 
         // Logica per cercare i materiali nel database o in un'altra fonte dati
         try {
-        $pm = new PersistentManager();
-        $materiali = $pm->search("Materiale", $filtri);
+        $pm = PersistentManager::getInstance(); // CORRETTO USO DELLA CLASSE PersistentManager
+        $materiali = $pm->cercaMaterialePerTitolo($titolo);
         return $materiali;
 
     } catch (PDOException $e) {
