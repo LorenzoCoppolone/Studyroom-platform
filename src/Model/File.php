@@ -17,8 +17,11 @@ use Doctrine\DBAL\Types\Types;
 #[ORM\Embeddable]
 class File{
 
+    #[ORM\Column(type: Types::BLOB)]
+    private string $contenutoFile;
+
     #[ORM\Column(type: Types::STRING)]
-    private string $urlFile;
+    private string $MimeTypeFile;
 
     #[ORM\Column(type: Types::FLOAT)]
     private float $dimensioneFile;
@@ -26,35 +29,39 @@ class File{
     /**
      * Costruttore di file.
      * 
-     * @param string $urlFile URL del file.
+     * @param string $contenutoFile contenuto del file.
      * @param float $dimensioneFile Dimensione del file in megabyte.
+     * @param string $MimeTypeFile tipo del file.
      */
     
     public function __construct(
-        string $urlFile, 
+        string $contenutoFile,
+        string $MimeTypeFile, 
         float $dimensioneFile
         ) {
-        $this->urlFile = $urlFile;
+        $this->contenutoFile = $contenutoFile;
+        $this->MimeTypeFile = $MimeTypeFile;
         $this->dimensioneFile = $dimensioneFile;
     }
 
     /**
-     * Ottiene l'URL del file.
+     * Ottiene il tipo del file.
      * 
-     * @return string L'URL del file.
+     * @return string tipo del file.
      */
-    public function getUrlFile(): string {
-        return $this->urlFile;
+    public function getmimeTypeFile(): string {
+        return $this->MimeTypeFile;
     }
 
     /**
-     * Imposta l'URL del file.
+     * Imposta il tipo del file.
      * 
-     * @param string $url_file L'URL del file.
+     * @param string $MimeTypeFile Tipo del file.
      */
-    public function setUrlFile(string $urlFile): void {
-        $this->urlFile = $urlFile;
+    public function setMimeTypeFile(string $MimeTypeFile): void {
+        $this->MimeTypeFile = $MimeTypeFile;
     }
+
 
     /**
      * Ottiene la dimensione del file.
@@ -68,10 +75,27 @@ class File{
     /**
      * Imposta la dimensione del file.
      * 
-     * @param float $Dimensione_file La dimensione del file in megabyte.
+     * @param float $dimensioneFile La dimensione del file in megabyte.
      */
     public function setDimensioneFile(float $dimensioneFile): void {
         $this->dimensioneFile = $dimensioneFile;
     }
 
+    /**
+     * Ottiene il contenuto del file.
+     * 
+     * @return string Il contenuto del file.
+     */
+    public function getContenutoFile(): string {
+        return $this->contenutoFile;
+    }
+
+    /**
+     * Imposta il contenuto del file.
+     * 
+     * @param string $contenutoFile Il contenuto del file.
+     */
+    public function setContenutoFile(string $contenutoFile): void {
+        $this->contenutoFile = $contenutoFile;
+    }
 }
