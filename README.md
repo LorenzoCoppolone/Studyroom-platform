@@ -78,6 +78,9 @@ php bin/doctrine.php orm:schema-tool:create
 # Visualizza l'SQL che verrà eseguito, senza applicarlo
 php bin/doctrine.php orm:schema-tool:update --dump-sql
 
+# Cancella il DB esistente
+php bin/doctrine.php orm:schema-tool:drop --force
+
 # Aggiorna lo schema se hai modificato i Model
 php bin/doctrine.php orm:schema-tool:update --force
 ```
