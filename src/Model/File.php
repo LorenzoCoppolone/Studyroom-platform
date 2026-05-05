@@ -18,7 +18,7 @@ use Doctrine\DBAL\Types\Types;
 class File{
 
     #[ORM\Column(type: Types::BLOB)]
-    private string $contenutoFile;
+    private mixed $contenutoFile;
 
     #[ORM\Column(type: Types::STRING)]
     private string $MimeTypeFile;
@@ -86,7 +86,11 @@ class File{
      * 
      * @return string Il contenuto del file.
      */
-    public function getContenutoFile(): string {
+   public function getContenutoFile(): string
+    {
+        if (is_resource($this->contenutoFile)) {
+            return stream_get_contents($this->contenutoFile);
+        }
         return $this->contenutoFile;
     }
 

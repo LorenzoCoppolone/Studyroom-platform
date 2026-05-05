@@ -15,7 +15,8 @@ abstract class Materiale {
     
     // Protected properties
     #[ORM\Column(type: Types::INTEGER), ORM\Id, ORM\GeneratedValue(strategy: "AUTO")]
-    protected int $id;
+    protected ?int $id = null;
+
 
     #[ORM\Column(type: Types::STRING)]
     protected string $titolo;
@@ -89,7 +90,6 @@ abstract class Materiale {
      */
 
     public function __construct(
-        int $id,
         string $titolo, 
         File $file,
         Insegnamento $insegnamento,
@@ -99,7 +99,6 @@ abstract class Materiale {
         Collection $downloads = new ArrayCollection(),
         Collection $preferiti = new ArrayCollection()
         ) {
-        $this->id = $id;
         $this->titolo = $titolo;
         $this->file = $file;
         $this->insegnamento = $insegnamento;

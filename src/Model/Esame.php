@@ -14,14 +14,12 @@ class Esame extends Materiale {
     * @param File $file file associato al materiale.
     */
     public function __construct(
-        int $id, 
         string $titolo,
         File $file,
         Insegnamento $insegnamento,
         Studente $studente
         ) {
         parent::__construct(
-            $id, 
             $titolo,
             $file, 
             $insegnamento, 

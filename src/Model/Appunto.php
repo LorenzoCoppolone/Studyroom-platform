@@ -28,27 +28,17 @@ class Appunto extends Materiale {
      */
     
     public function __construct(
-        int $id, 
         string $titolo, 
         File $file,
         Insegnamento $insegnamento, 
         Studente $studente, 
-        Collection $segnalazioni,
-        Collection $recensioni,
-        Collection $downloads,
-        Collection $preferiti,
-        Tag $tag
+        Tag $tag,
         ) {
-        parent::__construct(
-            $id, 
+        parent::__construct( 
             $titolo, 
             $file, 
             $insegnamento, 
             $studente,
-            $segnalazioni,
-            $recensioni,
-            $downloads,
-            $preferiti
         );
         $this->tag = $tag;
     }

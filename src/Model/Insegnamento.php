@@ -11,7 +11,7 @@ class Insegnamento {
     #[ORM\Id]
 
     #[ORM\Column(type: Types::STRING, length: 10, unique: true)]
-    private int $codiceInsegnamento;
+    private string $codiceInsegnamento;
 
     #[ORM\Column(type: Types::STRING)]
     private string $nomeInsegnamento;

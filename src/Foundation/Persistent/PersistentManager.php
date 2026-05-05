@@ -1,7 +1,9 @@
 <?php
 namespace Foundation\Persistent;
-use Dom\Entity;
 use Doctrine\ORM\EntityManagerInterface;
+use Model\CorsoDiLaurea;
+use Model\Insegnamento;
+use Model\Materiale;
 
 class PersistentManager {
 
@@ -53,15 +55,157 @@ class PersistentManager {
         return $this->em->getRepository($class)->findOneBy($criteria);
     }
 
+
+
+
+
+
+
+
     // Query custom
-    public function cercaMaterialePerTitolo(string $titolo): array {
-        $qb = $this->em->createQueryBuilder();
-        $qb->select('m.Id, m.Titolo, m.Insegnamento, m.Tipologia, m.CorsoDiLaurea, m.Tag, m.File')
-            ->from(Entity::class, 'Materiale', 'm')
-            ->join('m', 'Insegnamento', 'I', 'WITH', 'm.insegnamento_codice = I.CodiceInsegnamento')
-            ->join('I', 'CorsoDiLaurea', 'C', 'WITH', 'I.corsoDiLaurea_codice = C.codiceCorso')
-            ->where($qb->expr()->like('m.Titolo', ':Titolo'))
-            ->setParameter('Titolo', $titolo);
-        return $qb->getQuery()->getArrayResult();
+
+
+    public function CercaInsegnamento(string $Nome_Insegnamento): Insegnamento {
+        $Insegnamento = $this->em->getRepository(Insegnamento::class)->findOneBy(['nomeInsegnamento' => $Nome_Insegnamento]);
+        return $Insegnamento;
     }
+
+    public function CercaCorsoDiLaurea(string $Nome_Corso): CorsoDiLaurea {
+        $corso = $this->em->getRepository(CorsoDiLaurea::class)->findOneBy(['nomeCorso' => $Nome_Corso]);
+        return $corso;
+    }
+
+
+
+    
+    /**
+     * Cerca materiali per titolo.
+     * @param string $titolo Il titolo del materiale da cercare.
+     * @return array Un array di materiali che corrispondono al termine di ricerca.
+     */
+   public function cercaMaterialePerTitolo(string $titolo): array {
+    $qb = $this->em->createQueryBuilder();
+    $qb->select('m', 'i', 'c')
+        ->from(\Model\Materiale::class, 'm')
+        ->join('m.insegnamento', 'i')
+        ->join('i.corsoDiLaurea', 'c')
+        ->where('m.titolo LIKE :titolo')
+        ->setParameter('titolo', "%$titolo%");
+    return $qb->getQuery()->getArrayResult();
+}
+
+
+
+
+
+
+/**
+ * Filtra i materiali per titolo, insegnamento, tipologia, corso di laurea e tag.
+ * 
+ * @param string $titolo Il titolo del materiale da cercare.
+ * @param string $insegnamento Il nome dell'insegnamento da cercare.
+ * @param string $tipologia La tipologia del materiale da cercare.
+ * @param string $corso Il corso di laurea del materiale da cercare.
+ * @param string $tag Il tag del materiale da cercare.
+ * @return array Un array di materiali che corrispondono ai criteri di ricerca.
+ */
+public function FiltraMateriale(
+    string $titolo,
+    string $insegnamento,
+    string $tipologia,   // "appunto", "esame" oppure ""
+    string $corso,
+    string $tag
+) {
+    $risultati = [];
+
+    // -------------------------------------------------
+    // 1) SOLO APPUNTI
+    // -------------------------------------------------
+    if ($tipologia === "appunto") {
+
+        $qb = $this->em->createQueryBuilder();
+
+        $qb->select('a', 'i', 'c')
+            ->from(\Model\Appunto::class, 'a')
+            ->join('a.insegnamento', 'i')
+            ->join('i.corsoDiLaurea', 'c')
+            ->where('a.titolo LIKE :titolo')
+            ->andWhere('i.nomeInsegnamento LIKE :insegnamento')
+            ->andWhere('c.nomeCorso LIKE :corso')
+            ->setParameter('titolo', "%$titolo%")
+            ->setParameter('insegnamento', "%$insegnamento%")
+            ->setParameter('corso', "%$corso%");
+
+        // filtro tag SOLO per Appunti
+        if (!empty($tag)) {
+            $qb->andWhere('a.tag LIKE :tag')
+               ->setParameter('tag', "%$tag%");
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
+    //ricerca solo in esame e non in appunto
+    if ($tipologia === "esame") {
+
+        $qb = $this->em->createQueryBuilder();
+
+        $qb->select('e', 'i', 'c')
+            ->from(\Model\Esame::class, 'e')
+            ->join('e.insegnamento', 'i')
+            ->join('i.corsoDiLaurea', 'c')
+            ->where('e.titolo LIKE :titolo')
+            ->andWhere('i.nomeInsegnamento LIKE :insegnamento')
+            ->andWhere('c.nomeCorso LIKE :corso')
+            ->setParameter('titolo', "%$titolo%")
+            ->setParameter('insegnamento', "%$insegnamento%")
+            ->setParameter('corso', "%$corso%");
+
+        // niente tag per Esami
+
+        return $qb->getQuery()->getResult();
+    }
+
+    // -------------------------------------------------
+    // 3) STRINGA VUOTA → CERCA IN ENTRAMBI
+    // -------------------------------------------------
+
+    // APPUNTI
+    $qbA = $this->em->createQueryBuilder();
+    $qbA->select('a', 'i', 'c')
+        ->from(\Model\Appunto::class, 'a')
+        ->join('a.insegnamento', 'i')
+        ->join('i.corsoDiLaurea', 'c')
+        ->where('a.titolo LIKE :titolo')
+        ->andWhere('i.nomeInsegnamento LIKE :insegnamento')
+        ->andWhere('c.nomeCorso LIKE :corso')
+        ->setParameter('titolo', "%$titolo%")
+        ->setParameter('insegnamento', "%$insegnamento%")
+        ->setParameter('corso', "%$corso%");
+
+    if (!empty($tag)) {
+        $qbA->andWhere('a.tag LIKE :tag')
+            ->setParameter('tag', "%$tag%");
+    }
+
+    $risultati = array_merge($risultati, $qbA->getQuery()->getResult());
+
+    // ESAMI
+    $qbE = $this->em->createQueryBuilder();
+    $qbE->select('e', 'i', 'c')
+        ->from(\Model\Esame::class, 'e')
+        ->join('e.insegnamento', 'i')
+        ->join('i.corsoDiLaurea', 'c')
+        ->where('e.titolo LIKE :titolo')
+        ->andWhere('i.nomeInsegnamento LIKE :insegnamento')
+        ->andWhere('c.nomeCorso LIKE :corso')
+        ->setParameter('titolo', "%$titolo%")
+        ->setParameter('insegnamento', "%$insegnamento%")
+        ->setParameter('corso', "%$corso%");
+
+    $risultati = array_merge($risultati, $qbE->getQuery()->getResult());
+
+    return $risultati;
+    }
+
 }

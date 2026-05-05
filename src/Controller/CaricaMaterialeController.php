@@ -1,4 +1,19 @@
 <?php
+namespace Controller;
+use Model\Esame;
+use Model\Appunto;
+use Model\Materiale;
+use Model\Insegnamento;
+use Model\CorsoDiLaurea;
+use Model\File;
+use Model\Studente;
+use Foundation\Persistent\PersistentManager;
+use PDOException;
+use Exception;
+use InvalidArgumentException;
+use RuntimeException;
+use Model\Tag;
+
 class CaricaMaterialeController {
 
     private bool $termini_condizioni; // Variabile per memorizzare se l'utente ha accettato i termini e condizioni
@@ -8,7 +23,7 @@ class CaricaMaterialeController {
      * @param bool $termini_condizioni
      */
     public function __construct(bool $termini_condizioni = false) {
-        $this->termini_condizioni = $termini_condizioni;
+        $this->termini_condizioni = $termini_condizioni?: false;
     }
 
 
@@ -44,17 +59,83 @@ class CaricaMaterialeController {
      * Carica il materiale nel sistema
      * @param string $titolo
      * @param string $insegnamento
-     * @param string $tipologia
      * @param string $corso_di_laurea
      * @param string $tag
-     * @param string $file
+     * @param File $file
      * @param bool $termini_condizioni
      * @return bool
      */
-    public function Carica_materiale(string $titolo, string $insegnamento, string $tipologia, string $corso_di_laurea, string $tag, string $file, bool $termini_condizioni): bool {
-        return true;
-        // logica per caricare il materiale nel sistema
+  
+    
+ public function caricaMateriale(
+    File $file,
+    string $tipo,
+    string $insegnamentoInput,
+    ?string $tag,
+    string $titolo,
+    int $id_studente,
+): void
+{
+    $pm = PersistentManager::getInstance();
+
+
+    // 2. Recupero insegnamento dal DB
+    $insegnamento = $pm->findOneBy("Model\Insegnamento", [
+        "nomeInsegnamento" => $insegnamentoInput
+    ]);
+
+    if (!$insegnamento) {
+        throw new \RuntimeException("Insegnamento '$insegnamentoInput' non trovato");
     }
+
+    // 3. Recupero studente loggato (o fittizio)
+    $studente = $pm->findOneBy("Model\Studente", [
+        "id" => $id_studente
+    ]);
+
+    if (!$studente) {
+        throw new \RuntimeException("Studente non trovato");
+    }
+
+    // 4. Creo l’oggetto materiale in base al tipo
+    if ($tipo === "appunto") {
+
+        if ($tag === null) {
+            throw new \RuntimeException("Il tag è obbligatorio per gli appunti");
+        }
+
+        // converto il tag in enum
+        $tagEnum = Tag::tryFrom(strtolower($tag));
+        if (!$tagEnum) {
+            throw new \RuntimeException("Tag '$tag' non valido");
+        }
+
+        $materiale = new Appunto(
+            $titolo,
+            $file,
+            $insegnamento,
+            $studente,
+            $tagEnum
+        );
+
+    } elseif ($tipo === "esame") {
+
+        $materiale = new Esame(
+            $titolo,
+            $file,
+            $insegnamento,
+            $studente
+        );
+
+    } else {
+        throw new \RuntimeException("Tipo materiale non valido: $tipo");
+    }
+
+    // 5. Salvo il materiale
+    $pm->save($materiale);
+}
+
+
 
 
     /**

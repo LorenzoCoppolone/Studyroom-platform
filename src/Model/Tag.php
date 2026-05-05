@@ -2,7 +2,7 @@
 namespace Model;
 
 enum Tag: string {
-    case RIASSUNTO = "Riassunto";
-    case NOTE = "Note";
-    case ESERCIZI = "Esercizi";
+    case RIASSUNTO = "RIASSUNTO";
+    case NOTE = "NOTE";
+    case ESERCIZI = "ESERCIZI";
 }

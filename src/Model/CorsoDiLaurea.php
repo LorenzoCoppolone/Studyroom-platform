@@ -11,7 +11,7 @@ class CorsoDiLaurea {
     #[ORM\Id]
 
     #[ORM\Column(type: Types::STRING, unique: true)]
-    private int $codiceCorso;
+    private string $codiceCorso;
 
     #[ORM\Column(type: Types::STRING)]
     private string $nomeCorso;
