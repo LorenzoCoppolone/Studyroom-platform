@@ -9,7 +9,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 class CorsoDiLaurea {
 
     #[ORM\Id]
-
     #[ORM\Column(type: Types::STRING, unique: true)]
     private string $codiceCorso;
 

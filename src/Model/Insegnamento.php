@@ -8,10 +8,8 @@ use Doctrine\Common\Collections\Collection;
 #[ORM\Entity]
 class Insegnamento {
     
-    #[ORM\Id]
-
-    #[ORM\Column(type: Types::STRING, length: 10, unique: true)]
-    private string $codiceInsegnamento;
+    #[ORM\Column(type: Types::INTEGER), ORM\Id, ORM\GeneratedValue(strategy: "AUTO")]
+    private ?int $id = null;
 
     #[ORM\Column(type: Types::STRING)]
     private string $nomeInsegnamento;
@@ -34,7 +32,6 @@ class Insegnamento {
     */
 
     #[ORM\ManyToOne(targetEntity: CorsoDiLaurea::class, inversedBy: 'insegnamenti')]
-    
     #[ORM\JoinColumn(name: "corsoDiLaurea_codice", referencedColumnName: "codiceCorso")]
     private CorsoDiLaurea $corsoDiLaurea; //relazione molti a uno
 
