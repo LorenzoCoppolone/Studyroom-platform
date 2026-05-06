@@ -1,6 +1,7 @@
 <?php
 namespace Controller;
 use Foundation\Persistent\PersistentManager;
+use UI\viewRicercaMateriale;
 use PDOException;
 use Exception;
 use InvalidArgumentException;
@@ -11,14 +12,19 @@ class RicercaMaterialeController {
 
     /**
      * Esegue la ricerca dei materiali in base a un termine di ricerca.
-     * @param string $titolo Il titolo del materiale da cercare.
-     * @return array Un array di materiali che corrispondono al termine di ricerca.
      * @throws InvalidArgumentException Se il titolo del materiale è vuoto.
      * @throws Exception Se si verifica un errore durante la ricerca dei materiali.
      * @throws PDOException Se si verifica un errore di database durante la ricerca dei materiali.
      * @throws RuntimeException Se si verifica un errore imprevisto durante la ricerca dei materiali.
      */
-    public function cercaMaterialePerTitolocontroller(string $titolo): array {
+    public function cercaMaterialePerTitolocontroller(): void {
+
+        //istanzio la view
+        $viewRicercaMateriale = new viewRicercaMateriale();
+
+        //chiede alla view il titolo
+        $titolo = $viewRicercaMateriale->getTitolo();
+        //controlla che il titolo non sia vuoto
         if (empty($titolo)) {
             throw new InvalidArgumentException("Il titolo del materiale non può essere vuoto.");
         }
@@ -27,7 +33,9 @@ class RicercaMaterialeController {
         try {
         $pm = PersistentManager::getInstance(); // Ottieni l'istanza del PersistentManager
         $materiali = $pm->cercaMaterialePerTitolo($titolo);
-        return $materiali;
+        
+        // Mostra i materiali trovati nella view
+        viewRicercaMateriale->mostraMateriali($materiali);
 
     } catch (PDOException $e) {
         // Errore lato DB
@@ -53,9 +61,14 @@ class RicercaMaterialeController {
         * @throws PDOException Se si verifica un errore di database durante la ricerca dei materiali.
         * @throws RuntimeException Se si verifica un errore imprevisto durante la ricerca dei materiali.
         */
-        public function FiltraMaterialecontroller(string $titolo, string $insegnamento, string $tipologia, string $corso_di_laurea, string $tag): array {
+        public function FiltraMaterialecontroller(): void {
             // Logica per cercare i materiali filtrati nel database 
-            return [];
+            $viewRicercaMateriale = new viewRicercaMateriale();
+            $dati = $viewRicercaMateriale->getDatiFiltro();
+            $pm = PersistentManager::getInstance(); // Ottieni l'istanza del PersistentManager
+            $materiali = $pm->FiltraMateriale($dati['titolo'], $dati['insegnamento'], $dati['tipologia'], $dati['corso_di_laurea'], $dati['tag']);
+            // Mostra i materiali trovati nella view
+            viewRicercaMateriale->mostraMateriali($materiali);
         }
 
 
