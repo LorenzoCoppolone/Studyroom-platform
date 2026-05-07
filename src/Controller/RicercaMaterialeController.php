@@ -108,7 +108,7 @@ class RicercaMaterialeController {
 
             // Validazione del criterio tramite whitelist validation
             // $validi : lista dei soli valori che il controllore accetta
-            $validi = ['titolo', 'data', 'downlaod'];
+            $validi = ['titolo', 'data', 'download'];
             if(!in_array($ordinamento, $validi, true)) {
                 // Uso 'data' come valore di ripiego se il criterio di ordinamento non si trva in $validi
                 $ordinamento = 'data';
