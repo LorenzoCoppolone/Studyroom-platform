@@ -31,7 +31,7 @@ class RicercaMaterialeController {
 
         // Interrogo la Foundation e passo i risultati alla view
         try {
-        // Ottiengo l'istanza del PersistentManager
+        // Ottengo l'istanza del PersistentManager
         $pm        = PersistentManager::getInstance(); 
         $materiali = $pm->cercaMaterialePerTitolo($titolo);
         

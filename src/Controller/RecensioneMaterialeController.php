@@ -1,24 +1,100 @@
 <?php
-class RecensioneMaterialeController {
 
-    /**
-     * Avvia la recensione del materiale, mostrando il modulo di recensione.
-     * @return string
-    */
-    public function Avvia_recensione(): string {
-        return "___";
-        // logica per avviare la recensione del materiale, mostrando il modulo di recensione
+namespace Controller;
+ 
+use Foundation\Persistent\PersistentManager;
+use Foundation\Session;
+use UI\ViewRecensioneMateriale;
+use PDOException;
+use RuntimeException;
+use InvalidArgumentException;
+ 
+/**
+ * Gestisce l'inserimento, la modifica e l'eliminazione di una recensione
+ */
+class recensioneMaterialeController {
+
+    public function inserisciRecensioneController() : void {
+
+        // Istanzio la view
+        $view = new ViewRecensioneMateriale();
+
+        // Recupero i dati di input
+        $idMateriale = $view->getIdMateriale();
+        $voto        = $view->getVoto();
+        $commento    = $view->getCommento();
+
+        // Recupero l'Id Utente dalla Session
+        $idUtente = Session::getInstance()->getIdUtenteLoggato();
+
+        // Validazione
+        if (empty($idUtente)) {
+            throw new InvalidArgumentException("Utente non autenticato.");
+        }
+
+        /** 
+        *if (($commento->size)>255) {
+        *    throw new InvalidArgumentException("Il commento non puo' superare i di 255 caratteri!")
+        *}
+        */
+        // Logica di inserimento
+        try {
+            $pm = PersistentManager::getIstance();
+
+            // Verificare: uno studente può recensire un materiale una sola volta
+            $recensioneEsistente = $pm->trovaRecensionePerUtenteEMateriale($idUtente, $idMateriale);
+
+            if($recensioneEsistente !== null) {
+                throw new InvalidArgumentException("Hai già recensito questo materiale.");
+            }
+
+            // creo la recensione
+            $pm->creaRecensione($idUtente, $idMateriale, $voto, $commento);
+
+            // Mostro la conferma
+            $view->mostraPopUpRecensione();
+
+        } catch(PDOExcception $e) {
+            throw new RuntimeException("Errore DB durante l'inserimento della recensione': " . $e->getMessage());
+        } catch (\Exception $e) {
+            throw new RuntimeException("Errore imprevisto: " . $e->getMessage());
+        }
     }
 
-    /**
-     * Invia la recensione del materiale.
-     * @param string $commento Il commento della recensione.
-     * @param int $valutazione La valutazione del materiale (ad esempio, da 1 a 5).
-     * @return bool True se la recensione è stata inviata con successo, false altrimenti.
-     */
-    public function Invia_recensione(string $commento, int $valutazione): bool {
-        // logica per inviare la recensione del materiale
-        return true; // Restituisce true se la recensione è stata inviata con successo
+    public function eliminaRecensione() : void {
+
+        // Istanzio la view
+        $view = new ViewRecensioneMateriale();
+
+        // Recupero i dati di input
+        $idMateriale = $view->getIdMateriale();
+
+        // Recupero l'Id Utente dalla Session
+        $idUtente = Session::getInstance()->getIdUtenteLoggato();
+
+        // Validazione
+        if (empty($idUtente)) {
+            throw new InvalidArgumentException("Utente non autenticato.");
+        }
+        
+        // Logica di eliminazione
+        try {
+            $pm = PersistentManager::getIstance();
+
+            // Trovo la recensione
+            $recensione = $pm->findRecensione($idUtente, $idMateriale);
+
+            // Eliminazione
+            $pm->eliminaRecensione($recensione);
+
+            // Mostro la conferma all'utente
+            $view->mostraPopUpConferma();
+
+        } catch(PDOExcception $e) {
+            throw new RuntimeException("Errore DB durante l'eliminazione della recensione': " . $e->getMessage());
+        } catch (\Exception $e) {
+            throw new RuntimeException("Errore imprevisto: " . $e->getMessage());
+        }
     }
 
 }
