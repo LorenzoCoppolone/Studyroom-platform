@@ -1,18 +1,17 @@
 <?php
+
 namespace UI;
 
 class viewRicercaMateriale {
 
+// Funzione che restituisce il titolo inserito dall'utente
     public function getTitolo(): string {
         return $_POST['titolo'];
     }
-
-    public function mostraMateriali(array $materiali): void {
-        // Mostra i materiali trovati nella view
-    }
-
+// Funzione che restituisce tutti i dati inseriti dall'utente
     public function getDatiFiltro(): array {
         return [
+            // prelievo in $_POST dei valori associati alle chiavi sotto elencate
             'titolo' => $_POST['titolo'],
             'insegnamento' => $_POST['insegnamento'],
             'tipologia' => $_POST['tipologia'],
@@ -20,4 +19,14 @@ class viewRicercaMateriale {
             'tag' => $_POST['tag']
         ];
     }
+// Funzione che restituisce in che modo l'utente vuole ricevere i dati
+    public function getOrdinamento() : string {
+         // prelievo in $_POST del valore associato alla chiave ordinamento
+        return $_POST['ordinamento'];
+    }
+// Funzione che mostra i materiali trovati (?-l`interfaccia va implementata qui-?)
+    public function mostraMateriali(array $materiale) : void {
+
+    }
+     
 }
