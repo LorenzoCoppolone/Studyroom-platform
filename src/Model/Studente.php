@@ -22,7 +22,7 @@ class Studente extends Utente {
      * ma ogni segnalazione e associata a un solo utente segnalante.
     */
 
-    #[ORM\OneToMany(targetEntity: Segnalazione::class, mappedBy: "segnalante")]
+    #[ORM\OneToMany(targetEntity: Segnalazione::class, mappedBy: "segnalante", fetch: "EXTRA_LAZY")]
     private Collection $segnalazioniFatte;
 
     /** @var Collection<int, Materiale>
@@ -31,7 +31,7 @@ class Studente extends Utente {
      * ma ogni materiale è associato a un solo utente.
     */
 
-    #[ORM\OneToMany(targetEntity: Materiale::class, mappedBy: "studente")]
+    #[ORM\OneToMany(targetEntity: Materiale::class, mappedBy: "studente", fetch: "EXTRA_LAZY")]
     private Collection $uploadEffettuati;
 
     /** @var Collection<int, Download>
@@ -40,7 +40,7 @@ class Studente extends Utente {
      * ma ogni download è associato a un solo utente.
     */
 
-    #[ORM\OneToMany(targetEntity: Download::class, mappedBy: "studente")]
+    #[ORM\OneToMany(targetEntity: Download::class, mappedBy: "studente", fetch: "EXTRA_LAZY")]
     private Collection $downloadEffettuati;
 
     /** @var Collection<int, Preferito>
@@ -49,10 +49,10 @@ class Studente extends Utente {
      * ma ogni preferito è associato a un solo utente.
     */
 
-    #[ORM\OneToMany(targetEntity: Preferito::class, mappedBy: "studente")]
+    #[ORM\OneToMany(targetEntity: Preferito::class, mappedBy: "studente", fetch: "EXTRA_LAZY")]
     private Collection $preferiti;
 
-    #[ORM\OneToMany(targetEntity: Recensione::class, mappedBy: "studente")]
+    #[ORM\OneToMany(targetEntity: Recensione::class, mappedBy: "studente", fetch: "EXTRA_LAZY")]
     private Collection $recensioni;
 
     /**

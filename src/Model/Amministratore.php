@@ -15,7 +15,7 @@ class Amministratore extends Utente{
     * ma ogni segnalazione è gestita da un solo amministratore.
     */
     
-    #[ORM\OneToMany(targetEntity: Segnalazione::class, mappedBy: "amministratore")]
+    #[ORM\OneToMany(targetEntity: Segnalazione::class, mappedBy: "amministratore", fetch: "EXTRA_LAZY")]
     private Collection $segnalazioni;
 
      /**

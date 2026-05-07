@@ -30,7 +30,7 @@ abstract class Materiale {
      * ma ogni segnalazione è associata a un solo materiale.
     */
 
-    #[ORM\OneToMany(targetEntity: Segnalazione::class, mappedBy: "materiale")]
+    #[ORM\OneToMany(targetEntity: Segnalazione::class, mappedBy: "materiale", fetch: "EXTRA_LAZY")]
     protected Collection $segnalazioni;
     
     /** @var Collection<int, Recensione> 
@@ -39,7 +39,7 @@ abstract class Materiale {
      * ma ogni recensione associata a un solo materiale
     */
 
-    #[ORM\OneToMany(targetEntity: Recensione::class, mappedBy: "materiale")]
+    #[ORM\OneToMany(targetEntity: Recensione::class, mappedBy: "materiale", fetch: "EXTRA_LAZY")]
     protected Collection $recensioni;
 
     /** @var Collection<int, Download> 
@@ -48,7 +48,7 @@ abstract class Materiale {
      * ma ogni download associato a un solo materiale
     */
 
-    #[ORM\OneToMany(targetEntity: Download::class, mappedBy: "materiale")]
+    #[ORM\OneToMany(targetEntity: Download::class, mappedBy: "materiale", fetch: "EXTRA_LAZY")]
     protected Collection $downloads;
 
     /** @var Collection<int, Preferito>
@@ -57,7 +57,7 @@ abstract class Materiale {
      * ma ogni preferito associato a un solo materiale
      */
 
-    #[ORM\OneToMany(targetEntity: Preferito::class, mappedBy: "materiale")]
+    #[ORM\OneToMany(targetEntity: Preferito::class, mappedBy: "materiale", fetch: "EXTRA_LAZY")]
     protected Collection $preferiti;
 
     /** @var Insegnamento
