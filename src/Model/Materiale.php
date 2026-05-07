@@ -92,19 +92,15 @@ abstract class Materiale {
         File $file,
         Insegnamento $insegnamento,
         Studente $studente,
-        Collection $segnalazioni = new ArrayCollection(),
-        Collection $recensioni = new ArrayCollection(),
-        Collection $downloads = new ArrayCollection(),
-        Collection $preferiti = new ArrayCollection()
         ) {
         $this->titolo = $titolo;
         $this->file = $file;
         $this->insegnamento = $insegnamento;
         $this->studente = $studente;
-        $this->segnalazioni = $segnalazioni;
-        $this->recensioni = $recensioni;
-        $this->downloads = $downloads;
-        $this->preferiti = $preferiti;
+        $this->segnalazioni = new ArrayCollection();
+        $this->recensioni = new ArrayCollection();
+        $this->downloads = new ArrayCollection();
+        $this->preferiti = new ArrayCollection();
     }
 
     /**

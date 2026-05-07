@@ -26,7 +26,6 @@ class Amministratore extends Utente{
      * @param string $cognome Cognome dell'amministratore.
      * @param string $email Email dell'amministratore.
      * @param string $passwordHash Password dell'amministratore.
-     * @param Collection $segnalazioniRicevute Segnalazioni ricevute dall'amministratore.
      */ 
 
     public function __construct(
@@ -35,7 +34,6 @@ class Amministratore extends Utente{
         string $cognome, 
         string $email, 
         string $passwordHash,
-        Collection $segnalazioni = new ArrayCollection()
         ) {
         parent::__construct(
             $id, $nome, 
@@ -43,7 +41,7 @@ class Amministratore extends Utente{
             $email, 
             $passwordHash
             );
-        $this->segnalazioni = $segnalazioni;
+        $this->segnalazioni = new ArrayCollection();
     }
 
     /**

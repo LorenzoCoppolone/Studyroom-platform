@@ -52,6 +52,9 @@ class Studente extends Utente {
     #[ORM\OneToMany(targetEntity: Preferito::class, mappedBy: "studente")]
     private Collection $preferiti;
 
+    #[ORM\OneToMany(targetEntity: Recensione::class, mappedBy: "studente")]
+    private Collection $recensioni;
+
     /**
      * Costruttore di studente.
      * 
@@ -75,11 +78,7 @@ class Studente extends Utente {
         string $email, 
         string $passwordHash, 
         string $username, 
-        bool $stato, 
-        Collection $segnalazioniFatte = new ArrayCollection(), 
-        Collection $uploadEffettuati = new ArrayCollection(), 
-        Collection $downloadEffettuati = new ArrayCollection(), 
-        Collection $preferiti = new ArrayCollection()
+        bool $stato,
         ) {
         parent::__construct(
             $id, 
@@ -90,10 +89,11 @@ class Studente extends Utente {
             );
         $this->stato = true;
         $this->username = $username?:"";
-        $this->segnalazioniFatte = $segnalazioniFatte?:new ArrayCollection();
-        $this->uploadEffettuati = $uploadEffettuati?:new ArrayCollection();
-        $this->downloadEffettuati = $downloadEffettuati?:new ArrayCollection();
-        $this->preferiti = $preferiti?:new ArrayCollection();
+        $this->segnalazioniFatte = new ArrayCollection();
+        $this->uploadEffettuati = new ArrayCollection();
+        $this->downloadEffettuati = new ArrayCollection();
+        $this->preferiti = new ArrayCollection();
+        $this->recensioni = new ArrayCollection();
     }
 
 
@@ -189,4 +189,17 @@ class Studente extends Utente {
         $this->preferiti[] = $preferiti;
     }
     
+     /** @return Collection<int, Recensione>
+      * Restituisce le recensioni effettuate dallo studente.
+      */
+    public function getRecensioni(): Collection {
+         return $this->recensioni;
+    }
+
+    /** @param Recensione $recensioni
+     * Aggiunge una recensione effettuata dallo studente alla collezione delle recensioni effettuate.
+     */
+    public function setRecensioni(Recensione $recensioni): void {
+        $this->recensioni[] = $recensioni;
+    }
 }

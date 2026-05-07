@@ -46,11 +46,11 @@ abstract class Utente {
         string $email, 
         string $passwordHash
         ) {
-        $this->id = $id?:0;
-        $this->nome = $nome?:"";
-        $this->cognome = $cognome?:"";
-        $this->email = $email?:"";
-        $this->passwordHash = $passwordHash?:"";
+        $this->id = $id;
+        $this->nome = $nome;
+        $this->cognome = $cognome;
+        $this->email = $email;
+        $this->passwordHash = $passwordHash;
     }
 
     /**

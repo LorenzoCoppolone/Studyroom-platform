@@ -41,8 +41,6 @@ class Recensione {
     */
 
     #[ORM\ManyToOne(targetEntity: Studente::class, inversedBy: "recensioni")]
-    
-    #[ORM\JoinColumn(name: "studente_id", referencedColumnName: "id")]
     private Studente $studente;
 
     /**

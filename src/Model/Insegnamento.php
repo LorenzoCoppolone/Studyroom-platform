@@ -48,12 +48,11 @@ class Insegnamento {
         int $codiceInsegnamento,
         string $nomeInsegnamento,
         CorsoDiLaurea $corsoDiLaurea,
-        Collection $materiali = new ArrayCollection()
         ){
-        $this->codiceInsegnamento = $codiceInsegnamento;
+        $this->id = $codiceInsegnamento;
         $this->nomeInsegnamento = $nomeInsegnamento;
         $this->corsoDiLaurea = $corsoDiLaurea;
-        $this->materiali = $materiali;
+        $this->materiali = new ArrayCollection();
     }
 
     /**
@@ -62,7 +61,7 @@ class Insegnamento {
      * @return int Il codice dell'insegnamento.
      */
     public function getCodiceInsegnamento(): int {
-        return $this->codiceInsegnamento;
+        return $this->id;
     }
 
     /**
@@ -72,7 +71,7 @@ class Insegnamento {
      * @return void
      */
     public function setCodiceInsegnamento(int $codiceInsegnamento): void {
-        $this->codiceInsegnamento = $codiceInsegnamento;
+        $this->id = $codiceInsegnamento;
     }
 
     /**

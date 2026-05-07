@@ -20,10 +20,6 @@ class Appunto extends Materiale {
      * @param Insegnamento $insegnamento insegnamento associato al materiale.
      * @param Studente $studente studente che ha caricato il materiale.
      * @param File $file file associato al materiale.
-     * @param Collection $segnalazioni segnalazioni associate al materiale.
-     * @param Collection $recensioni recensioni associate al materiale.
-     * @param Collection $downloads downloads associate al materiale.
-     * @param Collection $preferiti preferiti associate al materiale.
      * @param  Tag $tag Tag degli appunti.
      */
     

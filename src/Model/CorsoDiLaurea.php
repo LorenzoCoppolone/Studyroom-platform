@@ -34,11 +34,10 @@ class CorsoDiLaurea {
     public function __construct(
         int $codiceCorso, 
         string $nomeCorso,
-        Collection $insegnamenti = new ArrayCollection()
         ) {
         $this->codiceCorso = $codiceCorso;
         $this->nomeCorso = $nomeCorso;
-        $this->insegnamenti = $insegnamenti;
+        $this->insegnamenti = new ArrayCollection();
     }
 
     /**
