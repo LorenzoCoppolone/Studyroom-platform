@@ -81,16 +81,31 @@ class PersistentManager {
     /**
      * Cerca materiali per titolo.
      * @param string $titolo Il titolo del materiale da cercare.
-     * @return array Un array di materiali che corrispondono al termine di ricerca.
+     * @return array Un array di materiali che corrispondono al termine di ricerca, ritorna ogetti materiale, studente, insegnamento, corso + i download per ognuno.
      */
    public function cercaMaterialePerTitolo(string $titolo): array {
     $qb = $this->em->createQueryBuilder();
-    $qb->select('m', 'i', 'c')
+    $qb->select('m.id as idMateriale',
+        'm.titolo as titoloMateriale',
+        'm.file_MymeTypeFile as tipoFile', 
+        'm.file_contenutoFile as contenutofile',
+     'i.nomeInsegnamento as insegnamento',
+      'c.nomeCorso as corso',
+      's.nome as studente',
+      'count(d.id) as numeroDownload',
+      'Average(m.valutazione) as mediaValutazione',
+      )
         ->from(\Model\Materiale::class, 'm')
+        ->leftjoin('m.downloads', 'd')
+        ->join('m.studente', 's')
         ->join('m.insegnamento', 'i')
         ->join('i.corsoDiLaurea', 'c')
+        ->join('m.recensioni', 'r')
         ->where('m.titolo LIKE :titolo')
-        ->setParameter('titolo', "%$titolo%");
+        ->setParameter('titolo', "%$titolo%")
+        ->groupBy('m.id');
+
+
     return $qb->getQuery()->getArrayResult();
 }
 
@@ -107,105 +122,147 @@ class PersistentManager {
  * @param string $tipologia La tipologia del materiale da cercare.
  * @param string $corso Il corso di laurea del materiale da cercare.
  * @param string $tag Il tag del materiale da cercare.
- * @return array Un array di materiali che corrispondono ai criteri di ricerca.
+ * @return array Un array di materiali che corrispondono ai criteri di ricerca, ritorna ogetti materiale, studente, insegnamento, corso + i download per ognuno.
  */
-public function FiltraMateriale(
-    string $titolo,
-    string $insegnamento,
-    string $tipologia,   // "appunto", "esame" oppure ""
-    string $corso,
-    string $tag
-) {
-    $risultati = [];
+public function FiltraMateriale(    
+    ?string $titolo,
+    ?string $insegnamento,
+    ?string $tipologia,   // "appunto", "esame" oppure ""
+    ?string $corso,
+    ?string $tag
+ ): array {
 
-    // -------------------------------------------------
-    // 1) SOLO APPUNTI
-    // -------------------------------------------------
-    if ($tipologia === "appunto") {
 
-        $qb = $this->em->createQueryBuilder();
 
-        $qb->select('a', 'i', 'c')
-            ->from(\Model\Appunto::class, 'a')
-            ->join('a.insegnamento', 'i')
-            ->join('i.corsoDiLaurea', 'c')
-            ->where('a.titolo LIKE :titolo')
-            ->andWhere('i.nomeInsegnamento LIKE :insegnamento')
-            ->andWhere('c.nomeCorso LIKE :corso')
-            ->setParameter('titolo', "%$titolo%")
-            ->setParameter('insegnamento', "%$insegnamento%")
-            ->setParameter('corso', "%$corso%");
+   $qb = $this->em->createQueryBuilder();
 
-        // filtro tag SOLO per Appunti
-        if (!empty($tag)) {
-            $qb->andWhere('a.tag LIKE :tag')
-               ->setParameter('tag', "%$tag%");
-        }
+   // Indipendentemente da esame o appunto la parte di query è la stessa
+   $qb->select('m.id as idMateriale',
+    'm.titolo as titoloMateriale',
+        'm.file_MymeTypeFile as tipoFile', 
+        'm.file_contenutoFile as contenutofile',
+     'i.nomeInsegnamento as insegnamento',
+      'c.nomeCorso as corso',
+      's.nome as studente',
+      'count(d.id) as numeroDownload',
+      'Average(m.valutazione) as mediaValutazione',
+      )
+        ->from(\Model\Materiale::class, 'm')
+        ->leftjoin('m.downloads', 'd')
+        ->join('m.studente', 's')
+        ->join('m.insegnamento', 'i')
+        ->join('i.corsoDiLaurea', 'c');
 
-        return $qb->getQuery()->getResult();
+
+    // Se il titolo non è vuoto, aggiungi una condizione di ricerca per il titolo
+    if (!empty($titolo)) {
+        $qb->where('m.titolo LIKE :titolo')
+        ->setParameter('titolo', "%$titolo%");
     }
 
-    //ricerca solo in esame e non in appunto
-    if ($tipologia === "esame") {
-
-        $qb = $this->em->createQueryBuilder();
-
-        $qb->select('e', 'i', 'c')
-            ->from(\Model\Esame::class, 'e')
-            ->join('e.insegnamento', 'i')
-            ->join('i.corsoDiLaurea', 'c')
-            ->where('e.titolo LIKE :titolo')
-            ->andWhere('i.nomeInsegnamento LIKE :insegnamento')
-            ->andWhere('c.nomeCorso LIKE :corso')
-            ->setParameter('titolo', "%$titolo%")
-            ->setParameter('insegnamento', "%$insegnamento%")
-            ->setParameter('corso', "%$corso%");
-
-        // niente tag per Esami
-
-        return $qb->getQuery()->getResult();
+    // Se l'insegnamento non è vuoto, aggiungi una condizione di ricerca per l'insegnamento
+    if (!empty($insegnamento)) {
+        $qb->andWhere('i.nomeInsegnamento = :insegnamento')
+        ->setParameter('insegnamento', $insegnamento);
     }
 
-    // -------------------------------------------------
-    // 3) STRINGA VUOTA → CERCA IN ENTRAMBI
-    // -------------------------------------------------
 
-    // APPUNTI
-    $qbA = $this->em->createQueryBuilder();
-    $qbA->select('a', 'i', 'c')
-        ->from(\Model\Appunto::class, 'a')
-        ->join('a.insegnamento', 'i')
-        ->join('i.corsoDiLaurea', 'c')
-        ->where('a.titolo LIKE :titolo')
-        ->andWhere('i.nomeInsegnamento LIKE :insegnamento')
-        ->andWhere('c.nomeCorso LIKE :corso')
-        ->setParameter('titolo', "%$titolo%")
-        ->setParameter('insegnamento', "%$insegnamento%")
-        ->setParameter('corso', "%$corso%");
+    // Se la tipologia non è vuota, aggiungi una condizione di ricerca per la tipologia
+    if (!empty($tipologia)) {
+        $qb->andWhere('m.tipologia = :tipologia')
+        ->setParameter('tipologia', $tipologia);
+    }
 
+
+    // Se il corso di laurea non è vuoto, aggiungi una condizione di ricerca per il corso di laurea
+    if (!empty($corso)) {
+        $qb->andWhere('c.nomeCorso = :corso')
+        ->setParameter('corso', $corso);
+    }
+
+
+    // Se il tag non è vuoto, aggiungi una condizione di ricerca per il tag
     if (!empty($tag)) {
-        $qbA->andWhere('a.tag LIKE :tag')
-            ->setParameter('tag', "%$tag%");
+        $qb->andWhere('m.tag = :tag')
+        ->setParameter('tag', $tag);
     }
 
-    $risultati = array_merge($risultati, $qbA->getQuery()->getResult());
 
-    // ESAMI
-    $qbE = $this->em->createQueryBuilder();
-    $qbE->select('e', 'i', 'c')
-        ->from(\Model\Esame::class, 'e')
-        ->join('e.insegnamento', 'i')
+    // Calcola il totale dei download per ogni materiale
+    $qb->expr()->count('m.downloads');
+
+
+    // Esegui la query, e ottieni i risultati come un array
+    return$qb->getQuery()->getArrayResult();
+    
+    }
+
+
+    
+    /**
+     * Ordina i materiali in base al criterio scelto dall'utente.
+     * @param string $criterio Il criterio di ordinamento.
+     * @return array Un array di materiali ordinati.
+     */
+    public function getMaterialeOrdinato(string $criterio): array {
+
+
+        $qb = $this->em->createQueryBuilder();
+
+
+
+        $qb->select('m.id as idMateriale',
+        'm.titolo as titoloMateriale',
+        'm.file_MymeTypeFile as tipoFile', 
+        'm.file_contenutoFile as contenutofile',
+     'i.nomeInsegnamento as insegnamento',
+      'c.nomeCorso as corso',
+      's.nome as studente',
+      'count(d.id) as numeroDownload',
+      'Average(m.valutazione) as mediaValutazione',
+      )
+
+        ->from(\Model\Materiale::class, 'm')
+        ->leftjoin('m.downloads', 'd')
+        ->join('m.studente', 's')
+        ->join('m.insegnamento', 'i')
         ->join('i.corsoDiLaurea', 'c')
-        ->where('e.titolo LIKE :titolo')
-        ->andWhere('i.nomeInsegnamento LIKE :insegnamento')
-        ->andWhere('c.nomeCorso LIKE :corso')
-        ->setParameter('titolo', "%$titolo%")
-        ->setParameter('insegnamento', "%$insegnamento%")
-        ->setParameter('corso', "%$corso%");
+        ->join('m.recensioni', 'r')
+        ->groupBy('m.id');
 
-    $risultati = array_merge($risultati, $qbE->getQuery()->getResult());
-
-    return $risultati;
+        if (strtolower($criterio) === 'download') {
+            $qb->orderBy('m.numeroDownload', 'DESC');
+        } elseif (strtolower($criterio) === 'valutazione') {
+            $qb->orderBy('m.mediaValutazione', 'DESC');
+        }
+    return $qb->getQuery()->getArrayResult();
     }
 
+
+
+
+    /**
+     * Trova preferito per studente e materiale.
+     * @param int $id_materiale L'ID del materiale.
+     * @param int $id_studente L'ID dello studente.
+     * @return array Un array di preferiti, altrimenti null.
+     */
+    public function trovaPreferitiPerUtenteEMateriale(int $id_materiale, int $id_studente): array {
+        $qb = $this->em->createQueryBuilder();
+        $qb->select('m.id as idMateriale',
+        'm.titolo as titoloMateriale',
+        'm.file_MymeTypeFile as tipoFile', 
+        'm.file_contenutoFile as contenutofile')
+            ->join('p.materiale', 'm')
+            ->from(\Model\Preferito::class, 'p')
+            ->where('p.materiale = :id_materiale')
+            ->andWhere('p.studente = :id_studente')
+            ->setParameter('id_materiale', $id_materiale)
+            ->setParameter('id_studente', $id_studente);
+            
+        return $qb->getQuery()->getarrayResult();
+    }
+
+
+    
 }

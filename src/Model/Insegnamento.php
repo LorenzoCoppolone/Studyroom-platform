@@ -20,7 +20,7 @@ class Insegnamento {
      * ma ogni materiale è associato a un solo insegnamento.
     */
 
-    #[ORM\OneToMany(mappedBy: 'insegnamento', targetEntity: Materiale::class)]
+    #[ORM\OneToMany(mappedBy: 'insegnamento', targetEntity: Materiale::class,fetch:"EXTRA_LAZY")]
     private Collection $materiali;
     
     /** @var CorsoDiLaurea

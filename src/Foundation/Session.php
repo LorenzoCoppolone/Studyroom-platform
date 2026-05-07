@@ -27,7 +27,7 @@ class Session {
     // simulazione utente loggato
     public static function getUser() {
         if (!isset(self::$data['user'])) {
-            $user = new Studente(1, "", "", "", "", "", true, new ArrayCollection(), new ArrayCollection(), new ArrayCollection(), new ArrayCollection());
+            $user = new Studente(1, "", "", "", "", "", true,);
             $user->setId(1);
             $user->setNome("TestUser");
             self::$data['user'] = $user;

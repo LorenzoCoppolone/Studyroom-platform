@@ -24,6 +24,11 @@ use Model\File;
 
 //TESTING CARICAMENTO
 
-$controller = new CaricaMaterialeController();
-$file = new File(random_bytes(1024), "application/pdf", 1024);
-$result = $controller->caricaMateriale($file, "esame", "FISICA APPLICATA","", "analisi 1 esame engel",1);
+try {
+    $controller = new CaricaMaterialeController();
+} catch (InvalidArgumentException $e) {
+    echo "ERRORE DI VALIDAZIONE: " . $e->getMessage();
+
+} catch (Exception $e) {
+    echo "ERRORE GENERICO: " . $e->getMessage();
+}
