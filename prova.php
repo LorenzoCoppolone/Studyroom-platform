@@ -24,6 +24,10 @@ use Model\File;
 
 //TESTING CARICAMENTO
 
-$controller = new CaricaMaterialeController();
-$file = new File(random_bytes(1024), "application/pdf", 1024);
-$result = $controller->caricaMateriale($file, "esame", "FISICA APPLICATA","", "analisi 1 esame engel",1);
+//$controller = new CaricaMaterialeController();
+//$file = new File(random_bytes(1024), "application/pdf", 1024);
+//$result = $controller->caricaMateriale($file, "esame", "ANALISI MATEMATICA I","", "analisi 1 esame engel",1);
+
+$pm = PersistentManager::getInstance();
+$result = $pm->cercaMaterialePerTitolo("analisi 1",0,8);
+print_r($result);

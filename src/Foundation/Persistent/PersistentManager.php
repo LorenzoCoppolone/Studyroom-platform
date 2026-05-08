@@ -83,30 +83,41 @@ class PersistentManager {
      * @param string $titolo Il titolo del materiale da cercare.
      * @return array Un array di materiali che corrispondono al termine di ricerca.
      */
-  public function cercaMaterialePerTitolo(string $titolo): array {
+  public function cercaMaterialePerTitolo(string $titolo, int $offset, int $limit): array {
     $qb = $this->em->createQueryBuilder();
-    $qb->select('m.id as idMateriale',
+    $qb->select(
+        'm.id as idMateriale',
         'm.titolo as titoloMateriale',
-        'm.file_MymeTypeFile as tipoFile', 
-        'm.file_contenutoFile as contenutofile',
-     'i.nomeInsegnamento as insegnamento',
-      'c.nomeCorso as corso',
-      's.nome as studente',
-      'count(d.id) as numeroDownload',
-      'Average(m.valutazione) as mediaValutazione',
+        'm.file.MimeTypeFile AS tipoFile',
+        'm.file.contenutoFile AS contenutoFile',
+        'i.nomeInsegnamento as insegnamento',
+        'c.nomeCorso as corso_di_Laurea',
+        's.nome as nome_studente',
+        'COUNT(d.id) as numeroDownload',
+        'AVG(r.voto) as mediaValutazione',
       )
         ->from(\Model\Materiale::class, 'm')
         ->leftjoin('m.downloads', 'd')
         ->join('m.studente', 's')
         ->join('m.insegnamento', 'i')
         ->join('i.corsoDiLaurea', 'c')
-        ->join('m.recensioni', 'r')
+        ->leftjoin('m.recensioni', 'r')
         ->where('m.titolo LIKE :titolo')
         ->setParameter('titolo', "%$titolo%")
-        ->groupBy('m.id');
+        ->groupBy('m.id')
+        ->setFirstResult($offset)
+        ->setMaxResults($limit);
 
+        $risultati = $qb->getQuery()->getArrayResult();
 
-    return $qb->getQuery()->getArrayResult();
+foreach ($risultati as &$row) {
+    if (is_resource($row['contenutoFile'])) {
+        $binario = stream_get_contents($row['contenutoFile']);
+        $row['contenutoFile'] = base64_encode($binario);
+    }
+}
+
+    return $risultati;
 }
 
 
@@ -139,13 +150,12 @@ public function FiltraMateriale(
    // Indipendentemente da esame o appunto la parte di query è la stessa
    $qb->select('m.id as idMateriale',
     'm.titolo as titoloMateriale',
-        'm.file_MymeTypeFile as tipoFile', 
-        'm.file_contenutoFile as contenutofile',
-     'i.nomeInsegnamento as insegnamento',
-      'c.nomeCorso as corso',
-      's.nome as studente',
-      'count(d.id) as numeroDownload',
-      'Average(m.valutazione) as mediaValutazione',
+        'm.File as File_Materiale',
+     'i.Insegnamento as insegnamento',
+      'c.Corso as corso',
+      's.Studente as studente',
+      'COUNT(d.id) as numeroDownload',
+      'AVG(m.valutazione) as mediaValutazione',
       )
         ->from(\Model\Materiale::class, 'm')
         ->leftjoin('m.downloads', 'd')
@@ -213,13 +223,12 @@ public function FiltraMateriale(
 
         $qb->select('m.id as idMateriale',
         'm.titolo as titoloMateriale',
-        'm.file_MymeTypeFile as tipoFile', 
-        'm.file_contenutoFile as contenutofile',
-     'i.nomeInsegnamento as insegnamento',
-      'c.nomeCorso as corso',
-      's.nome as studente',
-      'count(d.id) as numeroDownload',
-      'Average(m.valutazione) as mediaValutazione',
+        'm.file as File_Materiale',
+     'i.Insegnamento as insegnamento',
+      'c.Corso as corso',
+      's.Studente as studente',
+      'COUNT(d.id) as numeroDownload',
+      'AVG(m.valutazione) as mediaValutazione',
       )
 
         ->from(\Model\Materiale::class, 'm')
@@ -251,8 +260,8 @@ public function FiltraMateriale(
         $qb = $this->em->createQueryBuilder();
         $qb->select('m.id as idMateriale',
         'm.titolo as titoloMateriale',
-        'm.file_MymeTypeFile as tipoFile', 
-        'm.file_contenutoFile as contenutofile')
+        'm.File as File_Materiale',
+        )
             ->from(\Model\Preferito::class, 'p')
             ->join('p.materiale', 'm')
             ->where('m.id = :id_materiale')
@@ -268,8 +277,8 @@ public function FiltraMateriale(
         $qb = $this->em->createQueryBuilder();
         $qb->select('m.id as idMateriale',
         'm.titolo as titoloMateriale',
-        'm.file_MymeTypeFile as tipoFile', 
-        'm.file_contenutoFile as contenutofile')
+        'm.File as File_Materiale',
+        )
             ->from(\Model\Download::class, 'd')
             ->join('d.materiale', 'm')
             ->where('m.id = :id_materiale')
