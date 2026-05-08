@@ -6,6 +6,11 @@ use Doctrine\DBAL\Types\Types;
 
 
 #[ORM\Entity]
+#[ORM\Table(uniqueConstraints: [
+        new ORM\UniqueConstraint(
+            name: "unique_segnalazione",
+            columns: ["materialeSegnalato_id", "segnalante_id"])]
+)]
 class Segnalazione {
 
     #[ORM\Column(type: Types::INTEGER), ORM\Id, ORM\GeneratedValue(strategy: "AUTO")]

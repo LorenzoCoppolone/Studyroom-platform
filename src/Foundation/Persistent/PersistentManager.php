@@ -4,7 +4,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Model\CorsoDiLaurea;
 use Model\Insegnamento;
 use Model\Materiale;
-
+use Model\Preferito;
+use Model\Download;
 class PersistentManager {
 
     private static ?PersistentManager $instance = null;
@@ -135,12 +136,15 @@ foreach ($risultati as &$row) {
  * @param string $tag Il tag del materiale da cercare.
  * @return array Un array di materiali che corrispondono ai criteri di ricerca, ritorna ogetti materiale, studente, insegnamento, corso + i download per ognuno.
  */
-public function FiltraMateriale(    
-    ?string $titolo,
+public function FiltraEOrdinaMateriale(    
+    string $titolo,
     ?string $insegnamento,
-    ?string $tipologia,   // "appunto", "esame" oppure ""
+    ?string $tipologia,   // "appunto", "esame"
     ?string $corso,
-    ?string $tag
+    ?string $tag,
+    ?string $criterio,
+    int $offset,
+    int $limit
  ): array {
 
 
@@ -148,27 +152,27 @@ public function FiltraMateriale(
    $qb = $this->em->createQueryBuilder();
 
    // Indipendentemente da esame o appunto la parte di query è la stessa
-   $qb->select('m.id as idMateriale',
-    'm.titolo as titoloMateriale',
-        'm.File as File_Materiale',
-     'i.Insegnamento as insegnamento',
-      'c.Corso as corso',
-      's.Studente as studente',
-      'COUNT(d.id) as numeroDownload',
-      'AVG(m.valutazione) as mediaValutazione',
+   $qb->select(
+        'm.id as idMateriale',
+        'm.titolo as titoloMateriale',
+        'm.file.MimeTypeFile AS tipoFile',
+        'm.file.contenutoFile AS contenutoFile',
+        'i.nomeInsegnamento as insegnamento',
+        'c.nomeCorso as corso_di_Laurea',
+        's.nome as nome_studente',
+        'COUNT(d.id) as numeroDownload',
+        'AVG(r.voto) as mediaValutazione',
       )
-        ->from(\Model\Materiale::class, 'm')
+        ->from(Materiale::class, 'm')
         ->leftjoin('m.downloads', 'd')
         ->join('m.studente', 's')
         ->join('m.insegnamento', 'i')
-        ->join('i.corsoDiLaurea', 'c');
-
-
-    // Se il titolo non è vuoto, aggiungi una condizione di ricerca per il titolo
-    if (!empty($titolo)) {
+        ->join('i.corsoDiLaurea', 'c')
+        ->leftjoin('m.recensioni', 'r');
         $qb->where('m.titolo LIKE :titolo')
         ->setParameter('titolo', "%$titolo%");
-    }
+    
+
 
     // Se l'insegnamento non è vuoto, aggiungi una condizione di ricerca per l'insegnamento
     if (!empty($insegnamento)) {
@@ -178,10 +182,14 @@ public function FiltraMateriale(
 
 
     // Se la tipologia non è vuota, aggiungi una condizione di ricerca per la tipologia
-    if (!empty($tipologia)) {
-        $qb->andWhere('m.tipologia = :tipologia')
-        ->setParameter('tipologia', $tipologia);
+    if (strtolower($tipologia) === "appunto") {
+        $qb->andWhere('m INSTANCE OF Model\Appunto')
+           ->addselect('m', "'APPUNTO' AS tipologia");
+    } elseif (strtolower($tipologia) === "esame") {
+        $qb->andWhere('m INSTANCE OF Model\Esame')
+           ->addselect('m', "'ESAME' AS tipologia");
     }
+      
 
 
     // Se il corso di laurea non è vuoto, aggiungi una condizione di ricerca per il corso di laurea
@@ -197,55 +205,43 @@ public function FiltraMateriale(
         ->setParameter('tag', $tag);
     }
 
+    $qb->groupBy('m.id');
 
-    // Calcola il totale dei download per ogni materiale
-    $qb->expr()->count('m.downloads');
+     // controllo per il criterio, in base alla scelta si ordineranno i materiali
+    if (!empty($criterio) && strtolower($criterio) === 'download') {
+        $qb->orderBy('numeroDownload', 'DESC');
+    } elseif (!empty($criterio) && strtolower($criterio) === 'valutazione') {
+        $qb->orderBy('mediaValutazione', 'DESC');
+    }
+
+
+    //raggruppa per id materiale e restituisci i primi limit materiali
+    $qb->setFirstResult($offset)
+       ->setMaxResults($limit);
+
+
 
 
     // Esegui la query, e ottieni i risultati come un array
-    return$qb->getQuery()->getArrayResult();
-    
-    }
-
-
-    
-    /**
-     * Ordina i materiali in base al criterio scelto dall'utente.
-     * @param string $criterio Il criterio di ordinamento.
-     * @return array Un array di materiali ordinati.
-     */
-    public function getMaterialeOrdinato(string $criterio): array {
-
-
-        $qb = $this->em->createQueryBuilder();
+    $result = $qb->getQuery()->getArrayResult();
 
 
 
-        $qb->select('m.id as idMateriale',
-        'm.titolo as titoloMateriale',
-        'm.file as File_Materiale',
-     'i.Insegnamento as insegnamento',
-      'c.Corso as corso',
-      's.Studente as studente',
-      'COUNT(d.id) as numeroDownload',
-      'AVG(m.valutazione) as mediaValutazione',
-      )
-
-        ->from(\Model\Materiale::class, 'm')
-        ->leftjoin('m.downloads', 'd')
-        ->join('m.studente', 's')
-        ->join('m.insegnamento', 'i')
-        ->join('i.corsoDiLaurea', 'c')
-        ->join('m.recensioni', 'r')
-        ->groupBy('m.id');
-
-        if (strtolower($criterio) === 'download') {
-            $qb->orderBy('m.numeroDownload', 'DESC');
-        } elseif (strtolower($criterio) === 'valutazione') {
-            $qb->orderBy('m.mediaValutazione', 'DESC');
+    // ciclo per ottenere il binario del file e lo codifico in base 64
+    foreach ($result as &$row) {
+        if (is_resource($row['contenutoFile'])) {
+            $binario = stream_get_contents($row['contenutoFile']);
+            $row['contenutoFile'] = base64_encode($binario);
         }
-    return $qb->getQuery()->getArrayResult();
     }
+
+    // Restituisci i risultati, il contenuto del file è binario codificato in base 64
+    return $result;
+    
+    }
+
+
+
 
 
 
@@ -262,7 +258,7 @@ public function FiltraMateriale(
         'm.titolo as titoloMateriale',
         'm.File as File_Materiale',
         )
-            ->from(\Model\Preferito::class, 'p')
+            ->from(Preferito::class, 'p')
             ->join('p.materiale', 'm')
             ->where('m.id = :id_materiale')
             ->andWhere('p.studente_id = :id_studente')
@@ -275,11 +271,12 @@ public function FiltraMateriale(
 
     public function trovaDownloadPerUtente(int $id_materiale, int $id_studente): array {
         $qb = $this->em->createQueryBuilder();
-        $qb->select('m.id as idMateriale',
+        $qb->select(
+        'm.id as idMateriale',
         'm.titolo as titoloMateriale',
         'm.File as File_Materiale',
         )
-            ->from(\Model\Download::class, 'd')
+            ->from(Download::class, 'd')
             ->join('d.materiale', 'm')
             ->where('m.id = :id_materiale')
             ->andWhere('d.studente_id = :id_studente')

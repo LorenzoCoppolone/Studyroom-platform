@@ -28,15 +28,14 @@ class Amministratore extends Utente{
      * @param string $passwordHash Password dell'amministratore.
      */ 
 
-    public function __construct(
-        int $id, 
+    public function __construct( 
         string $nome, 
         string $cognome, 
         string $email, 
         string $passwordHash,
         ) {
         parent::__construct(
-            $id, $nome, 
+            $nome, 
             $cognome, 
             $email, 
             $passwordHash

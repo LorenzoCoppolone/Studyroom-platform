@@ -60,7 +60,7 @@ class Insegnamento {
      * 
      * @return int Il codice dell'insegnamento.
      */
-    public function getCodiceInsegnamento(): int {
+    public function getIdInsegnamento(): int {
         return $this->id;
     }
 
@@ -70,7 +70,7 @@ class Insegnamento {
      * @param int $codiceInsegnamento Nuovo codice.
      * @return void
      */
-    public function setCodiceInsegnamento(int $codiceInsegnamento): void {
+    public function setIdInsegnamento(int $codiceInsegnamento): void {
         $this->id = $codiceInsegnamento;
     }
 

@@ -6,6 +6,11 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
 
 #[ORM\Entity]
+#[ORM\Table(uniqueConstraints: [
+        new ORM\UniqueConstraint(
+            name: "unique_recensione",
+            columns: ["materiale_id", "studente_id"])]
+)]
 class Recensione {
 
     #[ORM\Id]
