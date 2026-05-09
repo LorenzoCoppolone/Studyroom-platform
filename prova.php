@@ -41,7 +41,6 @@ $mat2 = new Esame("esercizi analisi dei segnali franco",$file, $insegnamento, $s
 $pm->save($mat1);
 $pm->save($mat2);
 */
-$studente = new Studente("sane", "zaratustra", "sane.zaratustra@student.univaq.it", "recanati", "zava");
-$pm->save($studente);
-$result = $pm->FiltraMateriale("analisi","","","","","valutazione",0,3);
+
+$result = $pm->CercaMateriale("a","","","","","",0,2);
 print_r($result);
