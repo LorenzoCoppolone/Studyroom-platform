@@ -78,13 +78,13 @@ class PersistentManager {
  */
 public function CercaMateriale(    
     string $titolo,
-    ?string $insegnamento,
-    ?string $tipologia,   // "appunto", "esame"
-    ?string $corso,
-    ?string $tag,
-    ?string $criterio,
     int $offset,
-    int $limit
+    int $limit,
+    string $insegnamento = "",
+    string $tipologia = "",   // "appunto", "esame"
+    string $corso = "",
+    string $tag = "",
+    string $criterio = "",
  ): array {
 
 
