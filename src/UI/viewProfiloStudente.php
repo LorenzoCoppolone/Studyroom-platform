@@ -2,11 +2,28 @@
 namespace UI;
 class viewProfiloStudente {
     
-    public function MostraProfilo() : void {
+    public function MostraProfiloStudente() : void {
         // logica per mostrare il profilo dell'utente
     }
 
-    public function MostraRecensioni( array $recensioni) : void {
+    public function MostraPreferitiStudente( array $recensioni) : void {
+        // logica per mostrare i preferiti dell'utente
+    }
+
+    public function MostraDownloadStudente( array $recensioni) : void {
+        // logica per mostrare i download dell'utente
+    }
+
+
+    public function MostraSegnalazioniStudente( array $recensioni) : void {
+        // logica per mostrare le segnalazioni dell'utente
+    }
+
+
+    public function MostraMaterialiStudente( array $recensioni) : void {
+        // logica per mostrare le recensioni dell'utente
+    }
+    public function MostraRecensioniStudente( array $recensioni) : void {
         // logica per mostrare le recensioni dell'utente
     }
 
@@ -19,9 +36,9 @@ class viewProfiloStudente {
     }
 
 
-    public function GetDatiUtente() : array {
+    public function GetDatiStudente() : array {
 
-    return [];
+    return ["bottonePremuto"=>$_POST['bottonePremuto']]; // restituisce il valore del bottone premuto
 
        
     }

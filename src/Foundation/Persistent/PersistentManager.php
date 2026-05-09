@@ -85,7 +85,7 @@ public function CercaMateriale(
     string $corso = "",
     string $tag = "",
     string $criterio = "",
- ): array {
+): array {
 
 
 
@@ -183,10 +183,10 @@ public function CercaMateriale(
     // ciclo per ottenere il binario del file e lo codifico in base 64
     foreach ($result as &$row) {
         if (is_resource($row['contenutoFile'])) {
-            $binario = stream_get_contents($row['contenutoFile']);
-            $row['contenutoFile'] = base64_encode($binario);
-        }
-    }
+            $binario = stream_get_contents($row['contenutoFile']); // BISOGNEREBBE PENSARE AD UNA SOLUZIONE CON JS,
+            $row['contenutoFile'] = base64_encode($binario);     // IN MODO CHE VENGA RESTITUITA SOLO LA PRIMA PAGINA DEL FILE
+        }   //PROBABILMENTE NON SI SELEZIONA IL FILE NELLA QUERY MA SE LO PRENDE DIRETTAMENTE JS TRAMITE L'ID
+    }     //STESSA COSA PER TUTTI I METODI CHE IMPLEMENTANO QUESTO FOR.
 
     // Restituisci i risultati, il contenuto del file è binario codificato in base 64
     return $result;
@@ -208,7 +208,7 @@ public function CercaMateriale(
      * @param int $limit Il limite per la paginazione.
      * @return array Un array di preferiti, altrimenti null.
      */
-    public function trovaPreferitiPerUtente(int $id_studente, string $criterio, int $offset, int $limit): array {
+    public function trovaPreferitiPerUtente(int $id_studente, int $offset, int $limit): array {
         $qb = $this->em->createQueryBuilder();
         $qb->select( 
         'm.id as idMateriale',
@@ -223,17 +223,13 @@ public function CercaMateriale(
         )
             ->from(Preferito::class, 'p')
             ->join('p.materiale', 'm')
+            ->join('m.insegnamento', 'i')
+            ->join('m.corsoDiLaurea', 'c')
+            ->join('m.download', 'd')
+            ->join('m.recensioni', 'r')
             ->Where('p.studente_id = :id_studente')
-            ->setParameter('id_studente', $id_studente);
-
-            $qb->groupBy('m.id');
-
-        if (!empty($criterio) && strtolower($criterio) === 'download') {
-            $qb->orderBy('numeroDownload', 'DESC');
-    } elseif(!empty($criterio) && strtolower($criterio) === 'valutazione') {
-            $qb->orderBy('mediaValutazione', 'DESC');
-    }
-            $qb->setFirstResult($offset)
+            ->setParameter('id_studente', $id_studente)
+            ->setFirstResult($offset)
             ->setMaxResults($limit);
 
         $result = $qb->getQuery()->getArrayResult();
@@ -259,7 +255,7 @@ public function CercaMateriale(
      * @param int $limit Il limite per la paginazione.
      * @return array Un array di download.
      */
-    public function trovaDownloadPerUtente(int $id_studente, string $criterio, int $offset, int $limit): array {
+    public function trovaDownloadPerUtente(int $id_studente, int $offset, int $limit): array {
         $qb = $this->em->createQueryBuilder();
         $qb->select( 
         'm.id as idMateriale',
@@ -274,17 +270,12 @@ public function CercaMateriale(
         )
             ->from(Download::class, 'p')
             ->join('p.materiale', 'm')
+            ->join('m.insegnamento', 'i')
+            ->join('m.corsoDiLaurea', 'c')
+            ->join('m.recensioni', 'r')
             ->Where('p.studente_id = :id_studente')
-            ->setParameter('id_studente', $id_studente);
-
-            $qb->groupBy('m.id');
-
-        if (!empty($criterio) && strtolower($criterio) === 'download') {
-            $qb->orderBy('numeroDownload', 'DESC');
-    } elseif(!empty($criterio) && strtolower($criterio) === 'valutazione') {
-            $qb->orderBy('mediaValutazione', 'DESC');
-    }
-            $qb->setFirstResult($offset)
+            ->setParameter('id_studente', $id_studente)
+            ->setFirstResult($offset)
             ->setMaxResults($limit);
 
         $result = $qb->getQuery()->getArrayResult();

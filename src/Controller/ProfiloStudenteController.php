@@ -8,7 +8,7 @@ class ProfiloStudenteController {
    
     public function visualizzaProfilo() : void {
 
-        //logica per la visualizzazione del profilo dell'utente
+       //logica per la visualizzazione del profilo dell'utente
 
     }
 
@@ -25,39 +25,54 @@ class ProfiloStudenteController {
     }
 
 
-    public function visualizzaRecensioni() : void {
+    public function visualizzaProfiloStudente() : void {
 
 
-        //probabilmente andrà gestita la sessione, 
-        //cioè bisognerà capire se un utente ha effettuato il login 
+        //Andrà gestita la sessione, risvegliandola e recuperando l'id dell'utente 
+        //cioè bisognerà capire se un utente ha effettuato il login. 
 
         $viewProfilo =  new ViewProfiloStudente();
 
-       
+        $dati = $viewProfilo->getDatiStudente();
 
          try{
 
-        $idStudenteLoggato = $_SESSION['idStudenteLoggato']; // recupero lo studente dalla sessione
-        //ANDRANNO RECUPERATI ANCHE OFFSET E LIMITE SE VENGONO GESTITI SERVER SIDE
+        $idStudenteLoggato = $_SESSION['idStudenteLoggato']; // recupero l'id dello studente dalla sessione
+        //ANDRANNO RECUPERATI ANCHE OFFSET E LIMITE SE VENGONO GESTITI SERVER SIDE?
+        
+
+
+        $bottone = $dati["bottonePremuto"]; // recupero il bottone premuto dalla view
+
 
 
         // Ottengo l'istanza del PersistentManager
         $pm = PersistentManager::getInstance();
 
 
-        // Ottengo le recensioni, per l'utente loggato
+        // recupero ciò che mi serve per la view, a seconda del bottone premuto
+        if($bottone == "recensioni"){
         $recensioni = $pm->trovaRecensioniPerUtente($idStudenteLoggato, 0, 10);
-
         // Mostra le recensioni
-        $viewProfilo->mostraRecensioni($recensioni);
-
+        $viewProfilo->mostraRecensioniStudente($recensioni);
+        }elseif(strtolower($bottone) === "preferiti"){
+        $preferiti = $pm->trovaPreferitiPerUtente($idStudenteLoggato, 0, 10);
+        // Mostra i preferiti
+        $viewProfilo->MostraPreferitiStudente($preferiti);
+        }elseif(strtolower($bottone) === "download"){
+        $download = $pm->trovaDownloadPerUtente($idStudenteLoggato, 0, 10);
+        // Mostra i download
+        $viewProfilo->MostraDownloadStudente($download);
+        }elseif(strtolower($bottone) === "materiale"){
+        $materiale = $pm->MaterialiPopolariUtente($idStudenteLoggato, 0, 10);
+        // Mostra i materiali dello studente ordinandoli dal piu' popolare
+        $viewProfilo->mostraMaterialiStudente($materiale);
+        }
 
         // logica per ottenere i dati del profilo dell'utente
     }catch(Exception $e){
         echo $e->getMessage();
     }
     }
-
-
     
 }

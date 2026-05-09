@@ -82,7 +82,7 @@ class CaricaMaterialeController {
     // 2. Recupero insegnamento dal DB
     $insegnamento = $pm->findOneBy("Model\Insegnamento", [
         "nomeInsegnamento" => $insegnamentoInput
-    ]);
+    ]);  //IN QUESTO MODO VA IN ERRORE PERCHé CI SONO PIU INSEGNAMENTI CON LO STESSO NOME
 
     if (!$insegnamento) {
         throw new \RuntimeException("Insegnamento '$insegnamentoInput' non trovato");
