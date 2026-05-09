@@ -208,7 +208,7 @@ public function CercaMateriale(
      * @param int $limit Il limite per la paginazione.
      * @return array Un array di preferiti, altrimenti null.
      */
-    public function trovaPreferitiPerUtente(int $id_materiale, int $id_studente, string $criterio, int $offset, int $limit): array {
+    public function trovaPreferitiPerUtente(int $id_studente, string $criterio, int $offset, int $limit): array {
         $qb = $this->em->createQueryBuilder();
         $qb->select( 
         'm.id as idMateriale',
@@ -223,9 +223,7 @@ public function CercaMateriale(
         )
             ->from(Preferito::class, 'p')
             ->join('p.materiale', 'm')
-            ->where('m.id = :id_materiale')
-            ->andWhere('p.studente_id = :id_studente')
-            ->setParameter('id_materiale', $id_materiale)
+            ->Where('p.studente_id = :id_studente')
             ->setParameter('id_studente', $id_studente);
 
             $qb->groupBy('m.id');
@@ -261,7 +259,7 @@ public function CercaMateriale(
      * @param int $limit Il limite per la paginazione.
      * @return array Un array di download.
      */
-    public function trovaDownloadPerUtente(int $id_materiale, int $id_studente, string $criterio, int $offset, int $limit): array {
+    public function trovaDownloadPerUtente(int $id_studente, string $criterio, int $offset, int $limit): array {
         $qb = $this->em->createQueryBuilder();
         $qb->select( 
         'm.id as idMateriale',
@@ -276,9 +274,7 @@ public function CercaMateriale(
         )
             ->from(Download::class, 'p')
             ->join('p.materiale', 'm')
-            ->where('m.id = :id_materiale')
-            ->andWhere('p.studente_id = :id_studente')
-            ->setParameter('id_materiale', $id_materiale)
+            ->Where('p.studente_id = :id_studente')
             ->setParameter('id_studente', $id_studente);
 
             $qb->groupBy('m.id');
@@ -312,7 +308,7 @@ public function CercaMateriale(
      * @param int $id_studente L'ID dello studente.
      * @return array Un array di recensioni.
      */
-    public function trovaRecensioniPerUtente(int $id_materiale, int $id_studente): array {
+    public function trovaRecensioniPerUtente(int $id_studente, int $offset, int $limit): array {
         $qb = $this->em->createQueryBuilder();
         $qb->select( 
         'm.id as idMateriale',
@@ -324,10 +320,11 @@ public function CercaMateriale(
         )
             ->from(Recensione::class, 'r')
             ->join('r.materiale', 'm')
-            ->where('m.id = :id_materiale')
-            ->andWhere('r.studente_id = :id_studente')
-            ->setParameter('id_materiale', $id_materiale)
+            ->Where('r.studente_id = :id_studente')
             ->setParameter('id_studente', $id_studente);
+
+            $qb->setFirstResult($offset)
+               ->setMaxResults($limit);
 
         $result =$qb->getQuery()->getArrayResult();
 
