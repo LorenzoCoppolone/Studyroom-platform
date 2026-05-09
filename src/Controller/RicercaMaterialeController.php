@@ -31,9 +31,11 @@ class RicercaMaterialeController {
 
         // Interrogo la Foundation e passo i risultati alla view
         try {
-        // Ottiengo l'istanza del PersistentManager
+        // Ottengo l'istanza del PersistentManager
         $pm        = PersistentManager::getInstance(); 
-        $materiali = $pm->cercaMaterialePerTitolo($titolo);
+        $materiali = $pm->findBy(Insegnamento::class, [
+            'materiale' => $titolo
+        ]);
         
         // Mostra i materiali trovati nella view
         $view->mostraMateriali($materiali);
@@ -67,7 +69,7 @@ class RicercaMaterialeController {
             $view = new ViewRicercaMateriale();
 
             // Chiedo alla view tutti i dati del form filtri
-            $dati = $ViewRicercaMateriale->getDatiFiltro();
+            $dati = $view->getDatiFiltro();
 
             // Se l'utente ha selezionato 'Esame' allora il tag non è applicabile -> lo azzeriamo
             if (($dati['tipologia'] ?? null) == 'esame') {
@@ -78,7 +80,7 @@ class RicercaMaterialeController {
             try {
                 // Ottiengo l'istanza del PersistentManager
                 $pm        = PersistentManager::getInstance(); 
-                $materiali = $pm->filtraMateriale(
+                $materialeFiltrato = $pm->filtraMateriale(
                     $dati['titolo']           ?? null,
                     $dati['insegnamento']     ?? null,
                     $dati['tipologia']        ?? null,
@@ -86,7 +88,7 @@ class RicercaMaterialeController {
                     $dati['tag']              ?? null
                 );
 
-                $view->mostraMateriali($materiali);
+                $view->mostraMateriali($materialeFiltrato);
 
             } catch (PDOException $e) {
             throw new RuntimeException("Errore DB durante il filtraggio: " . $e->getMessage());
@@ -117,9 +119,9 @@ class RicercaMaterialeController {
             // Recupero i materiali con l'ordinamento richiesto
             try {
                 $pm        = PersistentManager::getInstance();
-                $materiali = $pm->getMaterialeOrdinato($ordinamento);
+                $materialeOrdinato = $pm->getMaterialeOrdinato($ordinamento);
 
-                $view->mostraMateriali($materiali);
+                $view->mostraMateriali($materialeOrdinato);
 
             } catch (PDOException $e) {
                 throw new RuntimeException("Errore DB durante l'ordinamento: " . $e->getMessage());
