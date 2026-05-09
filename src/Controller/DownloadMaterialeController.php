@@ -34,14 +34,24 @@ class DowloadMaterialeController {
         // Logica download
         try {
             $pm        = PersistentManager::getInstance();
-            $materiale = $pm->trovaMaterialePerId($idMateriale);
 
             // Controlo se l'utente ha gia effetuato il download di quel materiale
-            $downloadEsistente = $pm->trovaDownloadPerUtenteEMateriale($idUtente, $idMateriale);
+            $risultati = $pm->findBy(Download::class, [
+                'studente'  => $idUtente,
+                'materiale' => $idMateriale
+            ]);
+            $downloadEsistente = $risultati[0] ?? null;
 
             if ($downloadEsistente === null) {
-                // Prima volta: creo il record e incremento il contatore
-                $pm->creaDownload($idUtente, $idMateriale);
+                // Prima volta: creo il record 
+                $materiale = $pm->find(Materiale::class, $idMateriale);
+                $studente = $pm->find(Studente::class, $idUtente);
+
+                // Creo il nuovo oggetto 
+                $nuovoDownload = new Download(0, $materiale, $studente);
+
+                // Salvo l'oggetto nel DB
+                $pm->save($nuovoDownload);
             }
             $view->serviFile($materiale->getFile());
             $view->mostraPopUpDownload();

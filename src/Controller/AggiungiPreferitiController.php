@@ -28,7 +28,7 @@ class AggiungiPreferitiController {
         $idUtente = Session::getInstance()->getIdUtenteLoggato();
 
         // Validazione
-        if (empty($utente)) {
+        if (empty($idUtente)) {
             throw new InvalidArguementException("Utente non loggato!");
         }
 
@@ -38,15 +38,27 @@ class AggiungiPreferitiController {
             $pm = PersistentManager::getInstance();
 
             // Controllo se il preferito esiste gia per questo utente+materiale
-            $preferito = $pm->trovaPreferitoPerUtenteEMateriale($idUtente, $idMateriale);
+            $risultati = $pm->findBy(Preferito::class, [
+                'studente'  => $idUtente,
+                'materiale' => $idMateriale
+            ]);
+            $preferito = $risultati[0] ?? null;
 
             if ($preferito !== null) {
                 // Il materiale era già nei preferiti → lo rimuovo
-                $pm->rimuoviPreferito($preferito);
+                $pm->delete($preferito);
                 $view->mostraPopUpRimosso();
             } else {
                 // Il materiale non era nei preferiti → lo aggiungo
-                $pm->aggiungiPreferito($idUtente, $idMateriale);
+                // Recupero i due oggetti
+                $studente = $pm->find(Studente::class, $idUtente);
+                $materiale = $pm->find(Materiale::class, $idMateriale);
+
+                // Costruisco l'oggetto da inserire
+                $nuovoPreferito = new Preferito(0, $studente, $materiale);
+
+                // Slavo l'oggetto creato
+                $pm->save($nuovoPreferito);
                 $view->mostraPopUpAggiunto();
             }
 
