@@ -201,9 +201,7 @@ public function CercaMateriale(
  //DA TESTARE
     /**
      * Trova preferito per studente e materiale.
-     * @param int $id_materiale L'ID del materiale.
      * @param int $id_studente L'ID dello studente.
-     * @param string $criterio Il criterio di ordinamento.
      * @param int $offset L'offset per la paginazione.
      * @param int $limit Il limite per la paginazione.
      * @return array Un array di preferiti, altrimenti null.
@@ -248,9 +246,7 @@ public function CercaMateriale(
  //DA TESTARE
     /**
      * Trova download per studente e materiale.
-     * @param int $id_materiale L'ID del materiale.
      * @param int $id_studente L'ID dello studente.
-     * @param string $criterio Il criterio di ordinamento.
      * @param int $offset L'offset per la paginazione.
      * @param int $limit Il limite per la paginazione.
      * @return array Un array di download.
@@ -295,7 +291,6 @@ public function CercaMateriale(
  //DA TESTARE
     /**
      * Trova recensioni per studente e materiale.
-     * @param int $id_materiale L'ID del materiale.
      * @param int $id_studente L'ID dello studente.
      * @return array Un array di recensioni.
      */

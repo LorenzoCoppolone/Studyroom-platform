@@ -37,17 +37,14 @@ class Preferito {
 
     /**
      * Costruttore di preferito.
-     * @param int $id ID del preferito.
      * @param Studente $studente studente che ha aggiunto il materiale ai preferiti.
      * @param Materiale $materiale materiale aggiunto ai preferiti.
      */
 
     public function __construct(
-        int $id, 
         Studente $studente, 
         Materiale $materiale
         ) {
-        $this->id = $id;
         $this->studente = $studente;
         $this->materiale = $materiale;
     }

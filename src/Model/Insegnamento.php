@@ -37,19 +37,15 @@ class Insegnamento {
 
     /**
      * Costruttore di Insegnamento.
-     * 
-     * @param int $codiceInsegnamento Codice dell'insegnamento.
      * @param string $nomeInsegnamento Nome dell'insegnamento.
      * @param Collection $materiali Collezione di materiali associati all'insegnamento.
      * @param CorsoDiLaurea $corsoDiLaurea Corso di laurea a cui l'insegnamento è associato (opzionale).
      */
 
     public function __construct(
-        int $codiceInsegnamento,
         string $nomeInsegnamento,
         CorsoDiLaurea $corsoDiLaurea,
         ){
-        $this->id = $codiceInsegnamento;
         $this->nomeInsegnamento = $nomeInsegnamento;
         $this->corsoDiLaurea = $corsoDiLaurea;
         $this->materiali = new ArrayCollection();

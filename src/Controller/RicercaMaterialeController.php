@@ -40,7 +40,7 @@ class RicercaMaterialeController {
 
 
         // Salvo il titolo nella sessione, cosi da poterlo recuperare nel controller di filtraggio.
-        $_SESSION['Titolo'] = $titolo;
+        $_SESSION['titolo'] = $titolo;
 
 
 
@@ -83,7 +83,6 @@ class RicercaMaterialeController {
 
             // IL TITOLO VIENE RECUPERATO DALLA SESSIONE
             $titolo = $_SESSION['titolo'];
-
             // EVENTUALMENTE SI RECUPERANO DALLA SESSIONE ANCHE OFFSET E LIMITE, SE VENGONO GESTITI SERVER SIDE.
             
 

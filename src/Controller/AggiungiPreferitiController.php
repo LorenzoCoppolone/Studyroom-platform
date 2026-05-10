@@ -4,6 +4,9 @@ namespace Controller;
 
 use Foundation\Persistent\PersistentManager;
 use Foundation\Session;
+use Model\Preferito;
+use Model\Materiale;
+use Model\Studente;
 use UI\ViewPreferiti;
 use PDOException;
 use RuntimeException;
@@ -16,7 +19,7 @@ use InvalidArgumentException;
  */
 class AggiungiPreferitiController {
 
-    public function togglePreferitoController(): void {
+    public function GestionePreferitoController(): void {
 
         // Istanzio la view
         $view = new ViewPreferiti();
@@ -25,11 +28,11 @@ class AggiungiPreferitiController {
         $idMateriale = $view->getIdmateriale();
 
         // Recupero l'Id Utente dalla session
-        $idUtente = Session::getInstance()->getIdUtenteLoggato();
+        //$idUtente = Session::getInstance()->getIdUtenteLoggato();
 
         // Validazione
         if (empty($idUtente)) {
-            throw new InvalidArguementException("Utente non loggato!");
+            throw new RuntimeException("Utente non loggato!");
         }
 
         // Interrogo la foundation e gestisco il toggle
@@ -55,14 +58,14 @@ class AggiungiPreferitiController {
                 $materiale = $pm->find(Materiale::class, $idMateriale);
 
                 // Costruisco l'oggetto da inserire
-                $nuovoPreferito = new Preferito(0, $studente, $materiale);
+                $nuovoPreferito = new Preferito($studente, $materiale);
 
                 // Slavo l'oggetto creato
                 $pm->save($nuovoPreferito);
                 $view->mostraPopUpAggiunto();
             }
 
-        } catch(PDOExcception $e) {
+        } catch(PDOException $e) {
             throw new RuntimeException("Errore DB durante la gestione dei preferiti: " . $e->getMessage());
         } catch (\Exception $e) {
             throw new RuntimeException("Errore imprevisto: " . $e->getMessage());

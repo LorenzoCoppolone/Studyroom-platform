@@ -49,12 +49,10 @@ class Download {
      * @param Studente $studente studente che ha effettuato il download.
      */
 
-    public function __construct(
-        int $id, 
+    public function __construct( 
         Materiale $materiale, 
         Studente $studente
         ) {
-        $this->id = $id;
         $this->materiale = $materiale;
         $this->studente = $studente;
     }

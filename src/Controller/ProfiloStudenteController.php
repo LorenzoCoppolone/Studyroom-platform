@@ -69,7 +69,7 @@ class ProfiloStudenteController {
         $viewProfilo->mostraMaterialiStudente($materiale);
         }
 
-        // logica per ottenere i dati del profilo dell'utente
+        // gestione eccezioni, va rivista per migliorare la gestione
     }catch(Exception $e){
         echo $e->getMessage();
     }

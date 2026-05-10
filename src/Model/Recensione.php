@@ -50,7 +50,6 @@ class Recensione {
 
     /**
      * Costruttore di recensione.
-     * @param int $id ID della recensione.
      * @param float $voto Voto della recensione.
      * @param string $commento Commento della recensione.
      * @param Studente $studente  studente che ha scritto la recensione.
@@ -58,13 +57,11 @@ class Recensione {
      */
 
     public function __construct(
-        int $id, 
         float $voto, 
         string $commento, 
         Studente $studente, 
         Materiale $materiale
         ) {
-        $this->id = $id;
         $this->voto = $voto;
         $this->commento = $commento;
         $this->studente = $studente;
