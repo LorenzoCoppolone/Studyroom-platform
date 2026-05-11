@@ -76,7 +76,7 @@ class PersistentManager {
  * @throws Exception Se il titolo è vuoto.
  * @return array Un array di materiali che corrispondono ai criteri di ricerca, ritorna ogetti materiale, studente, insegnamento, corso + i download per ognuno.
  */
-public function CercaMateriale(    
+public function cercaMateriale(    
     string $titolo,
     int $offset,
     int $limit,
@@ -369,4 +369,20 @@ public function CercaMateriale(
     }
 
 
+    public function trovaMaterialiSegnalati(int $offset, int $limit): array {
+        $qb = $this->em->createQueryBuilder();
+        $qb->select( 
+        'm.id as idMateriale',
+        'm.titolo as titoloMateriale',
+        'COUNT(se.id) as numeroSegnalazioni',
+        
+        )
+            ->from(Segnalazione::class, 'se')
+            ->join('se.materiale', 'm')
+            ->join('se.studente', 's')
+            ->groupBy('m.id')
+            ->setFirstResult($offset)
+            ->setMaxResults($limit);
+            
+    }
 }

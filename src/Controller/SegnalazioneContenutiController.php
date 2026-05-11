@@ -59,10 +59,10 @@ class SegnalazioneContenutiController {
 
                 $studente = $pm->find(Studente::class,$idUtente);
 
-                $admin = $pm->findOneBy(Amministratore::class,[]);
+                $admin = $pm->findOneBy(Amministratore::class,[$idAdmin => 1]);
 
                 // creazione Segnalazione
-                $segnalazione = new Segnalazione(0, $motivo, $studente, $materiale, $admin);
+                $segnalazione = new Segnalazione($motivo, $studente, $materiale, $admin);
 
                 // Salvo nel DB
                 $pm->save($segnalazione);

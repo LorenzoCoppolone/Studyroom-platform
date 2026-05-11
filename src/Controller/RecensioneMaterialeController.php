@@ -21,7 +21,7 @@ class recensioneMaterialeController {
 
         // Recupero i dati di input
         $idMateriale = $view->getIdMateriale();
-        $voto        = $view->getVoto();
+        $voto        = (float) $view->getVoto();
         $commento    = $view->getCommento();
 
         // Recupero l'Id Utente dalla Session

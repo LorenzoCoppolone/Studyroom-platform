@@ -2,36 +2,36 @@
 namespace UI;
 class viewProfiloStudente {
     
-    public function MostraProfiloStudente() : void {
+    public function mostraProfiloStudente() : void {
         // logica per mostrare il profilo dell'utente
     }
 
-    public function MostraPreferitiStudente( array $recensioni) : void {
+    public function mostraPreferitiStudente( array $recensioni) : void {
         // logica per mostrare i preferiti dell'utente
     }
 
-    public function MostraDownloadStudente( array $recensioni) : void {
+    public function mostraDownloadStudente( array $recensioni) : void {
         // logica per mostrare i download dell'utente
     }
 
 
-    public function MostraSegnalazioniStudente( array $recensioni) : void {
+    public function mostraSegnalazioniStudente( array $recensioni) : void {
         // logica per mostrare le segnalazioni dell'utente
     }
 
 
-    public function MostraMaterialiStudente( array $recensioni) : void {
+    public function mostraMaterialiStudente( array $recensioni) : void {
         // logica per mostrare le recensioni dell'utente
     }
-    public function MostraRecensioniStudente( array $recensioni) : void {
+    public function mostraRecensioniStudente( array $recensioni) : void {
         // logica per mostrare le recensioni dell'utente
     }
 
-    public function MostraModificaProfilo() : void {
+    public function mostraModificaProfilo() : void {
         // logica per mostrare il modulo di modifica del profilo dell'utente
     }
 
-    public function MostraEliminaProfilo() : void {
+    public function mostraEliminaProfilo() : void {
         // logica per mostrare il modulo di eliminazione del profilo dell'utente
     }
 
@@ -42,4 +42,5 @@ class viewProfiloStudente {
 
        
     }
+    
 }

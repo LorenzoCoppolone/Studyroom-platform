@@ -67,19 +67,13 @@ class CaricaMaterialeController {
      */
   
     
- public function caricaMateriale(
-    File $file,
-    string $tipo,
-    string $insegnamentoInput,
-    string $corso_di_laurea,
-    ?string $tag,
-    string $titolo,
-    int $id_studente,
-): void
+ public function caricaMateriale(): void
 {
 
 
     try {
+
+
 
     // 1. Recupero corso di laurea dal DB
     $pm = PersistentManager::getInstance();
@@ -147,8 +141,9 @@ class CaricaMaterialeController {
 
     }
 
-    // 5. Salvo il materiale
-    $pm->save($materiale);
+        // 5. Salvo il materiale
+        $pm->save($materiale);
+        
     } catch (\Exception $e) {
         throw new \RuntimeException("Errore durante il caricamento del materiale: " . $e->getMessage());
     }

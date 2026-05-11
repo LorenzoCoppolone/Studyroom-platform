@@ -13,6 +13,7 @@ class ProfiloStudenteController {
     }
 
     public function modificaProfilo() : void {
+
         //logica per la modifica del profilo dell'utente
         //ad esempio se l'utente vuole cambiare il suo username o la sua password
 
@@ -35,16 +36,13 @@ class ProfiloStudenteController {
 
         $dati = $viewProfilo->getDatiStudente();
 
-         try{
+        try{
 
         $idStudenteLoggato = $_SESSION['idStudenteLoggato']; // recupero l'id dello studente dalla sessione
+        
         //ANDRANNO RECUPERATI ANCHE OFFSET E LIMITE SE VENGONO GESTITI SERVER SIDE?
         
-
-
         $bottone = $dati["bottonePremuto"]; // recupero il bottone premuto dalla view
-
-
 
         // Ottengo l'istanza del PersistentManager
         $pm = PersistentManager::getInstance();
@@ -52,21 +50,31 @@ class ProfiloStudenteController {
 
         // recupero ciò che mi serve per la view, a seconda del bottone premuto
         if($bottone == "recensioni"){
-        $recensioni = $pm->trovaRecensioniPerUtente($idStudenteLoggato, 0, 10);
-        // Mostra le recensioni
-        $viewProfilo->mostraRecensioniStudente($recensioni);
+
+            $recensioni = $pm->trovaRecensioniPerUtente($idStudenteLoggato, 0, 10);
+
+            // Mostra le recensioni
+            $viewProfilo->mostraRecensioniStudente($recensioni);
+
         }elseif(strtolower($bottone) === "preferiti"){
-        $preferiti = $pm->trovaPreferitiPerUtente($idStudenteLoggato, 0, 10);
-        // Mostra i preferiti
-        $viewProfilo->MostraPreferitiStudente($preferiti);
+
+            $preferiti = $pm->trovaPreferitiPerUtente($idStudenteLoggato, 0, 10);
+
+            // Mostra i preferiti
+            $viewProfilo->MostraPreferitiStudente($preferiti);
+
         }elseif(strtolower($bottone) === "download"){
-        $download = $pm->trovaDownloadPerUtente($idStudenteLoggato, 0, 10);
-        // Mostra i download
-        $viewProfilo->MostraDownloadStudente($download);
+
+            $download = $pm->trovaDownloadPerUtente($idStudenteLoggato, 0, 10);
+
+            // Mostra i download
+            $viewProfilo->MostraDownloadStudente($download);
+
         }elseif(strtolower($bottone) === "materiale"){
-        $materiale = $pm->MaterialiPopolariUtente($idStudenteLoggato, 0, 10);
-        // Mostra i materiali dello studente ordinandoli dal piu' popolare
-        $viewProfilo->mostraMaterialiStudente($materiale);
+            $materiale = $pm->MaterialiPopolariUtente($idStudenteLoggato, 0, 10);
+
+            // Mostra i materiali dello studente ordinandoli dal piu' popolare
+            $viewProfilo->mostraMaterialiStudente($materiale);
         }
 
         // gestione eccezioni, va rivista per migliorare la gestione
