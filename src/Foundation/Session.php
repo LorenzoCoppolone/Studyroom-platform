@@ -1,37 +1,82 @@
 <?php
 
-namespace Foundation;
+require_once(__DIR__ . '/../../../../config/config.php');
+/**
+ * class to access to the $_SESSION superglobal array, you Must use this class instead of using directly the array
+ */
+class Session{
 
-use Model\Studente;
-use Doctrine\Common\Collections\ArrayCollection;
-class Session {
+    /**
+     * singleton class
+     * class for the session, if you want to manipulate the _SESSION superglobal you need to use this class
+     */
 
-    private static $data = [];
+     private static $instance;
 
-    public static function set($key, $value) {
-        self::$data[$key] = $value;
+     private function __construct() {
+        session_set_cookie_params(COOKIE_EXP_TIME); //set the duration of the session cookie
+        session_start(); //start the session
+     }
+ 
+     public static function getInstance() {
+         if (self::$instance == null) {
+             self::$instance = new Session();
+         }
+ 
+         return self::$instance;
+     }
+
+    /**
+     * return session status. If you want to check if the session is staretd you can use this
+     */
+    public static function getSessionStatus(){
+        return session_status();
     }
 
-    public static function get($key) {
-        return self::$data[$key] ?? null;
+    /**
+     * unset all the elements in the _SESSION superglobal
+     */
+    public static function unsetSession(){
+        session_unset();
     }
 
-    public static function remove($key) {
-        unset(self::$data[$key]);
+    /**
+     * unset of an element of _SESSION superglobal
+     */
+    public static function unsetSessionElement($id){
+        unset($_SESSION[$id]);
     }
 
-    public static function destroy() {
-        self::$data = [];
+    /**
+     * destroy the session
+     */
+    public static function destroySession(){
+        session_destroy();
     }
 
-    // simulazione utente loggato
-    public static function getUser() {
-        if (!isset(self::$data['user'])) {
-            $user = new Studente(1, "", "", "", "", "", true, new ArrayCollection(), new ArrayCollection(), new ArrayCollection(), new ArrayCollection());
-            $user->setId(1);
-            $user->setNome("TestUser");
-            self::$data['user'] = $user;
+    /**
+     * get element in the _SESSION superglobal
+     */
+    public static function getSessionElement($id){
+        return $_SESSION[$id] ?? null;
+    }
+
+    /**
+     * set an element in _SESSION superglobal
+     */
+    public static function setSessionElement($id, $value){
+        $_SESSION[$id] = $value;
+    }
+
+    /**
+     * check if an element is set or not
+     * @return boolean
+     */
+    public static function isSetSessionElement($id){
+        if(isset($_SESSION[$id])){
+            return true;
+        }else{
+            return false;
         }
-        return self::$data['user'];
     }
 }
