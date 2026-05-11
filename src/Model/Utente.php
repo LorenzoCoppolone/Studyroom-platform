@@ -39,14 +39,12 @@ abstract class Utente {
      * @param string $passwordHash Password dell'utente.
      */
     
-    public function __construct(
-        int $id, 
+    public function __construct( 
         string $nome, 
         string $cognome, 
         string $email, 
         string $passwordHash
         ) {
-        $this->id = $id;
         $this->nome = $nome;
         $this->cognome = $cognome;
         $this->email = $email;

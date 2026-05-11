@@ -1,5 +1,5 @@
 <?php
-
+namespace UI;
 class viewDownloadMateriale {
 
 // Funzione che restituisce l'ID del materiale su cui l'utente ha cliccato

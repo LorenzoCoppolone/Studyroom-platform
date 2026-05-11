@@ -6,6 +6,11 @@ use Doctrine\DBAL\Types\Types;
 
 
 #[ORM\Entity]
+#[ORM\Table(uniqueConstraints: [
+        new ORM\UniqueConstraint(
+            name: "unique_segnalazione",
+            columns: ["materialeSegnalato_id", "segnalante_id"])]
+)]
 class Segnalazione {
 
     #[ORM\Column(type: Types::INTEGER), ORM\Id, ORM\GeneratedValue(strategy: "AUTO")]
@@ -28,7 +33,6 @@ class Segnalazione {
 
     /**
      * Costruttore di segnalazione.
-     * @param int $id ID della segnalazione.
      * @param string $motivo Motivo della segnalazione.
      * @param Studente $segnalante studente che ha segnalato.
      * @param Materiale $materialeSegnalato materiale segnalato.
@@ -36,13 +40,11 @@ class Segnalazione {
      */
 
     public function __construct(
-        int $id, 
         string $motivo,  
         Studente $segnalante,
         Materiale $materialeSegnalato,
         Amministratore $amministratore
         ) {
-        $this->id = $id;
         $this->motivo = $motivo;
         $this->timeStamp = new \DateTimeImmutable();
         $this->segnalante = $segnalante;

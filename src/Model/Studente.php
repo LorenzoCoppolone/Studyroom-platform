@@ -2,7 +2,7 @@
 namespace Model;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
-use doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
 #[ORM\Entity]
@@ -65,30 +65,22 @@ class Studente extends Utente {
      * @param string $passwordHash Password dello studente.
      * @param string $username Username dello studente.
      * @param bool $stato Stato dello studente (attivo o non attivo).
-     * @param Collection<int, Segnalazione> $segnalazioniFatte Segnalazioni effettuate dallo studente.
-     * @param Collection<int, Materiale> $uploadEffettuati Materiali caricati dallo studente.
-     * @param Collection<int, Download> $downloadEffettuati Download effettuati dallo studente.
-     * @param Collection<int, Preferito> $preferiti Preferiti dello studente.
      */
-
     public function __construct(
-        int $id,
         string $nome, 
         string $cognome, 
         string $email, 
         string $passwordHash, 
         string $username, 
-        bool $stato,
         ) {
         parent::__construct(
-            $id, 
             $nome, 
             $cognome, 
             $email, 
             $passwordHash
             );
         $this->stato = true;
-        $this->username = $username?:"";
+        $this->username = $username;
         $this->segnalazioniFatte = new ArrayCollection();
         $this->uploadEffettuati = new ArrayCollection();
         $this->downloadEffettuati = new ArrayCollection();
@@ -202,4 +194,5 @@ class Studente extends Utente {
     public function setRecensioni(Recensione $recensioni): void {
         $this->recensioni[] = $recensioni;
     }
+
 }

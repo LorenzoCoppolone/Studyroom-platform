@@ -6,6 +6,11 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
 
 #[ORM\Entity]
+#[ORM\Table(uniqueConstraints: [
+        new ORM\UniqueConstraint(
+            name: "unique_recensione",
+            columns: ["materiale_id", "studente_id"])]
+)]
 class Recensione {
 
     #[ORM\Id]
@@ -45,7 +50,6 @@ class Recensione {
 
     /**
      * Costruttore di recensione.
-     * @param int $id ID della recensione.
      * @param float $voto Voto della recensione.
      * @param string $commento Commento della recensione.
      * @param Studente $studente  studente che ha scritto la recensione.
@@ -53,13 +57,11 @@ class Recensione {
      */
 
     public function __construct(
-        int $id, 
         float $voto, 
         string $commento, 
         Studente $studente, 
         Materiale $materiale
         ) {
-        $this->id = $id;
         $this->voto = $voto;
         $this->commento = $commento;
         $this->studente = $studente;

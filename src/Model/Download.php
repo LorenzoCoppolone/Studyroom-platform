@@ -6,6 +6,13 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
 
 #[ORM\Entity]
+#[ORM\Table(uniqueConstraints: [
+        new ORM\UniqueConstraint(
+            name: "unique_download",
+            columns: ["Materiale_id", "Studente_id"])]
+ )]
+
+
 class Download {
     
     #[ORM\Id]
@@ -42,12 +49,10 @@ class Download {
      * @param Studente $studente studente che ha effettuato il download.
      */
 
-    public function __construct(
-        int $id, 
+    public function __construct( 
         Materiale $materiale, 
         Studente $studente
         ) {
-        $this->id = $id;
         $this->materiale = $materiale;
         $this->studente = $studente;
     }

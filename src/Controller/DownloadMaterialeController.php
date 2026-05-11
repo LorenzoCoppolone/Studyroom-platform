@@ -4,11 +4,13 @@ namespace Controller;
 
 use Foundation\Persistent\PersistentManager;
 use Foundation\Session;
-use UI\ViewDownloadMateriale;
+use UI\viewDownloadMateriale;
 use PDOException;
 use RuntimeException;
 use InvalidArgumentException;
-
+use Model\Download;
+use Model\Materiale;
+use Model\Studente;
 /**
  * Gestisce il download di un materiale 
  */
@@ -18,7 +20,7 @@ class DowloadMaterialeController {
     public function eseguiDownload() : void {
 
         // Istanzio la view
-        $view = new ViewDownloadMateriale();
+        $view = new viewDownloadMateriale();
 
         // Ottengo l'id del materiale 
         $idMateriale = $view->getIdMateriale();
@@ -28,12 +30,12 @@ class DowloadMaterialeController {
 
         // Validazione
         if (empty($utente)) {
-            throw new InvalidArguementException("Utente non loggato!");
+            throw new InvalidArgumentException("Utente non loggato!");
         }
 
         // Logica download
         try {
-            $pm        = PersistentManager::getInstance();
+            $pm = PersistentManager::getInstance();
 
             // Controlo se l'utente ha gia effetuato il download di quel materiale
             $risultati = $pm->findBy(Download::class, [
@@ -48,15 +50,20 @@ class DowloadMaterialeController {
                 $studente = $pm->find(Studente::class, $idUtente);
 
                 // Creo il nuovo oggetto 
-                $nuovoDownload = new Download(0, $materiale, $studente);
+                $nuovoDownload = new Download($materiale, $studente);
 
                 // Salvo l'oggetto nel DB
                 $pm->save($nuovoDownload);
             }
-            $view->serviFile($materiale->getFile());
+            $view->serviFile($materiale->getFile());//non credo si debba mandare il file alla view, dovrebbe essere già
+                // sulla macchina dell'utente quando preme "scarica" a noi arriva solo id del materiale, al più si può mostrare un pop up
+                // ma non saprei come gestirlo
+
+
+
             $view->mostraPopUpDownload();
 
-        } catch(PDOExcception $e) {
+        } catch(PDOException $e) {
             throw new RuntimeException("Errore DB durante la gestione dei preferiti: " . $e->getMessage());
         } catch (\Exception $e) {
             throw new RuntimeException("Errore imprevisto: " . $e->getMessage());

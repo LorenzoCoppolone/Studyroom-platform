@@ -8,6 +8,7 @@ class viewRicercaMateriale {
     public function getTitolo(): string {
         return $_POST['titolo'];
     }
+
 // Funzione che restituisce tutti i dati inseriti dall'utente
     public function getDatiFiltro(): array {
         return [
@@ -16,14 +17,12 @@ class viewRicercaMateriale {
             'insegnamento' => $_POST['insegnamento'],
             'tipologia' => $_POST['tipologia'],
             'corso_di_laurea' => $_POST['corso_di_laurea'],
-            'tag' => $_POST['tag']
+            'tag' => $_POST['tag'],
+            'criterio_ordinamento' => $_POST['criterio']
         ];
     }
-// Funzione che restituisce in che modo l'utente vuole ricevere i dati
-    public function getOrdinamento() : string {
-         // prelievo in $_POST del valore associato alla chiave ordinamento
-        return $_POST['ordinamento'];
-    }
+
+
 // Funzione che mostra i materiali trovati (?-l`interfaccia va implementata qui-?)
     public function mostraMateriali(array $materiale) : void {
 

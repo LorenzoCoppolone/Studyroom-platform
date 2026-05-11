@@ -71,24 +71,42 @@ class CaricaMaterialeController {
     File $file,
     string $tipo,
     string $insegnamentoInput,
+    string $corso_di_laurea,
     ?string $tag,
     string $titolo,
     int $id_studente,
 ): void
 {
+
+
+    try {
+
+    // 1. Recupero corso di laurea dal DB
     $pm = PersistentManager::getInstance();
+
+    $corso_di_laurea = $pm->findOneBy("Model\CorsoDiLaurea", [
+        "nomeCorsoDiLaurea" => $corso_di_laurea
+    ]);
+
+
+
+    if (!$corso_di_laurea) {
+        throw new \RuntimeException("Corso di laurea '$corso_di_laurea' non trovato");
+    }
 
 
     // 2. Recupero insegnamento dal DB
     $insegnamento = $pm->findOneBy("Model\Insegnamento", [
-        "nomeInsegnamento" => $insegnamentoInput
+        "nomeInsegnamento" => $insegnamentoInput,
+        "corsoDiLaurea_codice" => $corso_di_laurea->getIdCorsoDiLaurea()
     ]);
+
 
     if (!$insegnamento) {
         throw new \RuntimeException("Insegnamento '$insegnamentoInput' non trovato");
     }
 
-    // 3. Recupero studente loggato (o fittizio)
+    // 3. Recupero studente loggato
     $studente = $pm->findOneBy("Model\Studente", [
         "id" => $id_studente
     ]);
@@ -101,7 +119,7 @@ class CaricaMaterialeController {
     if ($tipo === "appunto") {
 
         if ($tag === null) {
-            throw new \RuntimeException("Il tag è obbligatorio per gli appunti");
+            throw new \RuntimeException("Il tag è obbligatorio per gli appunti"); //siamo sicuri che il tag non puo essere null?
         }
 
         // converto il tag in enum
@@ -118,7 +136,7 @@ class CaricaMaterialeController {
             $tagEnum
         );
 
-    } elseif ($tipo === "esame") {
+    } else{
 
         $materiale = new Esame(
             $titolo,
@@ -127,12 +145,13 @@ class CaricaMaterialeController {
             $studente
         );
 
-    } else {
-        throw new \RuntimeException("Tipo materiale non valido: $tipo");
     }
 
     // 5. Salvo il materiale
     $pm->save($materiale);
+    } catch (\Exception $e) {
+        throw new \RuntimeException("Errore durante il caricamento del materiale: " . $e->getMessage());
+    }
 }
 
 
