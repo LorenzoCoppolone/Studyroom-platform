@@ -158,6 +158,7 @@ public function cercaMateriale(
         ->setParameter('tag', $tag);
     }
 
+    // raggruppa per id materiale
     $qb->groupBy('m.id');
 
      // controllo per il criterio, in base alla scelta si ordineranno i materiali
@@ -168,7 +169,7 @@ public function cercaMateriale(
     }
 
 
-    //raggruppa per id materiale e restituisci i primi limit materiali
+    //Restituisci i primi limit materiali
     $qb->setFirstResult($offset)
        ->setMaxResults($limit);
 
@@ -373,16 +374,71 @@ public function cercaMateriale(
         $qb = $this->em->createQueryBuilder();
         $qb->select( 
         'm.id as idMateriale',
+        'm.studente_id as idStudente',
         'm.titolo as titoloMateriale',
+        'm.file.MimeTypeFile AS tipoFile',
+        'm.file.contenutoFile AS contenutoFile',
         'COUNT(se.id) as numeroSegnalazioni',
         
         )
             ->from(Segnalazione::class, 'se')
             ->join('se.materiale', 'm')
-            ->join('se.studente', 's')
             ->groupBy('m.id')
             ->setFirstResult($offset)
             ->setMaxResults($limit);
-            
+
+            //ciclo per ottenere il file in base 64, (quello usato nelle altre query) o metodo migliore se lo troviamo 
+
+
+        $result = $qb->getQuery()->getArrayResult();
+        return $result;
+    }
+
+    
+    public function trovaUtenteSegnalato(int $id_materiale, int $offset, int $limit): array {
+        $qb = $this->em->createQueryBuilder();
+        $qb->select( 
+        's.id as idUtente',
+        's.username as usernameUtente',
+        's.nome as nomeUtente',
+        's.cognome as cognomeUtente',
+        )
+            ->from(Materiale::class, 'm')
+            ->join('s.studente', 'm')
+
+
+            // si può fare cosi perchè l'id del materiale che uso viene
+            // dalla query trovaMaterialiSegnalati, dunque è sicuramente un materiale segnalato
+            // e quindi i dati sono dello studente segnalato in quanto possessore del materiale.
+            ->Where('m.studente_id = :id_studente')
+
+            ->setParameter('id_studente', $id_studente); 
+            $qb->setFirstResult($offset)
+               ->setMaxResults($limit);
+
+        $result = $qb->getQuery()->getArrayResult();
+        return $result;
+    }
+
+
+    public function trovaMaterialiSegnalatiPerUtente(int $id_studente, int $offset, int $limit): array {
+        $qb = $this->em->createQueryBuilder();
+        $qb->select( 
+        'm.id as idMateriale',
+        'm.titolo as titoloMateriale',
+        'm.file.MimeTypeFile AS tipoFile',
+        'm.file.contenutoFile AS contenutoFile',
+        )
+            ->from(Segnalazione::class, 'se')
+            ->join('se.studente', 's')
+            ->join('se.materiale', 'm')
+            ->Where('se.studente_id = :id_studente')
+            ->setParameter('id_studente', $id_studente)
+            ->groupBy('m.id')
+            ->setFirstResult($offset)
+            ->setMaxResults($limit);
+
+        $result = $qb->getQuery()->getArrayResult();
+        return $result;
     }
 }

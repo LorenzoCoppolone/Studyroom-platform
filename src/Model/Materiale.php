@@ -21,7 +21,7 @@ abstract class Materiale {
     #[ORM\Column(type: Types::STRING)]
     protected string $titolo;
 
-     #[ORM\Embedded(class: File::class)]
+    #[ORM\Embedded(class: File::class)]
     protected File $file; //relazione 1:1
 
     /** @var Collection<int, Segnalazione> 

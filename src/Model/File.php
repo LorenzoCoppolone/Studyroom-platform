@@ -17,13 +17,13 @@ use Doctrine\DBAL\Types\Types;
 #[ORM\Embeddable]
 class File{
 
-    #[ORM\Column(type: Types::BLOB)]
+    #[ORM\Column(type: Types::BLOB, nullable: true)]
     private mixed $contenutoFile;
 
-    #[ORM\Column(type: Types::STRING)]
+    #[ORM\Column(type: Types::STRING, nullable: true)]
     private string $MimeTypeFile;
 
-    #[ORM\Column(type: Types::FLOAT)]
+    #[ORM\Column(type: Types::FLOAT, nullable: true)]
     private float $dimensioneFile;
 
     /**

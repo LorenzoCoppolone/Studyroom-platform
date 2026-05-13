@@ -14,7 +14,18 @@ class Studente extends Utente {
     private string $username;
 
     #[ORM\Column(type: Types::BOOLEAN)]
-    private bool $stato;
+    private bool $isBanned = false;
+
+    #[ORM\Column(type: Types::STRING, nullable: true)]
+    private string $controlloAutenticazione; //stringa generata per l'autenticazione dell'utente via email
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private \datetime $invalidazioneAutenticazione;
+
+    #[ORM\Embedded(class: File::class)]
+    private ?File $immagineProfilo = null;
+
+
 
     /** @var Collection<int, Segnalazione> 
      * un utente può segnalare più utenti, 
@@ -71,7 +82,7 @@ class Studente extends Utente {
         string $cognome, 
         string $email, 
         string $passwordHash, 
-        string $username, 
+        string $username,
         ) {
         parent::__construct(
             $nome, 
@@ -79,8 +90,8 @@ class Studente extends Utente {
             $email, 
             $passwordHash
             );
-        $this->stato = true;
         $this->username = $username;
+
         $this->segnalazioniFatte = new ArrayCollection();
         $this->uploadEffettuati = new ArrayCollection();
         $this->downloadEffettuati = new ArrayCollection();
