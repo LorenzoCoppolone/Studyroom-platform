@@ -18,6 +18,7 @@ uploads/
 upload/
 files/
 /vendor/
+/docs
 
 # Backup o file temporanei
 *.bak
