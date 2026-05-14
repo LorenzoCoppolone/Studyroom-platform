@@ -7,7 +7,11 @@ use Model\Appunto;
 use Model\Esame;
 use Model\File;
 use Model\Studente;
+use Model\Materiale;
 use Model\Tag;
+use Model\Preferito;
+use Model\Download;
+use Model\Recensione;
 
 //TESTING RICERCA
 
@@ -166,5 +170,75 @@ $mat2 = new Esame(
 $pm->save($mat1);
 $pm->save($mat2);*/
 
-$result = $pm->CercaMateriale("a",0,1);
-print_r($result);
+// $result = $pm->CercaMateriale("a",0,1);
+// print_r($result);
+
+/*
+$studentePr1 = $pm->findOneBy(Studente :: class, [
+    'id' => 17 
+]);
+
+
+$materialePr1 = $pm->findOneBy(Materiale :: class , [
+    'id' => 26
+]);
+
+// echo $studentePr1->getNome();
+$nuovoPreferito = new Preferito($studentePr1, $materialePr1);
+
+$pm->save($nuovoPreferito); */
+
+// Cerco un preferito per utente
+// print_r($pm->trovaPreferitiPerUtente(17, 0, 2));
+
+
+
+/*
+// TESTING DOWNLOAD trovaDownloadPerUtente
+
+// Recupero uno studente
+$studenteDw1 = $pm->findOneBy(Studente :: class, [
+    'id' => 17 
+]);
+
+// Recupero il materiale associato
+$materialeDw1 = $pm->findOneBy(Materiale :: class , [
+    'id' => 26
+]);
+
+// Creo un nuovo download in DB
+$nuovoDownload = new Download($studenteDw1, $materialeDw1);
+
+$pm->save($nuovoDownload);
+
+// Cerco un Download per utente
+print_r($pm->trovaDownloadPerUtente(17, 0, 2));
+*/
+
+
+
+
+// TESTING RECENSIONE trovaRecensioniPerUtente
+// Recupero uno studente
+$studenteRc1 = $pm->findOneBy(Studente :: class, [
+    'id' => 17 
+]);
+
+// Recupero il materiale associato
+$materialeRc1 = $pm->findOneBy(Materiale :: class , [
+    'id' => 26
+]);
+
+// Voto
+$voto = 4.8;
+
+// Commento
+$commento = "Bellissimo";
+// Creo un nuovo download in DB
+$nuovaRecensione = new Recensione($voto, $commento, $studenteRc1, $materialeRc1);
+
+$pm->save($nuovaRecensione); 
+
+// Cerco recensioni per utente
+
+print_r($pm->trovaRecensioniPerUtente(17, 0, 2)); 

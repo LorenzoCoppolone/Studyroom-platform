@@ -220,8 +220,6 @@ public function cercaMateriale(
     
     }
 
-
- //DA TESTARE
     /**
      * Trova preferito per studente e materiale.
      * @param int $id_studente L'ID dello studente.
@@ -229,7 +227,11 @@ public function cercaMateriale(
      * @param int $limit Il limite per la paginazione.
      * @return array Un array di preferiti, altrimenti null.
      */
-    public function trovaPreferitiPerUtente(int $id_studente, int $offset, int $limit): array {
+    public function trovaPreferitiPerUtente(
+        int $id_studente, 
+        int $offset, 
+        int $limit
+        ): array {
         
         // Creo una query Doctrine dinamica
         $qb = $this->em->createQueryBuilder();
@@ -248,11 +250,12 @@ public function cercaMateriale(
             ->from(Preferito::class, 'p')
             ->join('p.materiale', 'm')
             ->join('m.insegnamento', 'i')
-            ->join('m.corsoDiLaurea', 'c')
-            ->join('m.download', 'd')
-            ->join('m.recensioni', 'r')
-            ->Where('p.studente_id = :id_studente')
+            ->join('i.corsoDiLaurea', 'c')
+            ->leftjoin('m.downloads', 'd')
+            ->leftjoin('m.recensioni', 'r')
+            ->Where('p.studente = :id_studente')
             ->setParameter('id_studente', $id_studente)
+            ->groupBy('m.id')
             ->setFirstResult($offset)
             ->setMaxResults($limit);
 
@@ -271,15 +274,19 @@ public function cercaMateriale(
         return $result;
     }
 
- //DA TESTARE
     /**
-     * Trova download per studente e materiale.
+     * Trova download per studente.
      * @param int $id_studente L'ID dello studente.
      * @param int $offset L'offset per la paginazione.
      * @param int $limit Il limite per la paginazione.
      * @return array Un array di download.
      */
-    public function trovaDownloadPerUtente(int $id_studente, int $offset, int $limit): array {
+    public function trovaDownloadPerUtente(
+        int $id_studente, 
+        int $offset, 
+        int $limit
+        ): array {
+
         $qb = $this->em->createQueryBuilder();
         $qb->select( 
         'm.id as idMateriale',
@@ -288,17 +295,20 @@ public function cercaMateriale(
         'm.file.contenutoFile AS contenutoFile',
         'i.nomeInsegnamento as insegnamento',
         'c.nomeCorso as corso_di_Laurea',
-        'COUNT(d.id) as numeroDownload',
-        'COUNT(r.id) as numeroRecensioni',
+        'COUNT(DISTINCT d.id) as numeroDownload',
+        'COUNT(DISTINCT r.id) as numeroRecensioni',
         'AVG(r.voto) as mediaValutazione'
         )
+
             ->from(Download::class, 'p')
             ->join('p.materiale', 'm')
             ->join('m.insegnamento', 'i')
-            ->join('m.corsoDiLaurea', 'c')
-            ->join('m.recensioni', 'r')
-            ->Where('p.studente_id = :id_studente')
+            ->join('i.corsoDiLaurea', 'c')
+            ->leftjoin('m.downloads', 'd')
+            ->leftjoin('m.recensioni', 'r')
+            ->where('p.studente = :id_studente')
             ->setParameter('id_studente', $id_studente)
+            ->groupBy('m.id')
             ->setFirstResult($offset)
             ->setMaxResults($limit);
 
@@ -310,12 +320,9 @@ public function cercaMateriale(
                 $row['contenutoFile'] = base64_encode($binario);
             }
         }
-
-        
         return $result;
     }
 
- //DA TESTARE
     /**
      * Trova recensioni per studente e materiale.
      * @param int $id_studente L'ID dello studente.
@@ -333,7 +340,7 @@ public function cercaMateriale(
         )
             ->from(Recensione::class, 'r')
             ->join('r.materiale', 'm')
-            ->Where('r.studente_id = :id_studente')
+            ->where('r.studente = :id_studente')
             ->setParameter('id_studente', $id_studente);
 
             $qb->setFirstResult($offset)

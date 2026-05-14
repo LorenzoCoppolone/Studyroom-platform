@@ -49,11 +49,12 @@ class Download {
      */
 
     public function __construct( 
-        Materiale $materiale, 
-        Studente $studente
+        Studente $studente, 
+        Materiale $materiale
         ) {
-        $this->materiale = $materiale;
         $this->studente = $studente;
+        $this->materiale = $materiale;
+        
     }
 
     /**
