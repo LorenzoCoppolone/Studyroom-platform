@@ -38,7 +38,6 @@ class Insegnamento {
     /**
      * Costruttore di Insegnamento.
      * @param string $nomeInsegnamento Nome dell'insegnamento.
-     * @param Collection $materiali Collezione di materiali associati all'insegnamento.
      * @param CorsoDiLaurea $corsoDiLaurea Corso di laurea a cui l'insegnamento è associato (opzionale).
      */
 
@@ -51,80 +50,68 @@ class Insegnamento {
         $this->materiali = new ArrayCollection();
     }
 
-    /**
-     * Restituisce il codice dell'insegnamento.
-     * 
-     * @return int Il codice dell'insegnamento.
-     */
-    public function getIdInsegnamento(): int {
-        return $this->id;
-    }
-
-    /**
+     /**
      * Imposta/modifica il codice dell'insegnamento.
-     * 
      * @param int $codiceInsegnamento Nuovo codice.
-     * @return void
      */
     public function setIdInsegnamento(int $codiceInsegnamento): void {
         $this->id = $codiceInsegnamento;
     }
 
     /**
+     * Restituisce il codice dell'insegnamento.
+     * @return int Il codice dell'insegnamento.
+     */
+    public function getIdInsegnamento(): int {
+        return $this->id;
+    }
+
+     /**
+     * Imposta/modifica il nome dell'insegnamento.
+     * @param string $nomeInsegnamento Nuovo nome.
+     */
+    public function setNomeInsegnamento(string $nomeInsegnamento): void {
+        $this->nomeInsegnamento = $nomeInsegnamento;
+    }
+   
+    /**
      * Restituisce il nome dell'insegnamento.
-     * 
      * @return string Il nome dell'insegnamento.
      */
     public function getNomeInsegnamento(): string {
         return $this->nomeInsegnamento;
     }
 
-    /**
-     * Imposta/modifica il nome dell'insegnamento.
-     * 
-     * @param string $nomeInsegnamento Nuovo nome.
-     * @return void
-     */
-    public function setNomeInsegnamento(string $nomeInsegnamento): void {
-        $this->nomeInsegnamento = $nomeInsegnamento;
-    }
-
-    /**
-     * Restituisce la collezione di materiali associati all'insegnamento.
-     * 
-     * @return Collection|Materiale[] La collezione di materiali associati all'insegnamento.
-     */
-    public function getMateriali(): Collection {
-        return $this->materiali;
-    }
-
-    /**
+   /**
      * Aggiunge un materiale alla collezione dei materiali associati all'insegnamento.
-     * 
      * @param Materiale $materiale Il materiale da aggiungere.
-     * @return void
      */
     public function aggiungiMateriale(Materiale $materiale): void {
         $this->materiali[] = $materiale;
     }
 
     /**
+     * Restituisce la collezione di materiali associati all'insegnamento.
+     * @return Collection|Materiale[] La collezione di materiali associati all'insegnamento.
+     */
+    public function getMateriali(): Collection {
+        return $this->materiali;
+    }
+
+     /**
+     * Imposta/modifica il corso di laurea associato all'insegnamento.
+     * @param CorsoDiLaurea $corsoDiLaurea Il nuovo corso di laurea da associare.
+     */
+    public function setCorsoDiLaurea(CorsoDiLaurea $corsoDiLaurea): void {
+    $this->corsoDiLaurea = $corsoDiLaurea;
+    }
+
+    /**
      * Restituisce il corso di laurea a cui l'insegnamento è associato.
-     * 
      * @return CorsoDiLaurea Il corso di laurea associato all'insegnamento.
      */
     public function getCorsoDiLaurea(): CorsoDiLaurea {
         return $this->corsoDiLaurea;
     }
-
-    /**
-     * Imposta/modifica il corso di laurea associato all'insegnamento.
-     * 
-     * @param CorsoDiLaurea $corsoDiLaurea Il nuovo corso di laurea da associare.
-     * @return void
-     */
-    public function setCorsoDiLaurea(CorsoDiLaurea $corsoDiLaurea): void {
-    $this->corsoDiLaurea = $corsoDiLaurea;
-    }
-    
+  
 }

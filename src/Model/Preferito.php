@@ -50,6 +50,14 @@ class Preferito {
     }
 
     /**
+     * Imposta l'ID del preferito.
+     * @param int $id L'ID del preferito.
+     */
+    public function setIdPreferito(int $id): void {
+        $this->id = $id;
+    }
+
+    /**
      * Ottiene l'ID del preferito.
      * @return int L'ID del preferito.
      */
@@ -58,43 +66,37 @@ class Preferito {
     }
 
     /**
-     * Ottiene lo studente che ha aggiunto il materiale ai preferiti.
-     * @return Studente studente che ha aggiunto il materiale ai preferiti.
-     */
-    public function getStudente(): Studente {
-        return $this->studente;
-    }
-
-    /**
-     * Ottiene il materiale aggiunto ai preferiti.
-     * @return Materiale materiale aggiunto ai preferiti.
-     */
-    public function getMateriale(): Materiale {
-        return $this->materiale;
-    }
-
-    /**
-     * Imposta l'ID del preferito.
-     * @param int $id L'ID del preferito.
-     */
-    public function setId(int $id): void {
-        $this->id = $id;
-    }
-
-    /**
      * Imposta lo studente che ha aggiunto il materiale ai preferiti.
      * @param Studente $studente lo studente che ha aggiunto il materiale ai preferiti.
      */
-    public function setStudente(Studente $studente): void {
+    public function setStudentePreferito(Studente $studente): void {
         $this->studente = $studente;
+    }
+
+     /**
+     * Ottiene lo studente che ha aggiunto il materiale ai preferiti.
+     * @return Studente studente che ha aggiunto il materiale ai preferiti.
+     */
+    public function getStudentePreferito(): Studente {
+        return $this->studente;
     }
 
     /**
      * Imposta il materiale aggiunto ai preferiti.
      * @param Materiale $materiale materiale aggiunto ai preferiti.
      */
-    public function setMateriale(Materiale $materiale): void {
+    public function setMaterialePreferito(Materiale $materiale): void {
         $this->materiale = $materiale;
     }
+    
+    /**
+     * Ottiene il materiale aggiunto ai preferiti.
+     * @return Materiale materiale aggiunto ai preferiti.
+     */
+    public function getMaterialePreferito(): Materiale {
+        return $this->materiale;
+    }
+
+    
     
 }

@@ -80,7 +80,6 @@ abstract class Materiale {
 
   /**
      * Costruttore della classe Materiale.
-     * @param int $id L'ID del materiale.
      * @param string $titolo Il titolo del materiale.
      * @param File $file Il file del materiale.
      * @param Insegnamento $insegnamento L'insegnamento associato al materiale.
@@ -104,24 +103,31 @@ abstract class Materiale {
     }
 
     /**
-     * Ottiene l'ID del materiale.
-     * @return int L'ID del materiale.
-     */
-    public function getId(): int {
-        return $this->id;
-    }
-
-    /**
      * Imposta l'ID del materiale.
      * @param int $id L'ID del materiale.
      */
-    public function setId(int $id): void {
+    public function setIdMateriale(int $id): void {
         $this->id= $id;
     }
 
     /**
+     * Ottiene l'ID del materiale.
+     * @return int L'ID del materiale.
+     */
+    public function getIdMateriale(): int {
+        return $this->id;
+    }
+
+     /**
+     * Imposta il titolo del materiale.
+     * @param string $titolo Il titolo del materiale.
+     */
+    public function setTitolo(string $titolo): void {
+        $this->titolo = $titolo;
+    }
+    
+    /**
      * Ottiene il titolo del materiale.
-     * 
      * @return string Il titolo del materiale.
      */
     public function getTitolo(): string {
@@ -129,26 +135,7 @@ abstract class Materiale {
     }
 
     /**
-     * Imposta il titolo del materiale.
-     * 
-     * @param string $titolo Il titolo del materiale.
-     */
-    public function setTitolo(string $titolo): void {
-        $this->titolo = $titolo;
-    }
-
-    /**
-     * Ottiene il file associato al materiale.
-     * 
-     * @return File $file
-     */
-    public function getFile(): File {
-        return $this->file;
-    }
-
-    /**
      * Imposta il file associato al materiale.
-     * 
      * @param File $file
      */
     public function setFile(File $file): void {
@@ -156,11 +143,11 @@ abstract class Materiale {
     }
 
     /**
-     * Ottiene Segnalazioni
-     * @return Collection<int, Segnalazione>
+     * Ottiene il file associato al materiale.
+     * @return File $file
      */
-    public function getSegnalazioni() : Collection {
-        return $this->segnalazioni;
+    public function getFile(): File {
+        return $this->file;
     }
 
     /**
@@ -170,39 +157,30 @@ abstract class Materiale {
     public function aggiungiSegnalazione(Segnalazione $segnalazione): void {
         $this->segnalazioni[] = $segnalazione;
     }
+    
+    /**
+     * Ottiene Segnalazioni
+     * @return Collection<int, Segnalazione>
+     */
+    public function getSegnalazioni() : Collection {
+        return $this->segnalazioni;
+    }
 
+    /**
+     * Aggiunge una recensione al materiale.
+     * @param Recensione $recensione Recensione da aggiungere.
+     * @return void
+     */
+    public function aggiungiRecensione(Recensione $recensione): void {
+        $this->recensioni[] = $recensione;
+    }
+    
     /**
      * Ottiene Recensioni
      * @return Collection<int, Recensione>
      */
     public function getRecensioni() : Collection {
        return $this->recensioni;
-    }
-
-    /**
-     * Ottiene Download
-     * @return Collection<int, Download>
-     */
-    public function getDownload() : Collection {
-        return $this->downloads;
-    }
-
-    /**
-     * Ottiene Preferiti
-     * @return Collection<int, Preferito>
-     */
-    public function getPreferiti() : Collection {
-        return $this->preferiti;
-    }
-
-    /**
-     * Aggiunge una recensione al materiale.
-     * 
-     * @param Recensione $recensione Recensione da aggiungere.
-     * @return void
-     */
-    public function aggiungiRecensione(Recensione $recensione): void {
-        $this->recensioni[] = $recensione;
     }
 
     /**
@@ -216,13 +194,29 @@ abstract class Materiale {
     }
 
     /**
+     * Ottiene Download
+     * @return Collection<int, Download>
+     */
+    public function getDownload() : Collection {
+        return $this->downloads;
+    }
+
+    
+    /**
      * Aggiunge un preferito al materiale.
      * 
      * @param Preferito $preferito Preferito da aggiungere.
-     * @return void
      */
     public function aggiungiPreferito(Preferito $preferito): void {
         $this->preferiti[] = $preferito;
+    }
+
+    /**
+     * Ottiene Preferiti
+     * @return Collection<int, Preferito>
+     */
+    public function getPreferiti() : Collection {
+        return $this->preferiti;
     }
 
 }

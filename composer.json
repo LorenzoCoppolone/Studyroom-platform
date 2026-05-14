@@ -17,6 +17,7 @@
         }
     },
     "require-dev": {
-        "doctrine/migrations": "^3.9"
+        "doctrine/migrations": "^3.9",
+        "code-lts/doctum": "^5.6"
     }
 }

@@ -7,7 +7,6 @@ class Esame extends Materiale {
 
    /**
     * Costruttore di esame.
-    * @param int $id ID del materiale.
     * @param string $titolo Titolo del materiale.
     * @param Insegnamento $insegnamento insegnamento associato al materiale.
     * @param Studente $studente studente che ha caricato il materiale.

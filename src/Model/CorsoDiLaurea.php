@@ -41,8 +41,15 @@ class CorsoDiLaurea {
     }
 
     /**
+     * Imposta/modifica il codice del corso di laurea.
+     * @param int $codiceCorso Nuovo codice del corso.
+     */
+    public function setCodiceCorso(int $codiceCorso): void {
+        $this->codiceCorso = $codiceCorso;
+    }
+
+    /**
      * Restituisce il codice del corso di laurea.
-     * 
      * @return int
      */
     public function getCodiceCorso(): int {
@@ -50,18 +57,15 @@ class CorsoDiLaurea {
     }
 
     /**
-     * Imposta/modifica il codice del corso di laurea.
-     * 
-     * @param int $codiceCorso Nuovo codice del corso.
-     * @return void
+     * Imposta/modifica il nome del corso di laurea.
+     * @param string $nomeCorso Nuovo nome del corso.
      */
-    public function setCodiceCorso(int $codiceCorso): void {
-        $this->codiceCorso = $codiceCorso;
+    public function setNomeCorso(string $nomeCorso): void {
+        $this->nomeCorso = $nomeCorso;
     }
 
     /**
      * Restituisce il nome del corso di laurea.
-     * 
      * @return string
      */
     public function getNomeCorso(): string {
@@ -69,32 +73,19 @@ class CorsoDiLaurea {
     }
 
     /**
-     * Imposta/modifica il nome del corso di laurea.
-     * 
-     * @param string $nomeCorso Nuovo nome del corso.
-     * @return void
+     * Aggiunge un insegnamento al corso di laurea.
+     * @param Insegnamento $insegnamento Insegnamento da aggiungere.
      */
-    public function setNomeCorso(string $nomeCorso): void {
-        $this->nomeCorso = $nomeCorso;
+    public function aggiungiInsegnamento(Insegnamento $insegnamento): void {
+        $this->insegnamenti[] = $insegnamento;
     }
-
+    
     /**
      * Restituisce la lista degli insegnamenti.
-     * 
      * @return Collection<Insegnamento> La collezione di insegnamenti associati al corso di laurea.
      */
     public function getInsegnamenti(): Collection {
         return $this->insegnamenti;
     }
 
-    /**
-     * Aggiunge un insegnamento al corso di laurea.
-     * 
-     * @param Insegnamento $insegnamento Insegnamento da aggiungere.
-     * @return void
-     */
-    public function aggiungiInsegnamento(Insegnamento $insegnamento): void {
-        $this->insegnamenti[] = $insegnamento;
-    }
- 
 }

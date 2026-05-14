@@ -85,7 +85,12 @@ php bin/doctrine.php orm:schema-tool:drop --force
 php bin/doctrine.php orm:schema-tool:update --force
 ```
 
-#### 5.5 Visualizzazione DB
+#### 5.5 Installazione documentazione
+```bash
+php vendor/bin/doctum.php update doctum.php
+```
+
+#### 5.6 Visualizzazione DB
 
 Per visualizzare il DB appena creato , andare su  **phpMyAdmin** oppure installare su VS l`estensione **"DataBase Client"** e connettersi al db impostando le variabili dambiente .
 

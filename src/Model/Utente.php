@@ -31,8 +31,6 @@ abstract class Utente {
 
     /**
      * Costruttore di utente.
-     * 
-     * @param int $id ID dell'utente.
      * @param string $nome Nome dell'utente.
      * @param string $cognome Cognome dell'utente.
      * @param string $email Email dell'utente.
@@ -53,7 +51,6 @@ abstract class Utente {
 
     /**
      * Inserisce l'ID dell'utente.
-     * 
      * @param int $id The ID of the utente.
      */
     public function setId(int $id): void {
@@ -61,8 +58,15 @@ abstract class Utente {
     }
 
      /**
+     * Ritorna l'ID dell'utente.
+     * @return int ID dell'utente.
+     */
+    public function getId(): int{
+        return $this->id;
+    }
+
+     /**
      * Inserisce il nome dell'utente.
-     * 
      * @param string $nome Nome dell'utente.
      */
     public function setNome(string $nome): void {
@@ -70,53 +74,22 @@ abstract class Utente {
     }
 
     /**
+     * Ritorna il nome dell'utente.
+     * @return string Nome dell'utente.
+     */
+    public function getNome(): string {
+        return $this->nome;
+    }
+    /**
     * Inserisce il cognome dell'utente.
-    * 
     * @param string $cognome Cognome dell'utente.
     */
     public function setCognome(string $cognome): void {
         $this->cognome = $cognome;
     }
 
-    /**
-    * Inserisce l'email dell'utente.
-    * 
-    * @param string $email Email dell'utente.
-    */
-    public function setEmail(string $email): void {
-        $this->email = $email;
-    }
-
-    /**
-    * Inserisce la password dell'utente.
-    * 
-    * @param string $passwordHash Password dell'utente.
-    */
-    public function setPassword(string $passwordHash): void {
-        $this->passwordHash = $passwordHash;
-    }
-
-    /**
-     * Ritorna l'ID dell'utente.
-     * 
-     * @return int ID dell'utente.
-     */
-    public function getId(): int{
-        return $this->id;
-    }
-
-    /**
-     * Ritorna il nome dell'utente.
-     * 
-     * @return string Nome dell'utente.
-     */
-    public function getNome(): string {
-        return $this->nome;
-    }
-
-    /**
+     /**
      * Ritorna il cognome dell'utente.
-     * 
      * @return string Cognome dell'utente.
      */
     public function getCognome(): string{
@@ -124,8 +97,15 @@ abstract class Utente {
     }
 
     /**
+    * Inserisce l'email dell'utente.
+    * @param string $email Email dell'utente.
+    */
+    public function setEmail(string $email): void {
+        $this->email = $email;
+    }
+
+     /**
      * Ritorna l'email dell'utente.
-     * 
      * @return string Email dell'utente.
      */
     public function getEmail(): string {
@@ -133,8 +113,15 @@ abstract class Utente {
     }
 
     /**
+    * Inserisce la password dell'utente.
+    * @param string $passwordHash Password dell'utente.
+    */
+    public function setPassword(string $passwordHash): void {
+        $this->passwordHash = $passwordHash;
+    }
+
+    /**
      * Ritorna la password dell'utente.
-     * 
      * @return string Password dell'utente.
      */
     public function getPassword(): string {
