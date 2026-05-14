@@ -16,7 +16,10 @@ use Model\Studente;
  */
 class DowloadMaterialeController {
 
-    // Esegue il download del materiale
+    /**
+     * Esegue il download di un materiale
+     * @return void
+     */
     public function eseguiDownload() : void {
 
         // Istanzio la view

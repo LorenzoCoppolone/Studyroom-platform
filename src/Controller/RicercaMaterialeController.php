@@ -64,16 +64,11 @@ class RicercaMaterialeController {
 
         /**
         * Esegue la ricerca dei materiali filtrata.
-        * @param string $titolo Il titolo del materiale da cercare.
-        * @param string $insegnamento Il nome dell'insegnamento da cercare.
-        * @param string $tipologia La tipologia del materiale da cercare.
-        * @param string $corso_di_laurea Il corso di laurea del materiale da cercare.
-        * @param string $tag Il tag del materiale da cercare.
-        * @return array Un array di materiali che corrispondono ai criteri di ricerca.
         * @throws InvalidArgumentException Se uno dei parametri è vuoto.
         * @throws Exception Se si verifica un errore durante la ricerca dei materiali.
         * @throws PDOException Se si verifica un errore di database durante la ricerca dei materiali.
         * @throws RuntimeException Se si verifica un errore imprevisto durante la ricerca dei materiali.
+        * @return array Un array di materiali che corrispondono ai criteri di ricerca.
         */
         public function FiltraMaterialeController(): void {
             // Istanzio la view

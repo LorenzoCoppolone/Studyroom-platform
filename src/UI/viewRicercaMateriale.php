@@ -9,7 +9,11 @@ class viewRicercaMateriale {
         return $_POST['titolo'];
     }
 
-// Funzione che restituisce tutti i dati inseriti dall'utente
+    /**
+     * Restituisce i dati inseriti dall'utente nella ricerca
+     * 
+     * @return array
+     */
     public function getDatiFiltro(): array {
         return [
             // prelievo in $_POST dei valori associati alle chiavi sotto elencate
@@ -23,7 +27,11 @@ class viewRicercaMateriale {
     }
 
 
-// Funzione che mostra i materiali trovati (?-l`interfaccia va implementata qui-?)
+    /**
+     * Mostra i risultati della ricerca
+     * 
+     * @return void
+     */
     public function mostraMateriali(array $materiale) : void {
 
     }

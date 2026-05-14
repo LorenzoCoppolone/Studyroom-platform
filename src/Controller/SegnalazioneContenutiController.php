@@ -18,6 +18,10 @@ use InvalidArgumentException;
 
 class SegnalazioneContenutiController {
 
+    /**
+     * Inserisce una segnalazione effettuata dallo studente
+     * @return void
+     */
     public function inserisciSegnalazione() : void {
 
         // Istanzio la view

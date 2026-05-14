@@ -17,7 +17,10 @@ use InvalidArgumentException;
 
 class ModerazioneController {
 
-    
+    /**
+     * Mostra le segnalazioni
+     * @return void
+     */
     public function mostraSegnalazioni() : void {
     
         $view = new ViewModerazioneContenuti();
@@ -42,6 +45,10 @@ class ModerazioneController {
         }
     }
 
+    /**
+     * Gestisce le segnalazioni accettate, rifiutate e ban dell'utente
+     * @return void
+     */
     public function GestisciSegnalazione() : void {
 
         $view = new ViewModerazioneContenuti();

@@ -14,6 +14,9 @@ use InvalidArgumentException;
  */
 class recensioneMaterialeController {
 
+    /**
+     * Inserisce una recensione effettuata dallo studente.
+     */
     public function inserisciRecensioneController() : void {
 
         // Istanzio la view
@@ -69,6 +72,10 @@ class recensioneMaterialeController {
         }
     }
 
+    /**
+     * Elimina una recensione effettuata dallo studente.
+     * @return void
+     */
     public function eliminaRecensione() : void {
 
         // Istanzio la view

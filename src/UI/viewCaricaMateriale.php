@@ -3,7 +3,10 @@ namespace UI;
 
 class viewCaricaMateriale {
     
-
+    /**
+     * Restituisce i dati del materiale da caricare.
+     * @return array array di dati passati da http
+     */
     public function getDatiMateriale() : array {
         return [
             'titolo' => $_POST['titolo'],

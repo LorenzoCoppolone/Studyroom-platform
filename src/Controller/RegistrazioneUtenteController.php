@@ -13,18 +13,13 @@ class RegistrazioneUtenteController {
 
     /**
      * Registra un nuovo utente nel sistema.
-     * 
-     * @param string $nome Il nome dell'utente da registrare.
-     * @param string $cognome Il cognome dell'utente da registrare.
-     * @param string $email L'email dell'utente da registrare.
-     * @param string $password La password dell'utente da registrare.
-     * @return bool True se la registrazione è avvenuta con successo, false altrimenti.
      * @throws InvalidArgumentException Se uno dei parametri è vuoto o non valido.
      * @throws Exception Se si verifica un errore durante la registrazione dell'utente.
      * @throws PDOException Se si verifica un errore di database durante la registrazione dell'utente.
      * @throws RuntimeException Se si verifica un errore imprevisto durante la registrazione dell'utente.
+     * @return void
      */
-    public function registraUtente(string $nome, string $cognome, string $email, string $password): bool {
+    public function registraUtente(): void {
         if (empty($nome)) {
             throw new InvalidArgumentException("Il nome dell'utente non può essere vuoto.");
         }
@@ -42,9 +37,6 @@ class RegistrazioneUtenteController {
         try {
             // Codice per inserire l'utente nel database
 
-            // ...
-
-            return true; // Restituisce true se la registrazione è avvenuta con successo
 
         } catch (PDOException $e) {
             // Errore lato DB
@@ -57,9 +49,11 @@ class RegistrazioneUtenteController {
 
 
 
-
-    public function InviaEmailConferma(string $email): bool {
-        return true;
+    /**
+     * Invia un'email di conferma all'indirizzo fornito.
+     * @return void
+     */
+    public function InviaEmailConferma(): void {
         // logica per l'invio di un'email di conferma all'indirizzo fornito
         // e restituendo true se l'invio è avvenuto con successo, false altrimenti
     }
@@ -67,9 +61,11 @@ class RegistrazioneUtenteController {
 
 
 
-
-    public function ConfermaEmail(string $token): bool {
-        return true;
+    /**
+     * Conferma l'email dell'utente utilizzando un token di conferma.
+     * @return void
+     */
+    public function ConfermaEmail(): void {
         // logica per confermare l'email dell'utente utilizzando un token di conferma
         // e restituendo true se la conferma è avvenuta con successo, false altrimenti
     }
@@ -79,9 +75,11 @@ class RegistrazioneUtenteController {
 
 
 
-
-    public function recuperaPassword(string $email): bool {
-        return true;
+    /**
+     * Recupera la password dell'utente utilizzando l'email fornita.
+     * @return void
+     */
+    public function recuperaPassword(): void {
         // logica per il recupero della password, inviando un'email con le istruzioni per reimpostare la password
         // e restituendo true se l'operazione è avvenuta con successo, false altrimenti
     }

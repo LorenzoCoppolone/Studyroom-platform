@@ -6,12 +6,20 @@ use Foundation\Persistent\PersistentManager;
 
 class ProfiloStudenteController {
    
+    /**
+     * Visualizza il profilo dell'utente
+     * @return void
+     */
     public function visualizzaProfilo() : void {
 
        //logica per la visualizzazione del profilo dell'utente
 
     }
 
+    /**
+     * Modifica il profilo dell'utente
+     * @return void
+     */
     public function modificaProfilo() : void {
 
         //logica per la modifica del profilo dell'utente
@@ -19,6 +27,10 @@ class ProfiloStudenteController {
 
     }
 
+    /**
+     * Elimina il profilo dell'utente
+     * @return void
+     */
     public function eliminaProfilo() : void {
 
         //logica per l'eliminazione del profilo dell'utente
@@ -26,6 +38,10 @@ class ProfiloStudenteController {
     }
 
 
+    /**
+     * Visualizza il profilo dello studente
+     * @return void
+     */
     public function visualizzaProfiloStudente() : void {
 
 

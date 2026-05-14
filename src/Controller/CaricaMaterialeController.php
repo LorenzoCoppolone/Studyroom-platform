@@ -57,18 +57,10 @@ class CaricaMaterialeController {
 
     /**
      * Carica il materiale nel sistema
-     * @param string $titolo
-     * @param string $insegnamento
-     * @param string $corso_di_laurea
-     * @param string $tag
-     * @param File $file
-     * @param bool $termini_condizioni
-     * @return bool
+     * @return void
      */
-  
-    
- public function caricaMateriale(): void
-{
+    public function caricaMateriale(): void
+    {
 
 
     try {
