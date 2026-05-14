@@ -227,7 +227,11 @@ public function cercaMateriale(
      * @param int $limit Il limite per la paginazione.
      * @return array Un array di preferiti, altrimenti null.
      */
-    public function trovaPreferitiPerUtente(int $id_studente, int $offset, int $limit): array {
+    public function trovaPreferitiPerUtente(
+        int $id_studente, 
+        int $offset, 
+        int $limit
+        ): array {
         
         // Creo una query Doctrine dinamica
         $qb = $this->em->createQueryBuilder();
@@ -270,8 +274,6 @@ public function cercaMateriale(
         return $result;
     }
 
-
- //DA TESTARE
     /**
      * Trova download per studente.
      * @param int $id_studente L'ID dello studente.
@@ -321,7 +323,6 @@ public function cercaMateriale(
         return $result;
     }
 
- //DA TESTARE
     /**
      * Trova recensioni per studente e materiale.
      * @param int $id_studente L'ID dello studente.
@@ -339,7 +340,7 @@ public function cercaMateriale(
         )
             ->from(Recensione::class, 'r')
             ->join('r.materiale', 'm')
-            ->Where('r.studente_id = :id_studente')
+            ->where('r.studente = :id_studente')
             ->setParameter('id_studente', $id_studente);
 
             $qb->setFirstResult($offset)
