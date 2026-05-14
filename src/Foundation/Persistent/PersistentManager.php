@@ -25,42 +25,79 @@ class PersistentManager {
     }
 
     // CRUD base
+
+    /**
+     * Questa funzione salva un oggetto nel DB
+     * @param entity Oggetto da salvare nel DB
+     * @return void 
+     * persist() -> registra l'entità nell'EntityManager
+     * flush()   -> sincronizza le modifiche con il database
+     */
     public function save(object $entity): void {
         $this->em->persist($entity);
         $this->em->flush();
     }
 
+    /**
+    * Sincronizza le modifiche pendenti delle entità con il database.
+    */
     public function update(): void {
         $this->em->flush();
     }
 
+    /**
+     * Elimina un'entità dal database
+     * @param entity Oggetto da eliminare dal DB
+     * @return void
+     * remove() -> marca l'entità per l'eliminazione
+     * flush()  -> esegue il DELETE nel database
+     */
     public function delete(object $entity): void {
         $this->em->remove($entity);
         $this->em->flush();
     }
 
+    /**
+     * Trova un'entità nel DB
+     * @param class La classe in cui cercare
+     * @param id ID dell'oggetto da cercare
+     * @return object|null Restituisce l'oggetto trovato nel DB
+     */
     public function find(string $class, int $id): ?object {
         return $this->em->find($class, $id);
     }
 
+    /**
+     * Trova tutte le entità
+     * @param class La classe in cui cercare
+     * @return array Restituisce un array di oggetti
+     */
     public function findAll(string $class): array {
         return $this->em->getRepository($class)->findAll();
     }
 
+    /**
+     * Trova le entità secondo determinati criteri
+     * @param class La classe in cui cercare 
+     * @param criteria Lista di criteri 
+     * @return array Restituisce un array di oggetti
+     */
     public function findBy(string $class, array $criteria): array {
         return $this->em->getRepository($class)->findBy($criteria);
     }
 
+    /**
+     * Trova un'entità secondo determinati criteri
+     * @param class La classe in cui cercare
+     * @param criteria Lista di criteri
+     * @return object Restituisce un oggetto
+     */
     public function findOneBy(string $class, array $criteria): ?object {
         return $this->em->getRepository($class)->findOneBy($criteria);
     }
 
 
-
-
-    // Query custom
-
-    
+// Query custom
 
 /**
  * cerca i materiali per titolo, insegnamento, tipologia, corso di laurea, tag e un eventuale criterio di ordinamento.
@@ -87,41 +124,39 @@ public function cercaMateriale(
     string $criterio = "",
 ): array {
 
+    // Permette di creare query in più passi
+    $qb = $this->em->createQueryBuilder();
 
-
-   $qb = $this->em->createQueryBuilder();
-
-   // Aggiungi le colonne da ritornare, le nomino in maniera significativa, 
-   // così che nella UI possa essere facilmente identificata la colonna corrispondente
-   $qb->select(
+    // Aggiungi le colonne da ritornare, le nomino in maniera significativa, 
+    // così che nella UI possa essere facilmente identificata la colonna corrispondente
+    $qb->select(
         'm.id as idMateriale',
         'm.titolo as titoloMateriale',
         'm.file.MimeTypeFile AS tipoFile',
         'm.file.contenutoFile AS contenutoFile',
         'i.nomeInsegnamento as insegnamento',
         'c.nomeCorso as corso_di_Laurea',
-        's.nome as nome_studente',
+        's.username as nome_studente',
         'COUNT(d.id) as numeroDownload',
         'COUNT(r.id) as numeroRecensioni',
         'AVG(r.voto) as mediaValutazione',
-      )
+    )
 
-      // Aggiungi la colonna tipologia, 
-      // nella quale verrà scritto "APPUNTO" se il materiale è un appunto e "ESAME" se è un esame
-      ->addSelect(
+    // Aggiungi la colonna tipologia, 
+    // nella quale verrà scritto "APPUNTO" se il materiale è un appunto e "ESAME" se è un esame
+        ->addSelect(
     "CASE
         WHEN m INSTANCE OF Model\\Appunto THEN 'APPUNTO'
         WHEN m INSTANCE OF Model\\Esame THEN 'ESAME'
         ELSE 'ALTRO'
      END AS tipologia"
-)
+    )
         ->from(Materiale::class, 'm')
         ->leftjoin('m.downloads', 'd')
         ->join('m.studente', 's')
         ->join('m.insegnamento', 'i')
         ->join('i.corsoDiLaurea', 'c')
         ->leftjoin('m.recensioni', 'r');
-
 
         if(!empty($titolo)){
         $qb->where('m.titolo LIKE :titolo')
@@ -136,7 +171,6 @@ public function cercaMateriale(
         ->setParameter('insegnamento', $insegnamento);
     }
 
-
     // Se la tipologia non è vuota, aggiungi una condizione di ricerca per la tipologia
     if (strtolower($tipologia) === "appunto") {
         $qb->andWhere('m INSTANCE OF Model\Appunto');
@@ -144,13 +178,11 @@ public function cercaMateriale(
         $qb->andWhere('m INSTANCE OF Model\Esame');
     }
 
-
     // Se il corso di laurea non è vuoto, aggiungi una condizione di ricerca per il corso di laurea
     if (!empty($corso)) {
         $qb->andWhere('c.nomeCorso = :corso')
         ->setParameter('corso', $corso);
     }
-
 
     // Se il tag non è vuoto, aggiungi una condizione di ricerca per il tag
     if (!empty($tag)) {
@@ -168,18 +200,12 @@ public function cercaMateriale(
         $qb->orderBy('mediaValutazione', 'DESC');
     }
 
-
     //Restituisci i primi limit materiali
     $qb->setFirstResult($offset)
        ->setMaxResults($limit);
 
-
-
-
     // Esegui la query, e ottieni i risultati come un array
     $result = $qb->getQuery()->getArrayResult();
-
-
 
     // ciclo per ottenere il binario del file e lo codifico in base 64
     foreach ($result as &$row) {
@@ -195,10 +221,6 @@ public function cercaMateriale(
     }
 
 
-
-
-
-
  //DA TESTARE
     /**
      * Trova preferito per studente e materiale.
@@ -208,12 +230,15 @@ public function cercaMateriale(
      * @return array Un array di preferiti, altrimenti null.
      */
     public function trovaPreferitiPerUtente(int $id_studente, int $offset, int $limit): array {
+        
+        // Creo una query Doctrine dinamica
         $qb = $this->em->createQueryBuilder();
+        
         $qb->select( 
         'm.id as idMateriale',
         'm.titolo as titoloMateriale',
         'm.file.MimeTypeFile AS tipoFile',
-        'm.file.contenutoFile AS contenutoFile',
+        'm.file.contenutoFile AS contenutoFile', // Il contenuto è BLOB
         'i.nomeInsegnamento as insegnamento',
         'c.nomeCorso as corso_di_Laurea',
         'COUNT(d.id) as numeroDownload',
@@ -231,16 +256,18 @@ public function cercaMateriale(
             ->setFirstResult($offset)
             ->setMaxResults($limit);
 
+        // Ritorna array PHP    
         $result = $qb->getQuery()->getArrayResult();
 
         foreach ($result as &$row) {
+            // Verifico se il valore è uno stream PHP
             if (is_resource($row['contenutoFile'])) {
+                // Converte lo stream in stringa binaria
                 $binario = stream_get_contents($row['contenutoFile']);
+                // Conversione base64
                 $row['contenutoFile'] = base64_encode($binario);
             }
         }
-
-
         return $result;
     }
 
@@ -288,7 +315,6 @@ public function cercaMateriale(
         return $result;
     }
 
-
  //DA TESTARE
     /**
      * Trova recensioni per studente e materiale.
@@ -314,9 +340,6 @@ public function cercaMateriale(
                ->setMaxResults($limit);
 
         $result =$qb->getQuery()->getArrayResult();
-
-
-
 
         foreach ($result as &$row) {
             if (is_resource($row['contenutoFile'])) {
