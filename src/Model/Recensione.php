@@ -69,51 +69,19 @@ class Recensione {
     }
 
     /**
-     * Ottiene l'ID della recensione.
-     * @return int L'ID della recensione.
-     */
-    public function getId(): int {
-        return $this->id;
-    }
-
-    /**
-     * Ottiene il voto della recensione.
-     * @return float Il voto della recensione.
-     */
-    public function getVoto(): float {
-        return $this->voto;
-    }
-
-    /**
-     * Ottiene il commento della recensione.
-     * @return string Il commento della recensione.
-     */
-    public function getCommento(): string {
-        return $this->commento;
-    }
-
-    /**
-     * Ottiene lo studente che ha scritto la recensione.
-     * @return Studente studente che ha scritto la recensione.
-     */
-    public function getStudente(): Studente {
-        return $this->studente;
-    }
-
-    /**
-     * Ottiene il materiale recensito.
-     * @return Materiale materiale recensito.
-     */
-    public function getMateriale(): Materiale {
-        return $this->materiale;
-    }
-
-    /**
      * Imposta l'ID della recensione.
      * @param int $id L'ID della recensione.
      */
     public function setId(int $id): void {
         $this->id = $id;
+    }
+
+    /**
+     * Ottiene l'ID della recensione.
+     * @return int L'ID della recensione.
+     */
+    public function getId(): int {
+        return $this->id;
     }
 
     /**
@@ -125,6 +93,14 @@ class Recensione {
     }
 
     /**
+     * Ottiene il voto della recensione.
+     * @return float Il voto della recensione.
+     */
+    public function getVoto(): float {
+        return $this->voto;
+    }
+
+    /**
      * Imposta il commento della recENSIONE.
      * @param string $commento Il commento della recENSIONE.
      */
@@ -133,11 +109,27 @@ class Recensione {
     }
 
     /**
+     * Ottiene il commento della recensione.
+     * @return string Il commento della recensione.
+     */
+    public function getCommento(): string {
+        return $this->commento;
+    }
+
+    /**
      * Imposta lo studente che ha scritto la recensione.
      * @param Studente $studente  studente che ha scritto la recensione.
      */
     public function setStudente(Studente $studente): void {
         $this->studente = $studente;
+    }
+
+    /**
+     * Ottiene lo studente che ha scritto la recensione.
+     * @return Studente studente che ha scritto la recensione.
+     */
+    public function getStudente(): Studente {
+        return $this->studente;
     }
      
     /**
@@ -148,5 +140,13 @@ class Recensione {
     public function setMateriale(Materiale $materiale): void {
         $this->materiale = $materiale;
     }
-    
+
+    /**
+     * Ottiene il materiale recensito.
+     * @return Materiale materiale recensito.
+     */
+    public function getMateriale(): Materiale {
+        return $this->materiale;
+    }
+ 
 }

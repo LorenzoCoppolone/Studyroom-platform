@@ -53,8 +53,15 @@ class Segnalazione {
     }
 
     /**
+     * Imposta/modifica l'ID della segnalazione.
+     * @param int $id Nuovo ID.
+     */
+    public function setId(int $id): void {
+        $this->id = $id;
+    }
+
+    /**
      * Restituisce l'ID della segnalazione.
-     * 
      * @return int
      */
     public function getId(): int {
@@ -62,37 +69,31 @@ class Segnalazione {
     }
 
     /**
-     * Imposta/modifica l'ID della segnalazione.
-     * 
-     * @param int $id Nuovo ID.
-     * @return void
-     */
-    public function setId(int $id): void {
-        $this->id = $id;
-    }
-
-    /**
-     * Restituisce il motivo della segnalazione.
-     * 
-     * @return string
-     */
-    public function getMotivo(): string {
-        return $this->motivo;
-    }
-
-    /**
      * Imposta/modifica il motivo della segnalazione.
-     * 
      * @param string $motivo Nuovo motivo.
-     * @return void
      */
     public function setMotivo(string $motivo): void {
         $this->motivo = $motivo;
     }
 
     /**
+     * Restituisce il motivo della segnalazione.
+     * @return string
+     */
+    public function getMotivo(): string {
+        return $this->motivo;
+    }
+
+     /**
+     * Imposta/modifica il timestamp della segnalazione.
+     * @param \DateTimeImmutable $timeStamp Nuova data/ora.
+     */
+    public function setTimeStamp(\DateTimeImmutable $timeStamp): void {
+        $this->timeStamp = $timeStamp;
+    }
+
+    /**
      * Restituisce la data/ora della segnalazione.
-     * 
      * @return \DateTimeImmutable
      */
     public function getTimeStamp(): \DateTimeImmutable {
@@ -100,70 +101,51 @@ class Segnalazione {
     }
 
     /**
-     * Imposta/modifica il timestamp della segnalazione.
-     * 
-     * @param \DateTimeImmutable $timeStamp Nuova data/ora.
-     * @return void
+     * Imposta/modifica lo studente segnalante.
+     * @param Studente $segnalante Nuovo segnalante.
      */
-    public function setTimeStamp(\DateTimeImmutable $timeStamp): void {
-        $this->timeStamp = $timeStamp;
+    public function setSegnalante(Studente $segnalante): void {
+        $this->segnalante = $segnalante;
     }
 
     /**
      * Restituisce lo studente che ha effettuato la segnalazione.
-     * 
      * @return Studente
      */
     public function getSegnalante(): Studente {
         return $this->segnalante;
     }
 
-    /**
-     * Imposta/modifica lo studente segnalante.
-     * 
-     * @param Studente $segnalante Nuovo segnalante.
-     * @return void
-     */
-    public function setSegnalante(Studente $segnalante): void {
-        $this->segnalante = $segnalante;
-    }
-  
-    /**
-     * Restituisce il materiale segnalato.
-     * 
-     * @return Materiale
-     */
-    public function getMateriale(): Materiale {
-        return $this->materialeSegnalato;
-    }
-
-    /**
+     /**
      * Imposta/modifica il materiale segnalato.
-     * 
      * @param Materiale $materiale Nuovo materiale.
-     * @return void
      */
     public function setMateriale(Materiale $materiale): void {
         $this->materialeSegnalato = $materiale;
     }
 
     /**
+     * Restituisce il materiale segnalato.
+     * @return Materiale
+     */
+    public function getMateriale(): Materiale {
+        return $this->materialeSegnalato;
+    }
+
+     /**
+     * Imposta/modifica l'amministratore.
+     * @param Amministratore $amministratore Nuovo amministratore.
+     */
+    public function setAmministratore(Amministratore $amministratore): void {
+        $this->amministratore = $amministratore;
+    }
+
+    /**
      * Restituisce l'amministratore che gestisce la segnalazione.
-     * 
      * @return Amministratore
      */
     public function getAmministratore(): Amministratore {
         return $this->amministratore;
-    }
-
-    /**
-     * Imposta/modifica l'amministratore.
-     * 
-     * @param Amministratore $amministratore Nuovo amministratore.
-     * @return void
-     */
-    public function setAmministratore(Amministratore $amministratore): void {
-        $this->amministratore = $amministratore;
     }
 
 }

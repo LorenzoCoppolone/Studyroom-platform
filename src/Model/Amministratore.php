@@ -20,8 +20,6 @@ class Amministratore extends Utente{
 
      /**
      * Costruttore di amministratore.
-     * 
-     * @param int $id ID dell'amministratore.
      * @param string $nome Nome dell'amministratore.
      * @param string $cognome Cognome dell'amministratore.
      * @param string $email Email dell'amministratore.
@@ -43,22 +41,20 @@ class Amministratore extends Utente{
         $this->segnalazioni = new ArrayCollection();
     }
 
-    /**
-    * Ottiene le segnalazioni ricevute dall'amministratore.
-    * 
-    * @return Collection Le segnalazioni ricevute dall'amministratore.
-    */
-    public function getSegnalazioni(): Collection {
-        return $this->segnalazioni;
-    }
-
-    /**
+     /**
      * Imposta le segnalazioni ricevute dall'amministratore.
-     * 
      * @param Collection $segnalazioni Le segnalazioni ricevute dall'amministratore.
      */
     public function setSegnalazioni(Collection $segnalazioni): void {
         $this->segnalazioni = $segnalazioni;
+    }
+    
+    /**
+    * Ottiene le segnalazioni ricevute dall'amministratore.
+    * @return Collection Le segnalazioni ricevute dall'amministratore.
+    */
+    public function getSegnalazioni(): Collection {
+        return $this->segnalazioni;
     }
 
 }

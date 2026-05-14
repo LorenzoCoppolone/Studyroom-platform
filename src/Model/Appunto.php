@@ -14,8 +14,6 @@ class Appunto extends Materiale {
 
     /**
      * Costruttore di appunti.
-     * 
-     * @param int $id ID del materiale.
      * @param string $titolo Titolo del materiale.
      * @param Insegnamento $insegnamento insegnamento associato al materiale.
      * @param Studente $studente studente che ha caricato il materiale.
@@ -40,21 +38,21 @@ class Appunto extends Materiale {
     }
 
     /**
+     * Imposta il tag degli appunti.
+     * @param Tag $tag Il tag degli appunti.
+     */
+    public function setTag(Tag $tag): void {
+        $this->tag = $tag;
+    }
+    
+    /**
      * Ottiene il tag degli appunti.
-     * 
      * @return Tag Il tag degli appunti.
      */
     public function getTag(): Tag {
         return $this->tag;
     }
 
-    /**
-     * Imposta il tag degli appunti.
-     * 
-     * @param Tag $tag Il tag degli appunti.
-     */
-    public function setTag(Tag $tag): void {
-        $this->tag = $tag;
-    }
+    
 
 }

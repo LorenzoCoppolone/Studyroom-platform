@@ -45,36 +45,23 @@ class File{
     }
 
     /**
-     * Ottiene il tipo del file.
-     * 
-     * @return string tipo del file.
-     */
-    public function getmimeTypeFile(): string {
-        return $this->MimeTypeFile;
-    }
-
-    /**
      * Imposta il tipo del file.
-     * 
      * @param string $MimeTypeFile Tipo del file.
      */
     public function setMimeTypeFile(string $MimeTypeFile): void {
         $this->MimeTypeFile = $MimeTypeFile;
     }
 
-
     /**
-     * Ottiene la dimensione del file.
-     * 
-     * @return float La dimensione del file in megabyte.
+     * Ottiene il tipo del file.
+     * @return string tipo del file.
      */
-    public function getDimensioneFile(): float {
-        return $this->dimensioneFile;
+    public function getmimeTypeFile(): string {
+        return $this->MimeTypeFile;
     }
 
-    /**
+     /**
      * Imposta la dimensione del file.
-     * 
      * @param float $dimensioneFile La dimensione del file in megabyte.
      */
     public function setDimensioneFile(float $dimensioneFile): void {
@@ -82,8 +69,23 @@ class File{
     }
 
     /**
+     * Ottiene la dimensione del file.
+     * @return float La dimensione del file in megabyte.
+     */
+    public function getDimensioneFile(): float {
+        return $this->dimensioneFile;
+    }
+
+    /**
+     * Imposta il contenuto del file.
+     * @param string $contenutoFile Il contenuto del file.
+     */
+    public function setContenutoFile(string $contenutoFile): void {
+        $this->contenutoFile = $contenutoFile;
+    }
+
+    /**
      * Ottiene il contenuto del file.
-     * 
      * @return string Il contenuto del file.
      */
    public function getContenutoFile(): string
@@ -94,12 +96,4 @@ class File{
         return $this->contenutoFile;
     }
 
-    /**
-     * Imposta il contenuto del file.
-     * 
-     * @param string $contenutoFile Il contenuto del file.
-     */
-    public function setContenutoFile(string $contenutoFile): void {
-        $this->contenutoFile = $contenutoFile;
-    }
 }

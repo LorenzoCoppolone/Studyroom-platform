@@ -63,19 +63,22 @@ class Studente extends Utente {
     #[ORM\OneToMany(targetEntity: Preferito::class, mappedBy: "studente", fetch: "EXTRA_LAZY")]
     private Collection $preferiti;
 
+    /** @var Collection<int, Recensione>
+     * un utente può avere più recensioni, 
+     * quindi è una relazione OneToMany tra Utente e Recensione, 
+     * ma ogni recensione è associata a un solo utente.
+    */
+
     #[ORM\OneToMany(targetEntity: Recensione::class, mappedBy: "studente", fetch: "EXTRA_LAZY")]
     private Collection $recensioni;
 
     /**
      * Costruttore di studente.
-     * 
-     * @param int $id ID dello studente.
      * @param string $nome Nome dello studente.
      * @param string $cognome Cognome dello studente.
      * @param string $email Email dello studente.
      * @param string $passwordHash Password dello studente.
      * @param string $username Username dello studente.
-     * @param bool $stato Stato dello studente (attivo o non attivo).
      */
     public function __construct(
         string $nome, 
@@ -102,7 +105,6 @@ class Studente extends Utente {
 
     /**
      * Inserisce lo username dello studente.
-     * 
      * @param string $username Username dello studente.
      */ 
     public function setUsername(string $username): void {
@@ -110,30 +112,18 @@ class Studente extends Utente {
     }
 
     /**
-     * Inserisce lo stato dello studente.
-     * 
-     * @param bool $stato Stato dello studente (attivo o non attivo).
-     */
-    public function setStato(bool $stato): void {
-        $this->stato = $stato;
-    }
-
-    /**
      * Ottiene lo username dello studente.
-     * 
      * @return string Username dello studente.
      */
     public function getUsername(): string {
         return $this->username;
     }
 
-    /**
-     * Ottiene lo stato dello studente.
-     * 
-     * @return bool Stato dello studente (attivo o non attivo).
-     */
-    public function getStato(): bool {
-        return $this->stato;
+    /** @param Segnalazione $segnalazioneEffettuata
+      * Aggiunge una segnalazione effettuata dallo studente alla collezione delle segnalazioni fatte.
+      */
+    public function setSegnalazioneEffettuata(Segnalazione $segnalazioneEffettuata): void {
+        $this->segnalazioniFatte[] = $segnalazioneEffettuata;
     }
 
      /** @return Collection<int, segnalazione>
@@ -143,32 +133,18 @@ class Studente extends Utente {
          return $this->segnalazioniFatte;
     }
     
-     /** @param Segnalazione $segnalazioneEffettuata
-      * Aggiunge una segnalazione effettuata dallo studente alla collezione delle segnalazioni fatte.
-      */
-    public function setSegnalazioneEffettuata(Segnalazione $segnalazioneEffettuata): void {
-        $this->segnalazioniFatte[] = $segnalazioneEffettuata;
-    }
-    
-     /** @return Collection<int, Materiale> 
-      * Restituisce i materiali caricati dallo studente.
-     */
-    public function getUploadEffettuati(): Collection {
-         return $this->uploadEffettuati;
-    }
-    
      /** @param Materiale $uploadEffettuati
       * Aggiunge un materiale caricato dallo studente alla collezione dei materiali caricati.
       */
     public function setUploadEffettuati(Materiale $uploadEffettuati): void {
         $this->uploadEffettuati[] = $uploadEffettuati;
     }
-    
-     /** @return Collection<int, Download>
-      * Restituisce i download effettuati dallo studente.
-      */
-    public function getDownloadEffettuati(): Collection {
-         return $this->downloadEffettuati;
+
+     /** @return Collection<int, Materiale> 
+      * Restituisce i materiali caricati dallo studente.
+     */
+    public function getUploadEffettuati(): Collection {
+         return $this->uploadEffettuati;
     }
     
      /** @param Download $downloadEffettuati
@@ -177,12 +153,12 @@ class Studente extends Utente {
     public function setDownloadEffettuati(Download $downloadEffettuati): void {
         $this->downloadEffettuati[] = $downloadEffettuati;
     }
-    
-     /** @return Collection<int, Preferito> 
-      * Restituisce i preferiti dello studente.
-     */
-    public function getPreferiti(): Collection {
-         return $this->preferiti;
+
+     /** @return Collection<int, Download>
+      * Restituisce i download effettuati dallo studente.
+      */
+    public function getDownloadEffettuati(): Collection {
+         return $this->downloadEffettuati;
     }
     
      /** @param Preferito $preferiti
@@ -191,19 +167,26 @@ class Studente extends Utente {
     public function setPreferiti(Preferito $preferiti): void {
         $this->preferiti[] = $preferiti;
     }
+
+     /** @return Collection<int, Preferito> 
+      * Restituisce i preferiti dello studente.
+     */
+    public function getPreferiti(): Collection {
+         return $this->preferiti;
+    }
     
+     /** @param Recensione $recensioni
+     * Aggiunge una recensione effettuata dallo studente alla collezione delle recensioni effettuate.
+     */
+    public function setRecensioni(Recensione $recensioni): void {
+        $this->recensioni[] = $recensioni;
+    }
+
      /** @return Collection<int, Recensione>
       * Restituisce le recensioni effettuate dallo studente.
       */
     public function getRecensioni(): Collection {
          return $this->recensioni;
-    }
-
-    /** @param Recensione $recensioni
-     * Aggiunge una recensione effettuata dallo studente alla collezione delle recensioni effettuate.
-     */
-    public function setRecensioni(Recensione $recensioni): void {
-        $this->recensioni[] = $recensioni;
     }
 
 }

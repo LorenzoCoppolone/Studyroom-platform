@@ -44,7 +44,6 @@ class Download {
 
     /**
      * Costruttore di download.
-     * @param int $id ID del download.
      * @param Materiale $materiale materiale scaricato.
      * @param Studente $studente studente che ha effettuato il download.
      */
@@ -58,42 +57,45 @@ class Download {
     }
 
     /**
-     * Restituisce l'ID del download.
-     * 
-     * @return int
-     */
-    public function getId(): int {
-        return $this->id;
-    }
-
-    /**
      * Imposta/modifica l'ID del download.
-     * 
      * @param int $id Nuovo ID.
-     * @return void
      */
     public function setId(int $id): void {
         $this->id = $id;
     }
 
     /**
+     * Restituisce l'ID del download.
+     * @return int
+     */
+    public function getId(): int {
+        return $this->id;
+    }
+
+     /**
+     * Imposta il materiale associato al download.
+     * @param Materiale $materiale Nuovo materiale.
+     */
+    public function setMateriale(Materiale $materiale): void {
+        $this->materiale = $materiale;
+    }
+    
+    /**
      * Restituisce il materiale associato al download.
-     * 
      * @return Materiale
      */
     public function getMateriale(): Materiale {
         return $this->materiale;
     }
 
-    /**
-     * Imposta il materiale associato al download.
-     * @param Materiale $materiale Nuovo materiale.
-     * @return void
+     /**
+     * Imposta/modifica lo studente associato al download.
+     * @param Studente $studente Nuovo studente.
      */
-    public function setMateriale(Materiale $materiale): void {
-        $this->materiale = $materiale;
+    public function setStudente(Studente $studente): void {
+        $this->studente = $studente;
     }
-
+    
     /**
      * Restituisce lo studente che ha effettuato il download.
      * @return Studente
@@ -102,13 +104,6 @@ class Download {
         return $this->studente;
     }
 
-    /**
-     * Imposta/modifica lo studente associato al download.
-     * @param Studente $studente Nuovo studente.
-     * @return void
-     */
-    public function setStudente(Studente $studente): void {
-        $this->studente = $studente;
-    }
+   
 
 }
