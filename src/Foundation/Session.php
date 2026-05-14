@@ -1,6 +1,6 @@
 <?php
 
-require_once(__DIR__ . '/../../../../config/config.php');
+require_once(__DIR__ . '/../../../../config/doctrine-bootstrap.php');
 /**
  * class to access to the $_SESSION superglobal array, you Must use this class instead of using directly the array
  */
