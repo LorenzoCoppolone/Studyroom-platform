@@ -12,6 +12,9 @@ use Model\Tag;
 use Model\Preferito;
 use Model\Download;
 use Model\Recensione;
+use Model\Segnalazione;
+use Model\Amministratore;
+
 
 //TESTING RICERCA
 
@@ -219,6 +222,7 @@ print_r($pm->trovaDownloadPerUtente(17, 0, 2));
 
 /*
 // TESTING RECENSIONE trovaRecensioniPerUtente
+
 // Recupero uno studente
 $studenteRc1 = $pm->findOneBy(Studente :: class, [
     'id' => 17 
@@ -234,7 +238,8 @@ $voto = 4.8;
 
 // Commento
 $commento = "Bellissimo";
-// Creo un nuova recensione in DB
+
+// Creo un nuova recensione 
 $nuovaRecensione = new Recensione($voto, $commento, $studenteRc1, $materialeRc1);
 
 $pm->save($nuovaRecensione); 
@@ -299,6 +304,44 @@ print_r($pm->materialiPopolariUtente(17, 0, 4));
 */
 
 
+/*
+// CREAZIONE ADMIN
+$nome = "Vinicio";
+$cognome = "Maurizio";
+$email = "vinicio.maurizio@admin.univaq.it";
+$passwordHash = "Pippo";
+
+$admin = new Amministratore($nome, $cognome, $email, $passwordHash);
+
+$pm->save($admin);
+*/
 
 
-// TESTING
+/*
+// TESTING CERCA SEGNALAZIONE - LATO ADMIN trovaMaterialiSegnalati
+
+// Creazione nuova segnalazione
+// Sara segnala un materiale 
+$studenteSegnalante1 = $pm->findOneBy(Studente :: class, [
+    'id' => 17 
+]);
+
+$materialeSegnalato1 = $pm->findOneBy(Materiale :: class , [
+    'id' => 3
+]);
+
+// Recupero l'admin
+$admin = $pm->findOneBy(Amministratore :: class , [
+    'id' => 1
+]);
+
+$motivo = "Contenuto osceno.";
+
+$nuovaSegnalazione = new Segnalazione($motivo, $studenteSegnalante1, $materialeSegnalato1, $admin);
+
+$pm->save($nuovaSegnalazione);
+
+
+// Cerco i materiali segnalati
+print_r($pm->trovaMaterialiSegnalati(0, 4));
+*/

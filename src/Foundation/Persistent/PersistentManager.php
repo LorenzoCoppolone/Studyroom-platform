@@ -5,6 +5,8 @@ use Model\Materiale;
 use Model\Preferito;
 use Model\Download;
 use Model\Recensione;
+use Model\Segnalazione;
+
 class PersistentManager {
 
     private static ?PersistentManager $instance = null;
@@ -358,7 +360,6 @@ public function cercaMateriale(
         return $result;
     }
 
-  //DA TESTARE
     /**
      * Materiali popolari per utente.
      * @param int $id_studente L'ID dello studente.
@@ -366,7 +367,12 @@ public function cercaMateriale(
      * @param int $limit Il limite per la paginazione.
      * @return array Un array di materiali.
      */
-    public function materialiPopolariUtente(int $id_studente, int $offset, int $limit): array {
+    public function materialiPopolariUtente(
+        int $id_studente, 
+        int $offset, 
+        int $limit
+        ): array {
+
         $qb = $this->em->createQueryBuilder();
         $qb->select( 
         'm.id as idMateriale',
@@ -401,20 +407,41 @@ public function cercaMateriale(
     }
 
 // DA TESTARE
-    public function trovaMaterialiSegnalati(int $offset, int $limit): array {
+    /**
+     * Materiali segnalati che recupera l'admin
+     * @param int $offset
+     * @param int $limit
+     * @return array lista di materiali segnalati
+     */
+    public function trovaMaterialiSegnalati(
+        int $offset, 
+        int $limit
+        ): array {
+
         $qb = $this->em->createQueryBuilder();
         $qb->select( 
         'm.id as idMateriale',
-        'm.studente_id as idStudente',
+        's.id as idStudente',
+        's.nome as nomeStudente',
+        's.cognome as cognomeStudente',
+        's.email as emailStudente',
+        's.username as usernameStudente',
+
+        'se.motivo as motivoSegnalazione',
+
         'm.titolo as titoloMateriale',
-        'm.file.MimeTypeFile AS tipoFile',
+        'm.file.mimeTypeFile AS tipoFile',
         'm.file.contenutoFile AS contenutoFile',
+
         'COUNT(se.id) as numeroSegnalazioni',
+        
         
         )
             ->from(Segnalazione::class, 'se')
-            ->join('se.materiale', 'm')
-            ->groupBy('m.id')
+            ->innerjoin('se.materialeSegnalato', 'm')
+            ->innerjoin('m.studente', 's')
+            ->groupBy('m.id, s.id')
+            ->orderBY('numeroSegnalazioni', 'DESC')
             ->setFirstResult($offset)
             ->setMaxResults($limit);
 
