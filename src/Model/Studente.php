@@ -10,8 +10,8 @@ class Studente extends Utente {
 
     // Private properties
     
-    #[ORM\Column(type: Types::STRING)]
-    private string $username;
+    #[ORM\Column(type: Types::STRING, length: 50, unique: true)]
+    private string $username; 
 
     #[ORM\Column(type: Types::BOOLEAN)]
     private bool $isBanned = false;
