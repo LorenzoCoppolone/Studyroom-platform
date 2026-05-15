@@ -217,7 +217,7 @@ print_r($pm->trovaDownloadPerUtente(17, 0, 2));
 
 
 
-
+/*
 // TESTING RECENSIONE trovaRecensioniPerUtente
 // Recupero uno studente
 $studenteRc1 = $pm->findOneBy(Studente :: class, [
@@ -234,11 +234,71 @@ $voto = 4.8;
 
 // Commento
 $commento = "Bellissimo";
-// Creo un nuovo download in DB
+// Creo un nuova recensione in DB
 $nuovaRecensione = new Recensione($voto, $commento, $studenteRc1, $materialeRc1);
 
 $pm->save($nuovaRecensione); 
 
 // Cerco recensioni per utente
-
 print_r($pm->trovaRecensioniPerUtente(17, 0, 2)); 
+*/
+
+
+
+
+// TESTING MATERIALE UTENTE materialiPopolariUtente
+
+// Cerco materiali popolari dell'utente Sara
+// print_r($pm->materialiPopolariUtente(17, 0, 2));
+
+/*
+// Inserisco tra i preferiti di Sara altri materiali di altri utenti
+$studentePr1 = $pm->findOneBy(Studente :: class, [
+    'id' => 17 
+]);
+
+
+$materialePr1 = $pm->findOneBy(Materiale :: class , [
+    'id' => 3
+]);
+
+// echo $studentePr1->getNome();
+$nuovoPreferito = new Preferito($studentePr1, $materialePr1);
+
+$pm->save($nuovoPreferito);
+*/
+
+/*
+// Creo una recensione
+// Recupero uno studente
+$studenteRc1 = $pm->findOneBy(Studente :: class, [
+    'id' => 17 
+]);
+
+// Recupero il materiale associato
+$materialeRc1 = $pm->findOneBy(Materiale :: class , [
+    'id' => 3
+]);
+
+// Voto
+$voto = 4.8;
+
+// Commento
+$commento = "Bellissimoooo";
+// Creo un nuova recensione in DB
+$nuovaRecensione = new Recensione($voto, $commento, $studenteRc1, $materialeRc1);
+
+$pm->save($nuovaRecensione); 
+*/
+
+/*
+// TESTING MATERIALE UTENTE materialiPopolariUtente
+
+// Cerco materiali popolari dell'utente Sara
+print_r($pm->materialiPopolariUtente(17, 0, 4));
+*/
+
+
+
+
+// TESTING

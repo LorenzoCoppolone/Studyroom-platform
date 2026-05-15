@@ -366,24 +366,25 @@ public function cercaMateriale(
      * @param int $limit Il limite per la paginazione.
      * @return array Un array di materiali.
      */
-    public function MaterialiPopolariUtente(int $id_studente, int $offset, int $limit): array {
+    public function materialiPopolariUtente(int $id_studente, int $offset, int $limit): array {
         $qb = $this->em->createQueryBuilder();
         $qb->select( 
         'm.id as idMateriale',
         'm.titolo as titoloMateriale',
-        'm.file.MimeTypeFile AS tipoFile',
+        'm.file.mimeTypeFile AS tipoFile',
         'm.file.contenutoFile AS contenutoFile',
-        'COUNT(d.id) as numeroDownload',
-        'COUNT(r.id) as numeroRecensioni',
+        'COUNT(DISTINCT d.id) as numeroDownload',
+        'COUNT(DISTINCT r.id) as numeroRecensioni',
         'AVG(r.voto) as mediaValutazione'
         )
-            ->from(Download::class, 'd')
-            ->join('d.materiale', 'm')
-            ->where('d.studente_id = :id_studente')
+            ->from(Materiale::class, 'm')
+            ->leftjoin('m.downloads', 'd')
+            ->leftjoin('m.recensioni', 'r')
+            ->where('m.studente = :id_studente')
+            ->orderBy('numeroDownload', 'DESC')
+            ->addOrderBy('numeroRecensioni', 'DESC')
             ->setParameter('id_studente', $id_studente);
-
             $qb->groupBy('m.id');
-
             $qb->setFirstResult($offset)
                ->setMaxResults($limit);
 
@@ -399,7 +400,7 @@ public function cercaMateriale(
         return $result;
     }
 
-
+// DA TESTARE
     public function trovaMaterialiSegnalati(int $offset, int $limit): array {
         $qb = $this->em->createQueryBuilder();
         $qb->select( 
@@ -424,7 +425,7 @@ public function cercaMateriale(
         return $result;
     }
 
-    
+// DA TESTARE    
     public function trovaUtenteSegnalato(int $id_materiale, int $offset, int $limit): array {
         $qb = $this->em->createQueryBuilder();
         $qb->select( 

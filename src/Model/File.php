@@ -21,7 +21,7 @@ class File{
     private mixed $contenutoFile;
 
     #[ORM\Column(type: Types::STRING, nullable: true)]
-    private string $MimeTypeFile;
+    private string $mimeTypeFile;
 
     #[ORM\Column(type: Types::FLOAT, nullable: true)]
     private float $dimensioneFile;
