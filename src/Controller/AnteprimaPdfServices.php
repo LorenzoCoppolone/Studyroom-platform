@@ -13,6 +13,7 @@ class AnteprimaPdfServices {
 
     public function generaAnteprima(string $pdfBlob): array {
 
+    try{
         // 1) crea file temporaneo PDF
         $tempPdf = tempnam(sys_get_temp_dir(), 'pdf_');
         file_put_contents($tempPdf, $pdfBlob);
@@ -31,17 +32,23 @@ class AnteprimaPdfServices {
 
         // 4) leggi contenuto JPEG
         $contenuto = file_get_contents($tempJpg);
-
+    
         // 5) pulisce e rimuove file temporanei
-        $imagick->clear();
-        $imagick->destroy();
-        unlink($tempPdf);
-        unlink($tempJpg);
-
         return [
-            "contenuto" => base_64_encode($contenuto),
+            "contenuto" => base64_encode($contenuto),
             "mimeType"  => "image/jpeg"
         ];
     }
-    
+        finally {
+        if(isset($imagick)){
+        $imagick->clear();
+        $imagick->destroy();
+        };
+        if (file_exists($tempPdf)) unlink($tempPdf);
+        if (file_exists($tempJpg)) unlink($tempJpg);
+        }
+
+        
+    }
+
 }
