@@ -65,7 +65,10 @@ class PersistentManager {
      * @param id ID dell'oggetto da cercare
      * @return object|null Restituisce l'oggetto trovato nel DB
      */
-    public function find(string $class, int $id): ?object {
+    public function find(
+        string $class, 
+        int $id
+        ): ?object {
         return $this->em->find($class, $id);
     }
 
@@ -74,7 +77,9 @@ class PersistentManager {
      * @param class La classe in cui cercare
      * @return array Restituisce un array di oggetti
      */
-    public function findAll(string $class): array {
+    public function findAll(
+        string $class
+        ): array {
         return $this->em->getRepository($class)->findAll();
     }
 
@@ -84,7 +89,10 @@ class PersistentManager {
      * @param criteria Lista di criteri 
      * @return array Restituisce un array di oggetti
      */
-    public function findBy(string $class, array $criteria): array {
+    public function findBy(
+        string $class, 
+        array $criteria
+        ): array {
         return $this->em->getRepository($class)->findBy($criteria);
     }
 
@@ -94,131 +102,138 @@ class PersistentManager {
      * @param criteria Lista di criteri
      * @return object Restituisce un oggetto
      */
-    public function findOneBy(string $class, array $criteria): ?object {
+    public function findOneBy(
+        string $class, 
+        array $criteria
+        ): ?object {
         return $this->em->getRepository($class)->findOneBy($criteria);
     }
 
 
-// Query custom
+    // Query custom
 
-/**
- * cerca i materiali per titolo, insegnamento, tipologia, corso di laurea, tag e un eventuale criterio di ordinamento.
- * 
- * @param string $titolo Il titolo del materiale da cercare.
- * @param string $insegnamento Il nome dell'insegnamento da cercare.
- * @param string $tipologia La tipologia del materiale da cercare.
- * @param string $corso Il corso di laurea del materiale da cercare.
- * @param string $tag Il tag del materiale da cercare.
- * @param string $criterio Il criterio di ricerca da applicare.
- * @param int $offset L'offset da utilizzare per la paginazione.
- * @param int $limit Il limite di materiali da ritornare.
- * @throws Exception Se il titolo è vuoto.
- * @return array Un array di materiali che corrispondono ai criteri di ricerca, ritorna ogetti materiale, studente, insegnamento, corso + i download per ognuno.
- */
-public function cercaMateriale(    
-    string $titolo,
-    int $offset,
-    int $limit,
-    string $insegnamento = "",
-    string $tipologia = "",   // "appunto", "esame"
-    string $corso = "",
-    string $tag = "",
-    string $criterio = "",
-): array {
+    /**
+     * cerca i materiali per titolo, insegnamento, tipologia, corso di laurea, tag e un eventuale criterio di ordinamento.
+    * 
+    * @param string $titolo Il titolo del materiale da cercare.
+    * @param string $insegnamento Il nome dell'insegnamento da cercare.
+     * @param string $tipologia La tipologia del materiale da cercare.
+     * @param string $corso Il corso di laurea del materiale da cercare.
+     * @param string $tag Il tag del materiale da cercare.
+     * @param string $criterio Il criterio di ricerca da applicare.
+     * @param int $offset L'offset da utilizzare per la paginazione.
+     * @param int $limit Il limite di materiali da ritornare.
+     * @throws Exception Se il titolo è vuoto.
+     * @return array Un array di materiali che corrispondono ai criteri di ricerca, ritorna ogetti materiale, studente, insegnamento, corso + i download per ognuno.
+     */
+    public function cercaMateriale(    
+        string $titolo,
+        int $offset,
+        int $limit,
+        string $insegnamento = "",
+        string $tipologia = "",   // "appunto", "esame"
+        string $corso = "",
+        string $tag = "",
+        string $criterio = "",
+    ): array {
 
-    // Permette di creare query in più passi
-    $qb = $this->em->createQueryBuilder();
+        // Permette di creare query in più passi
+        $qb = $this->em->createQueryBuilder();
 
-    // Aggiungi le colonne da ritornare, le nomino in maniera significativa, 
-    // così che nella UI possa essere facilmente identificata la colonna corrispondente
-    $qb->select(
-        'm.id as idMateriale',
-        'm.titolo as titoloMateriale',
-        'm.file.MimeTypeFile AS tipoFile',
-        'm.file.contenutoFile AS contenutoFile',
-        'i.nomeInsegnamento as insegnamento',
-        'c.nomeCorso as corso_di_Laurea',
-        's.username as nome_studente',
-        'COUNT(d.id) as numeroDownload',
-        'COUNT(r.id) as numeroRecensioni',
-        'AVG(r.voto) as mediaValutazione',
-    )
+        // Aggiungi le colonne da ritornare, le nomino in maniera significativa, 
+        // così che nella UI possa essere facilmente identificata la colonna corrispondente
+        $qb->select(
+            'm.id as idMateriale',
+            'm.titolo as titoloMateriale',
+            'm.file.MimeTypeFile AS tipoFile',
+            'm.file.contenutoFile AS contenutoFile',
 
-    // Aggiungi la colonna tipologia, 
-    // nella quale verrà scritto "APPUNTO" se il materiale è un appunto e "ESAME" se è un esame
-        ->addSelect(
-    "CASE
-        WHEN m INSTANCE OF Model\\Appunto THEN 'APPUNTO'
-        WHEN m INSTANCE OF Model\\Esame THEN 'ESAME'
-        ELSE 'ALTRO'
-     END AS tipologia"
-    )
-        ->from(Materiale::class, 'm')
-        ->leftjoin('m.downloads', 'd')
-        ->join('m.studente', 's')
-        ->join('m.insegnamento', 'i')
-        ->join('i.corsoDiLaurea', 'c')
-        ->leftjoin('m.recensioni', 'r');
+            'i.nomeInsegnamento as insegnamento',
+
+            'c.nomeCorso as corso_di_Laurea',
+
+            's.username as nome_studente',
+
+            'COUNT(d.id) as numeroDownload',
+            'COUNT(r.id) as numeroRecensioni',
+            'AVG(r.voto) as mediaValutazione',
+        )
+
+        // Aggiungi la colonna tipologia, 
+        // nella quale verrà scritto "APPUNTO" se il materiale è un appunto e "ESAME" se è un esame
+            ->addSelect(
+        "CASE
+            WHEN m INSTANCE OF Model\\Appunto THEN 'APPUNTO'
+            WHEN m INSTANCE OF Model\\Esame THEN 'ESAME'
+            ELSE 'ALTRO'
+        END AS tipologia"
+        )
+            ->from(Materiale::class, 'm')
+            ->leftjoin('m.downloads', 'd')
+            ->join('m.studente', 's')
+            ->join('m.insegnamento', 'i')
+            ->join('i.corsoDiLaurea', 'c')
+            ->leftjoin('m.recensioni', 'r');
 
         if(!empty($titolo)){
-        $qb->where('m.titolo LIKE :titolo')
-           ->setParameter('titolo', "%$titolo%");
+            $qb->where('m.titolo LIKE :titolo')
+                ->setParameter('titolo', "%$titolo%");
         }else{
             throw new \Exception("Il titolo non può essere vuoto");
         }
 
-    // Se l'insegnamento non è vuoto, aggiungi una condizione di ricerca per l'insegnamento
-    if (!empty($insegnamento)) {
-        $qb->andWhere('i.nomeInsegnamento = :insegnamento')
-        ->setParameter('insegnamento', $insegnamento);
-    }
+        // Se l'insegnamento non è vuoto, aggiungi una condizione di ricerca per l'insegnamento
+        if (!empty($insegnamento)) {
+            $qb->andWhere('i.nomeInsegnamento = :insegnamento')
+            ->setParameter('insegnamento', $insegnamento);
+        }
 
-    // Se la tipologia non è vuota, aggiungi una condizione di ricerca per la tipologia
-    if (strtolower($tipologia) === "appunto") {
-        $qb->andWhere('m INSTANCE OF Model\Appunto');
-    } elseif (strtolower($tipologia) === "esame") {
-        $qb->andWhere('m INSTANCE OF Model\Esame');
-    }
+        // Se la tipologia non è vuota, aggiungi una condizione di ricerca per la tipologia
+        if (strtolower($tipologia) === "appunto") {
+            $qb->andWhere('m INSTANCE OF Model\Appunto');
+        } elseif (strtolower($tipologia) === "esame") {
+            $qb->andWhere('m INSTANCE OF Model\Esame');
+        }
 
-    // Se il corso di laurea non è vuoto, aggiungi una condizione di ricerca per il corso di laurea
-    if (!empty($corso)) {
-        $qb->andWhere('c.nomeCorso = :corso')
-        ->setParameter('corso', $corso);
-    }
+        // Se il corso di laurea non è vuoto, aggiungi una condizione di ricerca per il corso di laurea
+        if (!empty($corso)) {
+            $qb->andWhere('c.nomeCorso = :corso')
+            ->setParameter('corso', $corso);
+        }
 
-    // Se il tag non è vuoto, aggiungi una condizione di ricerca per il tag
-    if (!empty($tag)) {
-        $qb->andWhere('m.tag = :tag')
-        ->setParameter('tag', $tag);
-    }
+        // Se il tag non è vuoto, aggiungi una condizione di ricerca per il tag
+        if (!empty($tag)) {
+            $qb->andWhere('m.tag = :tag')
+            ->setParameter('tag', $tag);
+        }
 
-    // raggruppa per id materiale
-    $qb->groupBy('m.id');
+        // raggruppa per id materiale
+        $qb->groupBy('m.id');
 
-     // controllo per il criterio, in base alla scelta si ordineranno i materiali
-    if (!empty($criterio) && strtolower($criterio) === 'download') {
-        $qb->orderBy('numeroDownload', 'DESC');
-    } elseif (!empty($criterio) && strtolower($criterio) === 'valutazione') {
-        $qb->orderBy('mediaValutazione', 'DESC');
-    }
+        // controllo per il criterio, in base alla scelta si ordineranno i materiali
+        if (!empty($criterio) && strtolower($criterio) === 'download') {
+            $qb->orderBy('numeroDownload', 'DESC');
+        } elseif (!empty($criterio) && strtolower($criterio) === 'valutazione') {
+            $qb->orderBy('mediaValutazione', 'DESC');
+        }
 
-    //Restituisci i primi limit materiali
-    $qb->setFirstResult($offset)
-       ->setMaxResults($limit);
+        //Restituisci i primi limit materiali
+        $qb->setFirstResult($offset)
+        ->setMaxResults($limit);
 
-    // Esegui la query, e ottieni i risultati come un array
-    $result = $qb->getQuery()->getArrayResult();
+        // Esegui la query, e ottieni i risultati come un array
+        $result = $qb->getQuery()->getArrayResult();
 
-    // ciclo per ottenere il binario del file e lo codifico in base 64
-    foreach ($result as &$row) {
-        if (is_resource($row['contenutoFile'])) {
-            $binario = stream_get_contents($row['contenutoFile']); // BISOGNEREBBE PENSARE AD UNA SOLUZIONE CON JS,
-            $row['contenutoFile'] = base64_encode($binario);     // IN MODO CHE VENGA RESTITUITA SOLO LA PRIMA PAGINA DEL FILE
-        }   //PROBABILMENTE NON SI SELEZIONA IL FILE NELLA QUERY MA SE LO PRENDE DIRETTAMENTE JS TRAMITE L'ID
-    }     //STESSA COSA PER TUTTI I METODI CHE IMPLEMENTANO QUESTO FOR.
+        // ciclo per ottenere il binario del file e lo codifico in base 64
+        foreach ($result as &$row) {
+            if (is_resource($row['contenutoFile'])) {
+                $binario = stream_get_contents($row['contenutoFile']); // BISOGNEREBBE PENSARE AD UNA SOLUZIONE CON JS,
+                $row['contenutoFile'] = base64_encode($binario);     // IN MODO CHE VENGA RESTITUITA SOLO LA PRIMA PAGINA DEL FILE
+            }   //PROBABILMENTE NON SI SELEZIONA IL FILE NELLA QUERY MA SE LO PRENDE DIRETTAMENTE JS TRAMITE L'ID
+        }     //STESSA COSA PER TUTTI I METODI CHE IMPLEMENTANO QUESTO FOR.
 
-    // Restituisci i risultati, il contenuto del file è binario codificato in base 64
-    return $result;
+        // Restituisci i risultati, il contenuto del file è binario codificato in base 64
+        return $result;
     
     }
 
@@ -243,8 +258,11 @@ public function cercaMateriale(
         'm.titolo as titoloMateriale',
         'm.file.MimeTypeFile AS tipoFile',
         'm.file.contenutoFile AS contenutoFile', // Il contenuto è BLOB
+        
         'i.nomeInsegnamento as insegnamento',
+
         'c.nomeCorso as corso_di_Laurea',
+
         'COUNT(d.id) as numeroDownload',
         'COUNT(r.id) as numeroRecensioni',
         'AVG(r.voto) as mediaValutazione'
@@ -295,8 +313,11 @@ public function cercaMateriale(
         'm.titolo as titoloMateriale',
         'm.file.MimeTypeFile AS tipoFile',
         'm.file.contenutoFile AS contenutoFile',
+
         'i.nomeInsegnamento as insegnamento',
+
         'c.nomeCorso as corso_di_Laurea',
+
         'COUNT(DISTINCT d.id) as numeroDownload',
         'COUNT(DISTINCT r.id) as numeroRecensioni',
         'AVG(r.voto) as mediaValutazione'
@@ -330,13 +351,18 @@ public function cercaMateriale(
      * @param int $id_studente L'ID dello studente.
      * @return array Un array di recensioni.
      */
-    public function trovaRecensioniPerUtente(int $id_studente, int $offset, int $limit): array {
+    public function trovaRecensioniPerUtente(
+        int $id_studente, 
+        int $offset, 
+        int $limit
+        ): array {
         $qb = $this->em->createQueryBuilder();
         $qb->select( 
         'm.id as idMateriale',
         'm.titolo as titoloMateriale',
         'm.file.MimeTypeFile AS tipoFile',
         'm.file.contenutoFile AS contenutoFile',
+
         'r.voto as votoRecensione',
         'r.commento as commentoRecensione',
         )
@@ -379,6 +405,7 @@ public function cercaMateriale(
         'm.titolo as titoloMateriale',
         'm.file.mimeTypeFile AS tipoFile',
         'm.file.contenutoFile AS contenutoFile',
+
         'COUNT(DISTINCT d.id) as numeroDownload',
         'COUNT(DISTINCT r.id) as numeroRecensioni',
         'AVG(r.voto) as mediaValutazione'
@@ -402,11 +429,9 @@ public function cercaMateriale(
                 $row['contenutoFile'] = base64_encode($binario);
             }
         }
-
         return $result;
     }
 
-// DA TESTARE
     /**
      * Materiali segnalati che recupera l'admin
      * @param int $offset
