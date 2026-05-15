@@ -34,9 +34,18 @@ class RicercaMaterialeController {
         // Interrogo la Foundation e passo i risultati alla view
         try {
         // Ottengo l'istanza del PersistentManager
-        $pm        = PersistentManager::getInstance(); 
+        $pm        = PersistentManager::getInstance();
         $materiali = $pm->CercaMateriale($titolo,0,30); // 0 = offset, 30 = limite, dati finti di esempio
+
+        // Genero l'anteprima dei materiali per ognuno di essi
+        foreach ($materiali as &$row) {
+                $binario = stream_get_contents($row['contenuto']);
+                $anteprimaArray = GeneraAnteprimaPdfServices::generaAnteprima($binario); // 
+                $row['contenuto'] = $anteprimaArray['contenuto'];
+                $row['MimeType'] = $anteprimaArray['mimeType'];
+        }
         
+
 
 
         // Salvo il titolo nella sessione, cosi da poterlo recuperare nel controller di filtraggio.
@@ -46,6 +55,7 @@ class RicercaMaterialeController {
 
         // Mostra i materiali trovati nella view
         $view->mostraMateriali($materiali);
+
 
         } catch (PDOException $e) {
             // Errore lato DB
@@ -108,6 +118,15 @@ class RicercaMaterialeController {
                     0,   //offset e limit da implementare in futuro, o tramite js o server side
                     20
                 );
+                
+
+                // Genero l'anteprima dei materiali per ognuno di essi
+                foreach ($materiali as &$row) {
+                $binario = stream_get_contents($row['contenuto']);
+                $anteprimaArray = GeneraAnteprimaPdfServices::generaAnteprima($binario); // 
+                $row['contenuto'] = $anteprimaArray['contenuto'];
+                $row['MimeType'] = $anteprimaArray['mimeType'];
+                }
 
                 // Mostra i materiali trovati nella view
                 $view->mostraMateriali($materiali);
