@@ -1,5 +1,7 @@
 <?php
 require_once __DIR__ . '/vendor/autoload.php';
+
+use Controller\AnteprimaPdfServices;
 use Foundation\Persistent\PersistentManager;
 use Controller\RicercaMaterialeController;
 use Controller\CaricaMaterialeController;
@@ -36,7 +38,7 @@ use Model\Amministratore;
 //$controller = new CaricaMaterialeController();
 //$file = new File(random_bytes(1024), "application/pdf", 1024);
 //$result = $controller->caricaMateriale($file, "esame", "ANALISI MATEMATICA I","", "analisi 1 esame engel",1);
-//$pm = PersistentManager::getInstance();
+$pm = PersistentManager::getInstance();
 /* 
 $studente = new Studente( "Vincenzo", "zaratustra", "vincenzo.zaratustra@student.univaq.it", "recanati", "zava");
 $pm->save($studente);
@@ -345,9 +347,57 @@ $pm->save($nuovaSegnalazione);
 // Cerco i materiali segnalati
 print_r($pm->trovaMaterialiSegnalati(0, 4));
 */
-if (extension_loaded('imagick')) {
-    echo "Imagick è installato e abilitato";
-    phpinfo();
-} else {
-    echo "Imagick NON è trovato";
-}
+
+
+/*
+$path = "C:/Users/msi 167034/OneDrive/Desktop/Tesina3.pdf";
+
+$mime = mime_content_type($path);  // MIME type
+$contenuto = file_get_contents($path); // contenuto binario
+$dimensione = filesize($path);
+
+$studente = $pm->findOneBy(
+    "Model\\Studente",
+    ["id" => 1]
+);
+
+$insegnamento = $pm->findOneBy(
+    "Model\\Insegnamento",
+    ["nomeInsegnamento" => "ANALISI ED ELABORAZIONE DEI SEGNALI",
+     "corsoDiLaurea"=> "I3N"]
+);
+
+$file = new File($contenuto, $mime, $dimensione);
+
+$materiale = new Appunto(
+    "Pippo",
+    $file,
+    $insegnamento,
+    $studente,
+    Tag::NOTE
+);
+
+$pm->save($materiale);
+*/
+
+$materiale = $pm->findOneBy(
+    "Model\\Materiale",
+    ["id" => 1]
+);
+
+$File = $materiale->getFile();
+$esempio = new AnteprimaPdfServices();
+$preview = $esempio->generaAnteprima($File->getContenutoFile());
+
+
+$anteprimaMateriale = '
+    <div style="background:white;padding:20px;border-radius:10px;width:fit-content;margin:auto;box-shadow:0 0 10px rgba(0,0,0,0.15);">
+        <h2>Anteprima del materiale</h2>
+        <iframe 
+            src="data:'.$preview['mimeType'].';base64,'.$preview['contenuto'].'"
+            style="width:200px;height:300px;border:1px solid #ccc;border-radius:6px;">
+        </iframe>
+    </div>
+';
+print($anteprimaMateriale);
+
