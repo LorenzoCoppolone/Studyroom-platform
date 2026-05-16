@@ -13,20 +13,17 @@ use RuntimeException;
 class UserController {
 
 
-    // Funzione per gestire la registrazione di un nuovo utente ( manca la parte relativa ai token 
-    // di conferma email e la pagine all ' indirizzamento alla pagina di login dopo la registrazione )
-
-    public function registrazioneUtente() {
-
-        // Istanzio la view e mi faccio restituire la form di registrazione
-        $view = new viewUser();
-        $view->mostraFormRegistrazione();
-
-        //prelevo i dati inseriti nella form di registrazione
-        $datiRegistrazione = $view->getDatiRegistrazione();
-        
+    // Funzione per gestire la registrazione di un nuovo utente ( manca la parte relativa ai token  di conferma email )
+    public function registrazioneStudente() {
 
          try {
+
+             // Istanzio la view e mi faccio restituire la form di registrazione
+            $view = new viewUser();
+            $view->mostraFormRegistrazione();
+
+            // Prelevo i dati inseriti nella form di registrazione
+            $datiRegistrazione = $view->getDatiRegistrazione();
 
             // Istanzio il PersistentManager
             $pm = PersistentManager::getInstance();
@@ -59,7 +56,7 @@ class UserController {
                 throw new \Exception("Username già in uso.");
             }
 
-            // 4. Creo l'oggetto
+            // Creo l'oggetto
 
             // Hash della password prima di salvarla nel database
             $passwordHash = password_hash($datiRegistrazione['password'], PASSWORD_BCRYPT);
@@ -67,8 +64,13 @@ class UserController {
             $datiRegistrazione['username'] ,$datiRegistrazione['email'], $passwordHash);
             
 
-            // 5. Salvo tramite PersistentManager
+            // Salvo tramite PersistentManager
             $pm->save($studente);
+
+            // Implementazione conferma registrazione tramite token e invio email di conferma
+
+            // Chiamata alla funzione che reindirizza alla pagina di login dell'utente
+            $this->loginStudente();
 
         } catch (PDOException $e) {
             // Errore lato DB
@@ -79,17 +81,124 @@ class UserController {
             throw new RuntimeException("Errore imprevisto: " . $e->getMessage());
         }
 
-        // Reindirizzo alla pagina di login o alla home page dopo la registrazione
-    }
-
-    //Funzione per gestire il login dell'utente
-
-    public function loginUtente() {
-
-        // Implementazione della logica di login ( simile alla registrazione ma con controlli diversi )
 
     }
-      
-   
+
+     // Funzione per gestire il login dell'utente ( manca la parte relativa alla gestione della sessione e al reindirizzamento alla home page dopo il login )
+    public function loginStudente() {
+
+        try {
+
+             // Istanzio la view e mi faccio restituire la form di registrazione
+            $view = new viewUser();
+            $view->mostraFormLogin();
+
+            // Prelevo i dati inseriti nella form di registrazione
+            $datiLogin = $view->getDatiLogin();
+
+            // Istanzio il PersistentManager
+            $pm = PersistentManager::getInstance();
+
+
+            // Controllo che tutti i campi  siano stati compilati
+            if (empty($datiLogin['email'])) throw new \Exception("L'email è obbligatoria.");
+            if (empty($datiLogin['password'])) throw new \Exception("La password è obbligatoria.");
+
+            // Cerco lo studente nel DB per email
+            $studente = $pm->findOneBy(Studente::class, [
+                'email' => $datiLogin['email']
+            ]);
+
+            // Verifico che lo studente esista
+            if ($studente === null) {
+                throw new \Exception("Credenziali non corrette.");
+            }
+            // Verifico la password
+            if (!password_verify($datiLogin['password'], $studente->getPassword())) {
+                throw new \Exception("Credenziali non corrette.");
+            }
+
+            session_start();
+            $_SESSION['idStudente']  = $studente->getId();
+            $_SESSION['nome']        = $studente->getNome();
+            $_SESSION['username']    = $studente->getUsername();
+
+            // Implementazione reindirizzamento alla HomePage (mancante)
+
+        } catch (PDOException $e) {
+            // Errore lato DB
+            throw new RuntimeException("Errore durante la ricerca: " . $e->getMessage());
+        
+        } catch (Exception $e) {
+            // Qualsiasi altro errore
+            throw new RuntimeException("Errore imprevisto: " . $e->getMessage());
+        }
+
+    }
+    
+    // Funzione per visualizzare il profilo dello studente ( manca la parte relativa alla gestione della sessione e al recupero dei dati dello studente loggato )
+    public function profiloStudente() : void {
+
+        try{
+
+        // Istanzio la view
+        $view =  new viewUser();
+
+        // Ottengo l'istanza del PersistentManager
+        $pm = PersistentManager::getInstance();
+
+        // Recupero il bottone premuto dalla view
+        $bottone = $view->getBottoneCliccato();
+        $bottoneCliccato = strtolower($bottone["bottonePremuto"]);
+
+        $idStudenteLoggato = $_SESSION['idStudenteLoggato']; // recupero l'id dello studente dalla sessione
+        
+        //ANDRANNO RECUPERATI ANCHE OFFSET E LIMITE SE VENGONO GESTITI SERVER SIDE?
+        
+       
+        // recupero ciò che mi serve per la view, a seconda del bottone premuto
+         if($bottoneCliccato === "modifica"){
+
+            // Manca implementazione
+
+        }elseif($bottoneCliccato === "recensioni"){
+
+            $recensioni = $pm->trovaRecensioniPerUtente($idStudenteLoggato, 0, 10);
+
+            // Mostra le recensioni
+            $view->mostraRecensioniStudente($recensioni);
+
+        }elseif($bottoneCliccato === "preferiti"){
+
+            $preferiti = $pm->trovaPreferitiPerUtente($idStudenteLoggato, 0, 10);
+
+            // Mostra i preferiti
+            $view->mostraPreferitiStudente($preferiti);
+
+        }elseif($bottoneCliccato === "download"){
+
+            $download = $pm->trovaDownloadPerUtente($idStudenteLoggato, 0, 10);
+
+            // Mostra i download
+            $view->mostraDownloadStudente($download);
+
+        }elseif($bottoneCliccato === "materiale"){
+            $materiale = $pm->MaterialiPopolariUtente($idStudenteLoggato, 0, 10);
+
+            // Mostra i materiali dello studente ordinandoli dal piu' popolare
+            $view->mostraMaterialiStudente($materiale);
+        }
+
+    } catch (PDOException $e) {
+            // Errore lato DB
+            throw new RuntimeException("Errore durante la ricerca: " . $e->getMessage());
+        
+        } catch (Exception $e) {
+            // Qualsiasi altro errore
+            throw new RuntimeException("Errore imprevisto: " . $e->getMessage());
+        }
+
+    }
 
 }
+
