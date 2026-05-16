@@ -348,13 +348,15 @@ $pm->save($nuovaSegnalazione);
 print_r($pm->trovaMaterialiSegnalati(0, 4));
 */
 
-
+// ── DEBUG TEMPORANEO ─────────────────────────────────────────────
 /*
-$path = "C:/Users/msi 167034/OneDrive/Desktop/Tesina3.pdf";
+$path = "C:\\Users\\newme\\Desktop\\Tesine laboratorio ITSC\\Tesina_IMU_laboratorio_ITSC.pdf";
 
-$mime = mime_content_type($path);  // MIME type
-$contenuto = file_get_contents($path); // contenuto binario
+$contenuto = file_get_contents($path);
 $dimensione = filesize($path);
+$mime = mime_content_type($path);
+
+
 
 $studente = $pm->findOneBy(
     "Model\\Studente",
@@ -379,25 +381,3 @@ $materiale = new Appunto(
 
 $pm->save($materiale);
 */
-
-$materiale = $pm->findOneBy(
-    "Model\\Materiale",
-    ["id" => 1]
-);
-
-$File = $materiale->getFile();
-$esempio = new AnteprimaPdfServices();
-$preview = $esempio->generaAnteprima($File->getContenutoFile());
-
-
-$anteprimaMateriale = '
-    <div style="background:white;padding:20px;border-radius:10px;width:fit-content;margin:auto;box-shadow:0 0 10px rgba(0,0,0,0.15);">
-        <h2>Anteprima del materiale</h2>
-        <iframe 
-            src="data:'.$preview['mimeType'].';base64,'.$preview['contenuto'].'"
-            style="width:200px;height:300px;border:1px solid #ccc;border-radius:6px;">
-        </iframe>
-    </div>
-';
-print($anteprimaMateriale);
-
