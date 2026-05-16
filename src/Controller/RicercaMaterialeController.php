@@ -37,12 +37,13 @@ class RicercaMaterialeController {
         $pm        = PersistentManager::getInstance();
         $materiali = $pm->CercaMateriale($titolo,0,30); // 0 = offset, 30 = limite, dati finti di esempio
 
+        $anteprimaArray = new AnteprimaPdfServices();
         // Genero l'anteprima dei materiali per ognuno di essi
         foreach ($materiali as &$row) {
                 $binario = stream_get_contents($row['contenuto']);
-                $anteprimaArray = GeneraAnteprimaPdfServices::generaAnteprima($binario); // 
-                $row['contenuto'] = $anteprimaArray['contenuto'];
-                $row['MimeType'] = $anteprimaArray['mimeType'];
+                $anteprima = $anteprimaArray->generaAnteprima($binario); // restituisce array con contenuto e mimeType dell'anteprima
+                $row['contenuto'] = $anteprima['contenuto'];
+                $row['MimeType'] = $anteprima['mimeType'];
         }
         
 
@@ -119,13 +120,13 @@ class RicercaMaterialeController {
                     20
                 );
                 
-
+                $anteprimaArray = new AnteprimaPdfServices();
                 // Genero l'anteprima dei materiali per ognuno di essi
                 foreach ($materiali as &$row) {
                 $binario = stream_get_contents($row['contenuto']);
-                $anteprimaArray = GeneraAnteprimaPdfServices::generaAnteprima($binario); // 
-                $row['contenuto'] = $anteprimaArray['contenuto'];
-                $row['MimeType'] = $anteprimaArray['mimeType'];
+                $anteprima = $anteprimaArray->generaAnteprima($binario);
+                $row['contenuto'] = $anteprima['contenuto'];
+                $row['MimeType'] = $anteprima['mimeType'];
                 }
 
                 // Mostra i materiali trovati nella view

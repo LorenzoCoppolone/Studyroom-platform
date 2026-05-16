@@ -17,9 +17,9 @@ use InvalidArgumentException;
  * Esegue l'aggiunta e la rimozione di un materiale dai preferiti.
  * La UI mostra il pop-up corretto in base al risultato.
  */
-class AggiungiPreferitiController {
+class GestionePreferitiController {
 
-    public function GestionePreferitoController(): void {
+    public function gestionePreferitoController(): void {
 
         // Istanzio la view
         $view = new ViewPreferiti();

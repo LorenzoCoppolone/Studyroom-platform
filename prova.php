@@ -36,7 +36,7 @@ use Model\Amministratore;
 //$controller = new CaricaMaterialeController();
 //$file = new File(random_bytes(1024), "application/pdf", 1024);
 //$result = $controller->caricaMateriale($file, "esame", "ANALISI MATEMATICA I","", "analisi 1 esame engel",1);
-$pm = PersistentManager::getInstance();
+//$pm = PersistentManager::getInstance();
 /* 
 $studente = new Studente( "Vincenzo", "zaratustra", "vincenzo.zaratustra@student.univaq.it", "recanati", "zava");
 $pm->save($studente);
@@ -345,3 +345,9 @@ $pm->save($nuovaSegnalazione);
 // Cerco i materiali segnalati
 print_r($pm->trovaMaterialiSegnalati(0, 4));
 */
+if (extension_loaded('imagick')) {
+    echo "Imagick è installato e abilitato";
+    phpinfo();
+} else {
+    echo "Imagick NON è trovato";
+}
