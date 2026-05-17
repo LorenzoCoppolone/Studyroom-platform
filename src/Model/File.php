@@ -31,33 +31,33 @@ class File{
      * 
      * @param string $contenutoFile contenuto del file.
      * @param float $dimensioneFile Dimensione del file in megabyte.
-     * @param string $MimeTypeFile tipo del file.
+     * @param string $mimeTypeFile tipo del file.
      */
     
     public function __construct(
         string $contenutoFile,
-        string $MimeTypeFile, 
+        string $mimeTypeFile, 
         float $dimensioneFile
         ) {
         $this->contenutoFile = $contenutoFile;
-        $this->MimeTypeFile = $MimeTypeFile;
+        $this->mimeTypeFile = $mimeTypeFile;
         $this->dimensioneFile = $dimensioneFile;
     }
 
     /**
      * Imposta il tipo del file.
-     * @param string $MimeTypeFile Tipo del file.
+     * @param string $mimeTypeFile Tipo del file.
      */
-    public function setMimeTypeFile(string $MimeTypeFile): void {
-        $this->MimeTypeFile = $MimeTypeFile;
+    public function setmimeTypeFile(string $mimeTypeFile): void {
+        $this->mimeTypeFile = $mimeTypeFile;
     }
 
     /**
      * Ottiene il tipo del file.
      * @return string tipo del file.
      */
-    public function getmimeTypeFile(): string {
-        return $this->MimeTypeFile;
+    public function getmimeTypeFile(): ?string {
+        return $this->mimeTypeFile;
     }
 
      /**
@@ -72,7 +72,7 @@ class File{
      * Ottiene la dimensione del file.
      * @return float La dimensione del file in megabyte.
      */
-    public function getDimensioneFile(): float {
+    public function getDimensioneFile(): ?float {
         return $this->dimensioneFile;
     }
 

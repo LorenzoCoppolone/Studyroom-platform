@@ -2,139 +2,101 @@
 
 namespace Controller;
 
-use Spatie\PdfToImage\Pdf;
-use Spatie\PdfToImage\Exceptions\PdfDoesNotExist;
 use RuntimeException;
 use InvalidArgumentException;
 
 class AnteprimaPdfServices
 {
-    private const RESOLUTION   = 60;
-    private const JPEG_QUALITY = 70;
+    private const RESOLUTION   = 150;   // DPI più alti = anteprima nitida
+    private const JPEG_QUALITY = 50;
     private const ALLOWED_MIME = 'application/pdf';
+
+    // Larghezza target dell’anteprima (ridotta in modo nitido)
+    private const PREVIEW_WIDTH = 600;
 
     public function __construct()
     {
         if (!extension_loaded('imagick')) {
-            throw new RuntimeException('Estensione Imagick non disponibile.');
+            throw new RuntimeException('Estensione Imagick non disponibile. Installare php-imagick.');
         }
     }
 
-
-    /**
-     * Genera l'anteprima (prima pagina) di un PDF passato come contenuto binario.
-     * @return array{mimeType: string, contenuto: string}
-     */
     public function generaAnteprima(
         string $fileContent,
         string $mimeType = self::ALLOWED_MIME
     ): array {
         $this->validateMimeType($mimeType);
 
+        // Sempre usare file temporaneo: metodo più stabile su Windows
         $tmpPdf = $this->writeTempFile($fileContent, '.pdf');
-        $tmpPng = sys_get_temp_dir()
-            . DIRECTORY_SEPARATOR
-            . uniqid('preview_png_', true)
-            . '.png';
 
         try {
-            // ── 1. Spatie: PDF → PNG (mantiene alpha) ─────────────
-            $pdf = new Pdf($tmpPdf);
-            $pdf->setPage(1);
-            $pdf->setOutputFormat('png');
-            $pdf->setResolution(self::RESOLUTION);
-            $pdf->saveImage($tmpPng);
+            $jpegBlob = $this->pdfToJpeg($tmpPdf);
 
-            if (!file_exists($tmpPng)) {
-                throw new RuntimeException('Spatie non ha prodotto alcun output.');
-            }
-
-            // restituisce un blob JPEG con sfondo bianco
-            $jpegBlob = $this->pngToJpeg($tmpPng);
-
-    
             return [
                 'mimeType'  => 'image/jpeg',
                 'contenuto' => base64_encode($jpegBlob),
             ];
 
-        } catch (PdfDoesNotExist $e) {
-            throw new RuntimeException('PDF non trovato da Spatie: ' . $e->getMessage());
         } finally {
-            // Pulizia garantita anche in caso di eccezione
-            $this->cleanupTempFiles($tmpPdf, $tmpPng);
+            $this->cleanupTempFiles($tmpPdf);
         }
     }
 
-
-    /**
-     * Genera l'anteprima di più PDF passati come contenuti binari.
-     * @param  array<int|string, array{content: string, mimeType?: string}> $materials
-     * @return array<int|string, array{mimeType: string, contenuto: string}|array{error: string}>
-     */
-    public function generaArrayAnteprime(array $materiali): array
+    private function pdfToJpeg(string $pdfPath): string
     {
-        $results = [];
+        try {
+            $imagick = new \Imagick();
+            $imagick->setResolution(self::RESOLUTION, self::RESOLUTION);
 
-        foreach ($materiali as $key => $material) {
-            try {
-                $results[$key] = $this->generaAnteprima(
-                    $material['content'],
-                    $material['mimeType'] ?? self::ALLOWED_MIME
-                );
-            } catch (\Throwable $e) {
-                $results[$key] = [
-                    'mimeType'  => null,
-                    'contenuto' => null,
-                    'error'     => $e->getMessage(),
-                ];
+            // Legge solo la prima pagina
+            $imagick->readImage($pdfPath . '[0]');
+            $imagick->setImageFormat('jpeg');
+
+            // Ridimensionamento nitido (Lanczos)
+            $imagick->resizeImage(
+                self::PREVIEW_WIDTH,
+                0,
+                \Imagick::FILTER_LANCZOS,
+                1
+            );
+
+            // Canvas bianco (metodo stabile)
+            $background = new \Imagick();
+            $background->newImage(
+                $imagick->getImageWidth(),
+                $imagick->getImageHeight(),
+                new \ImagickPixel('white')
+            );
+            $background->setImageFormat('jpeg');
+
+            // Composizione
+            $background->compositeImage(
+                $imagick,
+                \Imagick::COMPOSITE_OVER,
+                0,
+                0
+            );
+
+            $background->setImageCompressionQuality(self::JPEG_QUALITY);
+            $background->stripImage();
+
+            $blob = $background->getImageBlob();
+
+            $imagick->destroy();
+            $background->destroy();
+
+            if (empty($blob)) {
+                throw new RuntimeException('Blob JPEG vuoto dopo la conversione.');
             }
+
+            return $blob;
+
+        } catch (\Throwable $e) {
+            throw new RuntimeException('Errore durante la conversione PDF a JPEG: ' . $e->getMessage());
         }
-
-        return $results;
     }
 
-
-    /**
-     * Legge un PNG e restituisce un blob JPEG con sfondo bianco, serve in quanto imagick genera sfondo nero.
-     * @param  string $pngPath
-     * @return string
-     */
-    private function pngToJpeg(string $pngPath): string
-    {
-        $imagick = new \Imagick($pngPath);
-
-        // Canvas bianco delle stesse dimensioni del PNG
-        $background = new \Imagick();
-        $background->newImage(
-            $imagick->getImageWidth(),
-            $imagick->getImageHeight(),
-            new \ImagickPixel('white')
-        );
-        $background->setImageFormat('jpeg');
-
-        // Compone il PNG (con alpha) sopra il canvas bianco
-        $background->compositeImage(
-            $imagick,
-            \Imagick::COMPOSITE_OVER,
-            0,
-            0
-        );
-
-        $background->setImageCompressionQuality(self::JPEG_QUALITY);
-        $background->stripImage(); // rimuove metadati EXIF → blob più leggero
-
-        // Blob in memoria — nessuna scrittura su disco
-        $blob = $background->getImageBlob();
-
-        $imagick->destroy();
-        $background->destroy();
-
-        return $blob;
-    }
-
-
-    // funzioni private per la gestione dei file temporanei
     private function validateMimeType(string $mimeType): void
     {
         if ($mimeType !== self::ALLOWED_MIME) {
@@ -143,7 +105,6 @@ class AnteprimaPdfServices
             );
         }
     }
-
 
     private function writeTempFile(string $content, string $extension): string
     {

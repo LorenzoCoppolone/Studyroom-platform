@@ -298,6 +298,133 @@ $nuovaRecensione = new Recensione($voto, $commento, $studenteRc1, $materialeRc1)
 $pm->save($nuovaRecensione); 
 */
 
+
+// ─────────────────────────────────────────────────────────────────
+// TESTING ANTEPRIMA PDF - Prova della funzione AnteprimaPdfServices
+// ─────────────────────────────────────────────────────────────────
+
+$timeStart = microtime(true);
+
+try {
+    // Recupera un materiale dal database
+    $materiale = $pm->findOneBy(Materiale::class, ['id' => 2]);
+
+    if (!$materiale || !$materiale->getFile()) {
+        echo "<h2>⚠️ Nessun materiale trovato</h2>";
+        exit;
+    }
+
+    // Ottiene il contenuto del file PDF
+    $pdfContent = $materiale->getFile()->getContenutoFile();
+    $mimeType = $materiale->getFile()->getmimeTypeFile();
+
+    // Genera l'anteprima
+    $service = new AnteprimaPdfServices();
+    $result = $service->generaAnteprima($pdfContent, $mimeType);
+
+    $timeEnd = microtime(true);
+    $duration = round(($timeEnd - $timeStart) * 1000, 2);
+
+    // Output HTML
+?>
+    <!DOCTYPE html>
+    <html lang="it">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Anteprima Materiale</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 20px;
+                background: #f5f5f5;
+            }
+
+            .container {
+                max-width: 1000px;
+                margin: 0 auto;
+                background: white;
+                padding: 20px;
+                border-radius: 8px;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            }
+
+            h1 {
+                color: #333;
+                border-bottom: 2px solid #007bff;
+                padding-bottom: 10px;
+            }
+
+            .info {
+                background: #e8f4f8;
+                padding: 15px;
+                border-radius: 5px;
+                margin: 20px 0;
+            }
+
+            .info p {
+                margin: 5px 0;
+            }
+
+            .label {
+                font-weight: bold;
+                color: #007bff;
+            }
+
+            .preview {
+                margin-top: 30px;
+                text-align: center;
+            }
+
+            .preview img {
+                max-width: 100%;
+                height: auto;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            }
+
+            .performance {
+                background: #fffbea;
+                padding: 10px;
+                border-left: 4px solid #ffc107;
+                margin-top: 15px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="container">
+            <h1>📄 Anteprima Materiale</h1>
+            <div class="info">
+                <p><span class="label">Materiale:</span> <?= $materiale->getTitolo() ?></p>
+                <p><span class="label">Tipo:</span> <?= $mimeType ?></p>
+                <p><span class="label">Dimensione PDF:</span> <?= number_format(strlen($pdfContent) / 1024, 2) ?> KB</p>
+                <p><span class="label">Dimensione Anteprima (base64):</span> <?= number_format(strlen($result['contenuto']) / 1024, 2) ?> KB</p>
+                <div class="performance">
+                    <p><span class="label">⏱️ Tempo elaborazione:</span> <strong><?= $duration ?> ms</strong></p>
+                </div>
+            </div>
+            <div class="preview">
+                <img src="data:<?= $result['mimeType'] ?>;base64,<?= $result['contenuto'] ?>" alt="Anteprima PDF">
+            </div>
+        </div>
+    </body>
+
+    </html>
+<?php
+
+} catch (Throwable $e) {
+?>
+    <h2>❌ Errore durante la generazione dell'anteprima</h2>
+    <p><?= $e->getMessage() ?></p>
+    <p><small><?= $e->getFile() ?>:<?= $e->getLine() ?></small></p>
+<?php
+}
+
+
+
 /*
 // TESTING MATERIALE UTENTE materialiPopolariUtente
 
@@ -348,9 +475,9 @@ $pm->save($nuovaSegnalazione);
 print_r($pm->trovaMaterialiSegnalati(0, 4));
 */
 
-// ── DEBUG TEMPORANEO ─────────────────────────────────────────────
+
 /*
-$path = "C:\\Users\\newme\\Desktop\\Tesine laboratorio ITSC\\Tesina_IMU_laboratorio_ITSC.pdf";
+$path = "C:\\Users\\msi 167034\\OneDrive\\Desktop\\Tesina3.pdf";
 
 $contenuto = file_get_contents($path);
 $dimensione = filesize($path);
@@ -380,4 +507,5 @@ $materiale = new Appunto(
 );
 
 $pm->save($materiale);
+
 */
