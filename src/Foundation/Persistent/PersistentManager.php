@@ -145,15 +145,9 @@ class PersistentManager {
         $qb->select(
             'm.id as idMateriale',
             'm.titolo as titoloMateriale',
-            'm.file.MimeTypeFile AS tipoFile',
-            'm.file.contenutoFile AS contenutoFile',
-
             'i.nomeInsegnamento as insegnamento',
-
             'c.nomeCorso as corso_di_Laurea',
-
             's.username as nome_studente',
-
             'COUNT(d.id) as numeroDownload',
             'COUNT(r.id) as numeroRecensioni',
             'AVG(r.voto) as mediaValutazione',
@@ -224,14 +218,6 @@ class PersistentManager {
         // Esegui la query, e ottieni i risultati come un array
         $result = $qb->getQuery()->getArrayResult();
 
-        // ciclo per ottenere il binario del file e lo codifico in base 64
-        foreach ($result as &$row) {
-            if (is_resource($row['contenutoFile'])) {
-                $binario = stream_get_contents($row['contenutoFile']); // BISOGNEREBBE PENSARE AD UNA SOLUZIONE CON JS,
-                $row['contenutoFile'] = base64_encode($binario);     // IN MODO CHE VENGA RESTITUITA SOLO LA PRIMA PAGINA DEL FILE
-            }   //PROBABILMENTE NON SI SELEZIONA IL FILE NELLA QUERY MA SE LO PRENDE DIRETTAMENTE JS TRAMITE L'ID
-        }     //STESSA COSA PER TUTTI I METODI CHE IMPLEMENTANO QUESTO FOR.
-
         // Restituisci i risultati, il contenuto del file è binario codificato in base 64
         return $result;
     
@@ -256,13 +242,8 @@ class PersistentManager {
         $qb->select( 
         'm.id as idMateriale',
         'm.titolo as titoloMateriale',
-        'm.file.MimeTypeFile AS tipoFile',
-        'm.file.contenutoFile AS contenutoFile', // Il contenuto è BLOB
-        
         'i.nomeInsegnamento as insegnamento',
-
         'c.nomeCorso as corso_di_Laurea',
-
         'COUNT(d.id) as numeroDownload',
         'COUNT(r.id) as numeroRecensioni',
         'AVG(r.voto) as mediaValutazione'
@@ -282,15 +263,6 @@ class PersistentManager {
         // Ritorna array PHP    
         $result = $qb->getQuery()->getArrayResult();
 
-        foreach ($result as &$row) {
-            // Verifico se il valore è uno stream PHP
-            if (is_resource($row['contenutoFile'])) {
-                // Converte lo stream in stringa binaria
-                $binario = stream_get_contents($row['contenutoFile']);
-                // Conversione base64
-                $row['contenutoFile'] = base64_encode($binario);
-            }
-        }
         return $result;
     }
 
@@ -311,13 +283,8 @@ class PersistentManager {
         $qb->select( 
         'm.id as idMateriale',
         'm.titolo as titoloMateriale',
-        'm.file.MimeTypeFile AS tipoFile',
-        'm.file.contenutoFile AS contenutoFile',
-
         'i.nomeInsegnamento as insegnamento',
-
         'c.nomeCorso as corso_di_Laurea',
-
         'COUNT(DISTINCT d.id) as numeroDownload',
         'COUNT(DISTINCT r.id) as numeroRecensioni',
         'AVG(r.voto) as mediaValutazione'
@@ -336,13 +303,6 @@ class PersistentManager {
             ->setMaxResults($limit);
 
         $result = $qb->getQuery()->getArrayResult();
-
-        foreach ($result as &$row) {
-            if (is_resource($row['contenutoFile'])) {
-                $binario = stream_get_contents($row['contenutoFile']);
-                $row['contenutoFile'] = base64_encode($binario);
-            }
-        }
         return $result;
     }
 
@@ -360,9 +320,6 @@ class PersistentManager {
         $qb->select( 
         'm.id as idMateriale',
         'm.titolo as titoloMateriale',
-        'm.file.MimeTypeFile AS tipoFile',
-        'm.file.contenutoFile AS contenutoFile',
-
         'r.voto as votoRecensione',
         'r.commento as commentoRecensione',
         )
@@ -375,13 +332,6 @@ class PersistentManager {
                ->setMaxResults($limit);
 
         $result =$qb->getQuery()->getArrayResult();
-
-        foreach ($result as &$row) {
-            if (is_resource($row['contenutoFile'])) {
-                $binario = stream_get_contents($row['contenutoFile']);
-                $row['contenutoFile'] = base64_encode($binario);
-            }
-        }
 
         return $result;
     }
@@ -403,9 +353,6 @@ class PersistentManager {
         $qb->select( 
         'm.id as idMateriale',
         'm.titolo as titoloMateriale',
-        'm.file.mimeTypeFile AS tipoFile',
-        'm.file.contenutoFile AS contenutoFile',
-
         'COUNT(DISTINCT d.id) as numeroDownload',
         'COUNT(DISTINCT r.id) as numeroRecensioni',
         'AVG(r.voto) as mediaValutazione'
@@ -422,13 +369,6 @@ class PersistentManager {
                ->setMaxResults($limit);
 
         $result = $qb->getQuery()->getArrayResult();
-
-        foreach ($result as &$row) {
-            if (is_resource($row['contenutoFile'])) {
-                $binario = stream_get_contents($row['contenutoFile']);
-                $row['contenutoFile'] = base64_encode($binario);
-            }
-        }
         return $result;
     }
 
@@ -451,13 +391,8 @@ class PersistentManager {
         's.cognome as cognomeStudente',
         's.email as emailStudente',
         's.username as usernameStudente',
-
         'se.motivo as motivoSegnalazione',
-
         'm.titolo as titoloMateriale',
-        'm.file.mimeTypeFile AS tipoFile',
-        'm.file.contenutoFile AS contenutoFile',
-
         'COUNT(se.id) as numeroSegnalazioni',
         
         
@@ -469,8 +404,6 @@ class PersistentManager {
             ->orderBY('numeroSegnalazioni', 'DESC')
             ->setFirstResult($offset)
             ->setMaxResults($limit);
-
-            //ciclo per ottenere il file in base 64, (quello usato nelle altre query) o metodo migliore se lo troviamo 
 
 
         $result = $qb->getQuery()->getArrayResult();
@@ -509,8 +442,6 @@ class PersistentManager {
         $qb->select( 
         'm.id as idMateriale',
         'm.titolo as titoloMateriale',
-        'm.file.MimeTypeFile AS tipoFile',
-        'm.file.contenutoFile AS contenutoFile',
         )
             ->from(Segnalazione::class, 'se')
             ->join('se.studente', 's')

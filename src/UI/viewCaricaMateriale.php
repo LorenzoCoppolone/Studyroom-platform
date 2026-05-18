@@ -14,8 +14,10 @@ class viewCaricaMateriale {
             'tipologia' => $_POST['tipologia'],
             'corso_di_laurea' => $_POST['corso_di_laurea'],
             'tag' => $_POST['tag'] ?? null,
-            'file' => $_FILES['file']
-
+            'MimeType' => $_FILES['file']['type'],
+            'Contenuto' => file_get_contents($_FILES['file']['tmp_name']),
+            'error' => $_FILES['file']['error'],
+            'size' => $_FILES['file']['size'],
         ];
     }
 }

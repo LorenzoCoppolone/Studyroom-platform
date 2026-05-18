@@ -66,8 +66,6 @@ class RicercaMaterialeController
             $pm        = PersistentManager::getInstance();
             $materiali = $pm->cercaMateriale($titolo, 0, 10);
 
-            // Genero le anteprime PDF per ogni materiale trovato
-            $materiali = $this->generaAnteprime($materiali);
 
             // 5. Salvo il titolo in Foundation\Session così filtraMateriale
             //    e ordinaMateriale possono recuperarlo nelle chiamate successive.
@@ -97,9 +95,7 @@ class RicercaMaterialeController
 
             // Da comunicare ai colleghi: serve PM::getMaterialiPerMediaValutazione(limit)
             // ordina per mediaValutazione DESC e restituisce i primi N
-            $materiali = $pm->getMaterialiPerMediaValutazione(30);
-
-            $materiali = $this->generaAnteprime($materiali);
+            $materiali = $pm->getMaterialiPopolari(30);
 
             // 2. Salvo nella sessione che siamo in Modalità 2 senza filtri attivi
             //    così filtra e ordina sanno da dove ripartire
@@ -165,7 +161,7 @@ class RicercaMaterialeController
                 
             );
 
-            $materiali = $this->generaAnteprime($materiali);
+            
 
             $view->mostraMateriali($materiali);
 
@@ -217,8 +213,6 @@ class RicercaMaterialeController
                 $criterio   // ← criterio di ordinamento
             );
 
-            $materiali = $this->generaAnteprime($materiali);
-
             $view->mostraMateriali($materiali);
 
         } catch (PDOException $e) {
@@ -226,26 +220,5 @@ class RicercaMaterialeController
         } catch (\Exception $e) {
             throw new RuntimeException("Errore imprevisto: " . $e->getMessage());
         }
-    }
-
-    // METODI PRIVATI
-    /**
-     * Genera le anteprime PDF per ogni materiale nell'array.
-     * FIX: la logica era duplicata inline in ogni metodo — estratta qui.
-     * Il service è di Foundation e si occupa della conversione binaria.
-     *
-     * @param array $materiali Array di materiali con campo 'contenuto' (blob)
-     * @return array Array con 'contenuto' e 'MimeType' sostituiti dall'anteprima
-     */
-    private function generaAnteprime(array $materiali): array
-    {
-        $service = AnteprimaPdfService::getInstance();
-        foreach ($materiali as &$row) {
-            $binario          = stream_get_contents($row['contenuto']);
-            $anteprima        = $service->generaAnteprima($binario);
-            $row['contenuto'] = $anteprima['contenuto'];
-            $row['mimeType']  = $anteprima['mimeType'];
-        }
-        return $materiali;
     }
 }
