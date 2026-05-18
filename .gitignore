@@ -23,7 +23,7 @@ files/
 # Backup o file temporanei
 *.bak
 *.tmp
-
+prova.php
 # IDE / Editor
 .vscode/
 .idea/

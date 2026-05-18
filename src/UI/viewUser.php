@@ -4,6 +4,9 @@ namespace UI;
 
 class ViewUser {
 
+    public function __construct() {
+        // Costruttore vuoto, se necessario puoi aggiungere inizializzazioni qui
+    }
 
     //Funzione che mostra la form di registrazione 
     public function mostraFormRegistrazione () { 

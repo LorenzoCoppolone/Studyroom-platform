@@ -35,7 +35,7 @@ class RicercaMaterialeController {
         try {
         // Ottengo l'istanza del PersistentManager
         $pm        = PersistentManager::getInstance();
-        $materiali = $pm->CercaMateriale($titolo,0,30); // 0 = offset, 30 = limite, dati finti di esempio
+        $materiali = $pm->CercaMateriale($titolo,0,10); // 0 = offset, 10 = limite, dati finti di esempio
 
         $anteprimaArray = new AnteprimaPdfServices();
         // Genero l'anteprima dei materiali per ognuno di essi

@@ -12,16 +12,28 @@ use RuntimeException;
 
 class UserController {
 
+    public function __construct() {
+        // Costruttore vuoto, se necessario puoi aggiungere inizializzazioni qui
+    }
+
+    public function mostraFormLogin() : void {
+        $view = new viewUser();
+        $view->mostraFormLogin();
+    }
+
+
+    public function mostraFormRegistrazione() : void {
+        $view = new viewUser();
+        $view->mostraFormRegistrazione();
+    }
+
+
 
     // Funzione per gestire la registrazione di un nuovo utente ( manca la parte relativa ai token  di conferma email )
     public function registrazioneStudente() {
 
          try {
-
-             // Istanzio la view e mi faccio restituire la form di registrazione
             $view = new viewUser();
-            $view->mostraFormRegistrazione();
-
             // Prelevo i dati inseriti nella form di registrazione
             $datiRegistrazione = $view->getDatiRegistrazione();
 
@@ -37,8 +49,8 @@ class UserController {
             if (empty($datiRegistrazione['password'])) throw new \Exception("La password è obbligatoria.");
 
             // Validazione email
-            if (!preg_match('/^[a-zA-Z0-9._%+-]+@studenti\.univaq\.it$/', $datiRegistrazione['email'])) {
-                 throw new \Exception("Devi usare la tua email universitaria (@studenti.univaq.it).");
+            if (!preg_match('/^[a-zA-Z0-9._%+-]+@student\.univaq\.it$/', $datiRegistrazione['email'])) {
+                 throw new \Exception("Devi usare la tua email universitaria (@student.univaq.it).");
 }
          
             // Verifico che email e username non esistano già nel DB ( username puo essere uguale ?)
@@ -61,7 +73,7 @@ class UserController {
             // Hash della password prima di salvarla nel database
             $passwordHash = password_hash($datiRegistrazione['password'], PASSWORD_BCRYPT);
             $studente = new Studente($datiRegistrazione['nome'], $datiRegistrazione['cognome'],
-            $datiRegistrazione['username'] ,$datiRegistrazione['email'], $passwordHash);
+            $datiRegistrazione['email'] ,$passwordHash, $datiRegistrazione['username']);
             
 
             // Salvo tramite PersistentManager
@@ -70,7 +82,7 @@ class UserController {
             // Implementazione conferma registrazione tramite token e invio email di conferma
 
             // Chiamata alla funzione che reindirizza alla pagina di login dell'utente
-            $this->loginStudente();
+            //$this->loginStudente();
 
         } catch (PDOException $e) {
             // Errore lato DB
