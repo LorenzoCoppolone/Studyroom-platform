@@ -17,10 +17,10 @@ class Studente extends Utente {
     private bool $isBanned = false;
 
     #[ORM\Column(type: Types::STRING, nullable: true)]
-    private string $controlloAutenticazione; //stringa generata per l'autenticazione dell'utente via email
+    private string $token; //stringa generata per l'autenticazione dell'utente via email
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private \datetime $invalidazioneAutenticazione;
+    private \DateTime $validazioneToken; //data di scadenza del token
 
     #[ORM\Embedded(class: File::class)]
     private ?File $immagineProfilo = null;
@@ -187,6 +187,38 @@ class Studente extends Utente {
       */
     public function getRecensioni(): Collection {
          return $this->recensioni;
+    }
+
+    /**
+    * Imposta il token di autenticazione dello studente.
+    * @param string $token Token di autenticazione.
+    */
+    public function setToken(string $token): void {
+        $this->token = $token;
+    }
+
+    /**
+     * Ottiene il token di autenticazione dello studente.
+     * @return string Token di autenticazione.
+     */
+    public function getToken(): string {
+        return $this->token;
+    }
+
+    /**
+     * Imposta la data di validazione del token di autenticazione dello studente.
+     * @param \datetime $validazioneToken Data di validazione del token.
+     */
+    public function setValidazioneToken(\DateTime $validazioneToken): void {
+        $this->validazioneToken = $validazioneToken;
+    }
+
+    /**
+     * Ottiene la data di validazione del token di autenticazione dello studente.
+     * @return \datetime Data di validazione del token.
+     */
+    public function getValidazioneToken(): \DateTime {
+        return $this->validazioneToken;
     }
 
 }

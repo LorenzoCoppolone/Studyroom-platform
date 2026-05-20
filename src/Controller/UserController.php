@@ -3,6 +3,7 @@
 namespace Controller;
 
 use Foundation\Persistent\PersistentManager;
+use Foundation\Session\Session;
 use UI\viewUser;
 use Model\Studente;
 use PDOException;
@@ -33,13 +34,15 @@ class UserController {
     public function registrazioneStudente() {
 
          try {
+            $session = Session::getInstance(); // Ottieni l'istanza della sessione
+             // Istanzio la view e mi faccio restituire la form di registrazione
             $view = new viewUser();
+
             // Prelevo i dati inseriti nella form di registrazione
             $datiRegistrazione = $view->getDatiRegistrazione();
 
             // Istanzio il PersistentManager
             $pm = PersistentManager::getInstance();
-
 
             // Controllo che tutti i campi  siano stati compilati
             if (empty($datiRegistrazione['nome']))     throw new \Exception("Il nome è obbligatorio.");
@@ -75,14 +78,16 @@ class UserController {
             $studente = new Studente($datiRegistrazione['nome'], $datiRegistrazione['cognome'],
             $datiRegistrazione['email'] ,$passwordHash, $datiRegistrazione['username']);
             
+            $token = bin2hex(random_bytes(52)); // Genera un token casuale
+            $studente->setToken($token); // Salva il token nello studente
+            $studente->setValidazioneToken(time() + 10*60); // Imposta la scadenza del token a 10 minuti
+            $pm->save($studente); // Salva lo studente nel database
 
-            // Salvo tramite PersistentManager
-            $pm->save($studente);
+            // Invia l'email di conferma all'utente, con il token per la validazione
+            // (manca implementazione invio email)
 
-            // Implementazione conferma registrazione tramite token e invio email di conferma
 
-            // Chiamata alla funzione che reindirizza alla pagina di login dell'utente
-            //$this->loginStudente();
+            $view->mostraFormEmail(); // Mostra la form con scritto "controlla la tua email"
 
         } catch (PDOException $e) {
             // Errore lato DB
@@ -98,28 +103,20 @@ class UserController {
 
      // Funzione per gestire il login dell'utente ( manca la parte relativa alla gestione della sessione e al reindirizzamento alla home page dopo il login )
     public function loginStudente() {
-
         try {
-
+            $session = Session::getInstance(); // Ottieni l'istanza della sessione
              // Istanzio la view e mi faccio restituire la form di registrazione
             $view = new viewUser();
-            $view->mostraFormLogin();
-
-            // Prelevo i dati inseriti nella form di registrazione
             $datiLogin = $view->getDatiLogin();
-
             // Istanzio il PersistentManager
             $pm = PersistentManager::getInstance();
-
-
             // Controllo che tutti i campi  siano stati compilati
             if (empty($datiLogin['email'])) throw new \Exception("L'email è obbligatoria.");
             if (empty($datiLogin['password'])) throw new \Exception("La password è obbligatoria.");
-
             // Cerco lo studente nel DB per email
             $studente = $pm->findOneBy(Studente::class, [
                 'email' => $datiLogin['email']
-            ]);
+            ]); // Cerco lo studente nel DB per email, posso farlo perché l'email nel nostro sistema è univoca.
 
             // Verifico che lo studente esista
             if ($studente === null) {
@@ -128,15 +125,10 @@ class UserController {
             // Verifico la password
             if (!password_verify($datiLogin['password'], $studente->getPassword())) {
                 throw new \Exception("Credenziali non corrette.");
+            }else {
+                $session->setSessionElement('idStudenteLoggato', $studente->getId()); // Login riuscito, salva l'ID dello studente nella sessione
+                $view->mostraHomeLoggato(); // Mostra la home page per l'utente loggato, vediamo come implementarla.
             }
-
-            session_start();
-            $_SESSION['idStudente']  = $studente->getId();
-            $_SESSION['nome']        = $studente->getNome();
-            $_SESSION['username']    = $studente->getUsername();
-
-            // Implementazione reindirizzamento alla HomePage (mancante)
-
         } catch (PDOException $e) {
             // Errore lato DB
             throw new RuntimeException("Errore durante la ricerca: " . $e->getMessage());
@@ -145,7 +137,6 @@ class UserController {
             // Qualsiasi altro errore
             throw new RuntimeException("Errore imprevisto: " . $e->getMessage());
         }
-
     }
     
     // Funzione per visualizzare il profilo dello studente ( manca la parte relativa alla gestione della sessione e al recupero dei dati dello studente loggato )
@@ -153,6 +144,8 @@ class UserController {
 
         try{
 
+        $session = Session::getInstance(); // Ottieni l'istanza della sessione
+        $idStudenteLoggato = $session->getSessionElement('idStudenteLoggato');
         // Istanzio la view
         $view =  new viewUser();
 
@@ -160,41 +153,37 @@ class UserController {
         $pm = PersistentManager::getInstance();
 
         // Recupero il bottone premuto dalla view
-        $bottone = $view->getBottoneCliccato();
-        $bottoneCliccato = strtolower($bottone["bottonePremuto"]);
-
-        $idStudenteLoggato = $_SESSION['idStudenteLoggato']; // recupero l'id dello studente dalla sessione
+        $bottone = strtolower($view->getBottoneCliccato());
         
         //ANDRANNO RECUPERATI ANCHE OFFSET E LIMITE SE VENGONO GESTITI SERVER SIDE?
         
-       
         // recupero ciò che mi serve per la view, a seconda del bottone premuto
-         if($bottoneCliccato === "modifica"){
+         if($bottone === "modifica"){
 
             // Manca implementazione
 
-        }elseif($bottoneCliccato === "recensioni"){
+        }elseif($bottone === "recensioni"){
 
             $recensioni = $pm->trovaRecensioniPerUtente($idStudenteLoggato, 0, 10);
 
             // Mostra le recensioni
             $view->mostraRecensioniStudente($recensioni);
 
-        }elseif($bottoneCliccato === "preferiti"){
+        }elseif($bottone === "preferiti"){
 
             $preferiti = $pm->trovaPreferitiPerUtente($idStudenteLoggato, 0, 10);
 
             // Mostra i preferiti
             $view->mostraPreferitiStudente($preferiti);
 
-        }elseif($bottoneCliccato === "download"){
+        }elseif($bottone === "download"){
 
             $download = $pm->trovaDownloadPerUtente($idStudenteLoggato, 0, 10);
 
             // Mostra i download
             $view->mostraDownloadStudente($download);
 
-        }elseif($bottoneCliccato === "materiale"){
+        }elseif($bottone === "materiale"){
             $materiale = $pm->MaterialiPopolariUtente($idStudenteLoggato, 0, 10);
 
             // Mostra i materiali dello studente ordinandoli dal piu' popolare

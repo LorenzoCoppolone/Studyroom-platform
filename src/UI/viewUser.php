@@ -62,7 +62,7 @@ class ViewUser {
      */
     public function getBottoneCliccato() : array {
 
-    return ["bottonePremuto"=>$_POST['bottonePremuto']];
+    return $_POST['bottone'] ?? '';
     
      // restituisce il valore del bottone premuto   
     }
@@ -106,6 +106,10 @@ class ViewUser {
      */
     public function mostraModificaProfilo() : void {
         // logica per mostrare il modulo di modifica del profilo dell'utente
+    }
+
+    public function mostraFormEmail() : void {
+        // logica per mostrare la form con scritto "controlla la tua email"
     }
 
 }
