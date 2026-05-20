@@ -32,66 +32,44 @@ class UserController {
 
     // Funzione per gestire la registrazione di un nuovo utente ( manca la parte relativa ai token  di conferma email )
     public function registrazioneStudente() {
-
          try {
-            $session = Session::getInstance(); // Ottieni l'istanza della sessione
-             // Istanzio la view e mi faccio restituire la form di registrazione
+            $session = Session::getInstance();
             $view = new viewUser();
-
-            // Prelevo i dati inseriti nella form di registrazione
             $datiRegistrazione = $view->getDatiRegistrazione();
-
-            // Istanzio il PersistentManager
             $pm = PersistentManager::getInstance();
-
             // Controllo che tutti i campi  siano stati compilati
             if (empty($datiRegistrazione['nome']))     throw new \Exception("Il nome è obbligatorio.");
             if (empty($datiRegistrazione['cognome']))  throw new \Exception("Il cognome è obbligatorio.");
             if (empty($datiRegistrazione['username']))    throw new \Exception("L'username è obbligatorio.");
             if (empty($datiRegistrazione['email'])) throw new \Exception("L'email è obbligatoria.");
             if (empty($datiRegistrazione['password'])) throw new \Exception("La password è obbligatoria.");
-
             // Validazione email
             if (!preg_match('/^[a-zA-Z0-9._%+-]+@student\.univaq\.it$/', $datiRegistrazione['email'])) {
                  throw new \Exception("Devi usare la tua email universitaria (@student.univaq.it).");
-}
-         
-            // Verifico che email e username non esistano già nel DB ( username puo essere uguale ?)
-            $emailEsistente = $pm->findOneBy(Studente::class, [
+            }
+            $studenteEsistente = $pm->findOneBy(Studente::class, [
                 'email' => $datiRegistrazione['email']
             ]);
-            if ($emailEsistente !== null) {
+            if ($studenteEsistente !== null) {
                 throw new \Exception("Email già registrata.");
             }
-
-            $usernameEsistente = $pm->findOneBy(Studente::class, [
-                'username' => $datiRegistrazione['username']
-            ]);
-            if ($usernameEsistente !== null) {
-                throw new \Exception("Username già in uso.");
-            }
-
-            // Creo l'oggetto
-
-            // Hash della password prima di salvarla nel database
-            $passwordHash = password_hash($datiRegistrazione['password'], PASSWORD_BCRYPT);
+            $passwordHash = password_hash($datiRegistrazione['password'], PASSWORD_BCRYPT); // Hash della password
             $studente = new Studente($datiRegistrazione['nome'], $datiRegistrazione['cognome'],
             $datiRegistrazione['email'] ,$passwordHash, $datiRegistrazione['username']);
-            
-            $token = bin2hex(random_bytes(52)); // Genera un token casuale
+            $token = bin2hex(random_bytes(63)); // Genera un token casuale
             $studente->setToken($token); // Salva il token nello studente
             $studente->setValidazioneToken(time() + 10*60); // Imposta la scadenza del token a 10 minuti
             $pm->save($studente); // Salva lo studente nel database
-
-            // Invia l'email di conferma all'utente, con il token per la validazione
-            // (manca implementazione invio email)
-
-
+            $this->inviaEmailVerifica($studente, $token); // Invia l'email di verifica con il token
             $view->mostraFormEmail(); // Mostra la form con scritto "controlla la tua email"
+            $studenteRegistrato = $pm->findOneBy(Studente::class, [
+                'email' => $datiRegistrazione['email']
+            ]); // Recupera lo studente appena registrato per ottenere il suo ID
+            $session->setSessionElement('studente',$studenteRegistrato->getId()); // Salva l'ID dello studente nella sessione per eventuali usi futuri
 
         } catch (PDOException $e) {
             // Errore lato DB
-            throw new RuntimeException("Errore durante la ricerca: " . $e->getMessage());
+            throw new RuntimeException("Errore durante la registrazione dell'utente: " . $e->getMessage());
         
         } catch (Exception $e) {
             // Qualsiasi altro errore
@@ -131,14 +109,55 @@ class UserController {
             }
         } catch (PDOException $e) {
             // Errore lato DB
-            throw new RuntimeException("Errore durante la ricerca: " . $e->getMessage());
+            throw new RuntimeException("Errore durante il login dell'utente: " . $e->getMessage());
         
         } catch (Exception $e) {
             // Qualsiasi altro errore
             throw new RuntimeException("Errore imprevisto: " . $e->getMessage());
         }
     }
+
+    public function logoutStudente() : void {
+        $session = Session::getInstance();
+        $session->destroySession(); // Distrugge la sessione, effettivamente facendo il logout
+        $view = new viewUser();
+        $view->mostraHome(); // Dopo il logout, mostra la form di login
+    }
     
+    /**
+     * Funzione per gestire la verifica dell'email tramite token 
+     * @return void
+     */
+    public function verificaEmail() : void {
+
+        try {
+            $view = new viewUser();
+            $token = $view->getTokenEmail(); // Ottieni il token dalla query string
+            $pm = PersistentManager::getInstance();
+            $studente = $pm->findOneBy(Studente::class, [
+                'token' => $token
+            ]); // Cerco lo studente nel DB per token
+
+            if ($studente === null) {
+                throw new \Exception("Token non valido.");
+            }
+            if (time() > $studente->getValidazioneToken()) {
+                throw new \Exception("Il token è scaduto.");
+            }
+            $studente->setToken(null); // Rimuovi il token dallo studente
+            $studente->setValidazioneToken(null); // Rimuovi la scadenza del token
+            $pm->update($studente); // Salva le modifiche al database
+            $view->mostraFormConvalidaEmail(); // Mostra la form di conferma che l'email è stata verificata con successo
+
+        } catch (PDOException $e) {
+            // Errore lato DB
+            throw new RuntimeException("Errore durante la verifica dell'email: " . $e->getMessage());
+        
+        } catch (Exception $e) {
+            // Qualsiasi altro errore
+            throw new RuntimeException("Errore imprevisto: " . $e->getMessage());
+        }
+    }
     // Funzione per visualizzare il profilo dello studente ( manca la parte relativa alla gestione della sessione e al recupero dei dati dello studente loggato )
     public function profiloStudente() : void {
 
@@ -199,6 +218,24 @@ class UserController {
             throw new RuntimeException("Errore imprevisto: " . $e->getMessage());
         }
 
+    }
+
+
+    private function inviaEmailVerifica(studente $studente, string $token) {
+       
+        try {
+            $mail = require __DIR__ . '/../config/mailer-bootstrap.php'; // Carica PHPMailer 
+            $studenteEmail = $studente->getEmail();
+            $mail->addAddress($studenteEmail); // Aggiungi il destinatario
+            $mail->Subject = 'Conferma la tua registrazione a StudyRoom';
+            $mail->Body    = "Ciao {$studente->getNome()},\n\nPer confermare la tua registrazione a StudyRoom, clicca sul link seguente:\n\n" .
+                              "http://localhost/Studyroom-platform/confirm_email.php?token={$token}\n\n" .
+                              "Il link sarà valido per 10 minuti.\n\nGrazie!";
+            $mail->send();
+        } catch (Exception $e) {
+            // Log dell'errore o gestione dell'errore di invio email
+            error_log("Errore nell'invio dell'email di verifica: {$mail->ErrorInfo}");
+        }
     }
 
 }

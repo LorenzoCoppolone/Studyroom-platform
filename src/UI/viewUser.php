@@ -55,6 +55,14 @@ class ViewUser {
         ];
     }
 
+    /**
+     * Restituisce il token presente nella query string dell'URL.
+     * @return string
+     */
+    public function getTokenEmail() : string {
+        return $_GET['token'] ?? '';
+    }
+
      /**
      * Restituisce il valore del bottone premuto.
      * 
@@ -108,8 +116,20 @@ class ViewUser {
         // logica per mostrare il modulo di modifica del profilo dell'utente
     }
 
+    /**
+     * Mostra la form per controllare la propria email dopo la registrazione
+     * @return void
+     */
     public function mostraFormEmail() : void {
         // logica per mostrare la form con scritto "controlla la tua email"
+    }
+
+    /**
+    * Mostra la form di conferma che l'email è stata verificata con successo
+    * @return void
+    */
+    public function mostraFormConvalidaEmail() : void {
+        // logica per mostrare la form di conferma che l'email è stata verificata con successo
     }
 
 }
