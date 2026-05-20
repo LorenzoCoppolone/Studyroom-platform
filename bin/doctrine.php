@@ -6,9 +6,8 @@ use Doctrine\ORM\Tools\Console\EntityManagerProvider\SingleManagerProvider;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-// Carica il tuo EntityManager dal bootstrap
-$entityManager = require_once __DIR__ . '/../src/Foundation/Persistent/doctrine-bootstrap.php';
-
+// Carica l'EntityManager da doctrine-bootstrap.php
+$entityManager = require __DIR__ . '/../config/doctrine-bootstrap.php';
 
 // Avvia la console Doctrine ORM 3
 ConsoleRunner::run(

@@ -3,7 +3,7 @@
 require_once __DIR__ . "/vendor/autoload.php";
 
 use Controller\MaterialeController;
-
+/*
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
     if (isset($_GET['action']) && $_GET['action'] === 'caricaMateriale') {
@@ -26,4 +26,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $controller->caricaMateriale();
         exit;
     }
+}
+*/
+// Carica PHPMailer configurato
+$mail = require __DIR__ . '/config/mailer-bootstrap.php';
+
+try {
+    // Destinatario (può essere finto)
+    $mail->addAddress('utente-di-test@example.com');
+
+    // Oggetto e corpo
+    $mail->Subject = 'Test email da StudyRoom';
+    $mail->Body    = 'Se vedi questa email in Mailpit, PHPMailer funziona!';
+
+    // Invia
+    $mail->send();
+
+    echo "Email inviata correttamente!";
+
+} catch (Exception $e) {
+    echo "Errore nell'invio: {$mail->ErrorInfo}";
 }
