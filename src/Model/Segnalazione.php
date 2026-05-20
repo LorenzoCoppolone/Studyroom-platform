@@ -18,9 +18,6 @@ class Segnalazione {
 
     #[ORM\Column(type: Types::STRING)]
     private string $motivo;
-
-    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
-    private \DateTimeImmutable $timeStamp;
     
     #[ORM\ManyToOne(targetEntity: Studente::class, inversedBy: "segnalazioniFatte")]
     private Studente $segnalante;
@@ -46,7 +43,6 @@ class Segnalazione {
         Amministratore $amministratore
         ) {
         $this->motivo = $motivo;
-        $this->timeStamp = new \DateTimeImmutable();
         $this->segnalante = $segnalante;
         $this->materialeSegnalato = $materialeSegnalato;
         $this->amministratore = $amministratore;
@@ -82,22 +78,6 @@ class Segnalazione {
      */
     public function getMotivo(): string {
         return $this->motivo;
-    }
-
-     /**
-     * Imposta/modifica il timestamp della segnalazione.
-     * @param \DateTimeImmutable $timeStamp Nuova data/ora.
-     */
-    public function setTimeStamp(\DateTimeImmutable $timeStamp): void {
-        $this->timeStamp = $timeStamp;
-    }
-
-    /**
-     * Restituisce la data/ora della segnalazione.
-     * @return \DateTimeImmutable
-     */
-    public function getTimeStamp(): \DateTimeImmutable {
-        return $this->timeStamp;
     }
 
     /**

@@ -22,6 +22,9 @@ class Studente extends Utente {
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private \DateTime $validazioneToken; //data di scadenza del token
 
+    #[ORM\Column(type: Types::BOOLEAN)]
+    private bool $isVerified = false; //indica se l'utente ha verificato la propria email
+
     #[ORM\Embedded(class: File::class)]
     private ?File $immagineProfilo = null;
 
@@ -117,6 +120,38 @@ class Studente extends Utente {
      */
     public function getUsername(): string {
         return $this->username;
+    }
+     
+    /**
+    * Imposta se lo studente è bannato o meno.
+    * @param bool $isBanned Indica se lo studente è bannato.
+    */
+    public function setIsBanned(bool $isBanned): void {
+        $this->isBanned = $isBanned;
+    }
+   
+    /**
+     * Ottiene lo stato di ban dello studente.
+     * @return bool Indica se lo studente è bannato.
+     */
+    public function getIsBanned(): bool {
+        return $this->isBanned;
+    }
+
+    /**
+    * Imposta lo stato di verifica dello studente.
+    * @param bool $isVerified Indica se lo studente ha verificato la propria email.
+    */
+    public function setIsVerified(bool $isVerified): void {
+        $this->isVerified = $isVerified;
+    }
+
+    /**
+     * Ottiene lo stato della verifica dello studente.
+     * @return string Token di autenticazione dello studente.
+     */
+    public function getIsVerified(): bool {
+        return $this->isVerified;
     }
 
     /** @param Segnalazione $segnalazioneEffettuata
@@ -220,5 +255,6 @@ class Studente extends Utente {
     public function getValidazioneToken(): \DateTime {
         return $this->validazioneToken;
     }
+
 
 }
