@@ -17,10 +17,10 @@ class Studente extends Utente {
     private bool $isBanned = false;
 
     #[ORM\Column(type: Types::STRING, nullable: true)]
-    private string $token; //stringa generata per l'autenticazione dell'utente via email
+    private ?string $token; //stringa generata per l'autenticazione dell'utente via email
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private \DateTime $validazioneToken; //data di scadenza del token
+    private ?\DateTime $validazioneToken; //data di scadenza del token
 
     #[ORM\Column(type: Types::BOOLEAN)]
     private bool $isVerified = false; //indica se l'utente ha verificato la propria email
@@ -228,7 +228,7 @@ class Studente extends Utente {
     * Imposta il token di autenticazione dello studente.
     * @param string $token Token di autenticazione.
     */
-    public function setToken(string $token): void {
+    public function setToken(?string $token): void {
         $this->token = $token;
     }
 
@@ -236,7 +236,7 @@ class Studente extends Utente {
      * Ottiene il token di autenticazione dello studente.
      * @return string Token di autenticazione.
      */
-    public function getToken(): string {
+    public function getToken(): ?string {
         return $this->token;
     }
 
@@ -244,7 +244,7 @@ class Studente extends Utente {
      * Imposta la data di validazione del token di autenticazione dello studente.
      * @param \datetime $validazioneToken Data di validazione del token.
      */
-    public function setValidazioneToken(\DateTime $validazioneToken): void {
+    public function setValidazioneToken(?\DateTime $validazioneToken): void {
         $this->validazioneToken = $validazioneToken;
     }
 
@@ -252,7 +252,7 @@ class Studente extends Utente {
      * Ottiene la data di validazione del token di autenticazione dello studente.
      * @return \datetime Data di validazione del token.
      */
-    public function getValidazioneToken(): \DateTime {
+    public function getValidazioneToken(): ?\DateTime {
         return $this->validazioneToken;
     }
 

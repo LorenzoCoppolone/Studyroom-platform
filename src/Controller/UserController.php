@@ -93,7 +93,7 @@ class UserController {
             $token = bin2hex(random_bytes(63)); // Genera un token casuale
             $studente->setToken($token); // Salva il token nello studente
             $timestamp = time() + 600;
-            $scadenza = (new \DateTime())->setTimestamp($timestamp);
+            $scadenza = (new \DateTime('now', new \DateTimeZone('Europe/Rome')))->setTimestamp($timestamp);
             $studente->setValidazioneToken($scadenza); // Imposta la scadenza del token a 10 minuti
             $pm->save($studente); // Salva lo studente nel database
             $this->inviaEmailVerifica($studente, $token); // Invia l'email di verifica con il token
@@ -182,7 +182,7 @@ class UserController {
                 $view->mostraFormTokenNonValido(); // Mostra la form che informa l'utente che il token non è valido
                 return; // Termina l'esecuzione della funzione
             }
-            $now = new \DateTime();
+            $now = new \DateTime('now', new \DateTimeZone('Europe/Rome')); // Ottieni la data e ora attuale
 
             if ($now > $studente->getValidazioneToken() || $studente->getToken() === null) {
                 $pm->delete($studente); // Elimina lo studente dal database se il token è scaduto
@@ -192,7 +192,7 @@ class UserController {
 
             $studente->setToken(null); // Rimuovi il token dallo studente
             $studente->setValidazioneToken(null); // Rimuovi la scadenza del token
-            $studente->setIsEmailVerified(true); // Imposta l'email come verificata
+            $studente->setIsVerified(true); // Imposta l'email come verificata
             $pm->update($studente); // Salva le modifiche al database
             $view->mostraConvalidaEmail(); // Mostra la form di conferma che l'email è stata verificata con successo
 
@@ -270,7 +270,7 @@ class UserController {
             $mail->addAddress($studenteEmail); // Aggiungi il destinatario
             $mail->Subject = 'Conferma la tua registrazione a StudyRoom';
             $mail->Body    = "Ciao {$studente->getNome()},\n\nPer confermare la tua registrazione a StudyRoom, clicca sul link seguente:\n\n" .
-                              "http://localhost/Studyroom-platform/verificaEmail.php?token={$token}\n\n" .
+                              "http://localhost/Studyroom-platform/verificaEmail.php?token=".$token."\n\n" .
                               "Il link sarà valido per 10 minuti.\n\nGrazie!";
             $mail->send();
         } catch (Exception $e) {
