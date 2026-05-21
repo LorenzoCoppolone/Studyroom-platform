@@ -68,12 +68,9 @@ class UserController {
             $session->setSessionElement('studente',$studenteRegistrato->getId()); // Salva l'ID dello studente nella sessione per eventuali usi futuri
 
         } catch (PDOException $e) {
-            // Errore lato DB
-            throw new RuntimeException("Errore durante la registrazione dell'utente: " . $e->getMessage());
-        
+            $view->mostraFormErrore("Errore durante la registrazione: ");
         } catch (Exception $e) {
-            // Qualsiasi altro errore
-            throw new RuntimeException("Errore imprevisto: " . $e->getMessage());
+            $view->mostraFormErrore("Errore durante la registrazione: " . $e->getMessage());
         }
 
 
@@ -95,25 +92,32 @@ class UserController {
             $studente = $pm->findOneBy(Studente::class, [
                 'email' => $datiLogin['email']
             ]); // Cerco lo studente nel DB per email, posso farlo perché l'email nel nostro sistema è univoca.
-
+            if(!$studente->getEmailVerificata()) {
+                $view->mostraFormErrore("L'email non è stata verificata, controlla la tua email o riprova a registrarti"); // Mostra di nuovo la form di login
+                return; // Termina l'esecuzione della funzione
+            }
             // Verifico che lo studente esista
             if ($studente === null) {
-                throw new \Exception("Credenziali non corrette.");
+                $view->mostraFormLogin(); // Mostra di nuovo la form di login
+                throw new \Exception("Credenziali non corrette."); // Lancia un'ecezione per indicare che le credenziali non sono corrette
+                return; // Termina l'esecuzione della funzione
             }
             // Verifico la password
             if (!password_verify($datiLogin['password'], $studente->getPassword())) {
-                throw new \Exception("Credenziali non corrette.");
+                $view->mostraFormLogin(); // Mostra di nuovo la form di login
+                throw new \Exception("Credenziali non corrette."); // Lancia un'ecezione per indicare che le credenziali non sono corrette
+                return; // Termina l'esecuzione della funzione
             }else {
                 $session->setSessionElement('idStudenteLoggato', $studente->getId()); // Login riuscito, salva l'ID dello studente nella sessione
-                $view->mostraHomeLoggato(); // Mostra la home page per l'utente loggato, vediamo come implementarla.
+                $view->mostraHomeLoggato($studente->getUsername(), $studente->getImmagineProfilo()); // Mostra la home page per l'utente loggato, passando username ed email per personalizzare la pagina
             }
         } catch (PDOException $e) {
             // Errore lato DB
-            throw new RuntimeException("Errore durante il login dell'utente: " . $e->getMessage());
+            $view->mostraFormErrore("Errore durante il login dell'utente: " . $e->getMessage());
         
         } catch (Exception $e) {
             // Qualsiasi altro errore
-            throw new RuntimeException("Errore imprevisto: " . $e->getMessage());
+            $view->mostraFormErrore("Errore durante il login dell'utente: " . $e->getMessage());
         }
     }
 
@@ -128,7 +132,7 @@ class UserController {
      * Funzione per gestire la verifica dell'email tramite token 
      * @return void
      */
-    public function verificaEmail() : void {
+    public function confermaEmail() : void {
 
         try {
             $view = new viewUser();
@@ -139,89 +143,91 @@ class UserController {
             ]); // Cerco lo studente nel DB per token
 
             if ($studente === null) {
-                throw new \Exception("Token non valido.");
+                $view->mostraFormTokenNonValido(); // Mostra la form che informa l'utente che il token non è valido
+                return; // Termina l'esecuzione della funzione
             }
-            if (time() > $studente->getValidazioneToken()) {
-                throw new \Exception("Il token è scaduto.");
+            if (time() > $studente->getValidazioneToken() || $studente->getToken() === null) {
+                $pm->delete($studente); // Elimina lo studente dal database se il token è scaduto
+                $view->mostraFormTokenScaduto(); // Mostra la form che informa l'utente che il token è scaduto
+                return; // Termina l'esecuzione della funzione
             }
+
             $studente->setToken(null); // Rimuovi il token dallo studente
             $studente->setValidazioneToken(null); // Rimuovi la scadenza del token
+            $studente->setEmailVerificata(true); // Imposta l'email come verificata
             $pm->update($studente); // Salva le modifiche al database
-            $view->mostraFormConvalidaEmail(); // Mostra la form di conferma che l'email è stata verificata con successo
+            $view->mostraFormConvalidaEmail($studente->getEmail()); // Mostra la form di conferma che l'email è stata verificata con successo
 
         } catch (PDOException $e) {
-            // Errore lato DB
-            throw new RuntimeException("Errore durante la verifica dell'email: " . $e->getMessage());
+           $view->mostraFormErorre("Errore durante la verifica dell'email: " . $e->getMessage());
         
         } catch (Exception $e) {
-            // Qualsiasi altro errore
-            throw new RuntimeException("Errore imprevisto: " . $e->getMessage());
+            $view->mostraFormErorre("Errore durante la verifica dell'email: " . $e->getMessage());
         }
     }
-    // Funzione per visualizzare il profilo dello studente ( manca la parte relativa alla gestione della sessione e al recupero dei dati dello studente loggato )
+
+    /**
+     * Funzione per mostrare il profilo dell'utente, 
+     * con le sue recensioni, preferiti, download e materiale caricato, 
+     * con paginazione
+     */
     public function profiloStudente() : void {
-
         try{
-
+        $view = new viewUser();
+        $page = $view->getDatiPaginazione(); // Ottieni la pagina corrente
+        $limit = 10; // Numero di elementi per pagina
+        $offset = ($page - 1) * $limit;
         $session = Session::getInstance(); // Ottieni l'istanza della sessione
         $idStudenteLoggato = $session->getSessionElement('idStudenteLoggato');
         // Istanzio la view
         $view =  new viewUser();
-
         // Ottengo l'istanza del PersistentManager
         $pm = PersistentManager::getInstance();
-
         // Recupero il bottone premuto dalla view
         $bottone = strtolower($view->getBottoneCliccato());
-        
-        //ANDRANNO RECUPERATI ANCHE OFFSET E LIMITE SE VENGONO GESTITI SERVER SIDE?
-        
         // recupero ciò che mi serve per la view, a seconda del bottone premuto
          if($bottone === "modifica"){
-
             // Manca implementazione
-
         }elseif($bottone === "recensioni"){
-
-            $recensioni = $pm->trovaRecensioniPerUtente($idStudenteLoggato, 0, 10);
-
-            // Mostra le recensioni
-            $view->mostraRecensioniStudente($recensioni);
-
+            $recensioni = $pm->trovaRecensioniPerUtente($idStudenteLoggato, $offset, $limit);
+            $tuttiRecensioni = $pm->findAll(Recensione::class, ['idStudente' => $idStudenteLoggato]);
+            $numeroRecensioni = count($tuttiRecensioni);
+            $pagineTotali = ceil($numeroRecensioni / $limit);
+            $view->mostraRecensioniStudente($recensioni, $pagineTotali);
         }elseif($bottone === "preferiti"){
-
-            $preferiti = $pm->trovaPreferitiPerUtente($idStudenteLoggato, 0, 10);
-
-            // Mostra i preferiti
-            $view->mostraPreferitiStudente($preferiti);
-
+            $preferiti = $pm->trovaPreferitiPerUtente($idStudenteLoggato, $offset, $limit);
+            $tuttiPreferiti = $pm->findAll(Preferito::class, ['idStudente' => $idStudenteLoggato]);
+            $numeroPreferiti = count($tuttiPreferiti);
+            $pagineTotali = ceil($numeroPreferiti / $limit);
+            $view->mostraPreferitiStudente($preferiti, $pagineTotali);
         }elseif($bottone === "download"){
 
-            $download = $pm->trovaDownloadPerUtente($idStudenteLoggato, 0, 10);
-
-            // Mostra i download
-            $view->mostraDownloadStudente($download);
-
+            $download = $pm->trovaDownloadPerUtente($idStudenteLoggato, $offset, $limit);
+            $tuttiDownload = $pm->findAll(Download::class, ['idStudente' => $idStudenteLoggato]);
+            $numeroDownload = count($tuttiDownload);
+            $pagineTotali = ceil($numeroDownload / $limit);
+            $view->mostraDownloadStudente($download, $pagineTotali);
         }elseif($bottone === "materiale"){
-            $materiale = $pm->MaterialiPopolariUtente($idStudenteLoggato, 0, 10);
-
-            // Mostra i materiali dello studente ordinandoli dal piu' popolare
-            $view->mostraMaterialiStudente($materiale);
+            $materiale = $pm->MaterialiPopolariUtente($idStudenteLoggato, $offset, $limit);
+            $tuttiMateriali = $pm->findAll(Materiale::class, ['studente' => $idStudenteLoggato]);
+            $numeroMateriali = count($tuttiMateriali);
+            $pagineTotali = ceil($numeroMateriali / $limit);
+            $view->mostraMaterialiStudente($materiale, $pagineTotali);
         }
-
-    } catch (PDOException $e) {
-            // Errore lato DB
-            throw new RuntimeException("Errore durante la ricerca: " . $e->getMessage());
-        
+    }     catch (PDOException $e) {
+            $view->mostraFormErrore("Errore durante la ricerca: " . $e->getMessage());
         } catch (Exception $e) {
-            // Qualsiasi altro errore
-            throw new RuntimeException("Errore imprevisto: " . $e->getMessage());
+            $view->mostraFormErrore("Errore imprevisto: " . $e->getMessage());
         }
-
     }
 
-
-    private function inviaEmailVerifica(studente $studente, string $token) {
+    /**
+     * Funzione per inviare l'email di verifica al momento della registrazione, con il token di conferma email
+     * @param studente $studente, 
+     * @param string $token
+     * @return void
+     */
+    public function inviaEmailVerifica(studente $studente, string $token) {
        
         try {
             $mail = require __DIR__ . '/../config/mailer-bootstrap.php'; // Carica PHPMailer 
@@ -233,8 +239,7 @@ class UserController {
                               "Il link sarà valido per 10 minuti.\n\nGrazie!";
             $mail->send();
         } catch (Exception $e) {
-            // Log dell'errore o gestione dell'errore di invio email
-            error_log("Errore nell'invio dell'email di verifica: {$mail->ErrorInfo}");
+            echo "Errore nell'invio dell'email: {$mail->ErrorInfo}";
         }
     }
 

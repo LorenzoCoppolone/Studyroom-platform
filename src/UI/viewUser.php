@@ -43,6 +43,10 @@ class ViewUser {
 
     }
 
+    public function getDatiPaginazione() : array {
+        return $_GET['pagina'] ?? 1; // Restituisce la pagina corrente, di default 1
+    }
+
     /**
      * Restituisce i dati inseriti nella form di login.
      * @return array
