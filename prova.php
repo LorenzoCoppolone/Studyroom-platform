@@ -3,6 +3,7 @@
 require_once __DIR__ . "/vendor/autoload.php";
 
 use Controller\MaterialeController;
+use UI\ViewUser;
 /*
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
@@ -29,21 +30,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 */
 // Carica PHPMailer configurato
-$mail = require __DIR__ . '/config/mailer-bootstrap.php';
+// $mail = require __DIR__ . '/config/mailer-bootstrap.php';
 
-try {
-    // Destinatario (può essere finto)
-    $mail->addAddress('utente-di-test@example.com');
+// try {
+//     // Destinatario (può essere finto)
+//     $mail->addAddress('utente-di-test@example.com');
 
-    // Oggetto e corpo
-    $mail->Subject = 'Test email da StudyRoom';
-    $mail->Body    = 'Se vedi questa email in Mailpit, PHPMailer funziona!';
+//     // Oggetto e corpo
+//     $mail->Subject = 'Test email da StudyRoom';
+//     $mail->Body    = 'Se vedi questa email in Mailpit, PHPMailer funziona!';
 
-    // Invia
-    $mail->send();
+//     // Invia
+//     $mail->send();
 
-    echo "Email inviata correttamente!";
+//     echo "Email inviata correttamente!";
 
-} catch (Exception $e) {
-    echo "Errore nell'invio: {$mail->ErrorInfo}";
-}
+// } catch (Exception $e) {
+//     echo "Errore nell'invio: {$mail->ErrorInfo}";
+// }
+
+$view = new ViewUser();
+$view->mostraConvalidaEmail();
