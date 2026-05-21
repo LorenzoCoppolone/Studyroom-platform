@@ -10,14 +10,15 @@ class ViewUser {
 
     //Funzione che mostra la form di registrazione 
     public function mostraFormRegistrazione () { 
-
+            require __DIR__ . '/../../html/registrationForm.html';
         // implementazione html form oppure chiamata a funzione che lo fa
 
     }
 
     //Funzione che mostra la form di login
     public function mostraFormLogin () {
-
+        require __DIR__ . '/../../html/loginForm.html';
+        
         // implementazione html form oppure chiamata a funzione che lo fa
 
     }
@@ -158,7 +159,8 @@ class ViewUser {
      * Mostra la form per controllare la propria email dopo la registrazione
      * @return void
      */
-    public function mostraFormEmail() : void {
+    public function mostraVerificaEmail() : void {
+        require __DIR__ . '/../../html/verificationPage.html';
         // logica per mostrare la form con scritto "controlla la tua email"
     }
 
@@ -166,7 +168,8 @@ class ViewUser {
     * Mostra la form di conferma che l'email è stata verificata con successo
     * @return void
     */
-    public function mostraFormConvalidaEmail() : void {
+    public function mostraConvalidaEmail() : void {
+        require __DIR__ . '/../../html/confirmVerificationPage.html';
         // logica per mostrare la form di conferma che l'email è stata verificata con successo
     }
 

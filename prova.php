@@ -3,6 +3,7 @@
 require_once __DIR__ . "/vendor/autoload.php";
 
 use Controller\MaterialeController;
+use UI\ViewUser;
 /*
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
