@@ -20,7 +20,7 @@ class PersistentManager {
     // Ottieni l'istanza unica
     public static function getInstance(): self {
         if (self::$instance === null) {
-            $em = require __DIR__ . '/doctrine-bootstrap.php';
+            $em = require __DIR__ . '/../../../config/doctrine-bootstrap.php';
             self::$instance = new self($em);
         }
         return self::$instance;

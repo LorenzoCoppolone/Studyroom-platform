@@ -95,7 +95,7 @@ class UserController {
             $studente->setValidazioneToken(time() + 10*60); // Imposta la scadenza del token a 10 minuti
             $pm->save($studente); // Salva lo studente nel database
             $this->inviaEmailVerifica($studente, $token); // Invia l'email di verifica con il token
-            $view->mostraFormEmail(); // Mostra la form con scritto "controlla la tua email"
+            $view->mostraVerificaEmail(); // Mostra la form con scritto "controlla la tua email", con la relativa email
             $studenteRegistrato = $pm->findOneBy(Studente::class, [
                 'email' => $datiRegistrazione['email']
             ]); // Recupera lo studente appena registrato per ottenere il suo ID
@@ -126,7 +126,7 @@ class UserController {
             $studente = $pm->findOneBy(Studente::class, [
                 'email' => $datiLogin['email']
             ]); // Cerco lo studente nel DB per email, posso farlo perché l'email nel nostro sistema è univoca.
-            if(!$studente->getEmailVerificata()) {
+            if(!$studente->getIsVerified()) {
                 $view->mostraFormErrore("L'email non è stata verificata, controlla la tua email o riprova a registrarti"); // Mostra di nuovo la form di login
                 return; // Termina l'esecuzione della funzione
             }
@@ -166,7 +166,7 @@ class UserController {
      * Funzione per gestire la verifica dell'email tramite token 
      * @return void
      */
-    public function confermaEmail() : void {
+    public function verificaEmail() : void {
 
         try {
             $view = new viewUser();
@@ -188,9 +188,9 @@ class UserController {
 
             $studente->setToken(null); // Rimuovi il token dallo studente
             $studente->setValidazioneToken(null); // Rimuovi la scadenza del token
-            $studente->setEmailVerificata(true); // Imposta l'email come verificata
+            $studente->setIsEmailVerified(true); // Imposta l'email come verificata
             $pm->update($studente); // Salva le modifiche al database
-            $view->mostraFormConvalidaEmail($studente->getEmail()); // Mostra la form di conferma che l'email è stata verificata con successo
+            $view->mostraConvalidaEmail(); // Mostra la form di conferma che l'email è stata verificata con successo
 
         } catch (PDOException $e) {
            $view->mostraFormErorre("Errore durante la verifica dell'email: " . $e->getMessage());
@@ -266,12 +266,59 @@ class UserController {
             $mail->addAddress($studenteEmail); // Aggiungi il destinatario
             $mail->Subject = 'Conferma la tua registrazione a StudyRoom';
             $mail->Body    = "Ciao {$studente->getNome()},\n\nPer confermare la tua registrazione a StudyRoom, clicca sul link seguente:\n\n" .
-                              "http://localhost/Studyroom-platform/confirm_email.php?token={$token}\n\n" .
+                              "http://localhost/Studyroom-platform/verificaEmail.php?token={$token}\n\n" .
                               "Il link sarà valido per 10 minuti.\n\nGrazie!";
             $mail->send();
         } catch (Exception $e) {
             echo "Errore nell'invio dell'email: {$mail->ErrorInfo}";
         }
+    }
+
+    /**
+     * Funzione per controllare se l'utente sia loggato, 
+     * da usare in tutte le pagine che richiedono l'autenticazione, 
+     * per verificare se l'utente è loggato, altrimenti reindirizzarlo alla pagina di login
+      * @return bool
+     */
+    public function isUtenteLoggato() : bool {
+        $session = Session::getInstance();
+        return $session->getSessionElement('idStudenteLoggato') !== null;
+    }
+
+
+    /**
+     * Funzione per controllare se l'utente loggato è bannato,
+     * da usare in tutte le pagine che richiedono l'autenticazione, 
+     * per verificare se l'utente loggato è bannato, altrimenti reindirizzarlo alla pagina di login
+      * @return bool
+     */
+    public function isUtenteBannato() : bool {
+        $session = Session::getInstance();
+        $idStudenteLoggato = $session->getSessionElement('idStudenteLoggato');
+        if ($idStudenteLoggato === null) {
+            return false; // Se l'utente non è loggato, non è bannato
+        }
+        $pm = PersistentManager::getInstance();
+        $studente = $pm->findOneById(Studente::class, $idStudenteLoggato);
+        return $studente->getIsBanned(); // Restituisce true se lo studente è bannato, altrimenti false
+    }
+
+    /**
+     * Funzione per controllare se l'utente loggato ha verificato la propria email,
+     * da usare in tutte le pagine che richiedono l'autenticazione, 
+     * per verificare se l'utente loggato ha verificato la propria email, 
+     * altrimenti reindirizzarlo alla pagina di login
+     * @return bool
+     */
+    public function isUtenteVerificato() : bool {
+        $session = Session::getInstance();
+        $idStudenteLoggato = $session->getSessionElement('idStudenteLoggato');
+        if ($idStudenteLoggato === null) {
+            return false; // Se l'utente non è loggato, non è verificato
+        }
+        $pm = PersistentManager::getInstance();
+        $studente = $pm->findOneById(Studente::class, $idStudenteLoggato);
+        return $studente->getIsVerified(); // Restituisce true se lo studente è verificato, altrimenti false
     }
 
 }
