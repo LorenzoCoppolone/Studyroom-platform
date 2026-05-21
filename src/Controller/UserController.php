@@ -3,7 +3,7 @@
 namespace Controller;
 
 use Foundation\Persistent\PersistentManager;
-use Foundation\Session\Session;
+use Foundation\Session;
 use UI\viewUser;
 use Model\Studente;
 use PDOException;
@@ -92,7 +92,9 @@ class UserController {
             $datiRegistrazione['email'] ,$passwordHash, $datiRegistrazione['username']);
             $token = bin2hex(random_bytes(63)); // Genera un token casuale
             $studente->setToken($token); // Salva il token nello studente
-            $studente->setValidazioneToken(time() + 10*60); // Imposta la scadenza del token a 10 minuti
+            $timestamp = time() + 600;
+            $scadenza = (new \DateTime())->setTimestamp($timestamp);
+            $studente->setValidazioneToken($scadenza); // Imposta la scadenza del token a 10 minuti
             $pm->save($studente); // Salva lo studente nel database
             $this->inviaEmailVerifica($studente, $token); // Invia l'email di verifica con il token
             $view->mostraVerificaEmail(); // Mostra la form con scritto "controlla la tua email", con la relativa email
@@ -180,7 +182,9 @@ class UserController {
                 $view->mostraFormTokenNonValido(); // Mostra la form che informa l'utente che il token non è valido
                 return; // Termina l'esecuzione della funzione
             }
-            if (time() > $studente->getValidazioneToken() || $studente->getToken() === null) {
+            $now = new \DateTime();
+
+            if ($now > $studente->getValidazioneToken() || $studente->getToken() === null) {
                 $pm->delete($studente); // Elimina lo studente dal database se il token è scaduto
                 $view->mostraFormTokenScaduto(); // Mostra la form che informa l'utente che il token è scaduto
                 return; // Termina l'esecuzione della funzione
@@ -261,7 +265,7 @@ class UserController {
     public function inviaEmailVerifica(studente $studente, string $token) {
        
         try {
-            $mail = require __DIR__ . '/../config/mailer-bootstrap.php'; // Carica PHPMailer 
+            require __DIR__ . '/../../config/mailer-bootstrap.php';
             $studenteEmail = $studente->getEmail();
             $mail->addAddress($studenteEmail); // Aggiungi il destinatario
             $mail->Subject = 'Conferma la tua registrazione a StudyRoom';

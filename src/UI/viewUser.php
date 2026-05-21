@@ -1,7 +1,5 @@
 <?php
-
 namespace UI;
-
 class ViewUser {
 
     public function __construct() {

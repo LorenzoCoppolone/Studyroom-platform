@@ -31,6 +31,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 */
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
-    require __DIR__ . "/templates/Error.tpl";
+    require __DIR__ . "/html/registrationForm.html";
     exit;
 }

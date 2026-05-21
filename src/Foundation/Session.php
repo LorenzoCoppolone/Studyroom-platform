@@ -1,7 +1,7 @@
 <?php
 namespace Foundation;
 
-require_once(__DIR__ . '/../../../config/doctrine-bootstrap.php');
+require_once __DIR__ . '/../../config/doctrine-bootstrap.php';
 
 /**
  * class to access to the $_SESSION superglobal array, you Must use this class instead of using directly the array
@@ -16,7 +16,6 @@ class Session{
      private static $instance;
 
      private function __construct() {
-        session_set_cookie_params(COOKIE_EXP_TIME); //set the duration of the session cookie
         session_start(); //start the session
      }
  
