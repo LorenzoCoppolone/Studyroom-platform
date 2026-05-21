@@ -1,27 +1,37 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title> StudyRoom |Verifica registrazione</title>
-  <link rel="stylesheet" href="styleEmailPages.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyRoom | Verifica Email</title>
+    <link rel="icon" type="image/x-icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../css/styleEmailPages.css">
+    <link rel='stylesheet' href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css'>
 </head>
 <body>
-    <div class="pagina-verifica">
-        <h1 class="title">Verifica registrazione</h1>
-        <p class="subtitle">
-            Ti abbiamo inviato un link di conferma.<br />
-            Apri la tua casella di posta e clicca sul link per 
-            confermare la registrazione .
-        </p>
-        <div class="divider"></div>
+    <div class="page-container">
+        <a href="home.html" target="_self">
+            <img src="../img/logo.png" alt="Logo StudyRoom" class="logo-verifica">
+        </a>
+        <div class="card">
+           <div class="icon-circle">
+                <i class="bx bx-mail-send"></i>
+            </div>
+            <h2>Controlla la tua email</h2>
+            <p>Abbiamo inviato un link di conferma a:</p>
+            <!-- L'email deve essere quella dell'utente che sta facendo la registrazione -->
+            <div class="email-badge">mario.rossi@student.univaq.it</div>
+            <hr class="divider">
+            <div class="nota-spam">
+                <i class="bx bx-error"></i>
+                <span>Controlla anche la cartella <strong>Spam</strong> o <strong>Posta indesiderata</strong></span>
+            </div>
+            <div class="resend-row">
+                <span>Non hai ricevuto nulla?</span>
+                <button class="resend-btn">Invia di nuovo</button>
+            </div>
+        </div>
+    </div>
 
-        <p class="hint">
-            Non hai ricevuto nulla?
-        <button class="resend-btn" id="resendBtn">Invia di nuovo</button>
-        </p>
-        <p class="spam-note">Controlla anche la cartella
-         <strong>Spam</strong> o <strong>Posta indesiderata</strong>.</p>
- </div>
 </body>
 </html>
