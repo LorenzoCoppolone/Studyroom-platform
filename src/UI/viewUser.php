@@ -22,6 +22,16 @@ class ViewUser {
 
     }
 
+    public function mostraFormRecuperoPassword() {
+        // logica per mostrare la form di recupero password
+    }
+
+    public function mostraFormErrore(string $messaggio) {
+        $smarty = StartSmarty::configuration();
+        $smarty->assign("errore", $messaggio);
+        $smarty->display("Error.tpl");
+    }
+
     //Funzione che mostra il profilo dell`utente
      public function mostraProfiloStudente() : void {
         // logica per mostrare il profilo dell'utente
@@ -42,6 +52,30 @@ class ViewUser {
         ];
 
     }
+
+    public function getDatiModificaProfilo() : array {
+        
+        return [
+            'nome' => $_POST['nome'] ?? '',
+            'cognome' => $_POST['cognome'] ?? '',
+            'username' => $_POST['username'] ?? '',
+            'email' => $_POST['email'] ?? '',
+            'immagine' => [
+                           $_FILES['immagine']['name'] ?? null,
+                           $_FILES['immagine']['tmp_name'] ?? null,
+                           $_FILES['immagine']['error'],
+                           $_FILES['immagine']['size'] ?? null,
+                           $_FILES['immagine']['type'] ?? null
+                           ],
+            'password' => $_POST['password'] ?? ''
+        ];
+
+    }
+
+     /**
+     * Restituisce la pagina corrente per la paginazione.
+     * @return int
+     */
 
     public function getDatiPaginazione() : array {
         return $_GET['pagina'] ?? 1; // Restituisce la pagina corrente, di default 1

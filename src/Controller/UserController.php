@@ -29,8 +29,42 @@ class UserController {
     }
 
 
+    public function modificaProfilo() : void {
+        $view = new viewUser();
+        $modifiche = $view->getDatiModifiche(); // Ottieni i dati delle modifiche da apportare al profilo, se presenti
+         try {
+            $pm = PersistentManager::getInstance();
+            $session = Session::getInstance();
+            $idStudenteLoggato = $session->getSessionElement('idStudenteLoggato');
+            $studente = $pm->findOneById(Studente::class, $idStudenteLoggato);
+            if ($studente === null) {
+                $view->mostraFormErrore("Utente non trovato");
+                return;
+            }
+            $studente->setNome($modifiche['nome']?? $studente->getNome());
+            $studente->setCognome($modifiche['cognome']?? $studente->getCognome());
+            $studente->setEmail($modifiche['email']?? $studente->getEmail());
+            $studente->setUsername($modifiche['username']?? $studente->getUsername());
+            $studente->setPassword($modifiche['password']?? $studente->getPassword());
+            $immagine = new File($modifiche['immagine'][0], $modifiche['immagine'][1], $modifiche['immagine'][2], $modifiche['immagine'][3], $modifiche['immagine'][4]);
+            $studente->setImmagineProfilo($immagine ?? $studente->getImmagineProfilo());
+            $pm->update($studente);
+            $view->mostraModificaProfilo($studente->getNome(), $studente->getCognome(), $studente->getEmail(), $studente->getUsername(), $studente->getImmagineProfilo());
+        } catch (Exception $e) {
+            $view->mostraFormErrore("Errore durante la modifica del profilo: " . $e->getMessage());
+        } catch (PDOException $e) {
+            $view->mostraFormErrore("Errore durante la modifica del profilo: " . $e->getMessage());
+        }
+    }
 
-    // Funzione per gestire la registrazione di un nuovo utente ( manca la parte relativa ai token  di conferma email )
+    
+    /**
+     * Funzione per gestire la registrazione di un nuovo studente,
+     *  con validazione dei dati inseriti, controllo dell'unicità dell'email, hashing della password
+     * e salvataggio dello studente nel database,
+     * e invio dell'email di verifica
+      * @return void
+     */
     public function registrazioneStudente() {
          try {
             $session = Session::getInstance();
@@ -175,42 +209,39 @@ class UserController {
         try{
         $view = new viewUser();
         $page = $view->getDatiPaginazione(); // Ottieni la pagina corrente
+        $modifiche = $view->getDatiModifiche(); // Ottieni le modifiche da apportare al profilo, se presenti
+        $page = max(1, $page); // Assicurati che la pagina sia almeno 1
         $limit = 10; // Numero di elementi per pagina
-        $offset = ($page - 1) * $limit;
+        $offset = ($page - 1) * $limit; // Calcola l'offset per la query
         $session = Session::getInstance(); // Ottieni l'istanza della sessione
         $idStudenteLoggato = $session->getSessionElement('idStudenteLoggato');
-        // Istanzio la view
         $view =  new viewUser();
-        // Ottengo l'istanza del PersistentManager
         $pm = PersistentManager::getInstance();
-        // Recupero il bottone premuto dalla view
         $bottone = strtolower($view->getBottoneCliccato());
-        // recupero ciò che mi serve per la view, a seconda del bottone premuto
+
+        // recupero ciò che mi serve per la view, a seconda del bottone cliccato, e mostro la view corrispondente
          if($bottone === "modifica"){
-            // Manca implementazione
+            $studente = $pm->findOneById(Studente::class, $idStudenteLoggato);
+            $view->mostraModificaProfilo($studente->getNome(), $studente->getCognome(), $studente->getEmail(), $studente->getUsername(), $studente->getImmagineProfilo());
         }elseif($bottone === "recensioni"){
             $recensioni = $pm->trovaRecensioniPerUtente($idStudenteLoggato, $offset, $limit);
-            $tuttiRecensioni = $pm->findAll(Recensione::class, ['idStudente' => $idStudenteLoggato]);
-            $numeroRecensioni = count($tuttiRecensioni);
+            $numeroRecensioni = $pm->count(Recensione::class, ['Studente' => $idStudenteLoggato]);
             $pagineTotali = ceil($numeroRecensioni / $limit);
             $view->mostraRecensioniStudente($recensioni, $pagineTotali);
         }elseif($bottone === "preferiti"){
             $preferiti = $pm->trovaPreferitiPerUtente($idStudenteLoggato, $offset, $limit);
-            $tuttiPreferiti = $pm->findAll(Preferito::class, ['idStudente' => $idStudenteLoggato]);
-            $numeroPreferiti = count($tuttiPreferiti);
+            $numeroPreferiti = $pm->count(Preferito::class, ['Studente' => $idStudenteLoggato]);
             $pagineTotali = ceil($numeroPreferiti / $limit);
             $view->mostraPreferitiStudente($preferiti, $pagineTotali);
         }elseif($bottone === "download"){
 
             $download = $pm->trovaDownloadPerUtente($idStudenteLoggato, $offset, $limit);
-            $tuttiDownload = $pm->findAll(Download::class, ['idStudente' => $idStudenteLoggato]);
-            $numeroDownload = count($tuttiDownload);
+            $numeroDownload = $pm->count(Download::class, ['Studente' => $idStudenteLoggato]);
             $pagineTotali = ceil($numeroDownload / $limit);
             $view->mostraDownloadStudente($download, $pagineTotali);
         }elseif($bottone === "materiale"){
             $materiale = $pm->MaterialiPopolariUtente($idStudenteLoggato, $offset, $limit);
-            $tuttiMateriali = $pm->findAll(Materiale::class, ['studente' => $idStudenteLoggato]);
-            $numeroMateriali = count($tuttiMateriali);
+            $numeroMateriali = $pm->count(Materiale::class, ['Studente' => $idStudenteLoggato]);
             $pagineTotali = ceil($numeroMateriali / $limit);
             $view->mostraMaterialiStudente($materiale, $pagineTotali);
         }
