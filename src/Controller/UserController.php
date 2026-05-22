@@ -90,7 +90,7 @@ class UserController {
         $studente->setValidazioneToken($scadenza);
         $pm->save($studente);
         $this->inviaEmailVerifica($studente, $token);
-        $view->mostraVerificaEmail();
+        $view->mostraVerificaEmail($studente->getEmail());
         $session->setSessionElement('studente', $studente->getId());
     } catch (\Exception $e) {
         $view->mostraFormErrore("Errore durante la registrazione: " . $e->getMessage());
@@ -109,6 +109,7 @@ class UserController {
      */
     public function loginStudente() {
         try {
+            $base64 = null; // Inizializza la variabile $base64 ovvero l'immagine di default o null se non c'è un'immagine di profilo
             $session = Session::getInstance();
             $view = new viewUser();
             $datiLogin = $view->getDatiLogin();
@@ -133,10 +134,19 @@ class UserController {
                 throw new \Exception("Credenziali non corrette."); // Lancia un'ecezione per indicare che le credenziali non sono corrette
                 return; // Termina l'esecuzione della funzione
             }else {
-                $session->setSessionElement('studente', $studente->getId()); // Login riuscito, salva l'oggetto dello studente nella sessione
-                $view->mostraHomeLoggato(/*$studente->getUsername(), $studente->getImmagineProfilo()*/); // Mostra la home page per l'utente loggato, passando username ed email per personalizzare la pagina
+                $session->setSessionElement('studente', $studente->getId());
+                $file = $studente->getImmagineProfilo();
             }
-        } catch (PDOException $e) {
+            if ($file && $file->getContenutoFile() !== null) {
+                $contenuto = $file->getContenutoFile();
+            if (is_resource($contenuto)) {
+                $contenuto = stream_get_contents($contenuto);
+                $base64 = 'data:' . $file->getMimeTypeFile() . ';base64,' . base64_encode($contenuto);
+            }
+            }
+            $view->mostraHomeLoggato($studente->getUsername(), $base64);
+        }        
+        catch (PDOException $e) {
             // Errore lato DB
             $view->mostraFormErrore("Errore durante il login dell'utente: " . $e->getMessage());
         

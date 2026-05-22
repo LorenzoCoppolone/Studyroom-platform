@@ -31,6 +31,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 */
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
-    require __DIR__ . "/html/registrationForm.html";
+    require __DIR__ . "/html/loginForm.html";
     exit;
 }

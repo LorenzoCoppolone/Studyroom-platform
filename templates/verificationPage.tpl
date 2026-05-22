@@ -20,7 +20,7 @@
             <h2>Controlla la tua email</h2>
             <p>Abbiamo inviato un link di conferma a:</p>
             <!-- L'email deve essere quella dell'utente che sta facendo la registrazione -->
-            <div class="email-badge">mario.rossi@student.univaq.it</div>
+            <div class="email-badge">{$email}</div>
             <hr class="divider">
             <div class="nota-spam">
                 <i class="bx bx-error"></i>

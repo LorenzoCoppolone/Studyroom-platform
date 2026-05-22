@@ -6,9 +6,11 @@ class ViewUser {
         // Costruttore vuoto, se necessario puoi aggiungere inizializzazioni qui
     }
 
-    public function mostraHomeLoggato(/*string $username, string $immagineProfilo*/) {
-        require __DIR__ . '/../../html/home.html';
-        // logica per mostrare la home page per l'utente loggato, passando username ed email per personalizzare la pagina
+    public function mostraHomeLoggato(string $username, ?string $immagineProfilo) {
+       $smarty = StartSmarty::configuration();
+       $smarty->assign("username", $username);
+       $smarty->assign("immagineProfilo", $immagineProfilo);
+       $smarty->display("homeLoggato.tpl");
     }
 
     //Funzione che mostra la form di registrazione 
@@ -162,9 +164,10 @@ class ViewUser {
      * Mostra la form per controllare la propria email dopo la registrazione
      * @return void
      */
-    public function mostraVerificaEmail() : void {
-        require __DIR__ . '/../../html/verificationPage.html';
-        // logica per mostrare la form con scritto "controlla la tua email"
+    public function mostraVerificaEmail(string $email) : void {
+        $smarty = StartSmarty::configuration();
+        $smarty->assign("email", $email);
+        $smarty->display("verificationPage.tpl");
     }
 
     /**

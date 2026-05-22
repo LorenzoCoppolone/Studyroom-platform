@@ -48,7 +48,7 @@ class File{
      * Imposta il tipo del file.
      * @param string $mimeTypeFile Tipo del file.
      */
-    public function setmimeTypeFile(string $mimeTypeFile): void {
+    public function setMimeTypeFile(string $mimeTypeFile): void {
         $this->mimeTypeFile = $mimeTypeFile;
     }
 
@@ -56,7 +56,7 @@ class File{
      * Ottiene il tipo del file.
      * @return string tipo del file.
      */
-    public function getmimeTypeFile(): ?string {
+    public function getMimeTypeFile(): ?string {
         return $this->mimeTypeFile;
     }
 
@@ -80,7 +80,7 @@ class File{
      * Imposta il contenuto del file.
      * @param string $contenutoFile Il contenuto del file.
      */
-    public function setContenutoFile(string $contenutoFile): void {
+    public function setContenutoFile(?string $contenutoFile): void {
         $this->contenutoFile = $contenutoFile;
     }
 
@@ -88,7 +88,7 @@ class File{
      * Ottiene il contenuto del file.
      * @return string Il contenuto del file.
      */
-   public function getContenutoFile(): string
+   public function getContenutoFile(): ?string
     {
         if (is_resource($this->contenutoFile)) {
             return stream_get_contents($this->contenutoFile);
