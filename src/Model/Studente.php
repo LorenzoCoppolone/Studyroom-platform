@@ -256,5 +256,21 @@ class Studente extends Utente {
         return $this->validazioneToken;
     }
 
+        /**
+        * Imposta l'immagine del profilo dello studente.
+        * @param File $immagineProfilo Immagine del profilo.
+        */
+    public function setImmagineProfilo(?File $immagineProfilo): void {
+        $this->immagineProfilo = $immagineProfilo;
+    }
+
+    /**
+     * Ottiene l'immagine del profilo dello studente.
+     * @return File Immagine del profilo.
+     */
+    public function getImmagineProfilo(): ?File {
+        return $this->immagineProfilo;
+    }
+
 
 }

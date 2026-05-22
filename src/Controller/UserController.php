@@ -35,7 +35,7 @@ class UserController {
          try {
             $pm = PersistentManager::getInstance();
             $session = Session::getInstance();
-            $idStudenteLoggato = $session->getSessionElement('idStudenteLoggato');
+            $idStudenteLoggato = $session->getSessionElement('studente');
             $studente = $pm->findOneById(Studente::class, $idStudenteLoggato);
             if ($studente === null) {
                 $view->mostraFormErrore("Utente non trovato");
@@ -65,87 +65,76 @@ class UserController {
      * e invio dell'email di verifica
       * @return void
      */
-    public function registrazioneStudente() {
-         try {
-            $session = Session::getInstance();
-            $view = new viewUser();
-            $datiRegistrazione = $view->getDatiRegistrazione();
-            $pm = PersistentManager::getInstance();
-            // Controllo che tutti i campi  siano stati compilati
-            if (empty($datiRegistrazione['nome']))     throw new \Exception("Il nome è obbligatorio.");
-            if (empty($datiRegistrazione['cognome']))  throw new \Exception("Il cognome è obbligatorio.");
-            if (empty($datiRegistrazione['username']))    throw new \Exception("L'username è obbligatorio.");
-            if (empty($datiRegistrazione['email'])) throw new \Exception("L'email è obbligatoria.");
-            if (empty($datiRegistrazione['password'])) throw new \Exception("La password è obbligatoria.");
-            // Validazione email
-            if (!preg_match('/^[a-zA-Z0-9._%+-]+@student\.univaq\.it$/', $datiRegistrazione['email'])) {
-                 throw new \Exception("Devi usare la tua email universitaria (@student.univaq.it).");
-            }
-            $studenteEsistente = $pm->findOneBy(Studente::class, [
-                'email' => $datiRegistrazione['email']
-            ]);
-            if ($studenteEsistente !== null) {
-                throw new \Exception("Email già registrata.");
-            }
-            $passwordHash = password_hash($datiRegistrazione['password'], PASSWORD_BCRYPT); // Hash della password
-            $studente = new Studente($datiRegistrazione['nome'], $datiRegistrazione['cognome'],
-            $datiRegistrazione['email'] ,$passwordHash, $datiRegistrazione['username']);
-            $token = bin2hex(random_bytes(63)); // Genera un token casuale
-            $studente->setToken($token); // Salva il token nello studente
-            $timestamp = time() + 600;
-            $scadenza = (new \DateTime('now', new \DateTimeZone('Europe/Rome')))->setTimestamp($timestamp);
-            $studente->setValidazioneToken($scadenza); // Imposta la scadenza del token a 10 minuti
-            $pm->save($studente); // Salva lo studente nel database
-            $this->inviaEmailVerifica($studente, $token); // Invia l'email di verifica con il token
-            $view->mostraVerificaEmail(); // Mostra la form con scritto "controlla la tua email", con la relativa email
-            $studenteRegistrato = $pm->findOneBy(Studente::class, [
-                'email' => $datiRegistrazione['email']
-            ]); // Recupera lo studente appena registrato per ottenere il suo ID
-            $session->setSessionElement('studente',$studenteRegistrato->getId()); // Salva l'ID dello studente nella sessione per eventuali usi futuri
-
-        } catch (PDOException $e) {
-            $view->mostraFormErrore("Errore durante la registrazione: ");
-        } catch (Exception $e) {
-            $view->mostraFormErrore("Errore durante la registrazione: " . $e->getMessage());
+    public function registrazioneStudente(){
+    try {
+        $session = Session::getInstance();
+        $view = new viewUser();
+        $pm = PersistentManager::getInstance();
+        $d = $view->getDatiRegistrazione();
+        if (empty($d['nome']) || empty($d['cognome']) || empty($d['username']) || empty($d['email']) || empty($d['password'])) {
+            throw new \Exception("Tutti i campi sono obbligatori.");
         }
-
-
+        if (!preg_match('/^[a-zA-Z0-9._%+-]+@student\.univaq\.it$/', $d['email'])) {
+            throw new \Exception("Devi usare la tua email universitaria.");
+        }
+        if (!empty($pm->findOneBy(Studente::class, ['email' => $d['email']]))) {
+            throw new \Exception("Email già registrata.");
+        }elseif (!empty($pm->findOneBy(Studente::class, ['username' => $d['username']]))) {
+            throw new \Exception("Username già registrato.");
+        }
+        $passwordHash = password_hash($d['password'], PASSWORD_DEFAULT);
+        $studente = new Studente( $d['nome'], $d['cognome'], $d['email'], $passwordHash, $d['username']);
+        $token = bin2hex(random_bytes(32));
+        $studente->setToken($token);
+        $scadenza = (new \DateTime('now', new \DateTimeZone('Europe/Rome')))->add(new \DateInterval('PT10M')); // Token valido per 10 minuti
+        $studente->setValidazioneToken($scadenza);
+        $pm->save($studente);
+        $this->inviaEmailVerifica($studente, $token);
+        $view->mostraVerificaEmail();
+        $session->setSessionElement('studente', $studente->getId());
+    } catch (\Exception $e) {
+        $view->mostraFormErrore("Errore durante la registrazione: " . $e->getMessage());
+    }
     }
 
-     // Funzione per gestire il login dell'utente ( manca la parte relativa alla gestione della sessione e al reindirizzamento alla home page dopo il login )
+
+
+
+    /**
+     * Funzione per gestire il login di uno studente,
+     *  con validazione dei dati inseriti,
+     *  controllo dell'esistenza dello studente,
+     *  verifica della password e gestione della sessione
+     * @return void
+     */
     public function loginStudente() {
         try {
-            $session = Session::getInstance(); // Ottieni l'istanza della sessione
-             // Istanzio la view e mi faccio restituire la form di registrazione
+            $session = Session::getInstance();
             $view = new viewUser();
             $datiLogin = $view->getDatiLogin();
-            // Istanzio il PersistentManager
             $pm = PersistentManager::getInstance();
-            // Controllo che tutti i campi  siano stati compilati
             if (empty($datiLogin['email'])) throw new \Exception("L'email è obbligatoria.");
             if (empty($datiLogin['password'])) throw new \Exception("La password è obbligatoria.");
-            // Cerco lo studente nel DB per email
-            $studente = $pm->findOneBy(Studente::class, [
-                'email' => $datiLogin['email']
-            ]); // Cerco lo studente nel DB per email, posso farlo perché l'email nel nostro sistema è univoca.
-            if(!$studente->getIsVerified()) {
-                $view->mostraFormErrore("L'email non è stata verificata, controlla la tua email o riprova a registrarti"); // Mostra di nuovo la form di login
-                return; // Termina l'esecuzione della funzione
-            }
-            // Verifico che lo studente esista
+            $studente = $pm->findOneBy(Studente::class, ['email' => $datiLogin['email'] ]);
             if ($studente === null) {
                 $view->mostraFormLogin(); // Mostra di nuovo la form di login
                 throw new \Exception("Credenziali non corrette."); // Lancia un'ecezione per indicare che le credenziali non sono corrette
                 return; // Termina l'esecuzione della funzione
             }
+            if(!$studente->getIsVerified()) {
+                $view->mostraFormErrore("L'email non è stata verificata, controlla la tua email o riprova a registrarti"); // Mostra di nuovo la form di login
+                return; // Termina l'esecuzione della funzione
+            }elseif($studente->getIsBanned()) {
+                $view->mostraFormErrore("Il tuo account è stato bannato, contatta l'assistenza per maggiori informazioni"); // Mostra di nuovo la form di login
+                return; // Termina l'esecuzione della funzione
+            }
             // Verifico la password
             if (!password_verify($datiLogin['password'], $studente->getPassword())) {
-                $view->mostraFormLogin(); // Mostra di nuovo la form di login
                 throw new \Exception("Credenziali non corrette."); // Lancia un'ecezione per indicare che le credenziali non sono corrette
                 return; // Termina l'esecuzione della funzione
             }else {
-                $session->setSessionElement('idStudenteLoggato', $studente->getId()); // Login riuscito, salva l'ID dello studente nella sessione
-                $view->mostraHomeLoggato($studente->getUsername(), $studente->getImmagineProfilo()); // Mostra la home page per l'utente loggato, passando username ed email per personalizzare la pagina
+                $session->setSessionElement('studente', $studente->getId()); // Login riuscito, salva l'oggetto dello studente nella sessione
+                $view->mostraHomeLoggato(/*$studente->getUsername(), $studente->getImmagineProfilo()*/); // Mostra la home page per l'utente loggato, passando username ed email per personalizzare la pagina
             }
         } catch (PDOException $e) {
             // Errore lato DB
@@ -218,7 +207,7 @@ class UserController {
         $limit = 10; // Numero di elementi per pagina
         $offset = ($page - 1) * $limit; // Calcola l'offset per la query
         $session = Session::getInstance(); // Ottieni l'istanza della sessione
-        $idStudenteLoggato = $session->getSessionElement('idStudenteLoggato');
+        $idStudenteLoggato = $session->getSessionElement('studente');
         $view =  new viewUser();
         $pm = PersistentManager::getInstance();
         $bottone = strtolower($view->getBottoneCliccato());
@@ -286,44 +275,7 @@ class UserController {
      */
     public function isUtenteLoggato() : bool {
         $session = Session::getInstance();
-        return $session->getSessionElement('idStudenteLoggato') !== null;
+        return $session->getSessionElement('studente') !== null;
     }
-
-
-    /**
-     * Funzione per controllare se l'utente loggato è bannato,
-     * da usare in tutte le pagine che richiedono l'autenticazione, 
-     * per verificare se l'utente loggato è bannato, altrimenti reindirizzarlo alla pagina di login
-      * @return bool
-     */
-    public function isUtenteBannato() : bool {
-        $session = Session::getInstance();
-        $idStudenteLoggato = $session->getSessionElement('idStudenteLoggato');
-        if ($idStudenteLoggato === null) {
-            return false; // Se l'utente non è loggato, non è bannato
-        }
-        $pm = PersistentManager::getInstance();
-        $studente = $pm->findOneById(Studente::class, $idStudenteLoggato);
-        return $studente->getIsBanned(); // Restituisce true se lo studente è bannato, altrimenti false
-    }
-
-    /**
-     * Funzione per controllare se l'utente loggato ha verificato la propria email,
-     * da usare in tutte le pagine che richiedono l'autenticazione, 
-     * per verificare se l'utente loggato ha verificato la propria email, 
-     * altrimenti reindirizzarlo alla pagina di login
-     * @return bool
-     */
-    public function isUtenteVerificato() : bool {
-        $session = Session::getInstance();
-        $idStudenteLoggato = $session->getSessionElement('idStudenteLoggato');
-        if ($idStudenteLoggato === null) {
-            return false; // Se l'utente non è loggato, non è verificato
-        }
-        $pm = PersistentManager::getInstance();
-        $studente = $pm->findOneById(Studente::class, $idStudenteLoggato);
-        return $studente->getIsVerified(); // Restituisce true se lo studente è verificato, altrimenti false
-    }
-
 }
 

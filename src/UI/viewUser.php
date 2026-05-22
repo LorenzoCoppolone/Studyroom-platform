@@ -6,6 +6,11 @@ class ViewUser {
         // Costruttore vuoto, se necessario puoi aggiungere inizializzazioni qui
     }
 
+    public function mostraHomeLoggato(/*string $username, string $immagineProfilo*/) {
+        require __DIR__ . '/../../html/home.html';
+        // logica per mostrare la home page per l'utente loggato, passando username ed email per personalizzare la pagina
+    }
+
     //Funzione che mostra la form di registrazione 
     public function mostraFormRegistrazione () { 
             require __DIR__ . '/../../html/registrationForm.html';

@@ -21,10 +21,10 @@ class File{
     private mixed $contenutoFile;
 
     #[ORM\Column(type: Types::STRING, nullable: true)]
-    private string $mimeTypeFile;
+    private ?string $mimeTypeFile;
 
     #[ORM\Column(type: Types::FLOAT, nullable: true)]
-    private float $dimensioneFile;
+    private ?float $dimensioneFile;
 
     /**
      * Costruttore di file.
