@@ -37,6 +37,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         "foto" => null
     ];
 
-    $view->mostraHomeLoggato($studente);
+    $view->mostraFormLogin();
     exit;
 }

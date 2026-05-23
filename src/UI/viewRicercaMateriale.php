@@ -6,9 +6,16 @@ class viewRicercaMateriale {
 
 // Funzione che restituisce il titolo inserito dall'utente
     public function getTitolo(): string {
-        return $_POST['titolo'];
+        return $_GET['titolo'];
     }
 
+    public function getBottoneCliccato() : string {
+        return $_GET['bottone'] ?? '';
+    }
+
+     /**
+     * Restituisce il token email presente nella query string
+     *
     /**
      * Restituisce i dati inseriti dall'utente nella ricerca
      * 
@@ -16,13 +23,13 @@ class viewRicercaMateriale {
      */
     public function getDatiFiltro(): array {
         return [
-            // prelievo in $_POST dei valori associati alle chiavi sotto elencate
-            'titolo' => $_POST['titolo'],
-            'insegnamento' => $_POST['insegnamento'],
-            'tipologia' => $_POST['tipologia'],
-            'corso_di_laurea' => $_POST['corso_di_laurea'],
-            'tag' => $_POST['tag'],
-            'criterio_ordinamento' => $_POST['criterio']
+            // prelievo in $_GET dei valori associati alle chiavi sotto elencate
+            'titolo' => $_GET['titolo'],
+            'insegnamento' => $_GET['insegnamento'],
+            'tipologia' => $_GET['tipologia'],
+            'corso_di_laurea' => $_GET['corso_di_laurea'],
+            'tag' => $_GET['tag'],
+            'criterio_ordinamento' => $_GET['criterio']
         ];
     }
 
@@ -34,6 +41,17 @@ class viewRicercaMateriale {
      */
     public function mostraMateriali(array $materiale) : void {
 
+    }
+
+    /**
+     * Mostra un form con il messaggio di errore all'utente
+     * @param string $messaggio
+     * @return void
+     */
+    public function mostraFormErrore(string $messaggio) : void {
+        $smarty = StartSmarty::configuration();
+        $smarty->assign('errore', $messaggio);
+        $smarty->display('Error.tpl');
     }
      
 }

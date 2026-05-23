@@ -14,16 +14,16 @@ class ViewUser {
 
     //Funzione che mostra la form di registrazione 
     public function mostraFormRegistrazione () { 
-            require __DIR__ . '/../../html/registrationForm.html';
+            $smarty = StartSmarty::configuration();
+            $smarty->display("registrationForm.tpl");
         // implementazione html form oppure chiamata a funzione che lo fa
 
     }
 
     //Funzione che mostra la form di login
     public function mostraFormLogin () {
-        require __DIR__ . '/../../html/loginForm.html';
-        
-        // implementazione html form oppure chiamata a funzione che lo fa
+        $smarty = StartSmarty::configuration();
+        $smarty->display("loginForm.tpl");
 
     }
 
@@ -111,38 +111,10 @@ class ViewUser {
      * 
      * @return array
      */
-    public function getBottoneCliccato() : array {
-
-    return $_POST['bottone'] ?? '';
-    
-     // restituisce il valore del bottone premuto   
+    public function getBottoneModifica() : array {
+    return $_GET['modifica'] ?? '';   
     }
    
-
-    /**
-     * Mostra i preferiti dell'utente
-     * @return void
-     */
-    public function mostraPreferitiStudente( array $recensioni) : void {
-        // logica per mostrare i preferiti dell'utente
-    }
-
-    /**
-     * Mostra i download dell'utente
-     * @return void
-     */
-    public function mostraDownloadStudente( array $recensioni) : void {
-        // logica per mostrare i download dell'utente
-    }
-
-    /**
-     * Mostra le recensioni dell'utente
-     * @return void
-     */
-    public function mostraMaterialiStudente( array $recensioni) : void {
-        // logica per mostrare le recensioni dell'utente
-    }
-
     /**
      * Mostra le recensioni dell'utente
      * @return void
