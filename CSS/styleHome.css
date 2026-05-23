@@ -1,119 +1,267 @@
-          /* ── HERO SECTION ── */
-    .sr-hero {
-        text-align: center;
-        padding: 3.5rem 1rem 2.5rem;
-    }
-    .sr-hero-title {
-        font-family: 'Courier Prime', monospace;
-        font-size: clamp(1.7rem, 4vw, 2.6rem);
-        font-weight: 700;
-        color: var(--sr-purple);
-        letter-spacing: .5px;
-        margin-bottom: .5rem;
-    }
-    .sr-hero-subtitle {
-        font-family: 'DM Sans', sans-serif;
-        font-size: 1rem;
-        font-weight: 700;
-        color: var(--sr-text-dark);
-        margin-bottom: 2rem;
-    }
+/* =============================================
+   STUDYROOM — styleHome.css
+   ============================================= */
 
-    /* Search bar hero */
-    .sr-search-wrap {
-        display: inline-flex;
-        align-items: center;
-        background: #fff;
-        border: 2px solid var(--sr-purple);
-        border-radius: 50px;
-        overflow: hidden;
-        width: 100%;
-        max-width: 500px;
-        box-shadow: 0 4px 18px rgba(107,33,217,.13);
-        transition: box-shadow .25s;
-    }
-    .sr-search-wrap:focus-within {
-        box-shadow: 0 4px 28px rgba(107,33,217,.28);
-    }
-    .sr-search-wrap input {
-        border: none;
-        outline: none;
-        padding: .75rem 1.2rem;
-        font-size: 1rem;
-        flex: 1;
-        background: transparent;
-        color: var(--sr-text-dark);
-        font-family: 'Courier Prime', monospace;
-    }
-    .sr-search-wrap input::placeholder { color: #aaa; }
-    .sr-search-wrap button {
-        background: var(--sr-purple);
-        border: none;
-        padding: .65rem 1.05rem;
-        color: #fff;
-        font-size: 1.25rem;
-        cursor: pointer;
-        border-radius: 0 50px 50px 0;
-        transition: background .2s;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    .sr-search-wrap button:hover { background: var(--sr-purple-dark); }
+/* ── Variabili ── */
+:root {
+    --color-primary: #7B2FBE;
+    --color-primary-light: #9B59D0;
+    --color-accent: #F5C518;
+    --color-text: #1A1A1A;
+    --color-text-muted: #555;
+    --color-upload-border: #AAAAAA;
 
-    /* ── SHARE SECTION ── */
-    .sr-share-section {
-        padding: 1.5rem 1.5rem 3rem;
-    }
-    .sr-share-title {
-        font-family: 'Courier Prime', monospace;
-        font-size: clamp(1.4rem, 3vw, 2rem);
-        font-weight: 700;
-        color: var(--sr-purple);
-        margin-bottom: .35rem;
-    }
-    .sr-share-subtitle {
-        font-size: .95rem;
-        font-weight: 700;
-        color: var(--sr-text-dark);
-    }
+    --font-display: 'Playfair Display', serif;
+    --font-mono: 'Space Mono', monospace;
+    --font-body: 'Nunito', sans-serif;
 
-    /* Upload drop-zone */
-    .sr-upload-zone {
-        border: 2.5px dashed var(--sr-purple);
-        border-radius: 12px;
-        background: #fff;
-        padding: 2.2rem 1.5rem;
-        text-align: center;
-        cursor: pointer;
-        transition: background .2s, border-color .2s;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: .5rem;
-    }
-    .sr-upload-zone:hover {
-        background: #f0e8ff;
-        border-color: var(--sr-purple-dark);
-    }
-    .sr-upload-zone .sr-upload-icon {
-        font-size: 2.2rem;
-        color: var(--sr-purple);
-    }
-    .sr-upload-zone .sr-upload-label {
-        font-family: 'Courier Prime', monospace;
-        font-weight: 700;
-        font-size: 1rem;
-        color: var(--sr-text-dark);
-        text-decoration: underline;
-        text-underline-offset: 3px;
-    }
-    .sr-upload-zone .sr-upload-hint {
-        font-size: .78rem;
-        color: #888;
-    }
+    --radius-pill: 999px;
+    --radius-box: 16px;
+    --shadow-soft: 0 4px 24px rgba(123, 47, 190, 0.10);
+}
 
-    /* hidden real input */
-    #fileInput { display: none; }
+/* ── Reset ── */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+a {
+    text-decoration: none; /* niente sottolineature */
+    color: inherit;
+}
+
+body {
+    font-family: var(--font-body);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+
+    /* SFONDO A GRADIENTE MORBIDO */
+    background: linear-gradient(
+        180deg,
+        #EADAF7 0%,
+        #F4E9FB 40%,
+        #FFFFFF 100%
+    );
+}
+
+/* =============================================
+   NAVBAR
+   ============================================= */
+.navbar {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 2.2rem 4rem; /* NAVBAR PIÙ GRANDE */
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(123, 47, 190, 0.12);
+}
+
+.logo {
+    font-family: var(--font-display);
+    font-size: 5rem; /* LOGO PIÙ GRANDE */
+    font-weight: 1000;
+    color: var(--color-primary);
+    margin-right: 5rem; /* NUOVO: sposta la search bar a destra */
+}
+
+/* Search bar */
+.navbar-search {
+    display: flex;
+    align-items: center;
+    border: 2px solid var(--color-primary);
+    border-radius: var(--radius-pill);
+    overflow: hidden;
+    flex: 0 1 800px; /* PIÙ LARGA */
+}
+
+.navbar-search input {
+    border: none;
+    outline: none;
+    padding: 1rem 1.5rem;
+    font-size: 1.4rem;
+    width: 100%;
+    background: transparent;
+}
+
+.btn-search {
+    border: none;
+    background: transparent;
+    border-left: 2px solid var(--color-primary);
+    padding: 0.9rem 1.2rem;
+    cursor: pointer;
+    font-size: 1.3rem;
+}
+
+/* Links */
+.navbar-links {
+    display: flex;
+    align-items: center;
+    gap: 15rem;
+    margin-left: auto;
+}
+
+.nav-esami,
+.nav-link {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 1.9rem; /* PIÙ GRANDI */
+    color: var(--color-primary);
+}
+
+.nav-user-icon {
+    font-size: 2.8rem;
+    gap: 2rem;
+    color: var(--color-primary);
+}
+
+/* =============================================
+   MAIN
+   ============================================= */
+main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12rem 6rem; /* molto più ampio */
+    gap: 9rem; /* più spazio tra sezioni */
+    max-width: 4000px; /* riempie schermi grandi */
+    margin: 0 auto;
+}
+
+
+.section-title {
+    font-family: var(--font-display);
+    font-size: 7rem; /* PIÙ GRANDE */
+    color: var(--color-primary);
+}
+
+.section-subtitle {
+    font-family: var(--font-mono);
+    font-size: 2.8rem;
+    font-weight: 700;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    border: 3px solid var(--color-primary);
+    border-radius: var(--radius-pill);
+    overflow: hidden;
+    width: 100%;
+    max-width: 1600px; /* PIÙ GRANDE */
+    margin-top: 1.5rem;
+    background: white;
+    box-shadow: var(--shadow-soft);
+}
+
+.search-box input {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 1.3rem 1.8rem;
+    font-size: 1.4rem;
+    font-style: italic;
+}
+
+.btn-search-main {
+    border: none;
+    background: transparent;
+    border-left: 3px solid var(--color-primary);
+    padding: 1.3rem 1.6rem;
+    font-size: 1.8rem;
+    cursor: pointer;
+}
+
+/* Upload */
+.section-upload {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8rem;
+    width: 100%;
+    max-width: 1600px; /* PIÙ GRANDE */
+}
+
+.upload-title {
+    font-family: var(--font-display);
+    font-size: 4.2rem;
+    color: var(--color-primary);
+}
+
+.upload-subtitle {
+    font-family: var(--font-mono);
+    font-size: 2.2rem;
+    font-weight: 700;
+}
+
+.upload-box {
+    border: 4px dashed var(--color-upload-border);
+    border-radius: var(--radius-box);
+    padding: 3rem 6rem;
+    min-width: 400px;
+    min-height: 230px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.7rem;
+    background: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+}
+
+/* =============================================
+   FOOTER
+   ============================================= 
+.footer {
+    padding: 2rem 4rem;
+    background: rgba(255, 255, 255, 0.6);
+    border-top: 1px solid rgba(123, 47, 190, 0.12);
+}*/
+
+
+.footer-logo-univaq {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transform: translateY(10px);
+    z-index: 2;
+}
+
+.footer-logo-univaq img {
+    height: 70px;
+}
+
+.footer-center {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+    z-index: 2; /* sopra, ma non invade la sinistra */
+}
+
+.footer-brand {
+    font-family: var(--font-display);
+    color: var(--color-primary);
+}
+
+.footer-brand {
+    display: flex;
+    gap: 2rem;
+    font-size: 2rem;
+    justify-content: center;
+    align-items: center;
+    transform: translateY(-55px);
+}
+
+.footer-links {
+    display: flex;
+    gap: 2rem;
+    font-size: 1.5rem;
+    justify-content: center;
+    align-items: center;
+    transform: translateY(-45px);
+}

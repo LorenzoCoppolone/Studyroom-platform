@@ -3,11 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StudyRoom - UNIVAQ</title>
-    <link rel="stylesheet" href="/Studyroom-platform/CSS/styleHome.css">
+    <title>StudyRoom - Home</title>
+
+    <link rel="stylesheet" href="styleHome.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Space+Mono:wght@400;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
+
 <body>
 
     <!-- NAVBAR -->
@@ -21,25 +23,23 @@
 
         <nav class="navbar-links">
             <a href="esami.html" class="nav-link nav-esami">Prepara i tuoi esami</a>
-            <a href="notifiche.html" class="nav-icon" title="Notifiche">
-                <i class="fa fa-bell"></i>
-            </a>
+
             <div class="nav-auth">
                 <i class="fa fa-circle-user nav-user-icon"></i>
-                <a href="login.html" class="nav-link">Accedi</a>
-                <span class="nav-separator">/</span>
-                <a href="registrazione.html" class="nav-link">Registrati</a>
+                <a href="login.html" class="nav-link"> Accedi / </a>
+                <a href="registrazione.html" class="nav-link"> Registrati</a>
             </div>
         </nav>
     </header>
 
-    <!-- MAIN CONTENT -->
+    <!-- MAIN -->
     <main>
 
         <!-- SEZIONE RICERCA -->
         <section class="section-search">
             <h1 class="section-title">Che esame stai preparando?</h1>
             <p class="section-subtitle">Non studiare da solo: usa gli appunti della community</p>
+
             <div class="search-box">
                 <input type="text" placeholder="Inizia a cercare">
                 <button class="btn-search-main"><i class="fa fa-magnifying-glass"></i></button>
@@ -52,6 +52,7 @@
                 <h2 class="upload-title">Condividi il tuo materiale</h2>
                 <p class="upload-subtitle">Entra a far parte della community</p>
             </div>
+
             <a href="carica.html" class="upload-box">
                 <i class="fa fa-cloud-arrow-up upload-icon"></i>
                 <p class="upload-label"><strong>Carica File</strong></p>
@@ -63,24 +64,24 @@
 
     <!-- FOOTER -->
     <footer class="footer">
-        <div class="footer-logo-univaq">
-            <img src="univaq-logo.png" alt="Logo Università degli Studi dell'Aquila">
-            <div class="footer-univaq-text">
-                <span>UNIVERSITÀ</span>
-                <span>DEGLI STUDI</span>
-                <span>DELL'AQUILA</span>
-            </div>
-        </div>
 
-        <div class="footer-center">
-            <a href="index.html" class="footer-brand">StudyRoom</a>
-            <nav class="footer-links">
-                <a href="chi-siamo.html">Chi siamo</a>
-                <a href="supporto.html">Supporto</a>
-                <a href="faq.html">FAQ</a>
-                <a href="termini.html">Termini di utilizzo</a>
-            </nav>
-        </div>
+    <!-- LOGO UNIVAQ A SINISTRA, CLICCABILE -->
+    <a href="https://www.univaq.it" target="_blank" class="footer-logo-univaq">
+        <img src="UnivaqLogo.png" alt="Logo Università degli Studi dell'Aquila">    
+    </a>
+
+    <!-- BRAND STUDYROOM E LINK CENTRALI -->
+    <div class="footer-center">
+        <a href="home.html" class="footer-brand">StudyRoom</a>
+
+        <nav class="footer-links">
+            <a href="chi-siamo.html">Chi siamo</a>
+            <a href="supporto.html">Supporto</a>
+            <a href="faq.html">FAQ</a>
+            <a href="termini.html">Termini di utilizzo</a>
+        </nav>
+    </div>
+
     </footer>
 
 </body>

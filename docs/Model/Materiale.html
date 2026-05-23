@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="robots" content="index, follow, all" />
+    <title>Model\Materiale | StudyRoom Documentation</title>
+
+            <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="../css/bootstrap-theme.min.css">
+        <link rel="stylesheet" type="text/css" href="../css/doctum.css">
+        <link rel="stylesheet" type="text/css" href="../fonts/doctum-font.css">
+        <script src="../js/jquery-3.5.1.slim.min.js"></script>
+        <script async defer src="../doctum.js"></script>
+        <script async defer src="../js/bootstrap.min.js"></script>
+        <script async defer src="../js/autocomplete.min.js"></script>
+        <meta name="MobileOptimized" content="width">
+        <meta name="HandheldFriendly" content="true">
+        <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+
+    </head>
+
+    <body id="class" data-name="class:Model_Materiale" data-root-path="../" data-search-index-url="../doctum-search.json">
+            <div id="content">
+        <div id="left-column">
+                <div id="control-panel">
+                <div class="search-bar hidden" id="search-progress-bar-container">
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" id="search-progress-bar"
+                    aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
+            </div>
+        </div>
+        <form id="search-form" action="../search.html">
+            <span class="icon icon-search"></span>
+            <input name="search"
+                   id="doctum-search-auto-complete"
+                   class="typeahead form-control"
+                   type="search"
+                   placeholder="Search"
+                   spellcheck="false"
+                   autocorrect="off"
+                   autocomplete="off"
+                   autocapitalize="off">
+            <div class="auto-complete-results" id="auto-complete-results"></div>
+        </form>
+    </div>
+
+                <div id="api-tree"></div>
+
+        </div>
+        <div id="right-column">
+                <nav id="site-nav" class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-elements">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="../index.html">StudyRoom Documentation</a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar-elements">
+                <ul class="nav navbar-nav">
+                    <li><a href="../classes.html">Classes</a></li>
+                    <li><a href="../namespaces.html">Namespaces</a></li>
+                    <li><a href="../interfaces.html">Interfaces</a></li>
+                    <li><a href="../traits.html">Traits</a></li>
+                    <li><a href="../doc-index.html">Index</a></li>
+                    <li><a href="../search.html">Search</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+                        <div class="namespace-breadcrumbs">
+            <ol class="breadcrumb">
+                <li><span class="label label-default">class</span></li>
+                        <li><a href="../Model.html">Model</a></li><li class="backslash">\</li><li>Materiale</li>
+            </ol>
+        </div>
+                <div id="page-content">
+    <div class="page-header">
+        <h1>Materiale    
+            </h1>
+    </div>
+
+    
+    <p>    abstract     class
+    <strong>Materiale</strong>
+</p>
+
+        
+        
+    
+        
+
+            
+        
+    
+            <h2>Properties</h2>
+
+            <table class="table table-condensed">
+                    <tr>
+                <td class="type" id="property_id">
+                                        protected                                        int|null
+                                                                                
+                                    </td>
+                <td>$id</td>
+                <td class="last"></td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_titolo">
+                                        protected                                        string
+                                                                                
+                                    </td>
+                <td>$titolo</td>
+                <td class="last"></td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_file">
+                                        protected                                        <a href="../Model/File.html"><abbr title="Model\File">File</abbr></a>
+                                                                                
+                                    </td>
+                <td>$file</td>
+                <td class="last"></td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_segnalazioni">
+                                        protected                                        <abbr title="Doctrine\Common\Collections\Collection&lt;int, \Model\Segnalazione&gt;">Segnalazione&gt;</abbr>
+                                                                                
+                                    </td>
+                <td>$segnalazioni</td>
+                <td class="last"></td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_recensioni">
+                                        protected                                        <abbr title="Doctrine\Common\Collections\Collection&lt;int, \Model\Recensione&gt;">Recensione&gt;</abbr>
+                                                                                
+                                    </td>
+                <td>$recensioni</td>
+                <td class="last"></td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_downloads">
+                                        protected                                        <abbr title="Doctrine\Common\Collections\Collection&lt;int, \Model\Download&gt;">Download&gt;</abbr>
+                                                                                
+                                    </td>
+                <td>$downloads</td>
+                <td class="last"></td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_preferiti">
+                                        protected                                        <abbr title="Doctrine\Common\Collections\Collection&lt;int, \Model\Preferito&gt;">Preferito&gt;</abbr>
+                                                                                
+                                    </td>
+                <td>$preferiti</td>
+                <td class="last"></td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_insegnamento">
+                                        protected                                        <a href="../Model/Insegnamento.html"><abbr title="Model\Insegnamento">Insegnamento</abbr></a>
+                                                                                
+                                    </td>
+                <td>$insegnamento</td>
+                <td class="last"></td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_studente">
+                                        protected                                        <a href="../Model/Studente.html"><abbr title="Model\Studente">Studente</abbr></a>
+                                                                                
+                                    </td>
+                <td>$studente</td>
+                <td class="last"></td>
+                <td></td>
+            </tr>
+            </table>
+
+    
+            <h2>Methods</h2>
+
+            <div class="container-fluid underlined">
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8">
+                    <a href="#method___construct">__construct</a>(string $titolo, <a href="../Model/File.html"><abbr title="Model\File">File</abbr></a> $file, <a href="../Model/Insegnamento.html"><abbr title="Model\Insegnamento">Insegnamento</abbr></a> $insegnamento, <a href="../Model/Studente.html"><abbr title="Model\Studente">Studente</abbr></a> $studente)
+        
+                                            <p><p>Costruttore della classe Materiale.</p></p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8">
+                    <a href="#method_setIdMateriale">setIdMateriale</a>(int $id)
+        
+                                            <p><p>Imposta l'ID del materiale.</p></p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    int
+                </div>
+                <div class="col-md-8">
+                    <a href="#method_getIdMateriale">getIdMateriale</a>()
+        
+                                            <p><p>Ottiene l'ID del materiale.</p></p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8">
+                    <a href="#method_setTitolo">setTitolo</a>(string $titolo)
+        
+                                            <p><p>Imposta il titolo del materiale.</p></p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    string
+                </div>
+                <div class="col-md-8">
+                    <a href="#method_getTitolo">getTitolo</a>()
+        
+                                            <p><p>Ottiene il titolo del materiale.</p></p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8">
+                    <a href="#method_setFile">setFile</a>(<a href="../Model/File.html"><abbr title="Model\File">File</abbr></a> $file)
+        
+                                            <p><p>Imposta il file associato al materiale.</p></p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <a href="../Model/File.html"><abbr title="Model\File">File</abbr></a>
+                </div>
+                <div class="col-md-8">
+                    <a href="#method_getFile">getFile</a>()
+        
+                                            <p><p>Ottiene il file associato al materiale.</p></p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8">
+                    <a href="#method_aggiungiSegnalazione">aggiungiSegnalazione</a>(<a href="../Model/Segnalazione.html"><abbr title="Model\Segnalazione">Segnalazione</abbr></a> $segnalazione)
+        
+                                            <p><p>Aggiunge Segnalazione</p></p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="Doctrine\Common\Collections\Collection">Collection</abbr>
+                </div>
+                <div class="col-md-8">
+                    <a href="#method_getSegnalazioni">getSegnalazioni</a>()
+        
+                                            <p><p>Ottiene Segnalazioni</p></p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8">
+                    <a href="#method_aggiungiRecensione">aggiungiRecensione</a>(<a href="../Model/Recensione.html"><abbr title="Model\Recensione">Recensione</abbr></a> $recensione)
+        
+                                            <p><p>Aggiunge una recensione al materiale.</p></p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="Doctrine\Common\Collections\Collection">Collection</abbr>
+                </div>
+                <div class="col-md-8">
+                    <a href="#method_getRecensioni">getRecensioni</a>()
+        
+                                            <p><p>Ottiene Recensioni</p></p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8">
+                    <a href="#method_aggiungiDownload">aggiungiDownload</a>(<a href="../Model/Download.html"><abbr title="Model\Download">Download</abbr></a> $download)
+        
+                                            <p><p>Aggiunge un download al materiale.</p></p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="Doctrine\Common\Collections\Collection">Collection</abbr>
+                </div>
+                <div class="col-md-8">
+                    <a href="#method_getDownload">getDownload</a>()
+        
+                                            <p><p>Ottiene Download</p></p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8">
+                    <a href="#method_aggiungiPreferito">aggiungiPreferito</a>(<a href="../Model/Preferito.html"><abbr title="Model\Preferito">Preferito</abbr></a> $preferito)
+        
+                                            <p><p>Aggiunge un preferito al materiale.</p></p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <abbr title="Doctrine\Common\Collections\Collection">Collection</abbr>
+                </div>
+                <div class="col-md-8">
+                    <a href="#method_getPreferiti">getPreferiti</a>()
+        
+                                            <p><p>Ottiene Preferiti</p></p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+            </div>
+
+
+        <h2>Details</h2>
+
+            <div id="method-details">
+                    <div class="method-item">
+                    <h3 id="method___construct">
+        <div class="location">at line 89</div>
+        <code>                    
+    <strong>__construct</strong>(string $titolo, <a href="../Model/File.html"><abbr title="Model\File">File</abbr></a> $file, <a href="../Model/Insegnamento.html"><abbr title="Model\Insegnamento">Insegnamento</abbr></a> $insegnamento, <a href="../Model/Studente.html"><abbr title="Model\Studente">Studente</abbr></a> $studente)
+        </code>
+    </h3>
+    <div class="details">    
+            
+    
+            
+
+        <div class="method-description">
+                            <p><p>Costruttore della classe Materiale.</p></p>                        
+        </div>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$titolo</td>
+                <td><p>Il titolo del materiale.</p></td>
+            </tr>
+                    <tr>
+                <td><a href="../Model/File.html"><abbr title="Model\File">File</abbr></a></td>
+                <td>$file</td>
+                <td><p>Il file del materiale.</p></td>
+            </tr>
+                    <tr>
+                <td><a href="../Model/Insegnamento.html"><abbr title="Model\Insegnamento">Insegnamento</abbr></a></td>
+                <td>$insegnamento</td>
+                <td><p>L'insegnamento associato al materiale.</p></td>
+            </tr>
+                    <tr>
+                <td><a href="../Model/Studente.html"><abbr title="Model\Studente">Studente</abbr></a></td>
+                <td>$studente</td>
+                <td><p>Lo studente che ha caricato il materiale.</p></td>
+            </tr>
+            </table>
+
+            
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_setIdMateriale">
+        <div class="location">at line 109</div>
+        <code>                    void
+    <strong>setIdMateriale</strong>(int $id)
+        </code>
+    </h3>
+    <div class="details">    
+            
+    
+            
+
+        <div class="method-description">
+                            <p><p>Imposta l'ID del materiale.</p></p>                        
+        </div>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>int</td>
+                <td>$id</td>
+                <td><p>L'ID del materiale.</p></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getIdMateriale">
+        <div class="location">at line 117</div>
+        <code>                    int
+    <strong>getIdMateriale</strong>()
+        </code>
+    </h3>
+    <div class="details">    
+            
+    
+            
+
+        <div class="method-description">
+                            <p><p>Ottiene l'ID del materiale.</p></p>                        
+        </div>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>int</td>
+            <td><p>L'ID del materiale.</p></td>
+        </tr>
+    </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_setTitolo">
+        <div class="location">at line 125</div>
+        <code>                    void
+    <strong>setTitolo</strong>(string $titolo)
+        </code>
+    </h3>
+    <div class="details">    
+            
+    
+            
+
+        <div class="method-description">
+                            <p><p>Imposta il titolo del materiale.</p></p>                        
+        </div>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$titolo</td>
+                <td><p>Il titolo del materiale.</p></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getTitolo">
+        <div class="location">at line 133</div>
+        <code>                    string
+    <strong>getTitolo</strong>()
+        </code>
+    </h3>
+    <div class="details">    
+            
+    
+            
+
+        <div class="method-description">
+                            <p><p>Ottiene il titolo del materiale.</p></p>                        
+        </div>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>string</td>
+            <td><p>Il titolo del materiale.</p></td>
+        </tr>
+    </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_setFile">
+        <div class="location">at line 141</div>
+        <code>                    void
+    <strong>setFile</strong>(<a href="../Model/File.html"><abbr title="Model\File">File</abbr></a> $file)
+        </code>
+    </h3>
+    <div class="details">    
+            
+    
+            
+
+        <div class="method-description">
+                            <p><p>Imposta il file associato al materiale.</p></p>                        
+        </div>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="../Model/File.html"><abbr title="Model\File">File</abbr></a></td>
+                <td>$file</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getFile">
+        <div class="location">at line 149</div>
+        <code>                    <a href="../Model/File.html"><abbr title="Model\File">File</abbr></a>
+    <strong>getFile</strong>()
+        </code>
+    </h3>
+    <div class="details">    
+            
+    
+            
+
+        <div class="method-description">
+                            <p><p>Ottiene il file associato al materiale.</p></p>                        
+        </div>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><a href="../Model/File.html"><abbr title="Model\File">File</abbr></a></td>
+            <td>$file</td>
+        </tr>
+    </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_aggiungiSegnalazione">
+        <div class="location">at line 157</div>
+        <code>                    void
+    <strong>aggiungiSegnalazione</strong>(<a href="../Model/Segnalazione.html"><abbr title="Model\Segnalazione">Segnalazione</abbr></a> $segnalazione)
+        </code>
+    </h3>
+    <div class="details">    
+            
+    
+            
+
+        <div class="method-description">
+                            <p><p>Aggiunge Segnalazione</p></p>                        
+        </div>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="../Model/Segnalazione.html"><abbr title="Model\Segnalazione">Segnalazione</abbr></a></td>
+                <td>$segnalazione</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getSegnalazioni">
+        <div class="location">at line 165</div>
+        <code>                    <abbr title="Doctrine\Common\Collections\Collection">Collection</abbr>
+    <strong>getSegnalazioni</strong>()
+        </code>
+    </h3>
+    <div class="details">    
+            
+    
+            
+
+        <div class="method-description">
+                            <p><p>Ottiene Segnalazioni</p></p>                        
+        </div>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="Doctrine\Common\Collections\Collection">Collection</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_aggiungiRecensione">
+        <div class="location">at line 174</div>
+        <code>                    void
+    <strong>aggiungiRecensione</strong>(<a href="../Model/Recensione.html"><abbr title="Model\Recensione">Recensione</abbr></a> $recensione)
+        </code>
+    </h3>
+    <div class="details">    
+            
+    
+            
+
+        <div class="method-description">
+                            <p><p>Aggiunge una recensione al materiale.</p></p>                        
+        </div>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="../Model/Recensione.html"><abbr title="Model\Recensione">Recensione</abbr></a></td>
+                <td>$recensione</td>
+                <td><p>Recensione da aggiungere.</p></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getRecensioni">
+        <div class="location">at line 182</div>
+        <code>                    <abbr title="Doctrine\Common\Collections\Collection">Collection</abbr>
+    <strong>getRecensioni</strong>()
+        </code>
+    </h3>
+    <div class="details">    
+            
+    
+            
+
+        <div class="method-description">
+                            <p><p>Ottiene Recensioni</p></p>                        
+        </div>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="Doctrine\Common\Collections\Collection">Collection</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_aggiungiDownload">
+        <div class="location">at line 192</div>
+        <code>                    void
+    <strong>aggiungiDownload</strong>(<a href="../Model/Download.html"><abbr title="Model\Download">Download</abbr></a> $download)
+        </code>
+    </h3>
+    <div class="details">    
+            
+    
+            
+
+        <div class="method-description">
+                            <p><p>Aggiunge un download al materiale.</p></p>                        
+        </div>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="../Model/Download.html"><abbr title="Model\Download">Download</abbr></a></td>
+                <td>$download</td>
+                <td><p>Download da aggiungere.</p></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getDownload">
+        <div class="location">at line 200</div>
+        <code>                    <abbr title="Doctrine\Common\Collections\Collection">Collection</abbr>
+    <strong>getDownload</strong>()
+        </code>
+    </h3>
+    <div class="details">    
+            
+    
+            
+
+        <div class="method-description">
+                            <p><p>Ottiene Download</p></p>                        
+        </div>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="Doctrine\Common\Collections\Collection">Collection</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_aggiungiPreferito">
+        <div class="location">at line 210</div>
+        <code>                    void
+    <strong>aggiungiPreferito</strong>(<a href="../Model/Preferito.html"><abbr title="Model\Preferito">Preferito</abbr></a> $preferito)
+        </code>
+    </h3>
+    <div class="details">    
+            
+    
+            
+
+        <div class="method-description">
+                            <p><p>Aggiunge un preferito al materiale.</p></p>                        
+        </div>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="../Model/Preferito.html"><abbr title="Model\Preferito">Preferito</abbr></a></td>
+                <td>$preferito</td>
+                <td><p>Preferito da aggiungere.</p></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getPreferiti">
+        <div class="location">at line 218</div>
+        <code>                    <abbr title="Doctrine\Common\Collections\Collection">Collection</abbr>
+    <strong>getPreferiti</strong>()
+        </code>
+    </h3>
+    <div class="details">    
+            
+    
+            
+
+        <div class="method-description">
+                            <p><p>Ottiene Preferiti</p></p>                        
+        </div>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><abbr title="Doctrine\Common\Collections\Collection">Collection</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+            </div>
+
+    
+</div><div id="footer">
+        Generated by <a href="https://github.com/code-lts/doctum">Doctum, a API Documentation generator and fork of Sami</a>.</div></div>
+    </div>
+    </body>
+
+</html>
