@@ -27,36 +27,6 @@ class UserController {
         $view = new viewUser();
         $view->mostraFormRegistrazione();
     }
-
-
-    public function modificaProfilo() : void {
-        $view = new viewUser();
-        $modifiche = $view->getDatiModifiche(); // Ottieni i dati delle modifiche da apportare al profilo, se presenti
-         try {
-            $pm = PersistentManager::getInstance();
-            $session = Session::getInstance();
-            $idStudenteLoggato = $session->getSessionElement('studente');
-            $studente = $pm->findOneById(Studente::class, $idStudenteLoggato);
-            if ($studente === null) {
-                $view->mostraFormErrore("Utente non trovato");
-                return;
-            }
-            $studente->setNome($modifiche['nome']?? $studente->getNome());
-            $studente->setCognome($modifiche['cognome']?? $studente->getCognome());
-            $studente->setEmail($modifiche['email']?? $studente->getEmail());
-            $studente->setUsername($modifiche['username']?? $studente->getUsername());
-            $studente->setPassword($modifiche['password']?? $studente->getPassword());
-            $immagine = new File($modifiche['immagine'][0], $modifiche['immagine'][1], $modifiche['immagine'][2], $modifiche['immagine'][3], $modifiche['immagine'][4]);
-            $studente->setImmagineProfilo($immagine ?? $studente->getImmagineProfilo());
-            $pm->update($studente);
-            $view->mostraModificaProfilo($studente->getNome(), $studente->getCognome(), $studente->getEmail(), $studente->getUsername(), $studente->getImmagineProfilo());
-        } catch (Exception $e) {
-            $view->mostraFormErrore("Errore durante la modifica del profilo: " . $e->getMessage());
-        } catch (PDOException $e) {
-            $view->mostraFormErrore("Errore durante la modifica del profilo: " . $e->getMessage());
-        }
-    }
-
     
     /**
      * Funzione per gestire la registrazione di un nuovo studente,
@@ -160,7 +130,7 @@ class UserController {
         $session = Session::getInstance();
         $session->destroySession(); // Distrugge la sessione, effettivamente facendo il logout
         $view = new viewUser();
-        $view->mostraHome(); // Dopo il logout, mostra la form di login
+        $view->mostraHome(); // Dopo il logout, mostra la home page non loggata
     }
     
     /**
@@ -203,6 +173,21 @@ class UserController {
         }
     }
 
+    public function cercaRecensioniUtente() : void {
+        $view = new viewUser();
+        $page = $view->getDatiPaginazione(); // Ottieni la pagina corrente
+        $page = max(1, $page); // Assicurati che la pagina sia almeno 1
+        $limit = 10; // Numero di elementi per pagina
+        $offset = $this->paginazione($page, $limit); // Calcola l'offset per la query
+        $session = Session::getInstance(); // Ottieni l'istanza della sessione
+        $idStudenteLoggato = $session->getSessionElement('studente');
+        $pm = PersistentManager::getInstance();
+        $recensioni = $pm->trovaRecensioniPerUtente($idStudenteLoggato, $offset, $limit);
+        $numeroRecensioni = $pm->count(Recensione::class, ['Studente' => $idStudenteLoggato]);
+        $pagineTotali = ceil($numeroRecensioni / $limit);
+        $view->mostraRecensioniUtente($recensioni, $pagineTotali, $page);
+    }
+
     /**
      * Funzione per mostrare il profilo dell'utente, 
      * con le sue recensioni, preferiti, download e materiale caricato, 
@@ -211,50 +196,49 @@ class UserController {
     public function profiloStudente() : void {
         try{
         $view = new viewUser();
-        $page = $view->getDatiPaginazione(); // Ottieni la pagina corrente
-        $modifiche = $view->getDatiModifiche(); // Ottieni le modifiche da apportare al profilo, se presenti
-        $page = max(1, $page); // Assicurati che la pagina sia almeno 1
-        $limit = 10; // Numero di elementi per pagina
-        $offset = ($page - 1) * $limit; // Calcola l'offset per la query
         $session = Session::getInstance(); // Ottieni l'istanza della sessione
         $idStudenteLoggato = $session->getSessionElement('studente');
-        $view =  new viewUser();
         $pm = PersistentManager::getInstance();
-        $bottone = strtolower($view->getBottoneCliccato());
-
-        // recupero ciò che mi serve per la view, a seconda del bottone cliccato, e mostro la view corrispondente
-         if($bottone === "modifica"){
-            $studente = $pm->findOneById(Studente::class, $idStudenteLoggato);
-            $view->mostraModificaProfilo($studente->getNome(), $studente->getCognome(), $studente->getEmail(), $studente->getUsername(), $studente->getImmagineProfilo());
-        }elseif($bottone === "recensioni"){
-            $recensioni = $pm->trovaRecensioniPerUtente($idStudenteLoggato, $offset, $limit);
-            $numeroRecensioni = $pm->count(Recensione::class, ['Studente' => $idStudenteLoggato]);
-            $pagineTotali = ceil($numeroRecensioni / $limit);
-            $view->mostraRecensioniStudente($recensioni, $pagineTotali, $page);
-        }elseif($bottone === "preferiti"){
-            $preferiti = $pm->trovaPreferitiPerUtente($idStudenteLoggato, $offset, $limit);
-            $numeroPreferiti = $pm->count(Preferito::class, ['Studente' => $idStudenteLoggato]);
-            $pagineTotali = ceil($numeroPreferiti / $limit);
-            $view->mostraPreferitiStudente($preferiti, $pagineTotali, $page);
-        }elseif($bottone === "download"){
-
-            $download = $pm->trovaDownloadPerUtente($idStudenteLoggato, $offset, $limit);
-            $numeroDownload = $pm->count(Download::class, ['Studente' => $idStudenteLoggato]);
-            $pagineTotali = ceil($numeroDownload / $limit);
-            $view->mostraDownloadStudente($download, $pagineTotali, $page);
-        }elseif($bottone === "materiale"){
-            $materiale = $pm->MaterialiPopolariUtente($idStudenteLoggato, $offset, $limit);
-            $numeroMateriali = $pm->count(Materiale::class, ['Studente' => $idStudenteLoggato]);
-            $pagineTotali = ceil($numeroMateriali / $limit);
-            $view->mostraMaterialiStudente($materiale, $pagineTotali, $page);
-        }
-    }     catch (PDOException $e) {
-            $view->mostraFormErrore("Errore durante la ricerca: " . $e->getMessage());
+        $studente = $pm->findOneById(Studente::class, $idStudenteLoggato);
+        $view->mostraModificaProfilo($studente->getNome(), 
+        $studente->getCognome(), 
+        $studente->getEmail(), 
+        $studente->getUsername(), 
+        $studente->getImmagineProfilo()?? null);
+        } catch (PDOException $e) {
+            $view->mostraFormErrore("Errore durante la visualizzazione del profilo: " . $e->getMessage());
         } catch (Exception $e) {
-            $view->mostraFormErrore("Errore imprevisto: " . $e->getMessage());
+            $view->mostraFormErrore("Errore durante la visualizzazione del profilo: " . $e->getMessage());
         }
     }
 
+    public function modificaProfiloStudente() : void {
+        $view = new viewUser();
+        $modifiche = $view->getDatiModifiche(); // Ottieni i dati delle modifiche da apportare al profilo, se presenti
+         try {
+            $pm = PersistentManager::getInstance();
+            $session = Session::getInstance();
+            $idStudenteLoggato = $session->getSessionElement('studente');
+            $studente = $pm->findOneById(Studente::class, $idStudenteLoggato);
+            if ($studente === null) {
+                $view->mostraFormErrore("Utente non trovato");
+                return;
+            }
+            $studente->setNome($modifiche['nome']?? $studente->getNome());
+            $studente->setCognome($modifiche['cognome']?? $studente->getCognome());
+            $studente->setEmail($modifiche['email']?? $studente->getEmail());
+            $studente->setUsername($modifiche['username']?? $studente->getUsername());
+            $studente->setPassword($modifiche['password']?? $studente->getPassword());
+            $immagine = new File($modifiche['immagine'][0], $modifiche['immagine'][1], $modifiche['immagine'][2], $modifiche['immagine'][3], $modifiche['immagine'][4]);
+            $studente->setImmagineProfilo($immagine ?? $studente->getImmagineProfilo());
+            $pm->update($studente);
+            $view->mostraFormSuccessoProfilo();
+        } catch (Exception $e) {
+            $view->mostraFormErrore("Errore durante la modifica del profilo: " . $e->getMessage());
+        } catch (PDOException $e) {
+            $view->mostraFormErrore("Errore durante la modifica del profilo: " . $e->getMessage());
+        }
+    }
     /**
      * Funzione per inviare l'email di verifica al momento della registrazione, con il token di conferma email
      * @param studente $studente, 
