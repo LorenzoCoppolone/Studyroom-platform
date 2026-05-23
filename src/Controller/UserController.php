@@ -267,7 +267,7 @@ class UserController {
      * per verificare se l'utente è loggato, altrimenti reindirizzarlo alla pagina di login
       * @return bool
      */
-    public function isUtenteLoggato() : bool {
+    public function isLogged() : bool {
         $session = Session::getInstance();
         return $session->getSessionElement('studente') !== null;
     }
