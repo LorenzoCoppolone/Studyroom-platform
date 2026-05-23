@@ -1,0 +1,141 @@
+/* =============================================
+   STUDYROOM — style.css
+   Nessuno stile inline nell'HTML.
+   ============================================= */
+
+/* ── Variabili ── */
+ :root {
+            --sr-purple:       #6B21D9;
+            --sr-purple-light: #9B59F5;
+            --sr-purple-dark:  #4A0FAD;
+            --sr-bg:           #F3EEFE;
+            --sr-border:       #C9A8F7;
+            --sr-text-dark:    #1A0535;
+        }
+
+        body {
+            background-color: var(--sr-bg);
+            font-family: 'DM Sans', sans-serif;
+            color: var(--sr-text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ── BRAND ── */
+        .sr-brand {
+            font-family: 'Courier Prime', monospace;
+            font-weight: 700;
+            font-size: 1.55rem;
+            color: var(--sr-purple);
+            letter-spacing: .5px;
+            text-decoration: none;
+        }
+        .sr-brand:hover { color: var(--sr-purple-dark); }
+
+        /* ── NAVBAR ── */
+        .sr-navbar {
+            background-color: #fff;
+            border-bottom: 2px solid var(--sr-border);
+            padding: .6rem 1.5rem;
+        }
+
+        /* search bar in navbar */
+        .sr-nav-search {
+            position: relative;
+        }
+        .sr-nav-search input {
+            border: 1.5px solid var(--sr-purple);
+            border-radius: 20px;
+            padding: .35rem 2.4rem .35rem .9rem;
+            font-size: .85rem;
+            width: 200px;
+            outline: none;
+            background: #fff;
+            color: var(--sr-text-dark);
+            transition: border-color .2s;
+        }
+        .sr-nav-search input:focus { border-color: var(--sr-purple-dark); box-shadow: 0 0 0 3px rgba(107,33,217,.12); }
+        .sr-nav-search .sr-nav-search-btn {
+            position: absolute;
+            right: 6px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--sr-purple);
+            padding: 0;
+            line-height: 1;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        /* "Prepara i tuoi esami" slogan */
+        .sr-slogan {
+            font-family: 'Courier Prime', monospace;
+            font-size: .95rem;
+            color: var(--sr-purple);
+            font-weight: 400;
+            white-space: nowrap;
+        }
+
+        /* user chip */
+        .sr-user-chip {
+            display: flex;
+            align-items: center;
+            gap: .45rem;
+            text-decoration: none;
+            color: var(--sr-purple);
+            font-family: 'Courier Prime', monospace;
+            font-weight: 700;
+            font-size: .95rem;
+            transition: color .2s;
+        }
+        .sr-user-chip:hover { color: var(--sr-purple-dark); }
+        .sr-user-chip .sr-avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--sr-purple);
+        }
+        .sr-user-chip .sr-avatar-icon {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            border: 2px solid var(--sr-purple);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #EDE0FF;
+            font-size: 1.1rem;
+            color: var(--sr-purple);
+        }
+
+        /* ── MAIN ── */
+        main { flex: 1; }
+
+        /* ── FOOTER ── */
+        .sr-footer {
+            background-color: #fff;
+            border-top: 2px solid var(--sr-border);
+            padding: 1.1rem 2rem;
+        }
+        .sr-footer .sr-brand-footer {
+            font-family: 'Courier Prime', monospace;
+            font-weight: 700;
+            color: var(--sr-purple);
+            font-size: 1.1rem;
+        }
+        .sr-footer a {
+            color: var(--sr-text-dark);
+            text-decoration: none;
+            font-size: .88rem;
+            font-weight: 500;
+            transition: color .2s;
+        }
+        .sr-footer a:hover { color: var(--sr-purple); }
+        .sr-footer .sr-univ-logo {
+            height: 50px;
+            width: auto;
+        }

@@ -6,10 +6,9 @@ class ViewUser {
         // Costruttore vuoto, se necessario puoi aggiungere inizializzazioni qui
     }
 
-    public function mostraHomeLoggato(string $username, ?string $immagineProfilo) {
+    public function mostraHomeLoggato(array $studente) : void {
        $smarty = StartSmarty::configuration();
-       $smarty->assign("username", $username);
-       $smarty->assign("immagineProfilo", $immagineProfilo);
+       $smarty->assign("studente", $studente);
        $smarty->display("homeLoggato.tpl");
     }
 

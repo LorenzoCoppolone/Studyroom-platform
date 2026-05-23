@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.8.0, created on 2026-05-22 11:09:18
+/* Smarty version 5.8.0, created on 2026-05-23 11:00:02
   from 'file:homeLoggato.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.8.0',
-  'unifunc' => 'content_6a10395e080323_65534992',
+  'unifunc' => 'content_6a1188b2aec516_38979230',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '9a07a3f6e75a13f43d4841dea22d6434a17bec8c' => 
     array (
       0 => 'homeLoggato.tpl',
-      1 => 1779448151,
+      1 => 1779533989,
       2 => 'file',
     ),
   ),
@@ -20,107 +20,101 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6a10395e080323_65534992 (\Smarty\Template $_smarty_tpl) {
+function content_6a1188b2aec516_38979230 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\Studyroom-platform\\templates';
-?><!DOCTYPE html>
-<html lang="it">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StudyRoom - UNIVAQ</title>
+$_smarty_tpl->getInheritance()->init($_smarty_tpl, true);
+?>
 
-    <link rel="stylesheet" href="/Studyroom-platform/CSS/styleHome.css">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Space+Mono:wght@400;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-</head>
 
-<body>
+<?php 
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_19221407316a1188b2ae5635_02767968', "titolo");
+?>
 
-    <!-- NAVBAR -->
-    <header class="navbar">
-        <a href="home.php" class="logo">StudyRoom</a>
 
-        <div class="navbar-search">
-            <input type="text" placeholder="Cerca...">
-            <button class="btn-search"><i class="fa fa-magnifying-glass"></i></button>
+<?php 
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_3631809546a1188b2aeb026_79352973', "stili");
+?>
+
+
+<?php 
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_11663820796a1188b2aeba48_46500749', "contenuto");
+$_smarty_tpl->getInheritance()->endChild($_smarty_tpl, "layout.tpl", $_smarty_current_dir);
+}
+/* {block "titolo"} */
+class Block_19221407316a1188b2ae5635_02767968 extends \Smarty\Runtime\Block
+{
+public function callBlock(\Smarty\Template $_smarty_tpl) {
+$_smarty_current_dir = 'C:\\laragon\\www\\Studyroom-platform\\templates';
+?>
+StudyRoom – Home<?php
+}
+}
+/* {/block "titolo"} */
+/* {block "stili"} */
+class Block_3631809546a1188b2aeb026_79352973 extends \Smarty\Runtime\Block
+{
+public function callBlock(\Smarty\Template $_smarty_tpl) {
+$_smarty_current_dir = 'C:\\laragon\\www\\Studyroom-platform\\templates';
+?>
+
+<link rel="stylesheet" href="/studyroom-platform/CSS/styleHome.css">
+<?php
+}
+}
+/* {/block "stili"} */
+/* {block "contenuto"} */
+class Block_11663820796a1188b2aeba48_46500749 extends \Smarty\Runtime\Block
+{
+public function callBlock(\Smarty\Template $_smarty_tpl) {
+$_smarty_current_dir = 'C:\\laragon\\www\\Studyroom-platform\\templates';
+?>
+
+
+        <section class="sr-hero">
+        <h1 class="sr-hero-title">Che esame stai preparando?</h1>
+        <p class="sr-hero-subtitle">Non studiare da solo: usa gli appunti della community</p>
+
+        <form action="/cerca" method="get" class="d-flex justify-content-center">
+            <div class="sr-search-wrap">
+                <input
+                    type="text"
+                    name="q"
+                    placeholder="Inizia a cercare"
+                    aria-label="Cerca un esame"
+                    autocomplete="off"
+                >
+                <button type="submit" aria-label="Cerca">
+                    <i class="bi bi-search"></i>
+                </button>
+            </div>
+        </form>
+    </section>
+
+        <section class="sr-share-section">
+        <div class="row align-items-center g-4">
+
+                        <div class="col-12 col-md-6">
+                <h2 class="sr-share-title">Condividi il tuo materiale</h2>
+                <p class="sr-share-subtitle">Entra a far parte della community</p>
+            </div>
+
+                        <div class="col-12 col-md-6">
+                <div
+                    class="sr-upload-zone"
+                    id="dropZone"
+                    role="button"
+                    tabindex="0"
+                    aria-label="Carica file"
+                    onclick="location.href='/avviaCaricamento'"
+                >
+        <i class="bi bi-cloud-arrow-up sr-upload-icon"></i>
+        <span class="sr-upload-label">Carica File</span>
+        <span class="sr-upload-hint">(Appunti, Esami passati, esercizi, ecc)</span>
         </div>
-
-        <nav class="navbar-links">
-            <a href="esami.php" class="nav-link nav-esami">Prepara i tuoi esami</a>
-
-            <a href="notifiche.php" class="nav-icon" title="Notifiche">
-                <i class="fa fa-bell"></i>
-            </a>
-
-            <!-- UTENTE LOGGATO -->
-        <div class="nav-auth nav-auth-logged">
-            <?php if ($_smarty_tpl->getValue('profile_image')) {?>
-                <img src="<?php echo $_smarty_tpl->getValue('profile_image');?>
-" alt="Profilo utente" class="nav-user-avatar">
-            <?php } else { ?>
-                                <i class="fa fa-circle-user nav-user-icon-default"></i>
-            <?php }?>
-
-                <span class="nav-username"><?php echo $_smarty_tpl->getValue('username');?>
-</span>
-            </div>
-        </nav>
-    </header>
-
-    <!-- MAIN CONTENT -->
-    <main>
-
-        <!-- SEZIONE RICERCA -->
-        <section class="section-search">
-            <h1 class="section-title">Che esame stai preparando?</h1>
-            <p class="section-subtitle">Non studiare da solo: usa gli appunti della community</p>
-
-            <div class="search-box">
-                <input type="text" placeholder="Inizia a cercare">
-                <button class="btn-search-main"><i class="fa fa-magnifying-glass"></i></button>
-            </div>
-        </section>
-
-        <!-- SEZIONE UPLOAD -->
-        <section class="section-upload">
-            <div class="upload-text">
-                <h2 class="upload-title">Condividi il tuo materiale</h2>
-                <p class="upload-subtitle">Entra a far parte della community</p>
-            </div>
-
-            <a href="carica.php" class="upload-box">
-                <i class="fa fa-cloud-arrow-up upload-icon"></i>
-                <p class="upload-label"><strong>Carica File</strong></p>
-                <p class="upload-hint">(Appunti, Esami passati, esercizi, ecc)</p>
-            </a>
-        </section>
-
-    </main>
-
-    <!-- FOOTER -->
-    <footer class="footer">
-        <div class="footer-logo-univaq">
-            <img src="univaq-logo.png" alt="Logo Università degli Studi dell'Aquila">
-            <div class="footer-univaq-text">
-                <span>UNIVERSITÀ</span>
-                <span>DEGLI STUDI</span>
-                <span>DELL'AQUILA</span>
-            </div>
-        </div>
-
-        <div class="footer-center">
-            <a href="index.php" class="footer-brand">StudyRoom</a>
-
-            <nav class="footer-links">
-                <a href="chi-siamo.php">Chi siamo</a>
-                <a href="supporto.php">Supporto</a>
-                <a href="faq.php">FAQ</a>
-                <a href="termini.php">Termini di utilizzo</a>
-            </nav>
-        </div>
-    </footer>
-
-</body>
-</html>
-<?php }
+    </div>
+    </section>
+<?php
+}
+}
+/* {/block "contenuto"} */
 }

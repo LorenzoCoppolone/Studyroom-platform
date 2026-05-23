@@ -230,23 +230,23 @@ class UserController {
             $recensioni = $pm->trovaRecensioniPerUtente($idStudenteLoggato, $offset, $limit);
             $numeroRecensioni = $pm->count(Recensione::class, ['Studente' => $idStudenteLoggato]);
             $pagineTotali = ceil($numeroRecensioni / $limit);
-            $view->mostraRecensioniStudente($recensioni, $pagineTotali);
+            $view->mostraRecensioniStudente($recensioni, $pagineTotali, $page);
         }elseif($bottone === "preferiti"){
             $preferiti = $pm->trovaPreferitiPerUtente($idStudenteLoggato, $offset, $limit);
             $numeroPreferiti = $pm->count(Preferito::class, ['Studente' => $idStudenteLoggato]);
             $pagineTotali = ceil($numeroPreferiti / $limit);
-            $view->mostraPreferitiStudente($preferiti, $pagineTotali);
+            $view->mostraPreferitiStudente($preferiti, $pagineTotali, $page);
         }elseif($bottone === "download"){
 
             $download = $pm->trovaDownloadPerUtente($idStudenteLoggato, $offset, $limit);
             $numeroDownload = $pm->count(Download::class, ['Studente' => $idStudenteLoggato]);
             $pagineTotali = ceil($numeroDownload / $limit);
-            $view->mostraDownloadStudente($download, $pagineTotali);
+            $view->mostraDownloadStudente($download, $pagineTotali, $page);
         }elseif($bottone === "materiale"){
             $materiale = $pm->MaterialiPopolariUtente($idStudenteLoggato, $offset, $limit);
             $numeroMateriali = $pm->count(Materiale::class, ['Studente' => $idStudenteLoggato]);
             $pagineTotali = ceil($numeroMateriali / $limit);
-            $view->mostraMaterialiStudente($materiale, $pagineTotali);
+            $view->mostraMaterialiStudente($materiale, $pagineTotali, $page);
         }
     }     catch (PDOException $e) {
             $view->mostraFormErrore("Errore durante la ricerca: " . $e->getMessage());

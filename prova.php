@@ -31,6 +31,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 */
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
-    require __DIR__ . "/html/loginForm.html";
+    $view = new ViewUser();
+    $studente = [
+        "username" => "Mario",
+        "foto" => null
+    ];
+
+    $view->mostraHomeLoggato($studente);
     exit;
 }
