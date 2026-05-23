@@ -1,0 +1,228 @@
+/* FONT E RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Nunito', sans-serif;
+    background: linear-gradient(180deg, #EADAF7 0%, #F4E9FB 40%, #FFFFFF 100%);
+    min-height: 100vh;
+}
+
+/* CAMPO IN ERRORE */
+.input-error {
+    border-color: #ff4d4d !important;
+    background: #ffecec;
+}
+
+/* TESTO ERRORE */
+.error-msg {
+    color: #ff4d4d;
+    font-size: 0.9rem;
+    margin-top: 4px;
+    font-family: 'Nunito';
+}
+
+/* NAVBAR */
+.navbar {
+    padding: 2rem 4rem;
+}
+
+.logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: #7B2FBE;
+    text-decoration: none;
+}
+
+/* CONTAINER */
+.upload-container {
+    max-width: 900px;
+    margin: 3rem auto;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}
+
+/* TIPO DOCUMENTO */
+.type-selector {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+}
+
+.type-btn {
+    padding: 1rem 4.5rem;
+    border-radius: 999px;
+    border: 2px solid #7B2FBE;
+    background: white;
+    font-family: 'Space Mono';
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+.type-btn.active {
+    background: #7B2FBE;
+    color: white;
+}
+
+/* UPLOAD BOX */
+.file-name {
+    margin-top: 8px;
+    font-size: 1rem;
+    color: #333;
+    text-align: center;
+    font-family: 'Nunito';
+}
+
+.upload-box {
+    border: 3px dashed #AAAAAA;
+    border-radius: 16px;
+    padding: 3rem;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.6);
+}
+
+.upload-content {
+    text-align: center;
+}
+
+.upload-title {
+    font-size: 2.2rem;
+    font-weight: 700;
+}
+
+.upload-info {
+    font-size: 1.4rem;
+    color: #555;
+    margin-bottom: 1rem;
+}
+
+.upload-btn {
+    padding: 1rem 2.5rem;
+    border-radius: 999px;
+    border: none;
+    background: #7B2FBE;
+    color: white;
+    cursor: pointer;
+    font-size: 1.5rem;
+}
+
+/* FORM */
+.form-section {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    font-size: 2rem;
+    padding: auto;
+}
+
+.form-group label {
+    font-family: 'Space Mono';
+    font-weight: 700;
+}
+
+.form-group input,
+.form-group select {
+    padding: 0.9rem 1rem;
+    border-radius: 12px;
+    border: 2px solid #7B2FBE;
+    font-size: 1.5rem;
+}
+
+/* DROPDOWN */
+.dropdown {
+    border: 2px solid #7B2FBE;
+    border-radius: 12px;
+    background: white;
+    display: none;
+    flex-direction: column;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.dropdown div {
+    padding: 0.8rem;
+    cursor: pointer;
+}
+
+.dropdown div:hover {
+    background: #EADAF7;
+}
+
+/* CHECKBOX */
+.form-check {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    cursor: pointer;
+    font-size: 2rem;
+
+}
+
+/* Nasconde il checkbox nativo */
+.form-check input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 40px;
+    height: 40px;
+    border: 3px solid #7B2FBE;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    background: white;
+}
+
+/* Checkmark */
+.form-check input[type="checkbox"]::after {
+    content: "";
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background: #7B2FBE;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    border-radius: 3px;
+    transition: 0.15s ease-in-out;
+}
+
+/* Quando è selezionato */
+.form-check input[type="checkbox"]:checked::after {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+/* BOTTONI */
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2rem;
+}
+
+.btn-home {
+    padding: 1rem 4rem;
+    background: #ccc;
+    border-radius: 12px;
+    text-decoration: none;
+    color: black;
+    font-size: 2rem;
+}
+
+.btn-upload {
+    padding: 1rem 4rem;
+    background: #7B2FBE;
+    border-radius: 12px;
+    border: none;
+    color: white;
+    font-size: 2rem;
+    cursor: pointer;
+}
