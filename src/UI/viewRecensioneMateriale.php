@@ -4,7 +4,11 @@ namespace UI;
 
 class viewRecensioneMateriale {
 
-/**
+    private Smarty $smarty;
+    public function __construct() {
+        $this->smarty = StartSmarty::configuration();
+    }
+/** 
  * Restituisce l'ID del materiale su cui l'utente ha cliccato
  * 
  * @return ?int
@@ -37,7 +41,7 @@ public function getCommento() : ?string {
  * @return void
  */
 public function mostraFormRecensione() : void {
-        //logica per mostrare il form di recensione
+        $this->smarty->display('formRecensione.tpl');
 }
 
 /**
@@ -46,7 +50,7 @@ public function mostraFormRecensione() : void {
  * @return void
  */
 public function mostraPopUpConfermaRecensione() : void {
-  //logica per mostrare il pop-up
+        $this->smarty->display('popUpConfermaRecensione.tpl');
 }
 
 }

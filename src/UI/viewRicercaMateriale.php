@@ -46,7 +46,7 @@ class viewRicercaMateriale {
      */
     public function mostraMateriali(array $materiale) : void {
         $this->smarty->assign("materiale", $materiale);
-        $this->smarty->display("risultatiRicerca.tpl");
+        $this->smarty->display("cercaMateriali.tpl");
     }
 
     /**

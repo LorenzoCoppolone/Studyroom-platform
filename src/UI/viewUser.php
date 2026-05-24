@@ -13,16 +13,14 @@ class ViewUser {
 
     //Funzione che mostra la form di registrazione 
     public function mostraFormRegistrazione () { 
-            $smarty = StartSmarty::configuration();
-            $smarty->display("registrationForm.tpl");
+            $this->smarty->display("registrationForm.tpl");
         // implementazione html form oppure chiamata a funzione che lo fa
 
     }
 
     //Funzione che mostra la form di login
     public function mostraFormLogin () {
-        $smarty = StartSmarty::configuration();
-        $smarty->display("loginForm.tpl");
+        $this->smarty->display("loginForm.tpl");
 
     }
 
@@ -130,7 +128,7 @@ class ViewUser {
         $this->smarty->display("verificationPage.tpl");
     }
 
-    
+
     /**
     * Mostra la form di conferma che l'email è stata verificata con successo
     * @return void

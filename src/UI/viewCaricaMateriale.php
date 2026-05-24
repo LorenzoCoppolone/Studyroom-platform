@@ -3,6 +3,12 @@ namespace UI;
 
 class viewCaricaMateriale {
     
+    private Smarty $smarty;
+    public function __construct() {
+        $this->smarty = StartSmarty::configuration();
+    }
+
+
     /**
      * Restituisce i dati del materiale da caricare.
      * @return array array di dati passati da http
@@ -41,7 +47,7 @@ class viewCaricaMateriale {
             $this->smarty->display('Successo.tpl');
         }
 
-        
+
         /**
         * Mostra la form per caricare un materiale
         * @return void

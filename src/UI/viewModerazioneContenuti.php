@@ -3,6 +3,11 @@ namespace UI;
 
 class viewModerazioneContenuti {
     
+    private Smarty $smarty;
+    public function __construct() {
+        $this->smarty = StartSmarty::configuration();
+    }
+
     /**
      * Restituisce il valore del bottone premuto.
      * Più l'id della segnalazione da considerare
@@ -24,7 +29,8 @@ class viewModerazioneContenuti {
      */
     public function mostraMaterialiSegnalati(array $materiali) : void{
 
-        // logica per mostrare i materiali segnalati
+        $this->smarty->assign('materiali', $materiali);
+        $this->smarty->display('materialiSegnalati.tpl');
 
     }
 }

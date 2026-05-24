@@ -4,6 +4,10 @@ namespace UI;
 
 class ViewPreferiti {
 
+    private Smarty $smarty;
+    public function __construct() {
+        $this->smarty = StartSmarty::configuration();
+    }
     /**
      * Restituisce l'ID del materiale su cui l'utente ha cliccato
      * 
