@@ -27,7 +27,7 @@
             <div class="nav-auth">
                 <i class="fa fa-circle-user nav-user-icon"></i>
                 <a href="login.html" class="nav-link"> Accedi / </a>
-                <a href="registrazione.html" class="nav-link"> Registrati</a>
+                <a href="register.html" class="nav-link"> Registrati</a>
             </div>
         </nav>
     </header>

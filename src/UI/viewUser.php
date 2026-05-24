@@ -13,16 +13,16 @@ class ViewUser {
 
     //Funzione che mostra la form di registrazione 
     public function mostraFormRegistrazione () { 
-            require __DIR__ . '/../../html/registrationForm.html';
+            $smarty = StartSmarty::configuration();
+            $smarty->display("registrationForm.tpl");
         // implementazione html form oppure chiamata a funzione che lo fa
 
     }
 
     //Funzione che mostra la form di login
     public function mostraFormLogin () {
-        require __DIR__ . '/../../html/loginForm.html';
-        
-        // implementazione html form oppure chiamata a funzione che lo fa
+        $smarty = StartSmarty::configuration();
+        $smarty->display("loginForm.tpl");
 
     }
 

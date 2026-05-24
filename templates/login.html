@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accesso • StudyRoom</title>
+    <link rel="stylesheet" href="../CSS/styleLogin.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;700&family=Space+Mono:wght@400;700&family=Playfair+Display:wght@900&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="login-container">
+
+        <a href="home.html" class="logo">StudyRoom</a>
+
+        <h2 class="login-title">Accesso</h2>
+
+        <div class="login-box">
+
+            <form action="/login" method="POST" class="login-form" id="loginForm">
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input id="email" type="text" name="email" placeholder="nome.cognome@student.univaq.it">
+                    <p class="error-msg" id="emailError" style="display:none;">L'email deve terminare con @student.univaq.it</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input id="password" type="password" name="password" placeholder="Password">
+                </div>
+
+                <a href="/password-reset" class="forgot-password">Non ricordo la password</a>
+
+                <button type="submit" class="btn-login">Accedi</button>
+
+            </form>
+
+            <p class="register-text">
+                È la tua prima volta?
+                <a href="register.html">Registrati ora</a>
+            </p>
+
+        </div>
+
+    </div>
+
+    <script>
+        const emailInput = document.getElementById("email");
+        const emailError = document.getElementById("emailError");
+        const form = document.getElementById("loginForm");
+
+        form.addEventListener("submit", function(e) {
+            const value = emailInput.value.trim();
+            if (!value.endsWith("@student.univaq.it")) {
+                e.preventDefault();
+                emailError.style.display = "block";
+                emailInput.classList.add("input-error");
+            } else {
+                emailError.style.display = "none";
+                emailInput.classList.remove("input-error");
+            }
+        });
+    </script>
+
+</body>
+</html>

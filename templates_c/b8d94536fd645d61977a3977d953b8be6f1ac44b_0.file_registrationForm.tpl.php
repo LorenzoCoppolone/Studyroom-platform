@@ -1,4 +1,28 @@
-<!DOCTYPE html>
+<?php
+/* Smarty version 5.8.0, created on 2026-05-23 18:24:50
+  from 'file:registrationForm.tpl' */
+
+/* @var \Smarty\Template $_smarty_tpl */
+if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
+  'version' => '5.8.0',
+  'unifunc' => 'content_6a11f0f2ddbfb4_41468618',
+  'has_nocache_code' => false,
+  'file_dependency' => 
+  array (
+    'b8d94536fd645d61977a3977d953b8be6f1ac44b' => 
+    array (
+      0 => 'registrationForm.tpl',
+      1 => 1779560687,
+      2 => 'file',
+    ),
+  ),
+  'includes' => 
+  array (
+  ),
+))) {
+function content_6a11f0f2ddbfb4_41468618 (\Smarty\Template $_smarty_tpl) {
+$_smarty_current_dir = 'C:\\laragon\\www\\Studyroom-platform\\templates';
+?><!DOCTYPE html>
 <html lang="it">
 <head>
     <meta charset="UTF-8">
@@ -12,86 +36,6 @@
     <link rel='stylesheet' href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css'>
 </head>
 <body>
-<<<<<<< HEAD
-    <div class="form-login-container">
-        <a href="home.html" target="_self">
-            <img src="/Studyroom-platform/img/logo.png" alt="Logo StudyRoom" class="logo-form-registration">
-        </a>
-
-        <form action="registrazione.php" method="post">
-            <h2>Registrati</h2>
-
-            <!-- Nome: solo lettere e spazi, almeno 2 caratteri -->
-            <div class="campo-input">
-                <input
-                    type="text"
-                    placeholder="Nome"
-                    name="nome"
-                    required
-                    pattern="[A-Za-zÀ-ÖØ-öø-ÿ\s]{2,}"
-                    title="Il nome deve contenere almeno 2 lettere"
-                >
-                <i class="bx bx-user"></i>
-            </div>
-
-            <!-- Cognome: solo lettere e spazi, almeno 2 caratteri -->
-            <div class="campo-input">
-                <input
-                    type="text"
-                    placeholder="Cognome"
-                    name="cognome"
-                    required
-                    pattern="[A-Za-zÀ-ÖØ-öø-ÿ\s]{2,}"
-                    title="Il cognome deve contenere almeno 2 lettere"
-                >
-                <i class="bx bx-badge"></i>
-            </div>
-
-            <!-- Username: lettere, numeri, . _ -, almeno 4 caratteri -->
-            <div class="campo-input">
-                <input
-                    type="text"
-                    placeholder="Username"
-                    name="username"
-                    required
-                    pattern="[A-Za-z0-9._-]{4,}"
-                    title="L'username deve avere almeno 4 caratteri (lettere, numeri, . _ -)"
-                >
-                <i class="bx bx-at"></i>
-            </div>
-
-            <!-- Email: solo email universitaria @student.univaq.it -->
-            <div class="campo-input">
-                <input
-                    type="email"
-                    placeholder="Email"
-                    name="email"
-                    required
-                    pattern=".+@student\.univaq\.it"
-                    title="Inserisci la tua email universitaria (@student.univaq.it)"
-                >
-                <i class="bx bx-envelope"></i>
-            </div>
-
-            <!-- Password: almeno 6 caratteri -->
-            <div class="campo-input">
-                <input
-                    type="password"
-                    placeholder="Password"
-                    name="password"
-                    required
-                    minlength="6"
-                    title="La password deve avere almeno 6 caratteri"
-                >
-                <i class="bx bx-lock"></i>
-            </div>
-
-            <button class="btn" type="submit">Registrati</button>
-        </form>
-    </div>
-</body>
-</html>
-=======
 
     <main>
         <div class="form-login-container">
@@ -146,7 +90,9 @@
             </form>
         </div>
     </main>
-<script src="/Studyroom-platform/JS/validazione.js"></script>
+<?php echo '<script'; ?>
+ src="/Studyroom-platform/JS/validazione.js"><?php echo '</script'; ?>
+>
 </body>
-</html>
->>>>>>> f0f739f25d2256b283385e91ac2c88906c222e83
+</html><?php }
+}

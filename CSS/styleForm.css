@@ -1,6 +1,8 @@
 *{
     margin: 0;
     padding: 0;
+
+    background: linear-gradient(135deg, #2d1b69 0%, #3d2a8a 40%, #1e3a7a 100%);
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
 }
@@ -10,43 +12,46 @@ body{
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    /* background-image: url('../img/1.png');
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-blend-mode: color;
-    background-color: #00000080; */
-    background: linear-gradient(135deg, #2d1b69 0%, #3d2a8a 40%, #1e3a7a 100%);
+    /* background: linear-gradient(135deg, #2d1b69 0%, #3d2a8a 40%, #1e3a7a 100%); */
+    background: radial-gradient(
+        ellipse 70% 70% at center,
+        #3d2a8a 0%,
+        #2a1f6e 40%,
+        #0d0b1f 100%
+    );
 
 }
 
 .logo-form-login {
     position: absolute;
-    top: -250px;        /* quanto sporge fuori dalla card */
+    top: -250px;       
     left: 50%;
     transform: translateX(-50%);
     width: 200px;
     height: auto;
-    border-radius: 10px; /* opzionale, se vuoi angoli arrotondati */
+    border-radius: 10px; 
 }
 
 .logo-form-registration {
     position: absolute;
-    top: -156px;        /* quanto sporge fuori dalla card */
+    top: -156px;        
     left: 50%;
     transform: translateX(-50%);
     width: 200px;
     height: auto;
-    border-radius: 10px; /* opzionale, se vuoi angoli arrotondati */
+    border-radius: 10px; 
 }
 
 .form-login-container{
-    width: 430px;
+    width: 500px;
     color: #fff;
     padding: 40px 30px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0,0,0,0.5);
     backdrop-filter: blur(20px);
+    box-shadow:
+        0 0 80px 20px rgba(127, 119, 221, 0.20),  /* alone viola */
+        0 24px 48px rgba(0, 0, 0, 0.5);    
 }
 
 .form-login-container h2{
@@ -152,3 +157,88 @@ body{
 .registrazione a:hover{
     text-decoration: underline;
 }
+
+/* animazione in ingresso */
+
+@keyframes appear {
+    from {
+        opacity: 0;
+        transform: scale(0.96) translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.form-login-container {
+    animation: appear 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Feedback colori campo */
+.campo-input input.valido {
+    border-color: #4ade80;
+    box-shadow: 0 0 8px rgba(74, 222, 128, 0.3);
+}
+.campo-input input.errore {
+    border-color: #f87171;
+    box-shadow: 0 0 8px rgba(248, 113, 113, 0.3);
+}
+.campo-input:has(input.valido) i { color: #4ade80; }
+.campo-input:has(input.errore) i { color: #f87171; }
+
+/* Messaggio errore sotto il campo */
+.msg-errore {
+    font-size: 12px;
+    color: #f87171;
+    margin-top: -22px;
+    margin-bottom: 10px;
+    padding-left: 16px;
+    min-height: 16px;
+    display: block;
+}
+.msg-errore.ok {
+    color: #4ade80;
+}
+
+/* Icona occhio mostra/nascondi */
+.toggle-password {
+    cursor: pointer;
+    user-select: none;
+}
+
+/* Barra forza password */
+.forza-container {
+    margin-top: -20px;
+    margin-bottom: 12px;
+    padding-left: 4px;
+}
+.forza-barre {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 4px;
+}
+.forza-barre span {
+    flex: 1;
+    height: 4px;
+    border-radius: 2px;
+    background: rgba(255,255,255,0.15);
+    transition: background 0.3s;
+}
+.forza-label {
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+    transition: color 0.3s;
+}
+
+/* Stati forza */
+.forza-weak   .forza-barre span:nth-child(1) { background: #f87171; }
+.forza-medium .forza-barre span:nth-child(1),
+.forza-medium .forza-barre span:nth-child(2) { background: #facc15; }
+.forza-strong .forza-barre span:nth-child(1),
+.forza-strong .forza-barre span:nth-child(2),
+.forza-strong .forza-barre span:nth-child(3) { background: #4ade80; }
+
+.forza-weak   .forza-label { color: #f87171; }
+.forza-medium .forza-label { color: #facc15; }
+.forza-strong .forza-label { color: #4ade80; }
