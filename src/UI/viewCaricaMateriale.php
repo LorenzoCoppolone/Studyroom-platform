@@ -2,7 +2,7 @@
 namespace UI;
 
 class viewCaricaMateriale {
-    
+
     private Smarty $smarty;
     public function __construct() {
         $this->smarty = StartSmarty::configuration();
@@ -44,7 +44,7 @@ class viewCaricaMateriale {
         */
         public function mostraFormSuccesso(string $messaggio) : void {
             $this->smarty->assign('successo', $messaggio);
-            $this->smarty->display('Successo.tpl');
+            $this->smarty->display('materialeCaricato.tpl');
         }
 
 
@@ -52,7 +52,9 @@ class viewCaricaMateriale {
         * Mostra la form per caricare un materiale
         * @return void
         */
-        public function mostraFormCaricaMateriale() : void {
+        public function mostraFormCaricaMateriale(array $insegnamenti, array $corsi) : void {
+            $this->smarty->assign('insegnamenti', $insegnamenti);
+            $this->smarty->assign('corsi', $corsi);
             $this->smarty->display('caricaMateriale.tpl');
         }
 }

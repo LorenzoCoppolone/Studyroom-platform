@@ -455,4 +455,24 @@ class PersistentManager {
         $result = $qb->getQuery()->getArrayResult();
         return $result;
     }
+
+    public function getCorsiDiLaureaAsArray()
+{
+    return $this->entityManager
+        ->createQueryBuilder()
+        ->select('c.codiceCorsoDiLaurea AS codiceCorso', 'c.nome AS nomeCorso')
+        ->from('Model\CorsoDiLaurea', 'c')
+        ->getQuery()
+        ->getArrayResult();
+}
+
+    public function getInsegnamentiAsArray()
+    {
+        return $this->entityManager
+            ->createQueryBuilder()
+            ->select('i.id AS idInsegnamento','i.nomeInsegnamento AS nomeInsegnamento','i.codiceCorsoDiLaurea AS codiceCorsoDiLaurea')
+            ->from('Model\Insegnamento', 'i')
+            ->getQuery()
+            ->getArrayResult();
+    }
 }

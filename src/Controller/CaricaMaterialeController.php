@@ -66,8 +66,8 @@ class CaricaMaterialeController
         $contenutoFile = file_get_contents($fileCaricato['tmp_name']);
         $mimeTypeFile = mime_content_type($fileCaricato['type']);
         $dimensioneFile = $fileCaricato['size'];
-        $this->validaDatiCaricamento($tipologia, $titolo, $tag, $idCdl, $idInsegnamento, $tac, $filecaricato);
         try {
+            $this->validaDatiCaricamento($tipologia, $titolo, $tag, $idCdl, $idInsegnamento, $tac, $filecaricato);
             $pm = PersistentManager::getInstance();
             $studente = $pm->find(Studente::class, $idUtente);
             if ($studente === null) {
@@ -87,24 +87,12 @@ class CaricaMaterialeController
                 if ($tagEnum === null) {
                     throw new InvalidArgumentException("Tag '$tag' non valido.");
                 }
-                $materiale = new Appunto(
-                    $titolo,
-                    $file,
-                    $insegnamento,
-                    $studente,
-                    $tagEnum
-                );
+                $materiale = new Appunto($titolo, $file, $insegnamento, $studente, $tagEnum);
             } else {
-                // Per l'esame il tag non viene passato
-                $materiale = new Esame(
-                    $titolo,
-                    $file,
-                    $insegnamento,
-                    $studente
-                );
+                $materiale = new Esame($titolo, $file, $insegnamento, $studente);
             }
             $pm->save($materiale);
-            $view->mostraConferma();
+            $view->mostraFormSuccesso("Materiale caricato con successo!");
         } catch (PDOException $e) {
            $view->mostraErrore("Errore durante il caricamento: " . $e->getMessage());
         } catch (\Exception $e) {
