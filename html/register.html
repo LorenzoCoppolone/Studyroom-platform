@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrazione • StudyRoom</title>
+    <link rel="stylesheet" href="styleRegister.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;700&family=Space+Mono:wght@400;700&family=Playfair+Display:wght@900&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="register-container">
+
+        <h1 class="logo">StudyRoom</h1>
+        <h2 class="register-title">Registrazione</h2>
+
+        <div class="register-box">
+
+            <form action="/register" method="POST" class="register-form" id="registerForm">
+
+                <div class="form-group">
+                    <label for="nome">Nome</label>
+                    <input id="nome" type="text" name="nome" placeholder="Nome">
+                </div>
+
+                <div class="form-group">
+                    <label for="cognome">Cognome</label>
+                    <input id="cognome" type="text" name="cognome" placeholder="Cognome">
+                </div>
+
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input id="username" type="text" name="username" placeholder="Username">
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email istituzionale</label>
+                    <input id="email" type="text" name="email" placeholder="username@student.univaq.it">
+                    <p class="error-msg" id="emailError" style="display:none;">L'email deve terminare con @student.univaq.it</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input id="password" type="password" name="password" placeholder="Minimo 8 caratteri">
+                    <p class="error-msg" id="passwordError" style="display:none;">La password deve contenere almeno 8 caratteri</p>
+                </div>
+
+                <button type="submit" class="btn-register">Registrati</button>
+
+            </form>
+
+            <p class="success-msg" id="successMsg" style="display:none;">
+                Registrazione completata! Controlla la tua email per verificare l’account.
+            </p>
+
+        </div>
+
+    </div>
+
+    <script>
+        const form = document.getElementById("registerForm");
+        const emailInput = document.getElementById("email");
+        const passwordInput = document.getElementById("password");
+
+        const emailError = document.getElementById("emailError");
+        const passwordError = document.getElementById("passwordError");
+        const successMsg = document.getElementById("successMsg");
+
+        form.addEventListener("submit", function(e) {
+            let valid = true;
+
+            // Email check
+            if (!emailInput.value.trim().endsWith("@student.univaq.it")) {
+                emailError.style.display = "block";
+                emailInput.classList.add("input-error");
+                valid = false;
+            } else {
+                emailError.style.display = "none";
+                emailInput.classList.remove("input-error");
+            }
+
+            // Password check
+            if (passwordInput.value.trim().length < 8) {
+                passwordError.style.display = "block";
+                passwordInput.classList.add("input-error");
+                valid = false;
+            } else {
+                passwordError.style.display = "none";
+                passwordInput.classList.remove("input-error");
+            }
+
+            if (!valid) {
+                e.preventDefault();
+                return;
+            }
+
+            // Success message
+            e.preventDefault();
+            successMsg.style.display = "block";
+        });
+    </script>
+
+</body>
+</html>
