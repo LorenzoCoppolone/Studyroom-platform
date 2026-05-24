@@ -4,6 +4,11 @@ namespace UI;
 
 class viewRicercaMateriale {
 
+    private Smarty $smarty;
+
+    public function __construct() {
+        $this->smarty = StartSmarty::configuration();
+    }
 // Funzione che restituisce il titolo inserito dall'utente
     public function getTitolo(): string {
         return $_GET['titolo'];
@@ -40,7 +45,8 @@ class viewRicercaMateriale {
      * @return void
      */
     public function mostraMateriali(array $materiale) : void {
-
+        $this->smarty->assign("materiale", $materiale);
+        $this->smarty->display("risultatiRicerca.tpl");
     }
 
     /**
@@ -49,9 +55,8 @@ class viewRicercaMateriale {
      * @return void
      */
     public function mostraFormErrore(string $messaggio) : void {
-        $smarty = StartSmarty::configuration();
-        $smarty->assign('errore', $messaggio);
-        $smarty->display('Error.tpl');
+        $this->smarty->assign('errore', $messaggio);
+        $this->smarty->display('Error.tpl');
     }
      
 }

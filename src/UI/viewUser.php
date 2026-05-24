@@ -1,15 +1,14 @@
 <?php
 namespace UI;
 class ViewUser {
-
+    private Smarty $smarty;
     public function __construct() {
-        // Costruttore vuoto, se necessario puoi aggiungere inizializzazioni qui
+        $this->smarty = StartSmarty::configuration();
     }
 
     public function mostraHomeLoggato(array $studente) : void {
-       $smarty = StartSmarty::configuration();
-       $smarty->assign("studente", $studente);
-       $smarty->display("homeLoggato.tpl");
+       $this->smarty->assign("studente", $studente);
+       $this->smarty->display("homeLoggato.tpl");
     }
 
     //Funzione che mostra la form di registrazione 
@@ -32,9 +31,8 @@ class ViewUser {
     }
 
     public function mostraFormErrore(string $messaggio) {
-        $smarty = StartSmarty::configuration();
-        $smarty->assign("errore", $messaggio);
-        $smarty->display("Error.tpl");
+        $this->smarty->assign("errore", $messaggio);
+        $this->smarty->display("Error.tpl");
     }
 
     //Funzione che mostra il profilo dell`utente
@@ -106,15 +104,7 @@ class ViewUser {
         return $_GET['token'] ?? '';
     }
 
-     /**
-     * Restituisce il valore del bottone premuto.
-     * 
-     * @return array
-     */
-    public function getBottoneModifica() : array {
-    return $_GET['modifica'] ?? '';   
-    }
-   
+    
     /**
      * Mostra le recensioni dell'utente
      * @return void
@@ -136,18 +126,17 @@ class ViewUser {
      * @return void
      */
     public function mostraVerificaEmail(string $email) : void {
-        $smarty = StartSmarty::configuration();
-        $smarty->assign("email", $email);
-        $smarty->display("verificationPage.tpl");
+        $this->smarty->assign("email", $email);
+        $this->smarty->display("verificationPage.tpl");
     }
 
+    
     /**
     * Mostra la form di conferma che l'email è stata verificata con successo
     * @return void
     */
     public function mostraConvalidaEmail() : void {
-        require __DIR__ . '/../../html/confirmVerificationPage.html';
-        // logica per mostrare la form di conferma che l'email è stata verificata con successo
+        $this->smarty->display("confirmVerificationPage.tpl");
     }
 
 }
