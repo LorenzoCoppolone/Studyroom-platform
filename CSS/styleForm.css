@@ -12,15 +12,6 @@ body{
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-<<<<<<< HEAD
-    /* background-image: url('../img/1.png');
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-blend-mode: color;
-    background-color: #00000080; */
-    background: linear-gradient(180deg, #EADAF7 0%, #F4E9FB 40%, #FFFFFF 100%);
-=======
     /* background: linear-gradient(135deg, #2d1b69 0%, #3d2a8a 40%, #1e3a7a 100%); */
     background: radial-gradient(
         ellipse 70% 70% at center,
@@ -28,7 +19,6 @@ body{
         #2a1f6e 40%,
         #0d0b1f 100%
     );
->>>>>>> 8189d42d9d9103a87a5e1cf5cefb84d579d2a547
 
 }
 

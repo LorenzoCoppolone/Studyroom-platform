@@ -26,9 +26,10 @@ body {
 .logo {
     font-family: 'Playfair Display', serif;
     font-size: 6rem;
-    font-weight: 900;
+    font-weight: 1000;
     color: #7B2FBE;
     margin-bottom: 1rem;
+    text-decoration: none !important;
 }
 
 /* TITOLO */
