@@ -58,20 +58,11 @@ class DowloadMaterialeController {
                 // Salvo l'oggetto nel DB
                 $pm->save($nuovoDownload);
             }
-            $view->serviFile($materiale->getFile());//non credo si debba mandare il file alla view, dovrebbe essere già
-                // sulla macchina dell'utente quando preme "scarica" a noi arriva solo id del materiale, al più si può mostrare un pop up
-                // ma non saprei come gestirlo
-
-
-
-            $view->mostraPopUpDownload();
-
+            $view->mostraFormSuccesso("Download effettuato con successo!");
         } catch(PDOException $e) {
-            throw new RuntimeException("Errore DB durante la gestione dei preferiti: " . $e->getMessage());
+            throw new RuntimeException("Errore durante il download: " . $e->getMessage());
         } catch (\Exception $e) {
             throw new RuntimeException("Errore imprevisto: " . $e->getMessage());
         }
-
     }
-
 }

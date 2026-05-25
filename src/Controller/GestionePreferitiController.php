@@ -20,57 +20,36 @@ use InvalidArgumentException;
 class GestionePreferitiController {
 
     public function gestionePreferitoController(): void {
-
-        // Istanzio la view
-        $view = new ViewPreferiti();
-
-        // Chiedo alla view l'ID del materiale su cui l'utente ha cliccato 
+        $view = new ViewPreferiti(); 
         $idMateriale = $view->getIdmateriale();
-
-        // Recupero l'Id Utente dalla session
-        //$idUtente = Session::getInstance()->getIdUtenteLoggato();
-
-        // Validazione
+        $idUtente = Session::getInstance()->getIdUtenteLoggato();
         if (empty($idUtente)) {
-            throw new RuntimeException("Utente non loggato!");
+            $view->mostraFormErrore("Utente non loggato!");
         }
-
-        // Interrogo la foundation e gestisco il toggle
+        if (empty($idMateriale)) {
+            $view->mostraFormErrore("ID materiale mancante!");
+        }
         try {
-            // Ottengo l'istanza del PersistentManager
             $pm = PersistentManager::getInstance();
-
-            // Controllo se il preferito esiste gia per questo utente+materiale
             $risultati = $pm->findBy(Preferito::class, [
                 'studente'  => $idUtente,
                 'materiale' => $idMateriale
             ]);
             $preferito = $risultati[0] ?? null;
-
             if ($preferito !== null) {
-                // Il materiale era già nei preferiti → lo rimuovo
-                $pm->delete($preferito);
-                $view->mostraPopUpRimosso();
+                $pm->delete($preferito); //????
+                $view->mostraFormSuccesso("Materiale rimosso dai preferiti!");
             } else {
-                // Il materiale non era nei preferiti → lo aggiungo
-                // Recupero i due oggetti
                 $studente = $pm->find(Studente::class, $idUtente);
                 $materiale = $pm->find(Materiale::class, $idMateriale);
-
-                // Costruisco l'oggetto da inserire
                 $nuovoPreferito = new Preferito($studente, $materiale);
-
-                // Slavo l'oggetto creato
                 $pm->save($nuovoPreferito);
-                $view->mostraPopUpAggiunto();
+                $view->mostraFormSuccesso("Materiale aggiunto ai preferiti!");
             }
-
         } catch(PDOException $e) {
-            throw new RuntimeException("Errore DB durante la gestione dei preferiti: " . $e->getMessage());
+           $view->mostraFormErrore("Errore durante la gestione dei preferiti: ");
         } catch (\Exception $e) {
-            throw new RuntimeException("Errore imprevisto: " . $e->getMessage());
+            $view->mostraFormErrore("Errore imprevisto: ");
         }
-
     }
-
 }

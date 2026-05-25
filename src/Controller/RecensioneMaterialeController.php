@@ -18,25 +18,19 @@ class recensioneMaterialeController {
      * Inserisce una recensione effettuata dallo studente.
      */
     public function inserisciRecensioneController() : void {
-
-        // Istanzio la view
         $view = new ViewRecensioneMateriale();
-
-        // Recupero i dati di input
         $idMateriale = $view->getIdMateriale();
         $voto        = (float) $view->getVoto();
         $commento    = $view->getCommento();
-
-        // Recupero l'Id Utente dalla Session
         $idUtente = Session::getInstance()->getIdUtenteLoggato();
-
-        // Validazione
         if (empty($idUtente)) {
-            throw new InvalidArgumentException("Utente non loggato.");
+            $view->mostraFormErrore('Utente non loggato!');
+            return;
         }
 
         if (strlen($commento) > 255) {
-            throw new InvalidArgumentException("Il commento non può superare i 255 caratteri.");
+            $view->mostraFormErrore('Il commento non può superare i 255 caratteri!');
+            return;
         }
         
         // Logica di inserimento
