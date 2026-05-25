@@ -56,8 +56,8 @@ class UserController {
         $studente = new Studente( $d['nome'], $d['cognome'], $d['email'], $passwordHash, $d['username']);
         $token = bin2hex(random_bytes(32));
         $studente->setToken($token);
-        $scadenza = (new \DateTime('now', new \DateTimeZone('Europe/Rome')))->add(new \DateInterval('PT10M')); // Token valido per 10 minuti
-        $studente->setValidazioneToken($scadenza);
+        $scadenzaToken = (new \DateTime('now', new \DateTimeZone('Europe/Rome')))->add(new \DateInterval('PT10M')); // Token valido per 10 minuti
+        $studente->setValidazioneToken($scadenzaToken);
         $pm->save($studente);
         $view->mostraVerificaEmail($studente->getEmail());
         if(function_exists('fastcgi_finish_request')) {
@@ -90,10 +90,17 @@ class UserController {
             if (empty($datiLogin['email'])) throw new \Exception("L'email è obbligatoria.");
             if (empty($datiLogin['password'])) throw new \Exception("La password è obbligatoria.");
             $studente = $pm->findOneBy(Studente::class, ['email' => $datiLogin['email'] ]);
-            if ($studente === null) {
+            $admin = $pm->findOneBy(Amministratore::class, ['email' => $datiLogin['email']]);
+            if ($studente === null && $admin === null) {
                 $view->mostraFormLogin(); // Mostra di nuovo la form di login
                 throw new \Exception("Credenziali non corrette."); // Lancia un'ecezione per indicare che le credenziali non sono corrette
                 return; // Termina l'esecuzione della funzione
+            }
+            if($admin !== null && password_verify($datiLogin['password'], $admin->getPassword())){
+                $session->setSessionElement('admin', $admin->getId());
+                $viewAdmin = new viewAdmin();
+                $viewAdmin->mostraHomeAdmin();
+                return;
             }
             if(!$studente->getIsVerified()) {
                 $view->mostraFormErrore("L'email non è stata verificata, controlla la tua email o riprova a registrarti"); // Mostra di nuovo la form di login
@@ -275,4 +282,3 @@ class UserController {
         return $session->getSessionElement('studente') !== null;
     }
 }
-

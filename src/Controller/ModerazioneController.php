@@ -22,27 +22,17 @@ class ModerazioneController {
      * @return void
      */
     public function mostraSegnalazioni() : void {
-    
         $view = new ViewModerazioneContenuti();
-
         try {
-
             $pm = PersistentManager::getInstance();
-
-            // Recupero tutte le segnalazioni
             $segnalazioni = $pm->findAll(Segnalazione::class);
-
-          
-                // Recupero tutti i materiali segnalati
-                $materialiSegnalati = $pm->trovaMaterialiSegnalati();
-
-                // Mostra le segnalazioni
-                $view->mostraMaterialiSegnalati($materialiSegnalati);
-
-           
+            $materialiSegnalati = $pm->trovaMaterialiSegnalati();
+            $view->mostraMaterialiSegnalati($materialiSegnalati);
             }catch (\Exception $e) {
-            throw new RuntimeException("Errore recupero segnalazioni: " . $e->getMessage());
-        }
+            $view->mostraErrore("Errore imprevisto!");
+            }catch (PDOException $e) {
+            $view->mostraErrore("Errore durante il recupero segnalazioni: ");
+            }
     }
 
     /**
@@ -50,21 +40,17 @@ class ModerazioneController {
      * @return void
      */
     public function GestisciSegnalazione() : void {
-
         $view = new ViewModerazioneContenuti();
         $valore = $view->getDatiSegnalazione();
-
         try {
-        
             if($valore == "accetta"){
                 $pm->Rimuovi($idSegnalazione);
             }elseif($valore == "banUtente"){
                 $utente = $pm->find(Utente::class, $idUtente);
-                $stato = $utente->setStato(true);
+                $stato = $utente->setIsBanned(true);
                 $pm->update($utente);
             }
             $pm = PersistentManager::getInstance();
-            // Elimino il materiale segnalato
             $pm->Remove($idMateriale);
         }catch (\Exception $e) {
             throw new RuntimeException("Errore recupero segnalazioni: " . $e->getMessage());
