@@ -8,7 +8,7 @@
     <title>{block name="title"}StudyRoom{/block}</title>
 
     <!-- CSS Layout -->
-    <link rel="stylesheet" href="./CSS/styleLayout.css">
+    <link rel="stylesheet" href="styleLayout.css">
 
     <!-- CSS Pagina -->
     {block name="pageCSS"}{/block}
@@ -25,7 +25,7 @@
     <!-- NAVBAR -->
     <header class="navbar">
 
-        <a href="/home" class="logo">StudyRoom</a>
+        <a href="home" class="logo">StudyRoom</a>
 
         <div class="navbar-search">
             <input type="text" placeholder="Cerca...">
@@ -37,23 +37,46 @@
 
         <nav class="navbar-links">
 
-            <a href="/esami" class="nav-link nav-esami">
+            <a href="esami.php" class="nav-link nav-esami">
                 Prepara i tuoi esami
             </a>
 
             <div class="nav-auth">
 
-                <i class="fa fa-circle-user nav-user-icon"></i>
+                {if $utente}
 
-                <a href="/login" class="nav-link">
-                    Accedi /
-                </a>
+                    <!-- FOTO PROFILO -->
+                    <div class="nav-user-avatar">
+                    <img src="{$utente.foto}" alt="Foto profilo">
+                    </div>
 
-                <a href="/registrazione" class="nav-link">
-                    Registrati
-                </a>
+                    <!-- NOME E COGNOME -->
+                    <span class="nav-user-name">
+                        {$utente.nome} {$utente.cognome}
+                    </span>
+
+                    <!-- LOGOUT -->
+                    <a href="logout.php" class="nav-link">
+                        Esci
+                    </a>
+
+                {else}
+
+                    <!-- ICONA DEFAULT -->
+                    <i class="fa fa-circle-user nav-user-icon"></i>
+
+                    <a href="login.php" class="nav-link">
+                        Accedi /
+                    </a>
+
+                    <a href="register.php" class="nav-link">
+                       Registrati
+                    </a>
+
+                {/if}
 
             </div>
+
 
         </nav>
 
@@ -74,7 +97,7 @@
            target="_blank"
            class="footer-logo-univaq">
 
-            <img src="./img/UnivaqLogo.png"
+            <img src="UnivaqLogo.png"
                  alt="Logo Università degli Studi dell'Aquila">
 
         </a>
@@ -86,10 +109,10 @@
             </a>
 
             <nav class="footer-links">
-                <a href="chi-siamo.tpl">Chi siamo</a>
-                <a href="supporto.tpl">Supporto</a>
-                <a href="faq.tpl">FAQ</a>
-                <a href="termini.tpl">Termini di utilizzo</a>
+                <a href="chi-siamo.php">Chi siamo</a>
+                <a href="supporto.php">Supporto</a>
+                <a href="faq.php">FAQ</a>
+                <a href="termini.php">Termini di utilizzo</a>
             </nav>
 
         </div>
