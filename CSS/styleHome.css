@@ -202,8 +202,8 @@ main {
     border: 4px dashed var(--color-upload-border);
     border-radius: var(--radius-box);
     padding: 3rem 6rem;
-    min-width: 400px;
-    min-height: 230px;
+    min-width: 350px;
+    min-height: 220px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -212,6 +212,13 @@ main {
     cursor: pointer;
 }
 
+.upload-label {
+    font-size: 2.1rem;
+}
+
+.upload-hint {
+    font-size: 1.4rem;
+}
 
 /* =============================================
    FOOTER
