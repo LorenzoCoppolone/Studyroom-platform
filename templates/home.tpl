@@ -53,11 +53,12 @@
                 <p class="upload-subtitle">Entra a far parte della community</p>
             </div>
 
-            <a href="carica.html" class="upload-box">
+            <div id="dropZone" class="upload-box" role="button" tabindex="0">
                 <i class="fa fa-cloud-arrow-up upload-icon"></i>
-                <p class="upload-label"><strong>Carica File</strong></p>
+                <p class="upload-label"><strong>Trascina qui il tuo file o clicca</strong></p>
                 <p class="upload-hint">(Appunti, Esami passati, esercizi, ecc)</p>
-            </a>
+            </div>
+
         </section>
 
     </main>

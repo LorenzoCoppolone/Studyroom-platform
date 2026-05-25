@@ -26,15 +26,20 @@ class CaricaMaterialeController
      */
     public function avviaCaricamento(): void
     {
-        if (!isLogged()) {
-            throw new InvalidArgumentException("Devi essere loggato per caricare materiale.");
-            return;
-        }
+        $view = new ViewCaricaMateriale();
+        try{
+            if (!isLogged()) {
+                $view->mostraErrore("Devi essere loggato per caricare materiale.");
+                return;
+            }
         $pm    = PersistentManager::getInstance();
-        $corsi = $pm->findAll(CorsoDiLaurea::class);
-        $insegnamenti = $pm->findAll(Insegnamento::class);
+        $corsi = $pm->getCorsiDiLaureaAsArray(CorsoDiLaurea::class);
+        $insegnamenti = $pm->getInsegnamentiAsArray(Insegnamento::class);
         $view = new ViewCaricaMateriale();
         $view->mostraFormCaricamento($corsi, $insegnamenti);
+    }catch (\Exception $e) {
+        $view->mostraErrore("Errore imprevisto: " . $e->getMessage());
+    }
     }
 
     /**
@@ -53,84 +58,128 @@ class CaricaMaterialeController
      * @throws RuntimeException Se si verifica un errore DB o imprevisto.
      */
     public function caricaMateriale(): void
-    {
-        $view = new ViewCaricaMateriale();
-        $tipologia      = $view->getTipologia();       // "appunto" | "esame"
-        $fileCaricato   = $view->getFile();            // array $_FILES['file']
-        $idCdl          = $view->getIdCorsoDiLaurea(); // int
-        $idInsegnamento = $view->getIdInsegnamento();  // int
-        $titolo         = $view->getTitolo();          // string
-        $tag            = $view->getTag();             // string|null
-        $tac            = $view->getTac();             // bool
-        $idUtente = Session::getInstance()->getIdUtenteLoggato();
-        $contenutoFile = file_get_contents($fileCaricato['tmp_name']);
-        $mimeTypeFile = mime_content_type($fileCaricato['type']);
+{
+    $view = new ViewCaricaMateriale();
+
+    $tipologia      = $view->getTipologia();
+    $fileCaricato   = $view->getFile();
+    $idCdl          = $view->getIdCorsoDiLaurea();
+    $idInsegnamento = $view->getIdInsegnamento();
+    $titolo         = $view->getTitolo();
+    $tag            = $view->getTag();
+    $tac            = $view->getTac();
+    $idUtente       = Session::getInstance()->getIdUtenteLoggato();
+
+    try {
+
+        // VALIDAZIONE
+        $this->validaDatiCaricamento(
+            $tipologia,
+            $titolo,
+            $tag,
+            $idCdl,
+            $idInsegnamento,
+            $tac,
+            $fileCaricato
+        );
+
+        // LETTURA FILE
+        $contenutoFile  = file_get_contents($fileCaricato['tmp_name']);
+        $mimeTypeFile   = mime_content_type($fileCaricato['tmp_name']);
         $dimensioneFile = $fileCaricato['size'];
-        try {
-            $this->validaDatiCaricamento($tipologia, $titolo, $tag, $idCdl, $idInsegnamento, $tac, $filecaricato);
-            $pm = PersistentManager::getInstance();
-            $studente = $pm->find(Studente::class, $idUtente);
-            if ($studente === null) {
-                throw new InvalidArgumentException("Studente non trovato.");
-            }
-            $corsoDiLaurea = $pm->find(CorsoDiLaurea::class, $idCdl);
-            if ($corsoDiLaurea === null) {
-                throw new InvalidArgumentException("Corso di laurea non trovato.");
-            }
-            $insegnamento = $pm->find(Insegnamento::class, $idInsegnamento);
-            if ($insegnamento === null) {
-                throw new InvalidArgumentException("Insegnamento non trovato.");
-            }
-            $file = new File($mimeTypeFile,$dimensioneFile,$contenutoFile);
-            if ($tipologia === 'appunto') {
-                $tagEnum = Tag::tryFrom(strtolower($tag));
-                if ($tagEnum === null) {
-                    throw new InvalidArgumentException("Tag '$tag' non valido.");
-                }
-                $materiale = new Appunto($titolo, $file, $insegnamento, $studente, $tagEnum);
-            } else {
-                $materiale = new Esame($titolo, $file, $insegnamento, $studente);
-            }
-            $pm->save($materiale);
-            $view->mostraFormSuccesso("Materiale caricato con successo!");
-        } catch (PDOException $e) {
-           $view->mostraErrore("Errore durante il caricamento: " . $e->getMessage());
-        } catch (\Exception $e) {
-            $view->mostraErrore("Errore imprevisto: " . $e->getMessage());
+
+        $pm = PersistentManager::getInstance();
+
+        $studente = $pm->find(Studente::class, $idUtente);
+        if ($studente === null) {
+            $view->mostraErrore("Utente non trovato.");
+            return;
         }
+
+        $corsoDiLaurea = $pm->find(CorsoDiLaurea::class, $idCdl);
+        if ($corsoDiLaurea === null) {
+            $view->mostraErrore("Corso di laurea non trovato.");
+            return;
+        }
+
+        $insegnamento = $pm->find(Insegnamento::class, $idInsegnamento);
+        if ($insegnamento === null) {
+            $view->mostraErrore("Insegnamento non trovato.");
+            return;
+        }
+        $file = new File($mimeTypeFile, $dimensioneFile, $contenutoFile);
+        if ($tipologia === 'appunto') {
+            $tagEnum = Tag::tryFrom(strtolower($tag));
+            if ($tagEnum === null) {
+                $view->mostraErrore("Tag '$tag' non valido.");
+                return;
+            }
+            $materiale = new Appunto($titolo, $file, $insegnamento, $studente, $tagEnum);
+        } else {
+            $materiale = new Esame($titolo, $file, $insegnamento, $studente);
+        }
+
+        $pm->save($materiale);
+        $view->mostraFormSuccesso("Materiale caricato con successo!");
+
+    } catch (PDOException $e) {
+        $view->mostraErrore("Errore durante il caricamento: " . $e->getMessage());
+    } catch (\Exception $e) {
+        $view->mostraErrore("Errore imprevisto: " . $e->getMessage());
+    }
+}
+
+
+   private function validaDatiCaricamento(
+    string $tipologia,
+    string $titolo,
+    ?string $tag,
+    int $idCdl,
+    int $idInsegnamento,
+    bool $tac,
+    array $fileCaricato
+): void {
+
+    if (!$tac) {
+        throw new InvalidArgumentException("Devi accettare i Termini e Condizioni per procedere.");
     }
 
-    private function validaDatiCaricamento(string $tipologia, string $titolo, ?string $tag, int $idCdl, int $idInsegnamento, bool $tac, array $fileCaricato): void
-    {
-        if (!$tac) {
-            throw new InvalidArgumentException("Devi accettare i Termini e Condizioni per procedere.");
-        }
-        if (!in_array($tipologia, ['appunto', 'esame'], true) || empty($tipologia) || !is_string($tipologia)) {
-            throw new InvalidArgumentException("Tipologia non valida. Scegli 'appunto' o 'esame'.");
-        }
-        if (empty(trim($titolo))) {
-            throw new InvalidArgumentException("Il titolo è obbligatorio.");
-        }
-        if (mb_strlen($titolo) > 255) {
-            throw new InvalidArgumentException("Il titolo non può superare i 255 caratteri.");
-        }
-        if ($tipologia === 'appunto' && (empty($tag) || !is_string($tag))) {
-            throw new InvalidArgumentException("Il tag è obbligatorio per gli appunti.");
-        }
-        if (empty($idCdl) || !is_int($idCdl) || $idCdl <= 0) {
-            throw new InvalidArgumentException("Corso di laurea non valido.");
-        }
-        if (empty($idInsegnamento) || !is_int($idInsegnamento) || $idInsegnamento <= 0) {
-            throw new InvalidArgumentException("Insegnamento non valido.");
-        }
-        if (empty($contenutoFile) || $fileCaricato['error'] !== 0) {
-            throw new InvalidArgumentException("Errore durante il caricamento del file.");
-        }
-        if ($fileCaricato['size'] > 2 * 1024 * 1024) {
-            throw new InvalidArgumentException("Il file supera il limite di 2MB.");
-        }
-        if (mime_content_type($fileCaricato['type']) !== 'application/pdf') {
-            throw new InvalidArgumentException("Sono accettati solo file in formato PDF.");
-        }
+    if (!in_array($tipologia, ['appunto', 'esame'], true)) {
+        throw new InvalidArgumentException("Tipologia non valida.");
     }
+
+    if (empty(trim($titolo))) {
+        throw new InvalidArgumentException("Il titolo è obbligatorio.");
+    }
+
+    if ($tipologia === 'appunto' && empty($tag)) {
+        throw new InvalidArgumentException("Il tag è obbligatorio per gli appunti.");
+    }
+
+    if ($idCdl <= 0) {
+        throw new InvalidArgumentException("Corso di laurea non valido.");
+    }
+
+    if ($idInsegnamento <= 0) {
+        throw new InvalidArgumentException("Insegnamento non valido.");
+    }
+
+    // --- VALIDAZIONE FILE ---
+
+    if (!isset($fileCaricato['error']) || $fileCaricato['error'] !== UPLOAD_ERR_OK) {
+        throw new InvalidArgumentException("Errore durante il caricamento del file.");
+    }
+
+    if (!is_uploaded_file($fileCaricato['tmp_name'])) {
+        throw new InvalidArgumentException("File non caricato correttamente.");
+    }
+
+    if ($fileCaricato['size'] > 2 * 1024 * 1024) {
+        throw new InvalidArgumentException("Il file supera il limite di 2MB.");
+    }
+
+    if (mime_content_type($fileCaricato['tmp_name']) !== 'application/pdf') {
+        throw new InvalidArgumentException("Sono accettati solo file PDF.");
+    }
+}
 }
