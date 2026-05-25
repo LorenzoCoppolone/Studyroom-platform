@@ -3,115 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StudyRoom | Login</title>
-
-    <!-- favicon -->
-    <link rel="icon" type="image/x-icon" href="/Studyroom-platform/img/studyroom_favicon.ico">
-
-    <!-- CSS -->
-    <link rel="stylesheet" href="/Studyroom-platform/CSS/styleForm.css">
-
-    <!-- Icone -->
-    <link rel='stylesheet' href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css'>
+    <title>Accesso • StudyRoom</title>
+    <link rel="stylesheet" href="styleLogin.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;700&family=Space+Mono:wght@400;700&family=Playfair+Display:wght@900&display=swap" rel="stylesheet">
 </head>
 
 <body>
-<<<<<<< HEAD
-    <div class="form-login-container">
-        <a href="home.html" target="_self">
-            <img src="/Studyroom-platform/img/logo.png" alt="Logo StudyRoom" class="logo-form-login">
-        </a>
 
-        <form action="login.php" method="post">
-            <h2>Login</h2>
+    <div class="login-container">
 
-            <!-- Campo email con validazione HTML -->
-            <div class="campo-input">
-                <input 
-                    type="email" 
-                    placeholder="Email" 
-                    name="email" 
-                    required
-                    pattern=".+@student\.univaq\.it"
-                    title="Inserisci un indirizzo email universitario valido (es: nome.cognome@student.univaq.it)"
-                >
-                <i class="bx bx-envelope"></i>
-            </div>
+        <h1 class="logo">StudyRoom</h1>
+        <h2 class="login-title">Accesso</h2>
 
-            <!-- Campo password con validazione HTML -->
-            <div class="campo-input">
-                <input 
-                    type="password" 
-                    placeholder="Password" 
-                    name="password" 
-                    required
-                    minlength="6"
-                    title="La password deve avere almeno 6 caratteri"
-                >
-                <i class="bx bx-lock"></i>
-            </div>
+        <div class="login-box">
 
-            <div class="Ricordami">
-                <label for="controllo">
-                    <input type="checkbox" id="controllo"> Ricordami
-                </label>
-                <a href="#">Hai dimenticato la password?</a>
-            </div>
+            <form action="/login" method="POST" class="login-form">
 
-            <button class="btn" type="submit">Accedi</button>
-
-            <div class="registrazione">
-                <p>Non hai un account?
-                    <a href="/Studyroom-platform/html/registrationForm.html">Registrati</a>
-                </p>
-            </div>
-        </form>
-    </div>
-</body>
-</html>
-=======
-
-    <main>
-        <div class="form-login-container">
-
-            <a href="home.html" target="_self">
-                <img src="/Studyroom-platform/img/logo.png" alt="Logo StudyRoom" class="logo-form-login">
-            </a>
- 
-            <form action="login.php" method="post">
-                <h2>Login</h2>
-
-
-                <div class="campo-input">
-                    <input type="email" placeholder="Email" name="email" required >
-                <i class="bx bx-envelope"></i>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input id="email" 
+                           type="email" 
+                           name="email" 
+                           placeholder="nome.cognome@student.univaq.it"
+                           required
+                           pattern="^[a-zA-Z0-9._%+-]+@student\.univaq\.it$"
+                           title="Inserisci una email istituzionale che termini con @student.univaq.it">
                 </div>
 
-                <!-- Password -->
-                <div class="campo-input">
-                    <input type="password" placeholder="Password" name="password" id="password"  required>
-                    <i class="bx bx-show toggle-password" id="togglePassword"></i>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input id="password" 
+                           type="password" 
+                           name="password" 
+                           placeholder="Password"
+                           required
+                           minlength="8"
+                           title="La password deve contenere almeno 8 caratteri">
                 </div>
 
-                <div class="Ricordami">
-                    <label for="controllo">
-                        <input type="checkbox" id="controllo"> Ricordami
-                    </label>
-                    <a href="#">Hai dimenticato la password?</a>
-                </div>
+                <a href="/password-reset" class="forgot-password">Non ricordo la password</a>
 
-                <button class="btn" type="submit">Accedi</button>
+                <button type="submit" class="btn-login">Accedi</button>
 
-                <div class="registrazione">
-                    <p>Non hai un account?
-                    <a href="/Studyroom-platform/html/registrationForm.html">Registrati</a>
-                    </p>
-                </div>
             </form>
-        </div>
-    </main>
 
-<script src="/Studyroom-platform/JS/validazione.js"></script>
+            <p class="register-text">
+                È la tua prima volta?
+                <a href="register.html">Registrati ora</a>
+            </p>
+
+        </div>
+
+    </div>
+
 </body>
 </html>
->>>>>>> f0f739f25d2256b283385e91ac2c88906c222e83

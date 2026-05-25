@@ -37,7 +37,7 @@
 
         <nav class="navbar-links">
 
-            <a href="esami.tpl" class="nav-link nav-esami">
+            <a href="/esami" class="nav-link nav-esami">
                 Prepara i tuoi esami
             </a>
 

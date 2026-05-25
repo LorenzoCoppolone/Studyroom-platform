@@ -3,150 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StudyRoom | Registrazione</title>
-    <!-- favicon -->
-    <link rel="icon" type="image/x-icon" href="/Studyroom-platform/img/studyroom_favicon.ico">
-    <!-- Link allo stile css -->
-    <link rel="stylesheet" href="/Studyroom-platform/CSS/styleForm.css">
-    <!-- Icone -->
-    <link rel='stylesheet' href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css'>
+    <title>Registrazione • StudyRoom</title>
+    <link rel="stylesheet" href="styleRegister.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;700&family=Space+Mono:wght@400;700&family=Playfair+Display:wght@900&display=swap" rel="stylesheet">
 </head>
+
 <body>
-<<<<<<< HEAD
-    <div class="form-login-container">
-        <a href="home.html" target="_self">
-            <img src="/Studyroom-platform/img/logo.png" alt="Logo StudyRoom" class="logo-form-registration">
-        </a>
 
-        <form action="registrazione.php" method="post">
-            <h2>Registrati</h2>
+    <div class="register-container">
 
-            <!-- Nome: solo lettere e spazi, almeno 2 caratteri -->
-            <div class="campo-input">
-                <input
-                    type="text"
-                    placeholder="Nome"
-                    name="nome"
-                    required
-                    pattern="[A-Za-zÀ-ÖØ-öø-ÿ\s]{2,}"
-                    title="Il nome deve contenere almeno 2 lettere"
-                >
-                <i class="bx bx-user"></i>
-            </div>
+        <h1 class="logo">StudyRoom</h1>
+        <h2 class="register-title">Registrazione</h2>
 
-            <!-- Cognome: solo lettere e spazi, almeno 2 caratteri -->
-            <div class="campo-input">
-                <input
-                    type="text"
-                    placeholder="Cognome"
-                    name="cognome"
-                    required
-                    pattern="[A-Za-zÀ-ÖØ-öø-ÿ\s]{2,}"
-                    title="Il cognome deve contenere almeno 2 lettere"
-                >
-                <i class="bx bx-badge"></i>
-            </div>
+        <div class="register-box">
 
-            <!-- Username: lettere, numeri, . _ -, almeno 4 caratteri -->
-            <div class="campo-input">
-                <input
-                    type="text"
-                    placeholder="Username"
-                    name="username"
-                    required
-                    pattern="[A-Za-z0-9._-]{4,}"
-                    title="L'username deve avere almeno 4 caratteri (lettere, numeri, . _ -)"
-                >
-                <i class="bx bx-at"></i>
-            </div>
+            <form action="/register" method="POST" class="register-form">
 
-            <!-- Email: solo email universitaria @student.univaq.it -->
-            <div class="campo-input">
-                <input
-                    type="email"
-                    placeholder="Email"
-                    name="email"
-                    required
-                    pattern=".+@student\.univaq\.it"
-                    title="Inserisci la tua email universitaria (@student.univaq.it)"
-                >
-                <i class="bx bx-envelope"></i>
-            </div>
-
-            <!-- Password: almeno 6 caratteri -->
-            <div class="campo-input">
-                <input
-                    type="password"
-                    placeholder="Password"
-                    name="password"
-                    required
-                    minlength="6"
-                    title="La password deve avere almeno 6 caratteri"
-                >
-                <i class="bx bx-lock"></i>
-            </div>
-
-            <button class="btn" type="submit">Registrati</button>
-        </form>
-    </div>
-</body>
-</html>
-=======
-
-    <main>
-        <div class="form-login-container">
-
-            <a href="home.html" target="_self">
-                <img src="/Studyroom-platform/img/logo.png" alt="Logo StudyRoom" class="logo-form-registration">
-            </a>
-
-            <form action="registrazione.php" method="post" id="formRegistrazione" >
-                <h2>Registrati</h2>
-
-                <!-- Nome -->
-                <div class="campo-input">
-                    <input type="text" placeholder="Nome" name="nome" pattern="[a-zA-ZÀ-ÿ\s'\-]+" title="Solo lettere, nessun numero" required>
-                    <i class="bx bx-user"></i>
+                <div class="form-group">
+                    <label for="nome">Nome</label>
+                    <input id="nome" type="text" name="nome" placeholder="Nome" 
+                           required minlength="2" title="Inserisci un nome valido">
                 </div>
 
-                <!-- Cognome -->
-                <div class="campo-input">
-                    <input type="text" placeholder="Cognome" name="cognome" pattern="[a-zA-ZÀ-ÿ\s'\-]+" title="Solo lettere, nessun numero" required>
-                    <i class="bx bx-badge"></i>
+                <div class="form-group">
+                    <label for="cognome">Cognome</label>
+                    <input id="cognome" type="text" name="cognome" placeholder="Cognome"
+                           required minlength="2" title="Inserisci un cognome valido">
                 </div>
 
-                <!-- Username -->
-                <div class="campo-input">
-                    <input type="text" placeholder="Username" name="username" pattern="[a-zA-Z0-9_]+" 
-       title="Solo lettere, numeri e _ (no spazi)" required>
-                    <i class="bx bx-at"></i>
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input id="username" type="text" name="username" placeholder="Username"
+                           required minlength="3" title="L'username deve contenere almeno 3 caratteri">
                 </div>
 
-                <!-- Email -->
-                <div class="campo-input">
-                    <input type="email" placeholder="Email" name="email" id="email"  pattern="[a-zA-Z0-9._%+\-]+@student\.univaq\.it"title="Usa la tua email universitaria (@student.univaq.it)" required>
-                    <i class="bx bx-envelope"></i>
+                <div class="form-group">
+                    <label for="email">Email istituzionale</label>
+                    <input id="email" type="email" name="email" placeholder="nome.cognome@student.univaq.it"
+                           required
+                           pattern="^[a-zA-Z0-9._%+-]+@student\.univaq\.it$"
+                           title="L'email deve terminare con @student.univaq.it">
                 </div>
 
-                <!-- Password -->
-                <div class="campo-input">
-                    <input type="password" placeholder="Password" name="password" id="password" minlength="8" title="Minimo 8 caratteri" required>
-                    <i class="bx bx-show toggle-password" id="togglePassword"></i>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input id="password" type="password" name="password" placeholder="Minimo 8 caratteri"
+                           required minlength="8"
+                           title="La password deve contenere almeno 8 caratteri">
                 </div>
-                <span class="msg-errore" id="err-password"></span>
 
-                <!-- Conferma Password -->
-                <div class="campo-input">
-                    <input type="password" placeholder="Conferma Password" name="conferma_password" id="confermaPassword" required>
-                    <i class="bx bx-show toggle-password" id="toggleConferma"></i>
-                </div>
-                <span class="msg-errore" id="err-conferma"></span>
+                <button type="submit" class="btn-register">Registrati</button>
 
-                <button class="btn" type="submit">Registrati</button>
             </form>
+
         </div>
-    </main>
-<script src="/Studyroom-platform/JS/validazione.js"></script>
+
+    </div>
+
 </body>
 </html>
->>>>>>> f0f739f25d2256b283385e91ac2c88906c222e83
+
