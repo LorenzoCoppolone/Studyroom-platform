@@ -1,3 +1,18 @@
+// Recupera dati del file da sessionStorage (se presenti) e precompila il form altrimenti mostra form vuoto
+const name = sessionStorage.getItem('fileName');
+const type = sessionStorage.getItem('fileType');
+const data = JSON.parse(sessionStorage.getItem('fileData'));
+
+if (name && data) {
+    const file = new File([new Uint8Array(data)], name, { type });
+
+    const input = document.getElementById('fileInputHidden');
+    if (input) {
+        const dataTransfer = new DataTransfer();
+        dataTransfer.items.add(file);
+        input.files = dataTransfer.files;
+    }
+}
 // Toggle Appunto / Esame
 const btnAppunto = document.getElementById("btnAppunto");
 const btnEsame = document.getElementById("btnEsame");

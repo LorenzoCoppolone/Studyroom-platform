@@ -59,8 +59,11 @@ class UserController {
         $scadenza = (new \DateTime('now', new \DateTimeZone('Europe/Rome')))->add(new \DateInterval('PT10M')); // Token valido per 10 minuti
         $studente->setValidazioneToken($scadenza);
         $pm->save($studente);
-        $this->inviaEmailVerifica($studente, $token);
         $view->mostraVerificaEmail($studente->getEmail());
+        if(function_exists('fastcgi_finish_request')) {
+            fastcgi_finish_request(); // Termina la risposta HTTP per l'utente, ma continua a eseguire il codice PHP
+        }
+        $this->inviaEmailVerifica($studente, $token);
         $session->setSessionElement('studente', $studente->getId());
     } catch (\Exception $e) {
         $view->mostraFormErrore("Errore durante la registrazione: " . $e->getMessage());
