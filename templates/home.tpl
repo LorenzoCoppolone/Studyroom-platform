@@ -31,11 +31,11 @@
                 <p class="upload-subtitle">Entra a far parte della community</p>
             </div>
 
-            <div id="dropZone" class="upload-box" role="button" tabindex="0">
+            <a href="carica.html" class="upload-box">
                 <i class="fa fa-cloud-arrow-up upload-icon"></i>
                 <p class="upload-label"><strong>Trascina qui il tuo file o clicca</strong></p>
                 <p class="upload-hint">(Appunti, Esami passati, esercizi, ecc)</p>
-            </div>
+            </a>
 
         </section>
 
