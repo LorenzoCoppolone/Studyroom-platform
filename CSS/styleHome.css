@@ -1,124 +1,4 @@
 /* =============================================
-   STUDYROOM — styleHome.css
-   ============================================= */
-
-/* ── Variabili ── */
-:root {
-    --color-primary: #7B2FBE;
-    --color-primary-light: #9B59D0;
-    --color-accent: #F5C518;
-    --color-text: #1A1A1A;
-    --color-text-muted: #555;
-    --color-upload-border: #AAAAAA;
-
-    --font-display: 'Playfair Display', serif;
-    --font-mono: 'Space Mono', monospace;
-    --font-body: 'Nunito', sans-serif;
-
-    --radius-pill: 999px;
-    --radius-box: 16px;
-    --shadow-soft: 0 4px 24px rgba(123, 47, 190, 0.10);
-}
-
-/* ── Reset ── */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-a {
-    text-decoration: none; /* niente sottolineature */
-    color: inherit;
-}
-
-body {
-    font-family: var(--font-body);
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-
-    /* SFONDO A GRADIENTE MORBIDO */
-    background: linear-gradient(
-        180deg,
-        #EADAF7 0%,
-        #F4E9FB 40%,
-        #FFFFFF 100%
-    );
-}
-
-/* =============================================
-   NAVBAR
-   ============================================= */
-.navbar {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 2.2rem 4rem; /* NAVBAR PIÙ GRANDE */
-    background: rgba(255, 255, 255, 0.55);
-    backdrop-filter: blur(8px);
-    border-bottom: 1px solid rgba(123, 47, 190, 0.12);
-}
-
-.logo {
-    font-family: var(--font-display);
-    font-size: 5rem; /* LOGO PIÙ GRANDE */
-    font-weight: 1000;
-    color: var(--color-primary);
-    margin-right: 5rem; /* NUOVO: sposta la search bar a destra */
-}
-
-/* Search bar */
-.navbar-search {
-    display: flex;
-    align-items: center;
-    border: 2px solid var(--color-primary);
-    border-radius: var(--radius-pill);
-    overflow: hidden;
-    flex: 0 1 800px; /* PIÙ LARGA */
-}
-
-.navbar-search input {
-    border: none;
-    outline: none;
-    padding: 1rem 1.5rem;
-    font-size: 1.4rem;
-    width: 100%;
-    background: transparent;
-}
-
-.btn-search {
-    border: none;
-    background: transparent;
-    border-left: 2px solid var(--color-primary);
-    padding: 0.9rem 1.2rem;
-    cursor: pointer;
-    font-size: 1.3rem;
-}
-
-/* Links */
-.navbar-links {
-    display: flex;
-    align-items: center;
-    gap: 15rem;
-    margin-left: auto;
-}
-
-.nav-esami,
-.nav-link {
-    font-family: var(--font-mono);
-    font-weight: 700;
-    font-size: 1.9rem; /* PIÙ GRANDI */
-    color: var(--color-primary);
-}
-
-.nav-user-icon {
-    font-size: 2.8rem;
-    gap: 2rem;
-    color: var(--color-primary);
-}
-
-/* =============================================
    MAIN
    ============================================= */
 main {
@@ -131,7 +11,6 @@ main {
     max-width: 4000px; /* riempie schermi grandi */
     margin: 0 auto;
 }
-
 
 .section-title {
     font-family: var(--font-display);
@@ -201,7 +80,7 @@ main {
 .upload-box {
     border: 4px dashed var(--color-upload-border);
     border-radius: var(--radius-box);
-    padding: 3rem 6rem;
+    padding: 6rem 6rem;
     min-width: 350px;
     min-height: 220px;
     display: flex;

@@ -16,7 +16,8 @@
             "Model\\": "src/Model/",
             "Controller\\": "src/Controller/",
             "Foundation\\": "src/Foundation/",
-            "UI\\": "src/UI/"
+            "UI\\": "src/UI/",
+            "config\\": "config/"
         }
     },
     "require-dev": {

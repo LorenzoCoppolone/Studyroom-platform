@@ -8,7 +8,7 @@
     <title>{block name="title"}StudyRoom{/block}</title>
 
     <!-- CSS Layout -->
-    <link rel="stylesheet" href="../CSS/styleLayout.css">
+    <link rel="stylesheet" href="./CSS/styleLayout.css">
 
     <!-- CSS Pagina -->
     {block name="pageCSS"}{/block}
@@ -25,7 +25,7 @@
     <!-- NAVBAR -->
     <header class="navbar">
 
-        <a href="home.tpl" class="logo">StudyRoom</a>
+        <a href="/home" class="logo">StudyRoom</a>
 
         <div class="navbar-search">
             <input type="text" placeholder="Cerca...">
@@ -45,11 +45,11 @@
 
                 <i class="fa fa-circle-user nav-user-icon"></i>
 
-                <a href="loginForm.tpl" class="nav-link">
+                <a href="/login" class="nav-link">
                     Accedi /
                 </a>
 
-                <a href="registrationForm.tpl" class="nav-link">
+                <a href="/registrazione" class="nav-link">
                     Registrati
                 </a>
 
@@ -74,7 +74,7 @@
            target="_blank"
            class="footer-logo-univaq">
 
-            <img src="../img/UnivaqLogo.png"
+            <img src="./img/UnivaqLogo.png"
                  alt="Logo Università degli Studi dell'Aquila">
 
         </a>

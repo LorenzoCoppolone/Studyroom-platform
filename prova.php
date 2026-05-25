@@ -32,11 +32,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
     $view = new ViewUser();
-    $studente = [
-        "username" => "Mario",
-        "foto" => null
-    ];
-
-    $view->mostraFormLogin();
+    $view->mostraHome();
     exit;
 }

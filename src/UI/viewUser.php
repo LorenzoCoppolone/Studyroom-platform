@@ -1,5 +1,9 @@
 <?php
 namespace UI;
+
+use Smarty\Smarty;
+use config\StartSmarty;
+
 class ViewUser {
     private Smarty $smarty;
     public function __construct() {
@@ -137,4 +141,7 @@ class ViewUser {
         $this->smarty->display("confirmVerificationPage.tpl");
     }
 
+    public function mostraHome() : void {
+        $this->smarty->display("home.tpl");
+    }
 }
