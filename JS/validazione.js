@@ -35,7 +35,6 @@ document.getElementById('confermaPassword').addEventListener('input', function (
         msgEl.classList.add('ok');
     }
 });
-
 // Rivalida conferma quando si modifica la password principale
 document.getElementById('password').addEventListener('input', function () {
     const conf = document.getElementById('confermaPassword');

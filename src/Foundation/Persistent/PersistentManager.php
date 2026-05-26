@@ -378,34 +378,22 @@ class PersistentManager {
      * @param int $limit
      * @return array lista di materiali segnalati
      */
-    public function trovaMaterialiSegnalati(
+    public function trovaSegnalazioniAdmin(
         int $offset, 
         int $limit
         ): array {
-
         $qb = $this->em->createQueryBuilder();
-        $qb->select( 
-        'm.id as idMateriale',
-        's.id as idStudente',
-        's.nome as nomeStudente',
-        's.cognome as cognomeStudente',
-        's.email as emailStudente',
-        's.username as usernameStudente',
-        'se.motivo as motivoSegnalazione',
-        'm.titolo as titoloMateriale',
-        'COUNT(se.id) as numeroSegnalazioni',
-        
-        
-        )
-            ->from(Segnalazione::class, 'se')
-            ->innerjoin('se.materialeSegnalato', 'm')
-            ->innerjoin('m.studente', 's')
-            ->groupBy('m.id, s.id')
-            ->orderBY('numeroSegnalazioni', 'DESC')
-            ->setFirstResult($offset)
-            ->setMaxResults($limit);
-
-
+        $qb->select(
+    'm.id as idMateriale',
+    'm.titolo as titoloMateriale',
+    'COUNT(se.id) as numeroSegnalazioni',
+)
+    ->from(Segnalazione::class, 'se')
+    ->Join('se.materialeSegnalato', 'm')
+    ->groupBy('m.id')
+    ->orderBy('numeroSegnalazioni', 'DESC')
+    ->setFirstResult($offset)
+    ->setMaxResults($limit);
         $result = $qb->getQuery()->getArrayResult();
         return $result;
     }
@@ -421,17 +409,10 @@ class PersistentManager {
         )
             ->from(Materiale::class, 'm')
             ->join('s.studente', 'm')
-
-
-            // si può fare cosi perchè l'id del materiale che uso viene
-            // dalla query trovaMaterialiSegnalati, dunque è sicuramente un materiale segnalato
-            // e quindi i dati sono dello studente segnalato in quanto possessore del materiale.
             ->Where('m.studente_id = :id_studente')
-
-            ->setParameter('id_studente', $id_studente); 
-            $qb->setFirstResult($offset)
-               ->setMaxResults($limit);
-
+            ->setParameter('id_studente', $id_studente)
+            ->setFirstResult($offset)
+            ->setMaxResults($limit);
         $result = $qb->getQuery()->getArrayResult();
         return $result;
     }
@@ -451,7 +432,6 @@ class PersistentManager {
             ->groupBy('m.id')
             ->setFirstResult($offset)
             ->setMaxResults($limit);
-
         $result = $qb->getQuery()->getArrayResult();
         return $result;
     }

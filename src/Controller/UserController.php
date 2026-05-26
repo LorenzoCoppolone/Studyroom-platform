@@ -80,7 +80,7 @@ class UserController {
      *  verifica della password e gestione della sessione
      * @return void
      */
-    public function loginStudente() {
+    public function loginUtente() {
         try {
             $base64 = null; // Inizializza la variabile $base64 ovvero l'immagine di default o null se non c'è un'immagine di profilo
             $session = Session::getInstance();
