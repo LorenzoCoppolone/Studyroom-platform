@@ -1,5 +1,9 @@
 <?php
 namespace UI;
+
+Use Smarty\Smarty;
+Use config\StartSmarty;
+
 class viewDownloadMateriale {
 
     private Smarty $smarty;

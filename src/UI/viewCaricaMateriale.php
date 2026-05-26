@@ -1,6 +1,9 @@
 <?php
 namespace UI;
 
+Use Smarty\Smarty;
+Use config\StartSmarty;
+
 class viewCaricaMateriale {
 
     private Smarty $smarty;

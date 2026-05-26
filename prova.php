@@ -4,6 +4,8 @@ require_once __DIR__ . "/vendor/autoload.php";
 
 use Controller\MaterialeController;
 use UI\ViewUser;
+use UI\viewModerazioneContenuti;
+use Controller\ModerazioneController;
 /*
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
@@ -31,7 +33,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 */
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
-    $view = new ViewUser();
-    $view->mostraHome();
+    $controller = new ModerazioneController();
+    $controller->dashboardAdmin();
+   
     exit;
 }

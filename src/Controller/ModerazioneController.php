@@ -10,12 +10,26 @@ use Model\Segnalazione;
 use Model\Studente;
 use Model\Materiale;
 use Model\Amministratore;
-
+use UI\viewModerazioneContenuti;
 use PDOException;
 use RuntimeException;
 use InvalidArgumentException;
 
 class ModerazioneController {
+
+
+    //Dashboard Admin
+
+    public function dashboardAdmin() : void {
+        $view = new ViewModerazioneContenuti();
+    
+            $pm = PersistentManager::getInstance();
+            $segnalazioni = $pm->trovaSegnalazioniAdmin();
+            $view->mostraDashboardAdmin($segnalazioni);
+           
+       
+    }
+
 
     /**
      * Mostra le segnalazioni

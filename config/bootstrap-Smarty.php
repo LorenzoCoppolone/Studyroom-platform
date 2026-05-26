@@ -13,5 +13,6 @@ $smarty = new Smarty();
 // cartelle nella root del progetto
 $smarty->setTemplateDir(__DIR__ . '/../templates/');
 $smarty->setCompileDir(__DIR__ . '/../templates_c/');
+$smarty->setCacheDir(__DIR__ . '/../cache/');
 
 return $smarty;

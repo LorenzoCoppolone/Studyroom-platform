@@ -2,6 +2,9 @@
 
 namespace UI;
 
+Use Smarty\Smarty;
+Use config\StartSmarty;
+
 class ViewPreferiti {
 
     private Smarty $smarty;

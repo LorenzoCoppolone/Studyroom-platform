@@ -1,6 +1,9 @@
 <?php
 namespace UI;
 
+Use Smarty\Smarty;
+Use config\StartSmarty;
+
 class viewModerazioneContenuti {
     
     private Smarty $smarty;
@@ -32,5 +35,12 @@ class viewModerazioneContenuti {
         $this->smarty->assign('materiali', $materiali);
         $this->smarty->display('materialiSegnalati.tpl');
 
+    }
+   
+
+      public function mostraDashboardAdmin(array $segnalazioni): void {
+ 
+        $this->smarty->assign('segnalazioni',$segnalazioni);
+        $this->smarty->display('dashboardAdmin.tpl');
     }
 }
