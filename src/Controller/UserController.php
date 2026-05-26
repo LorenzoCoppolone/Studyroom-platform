@@ -99,7 +99,7 @@ class UserController {
             if($admin !== null && password_verify($datiLogin['password'], $admin->getPassword())){
                 $session->setSessionElement('admin', $admin->getId());
                 $viewAdmin = new viewAdmin();
-                $viewAdmin->mostraHomeAdmin();
+                $viewAdmin->mostraDashboardAdmin($pm->trovaSegnalazioniAdmin(0,10));
                 return;
             }
             if(!$studente->getIsVerified()) {
@@ -109,7 +109,6 @@ class UserController {
                 $view->mostraFormErrore("Il tuo account è stato bannato, contatta l'assistenza per maggiori informazioni"); // Mostra di nuovo la form di login
                 return; // Termina l'esecuzione della funzione
             }
-            // Verifico la password
             if (!password_verify($datiLogin['password'], $studente->getPassword())) {
                 throw new \Exception("Credenziali non corrette."); // Lancia un'ecezione per indicare che le credenziali non sono corrette
                 return; // Termina l'esecuzione della funzione
@@ -127,11 +126,8 @@ class UserController {
             $view->mostraHome($studente->getUsername(), $base64);
         }        
         catch (PDOException $e) {
-            // Errore lato DB
             $view->mostraFormErrore("Errore durante il login dell'utente: ");
-        
         } catch (Exception $e) {
-            // Qualsiasi altro errore
             $view->mostraFormErrore("Errore durante il login dell'utente: ");
         }
     }
