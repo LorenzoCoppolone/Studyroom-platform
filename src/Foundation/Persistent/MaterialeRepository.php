@@ -1,5 +1,7 @@
 <?php
 namespace Foundation\Persistent;
+
+use Doctrine\ORM\EntityManagerInterface;
 use Model\Materiale;
 use Model\Studente;
 use Model\Preferito;
@@ -7,7 +9,7 @@ use Model\Download;
 use Model\Recensione;
 
 class MaterialeRepository {
-
+    private EntityManagerInterface $entityManager;
     public function __construct(EntityManagerInterface $entityManager) {
         $this->entityManager = $entityManager;
     }

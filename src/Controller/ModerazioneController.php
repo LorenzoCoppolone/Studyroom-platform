@@ -21,13 +21,11 @@ class ModerazioneController {
     //Dashboard Admin
 
     public function dashboardAdmin() : array {
-        $view = new ViewModerazioneContenuti();
-    
+        $view = new viewModerazioneContenuti();
             $pm = PersistentManager::getInstance();
             $segnalazioni = $pm->trovaSegnalazioniAdmin(0,10);
             $view->mostraDashboardAdmin($segnalazioni);
             return $segnalazioni;
-
     }
 
     /**

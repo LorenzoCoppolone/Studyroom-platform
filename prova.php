@@ -36,8 +36,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
   $controller = new ModerazioneController();
   $controller->dashboardAdmin();
-  
-
-
     exit;
 }
