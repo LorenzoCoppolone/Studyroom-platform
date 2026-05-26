@@ -30,16 +30,13 @@ class viewAdmin {
      * 
      * @return void
      */
-    public function mostraMaterialiSegnalati(array $materiali) : void{
-
+    public function mostraMaterialiSegnalati(?array $materiali) : void{
         $this->smarty->assign('materiali', $materiali);
         $this->smarty->display('materialiSegnalati.tpl');
-
     }
    
 
-      public function mostraDashboardAdmin(array $segnalazioni): void {
- 
+      public function mostraDashboardAdmin(?array $segnalazioni): void {
         $this->smarty->assign('segnalazioni',$segnalazioni);
         $this->smarty->display('dashboardAdmin.tpl');
     }

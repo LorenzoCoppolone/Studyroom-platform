@@ -7,6 +7,8 @@ use UI\ViewUser;
 use UI\viewModerazioneContenuti;
 use Controller\ModerazioneController;
 use Foundation\Persistent\PersistentManager;
+use Foundation\Session;
+use Controller\UserController;
 /*
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
@@ -34,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 */
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
-  $controller = new ModerazioneController();
-  $controller->dashboardAdmin();
+    $controller = new UserController();
+    $controller->mostraFormLogin();
     exit;
 }

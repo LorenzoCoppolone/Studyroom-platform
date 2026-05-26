@@ -25,7 +25,6 @@ class ViewUser {
     //Funzione che mostra la form di login
     public function mostraFormLogin () {
         $this->smarty->display("loginForm.tpl");
-
     }
 
     public function mostraFormRecuperoPassword() {
@@ -34,7 +33,7 @@ class ViewUser {
 
     public function mostraFormErrore(string $messaggio) {
         $this->smarty->assign("errore", $messaggio);
-        $this->smarty->display("Error.tpl");
+        $this->smarty->display("error.tpl");
     }
 
     //Funzione che mostra il profilo dell`utente

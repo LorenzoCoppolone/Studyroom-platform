@@ -6,6 +6,8 @@ use Foundation\Persistent\PersistentManager;
 use Foundation\Session;
 use UI\viewUser;
 use Model\Studente;
+use Model\Amministratore;
+use UI\viewAdmin;
 use PDOException;
 use Exception;
 use InvalidArgumentException;
@@ -52,7 +54,7 @@ class UserController {
         }elseif (!empty($pm->findOneBy(Studente::class, ['username' => $d['username']]))) {
             throw new \Exception("Username già registrato.");
         }
-        $passwordHash = password_hash($d['password'], PASSWORD_DEFAULT);
+        $passwordHash = password_hash($d['password'], PASSWORD_BCRYPT);
         $studente = new Studente( $d['nome'], $d['cognome'], $d['email'], $passwordHash, $d['username']);
         $token = bin2hex(random_bytes(32));
         $studente->setToken($token);
@@ -92,26 +94,25 @@ class UserController {
             $studente = $pm->findOneBy(Studente::class, ['email' => $datiLogin['email'] ]);
             $admin = $pm->findOneBy(Amministratore::class, ['email' => $datiLogin['email']]);
             if ($studente === null && $admin === null) {
-                $view->mostraFormLogin(); // Mostra di nuovo la form di login
-                throw new \Exception("Credenziali non corrette."); // Lancia un'ecezione per indicare che le credenziali non sono corrette
-                return; // Termina l'esecuzione della funzione
+                $view->mostraFormErrore("L'email o la password sono errate"); // Mostra di nuovo la form di login
+                exit; // Termina l'esecuzione della funzione
             }
             if($admin !== null && password_verify($datiLogin['password'], $admin->getPassword())){
                 $session->setSessionElement('admin', $admin->getId());
                 $viewAdmin = new viewAdmin();
                 $viewAdmin->mostraDashboardAdmin($pm->trovaSegnalazioniAdmin(0,10));
-                return;
+                exit;
             }
             if(!$studente->getIsVerified()) {
                 $view->mostraFormErrore("L'email non è stata verificata, controlla la tua email o riprova a registrarti"); // Mostra di nuovo la form di login
-                return; // Termina l'esecuzione della funzione
+                exit;
             }elseif($studente->getIsBanned()) {
                 $view->mostraFormErrore("Il tuo account è stato bannato, contatta l'assistenza per maggiori informazioni"); // Mostra di nuovo la form di login
-                return; // Termina l'esecuzione della funzione
+                exit;
             }
             if (!password_verify($datiLogin['password'], $studente->getPassword())) {
                 throw new \Exception("Credenziali non corrette."); // Lancia un'ecezione per indicare che le credenziali non sono corrette
-                return; // Termina l'esecuzione della funzione
+                exit;
             }else {
                 $session->setSessionElement('studente', $studente->getId());
                 $file = $studente->getImmagineProfilo();
@@ -126,9 +127,9 @@ class UserController {
             $view->mostraHome($studente->getUsername(), $base64);
         }        
         catch (PDOException $e) {
-            $view->mostraFormErrore("Errore durante il login dell'utente: ");
+            $view->mostraFormErrore("Errore durante il login dell'utente: " . $e->getMessage());
         } catch (Exception $e) {
-            $view->mostraFormErrore("Errore durante il login dell'utente: ");
+            $view->mostraFormErrore("Errore durante il login dell'utente: " . $e->getMessage());
         }
     }
 
