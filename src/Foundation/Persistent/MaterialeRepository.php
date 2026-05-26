@@ -1,0 +1,93 @@
+<?php
+namespace Foundation\Persistent;
+use Model\Materiale;
+use Model\Studente;
+use Model\Preferito;
+use Model\Download;
+use Model\Recensione;
+
+class MaterialeRepository {
+
+    public function __construct(EntityManagerInterface $entityManager) {
+        $this->entityManager = $entityManager;
+    }
+
+    /**
+     * cerca i materiali per titolo, insegnamento, tipologia, corso di laurea, tag e un eventuale criterio di ordinamento.
+    * 
+    * @param string $titolo Il titolo del materiale da cercare.
+    * @param string $insegnamento Il nome dell'insegnamento da cercare.
+     * @param string $tipologia La tipologia del materiale da cercare.
+     * @param string $corso Il corso di laurea del materiale da cercare.
+     * @param string $tag Il tag del materiale da cercare.
+     * @param string $criterio Il criterio di ricerca da applicare.
+     * @param int $offset L'offset da utilizzare per la paginazione.
+     * @param int $limit Il limite di materiali da ritornare.
+     * @throws Exception Se il titolo è vuoto.
+     * @return array Un array di materiali che corrispondono ai criteri di ricerca, ritorna ogetti materiale, studente, insegnamento, corso + i download per ognuno.
+     */
+    public function cerca(    
+        string $titolo,
+        int $offset,
+        int $limit,
+        string $insegnamento = "",
+        string $tipologia = "",   // "appunto", "esame"
+        string $corso = "",
+        string $tag = "",
+        string $criterio = "",
+    ): array {
+        $qb = $this->em->createQueryBuilder();
+        $qb->select(
+            'm.id as idMateriale',
+            'm.titolo as titoloMateriale',
+            'i.nomeInsegnamento as insegnamento',
+            'c.nomeCorso as corso_di_Laurea',
+            's.username as nome_studente',
+            'COUNT(d.id) as numeroDownload',
+            'COUNT(r.id) as numeroRecensioni',
+            'AVG(r.voto) as mediaValutazione',
+        )
+            ->addSelect(
+        "CASE
+            WHEN m INSTANCE OF Model\\Appunto THEN 'APPUNTO'
+            WHEN m INSTANCE OF Model\\Esame THEN 'ESAME'
+            ELSE 'ALTRO'
+        END AS tipologia"
+        )
+            ->from(Materiale::class, 'm')
+            ->leftjoin('m.downloads', 'd')
+            ->join('m.studente', 's')
+            ->join('m.insegnamento', 'i')
+            ->join('i.corsoDiLaurea', 'c')
+            ->leftjoin('m.recensioni', 'r');
+        if(!empty($titolo)){
+            $qb->where('m.titolo LIKE :titolo')->setParameter('titolo', "%$titolo%");
+        }
+        if (!empty($insegnamento)) {
+            $qb->andWhere('i.nomeInsegnamento = :insegnamento')->setParameter('insegnamento', $insegnamento);
+        }
+        if (strtolower($tipologia) === "appunto") {
+            $qb->andWhere('m INSTANCE OF Model\Appunto');
+        } elseif (strtolower($tipologia) === "esame") {
+            $qb->andWhere('m INSTANCE OF Model\Esame');
+        }
+        if (!empty($corso)) {
+            $qb->andWhere('c.nomeCorso = :corso')->setParameter('corso', $corso);
+        }
+        if (!empty($tag)) {
+            $qb->andWhere('m.tag = :tag')->setParameter('tag', $tag);
+        }
+        $qb->groupBy('m.id');
+        if (!empty($criterio) && strtolower($criterio) === 'download') {
+            $qb->orderBy('numeroDownload', 'DESC');
+        } elseif (!empty($criterio) && strtolower($criterio) === 'valutazione') {
+            $qb->orderBy('mediaValutazione', 'DESC');
+        }
+        $qb->setFirstResult($offset)
+        ->setMaxResults($limit);
+        $result = $qb->getQuery()->getArrayResult();
+        return $result;
+    }
+
+    
+}
