@@ -6,6 +6,7 @@ use Controller\MaterialeController;
 use UI\ViewUser;
 use UI\viewModerazioneContenuti;
 use Controller\ModerazioneController;
+use Foundation\Persistent\PersistentManager;
 /*
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
@@ -33,8 +34,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 */
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
-    $controller = new ModerazioneController();
-    $controller->dashboardAdmin();
-   
+  $controller = new ModerazioneController();
+  $controller->dashboardAdmin();
+  
+
+
     exit;
 }

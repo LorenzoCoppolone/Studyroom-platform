@@ -1,4 +1,4 @@
-        :root {
+      :root {
             --purple:      #6C4FD4;
             --purple-dark: #4f38a8;
             --purple-light:#ede9fb;
@@ -14,14 +14,14 @@
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
-            font-family: 'DM Sans', sans-serif;
+            font-family: 'Poppins', sans-serif;
             background: var(--bg);
             color: var(--text);
             min-height: 100vh;
         }
 
         /* ── HEADER ── */
-        header {
+         header {
             background: var(--card);
             border-bottom: 2px solid var(--border);
             padding: 0 2.5rem;
@@ -79,7 +79,7 @@
             height: 32px;
             background: var(--purple);
             border-radius: 4px;
-        }
+        } */
 
         .stat-value {
             font-family: 'Space Mono', monospace;

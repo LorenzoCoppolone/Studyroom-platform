@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StudyRoom – Dashboard Admin</title>
+    <title>StudyRoom | Dashboard Admin</title>
     <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/Studyroom-platform/CSS/styleDashboard.css">
 </head>
@@ -30,12 +30,12 @@
             <div class="table-row">
                 <span class="titolo-cell">{$s.titoloMateriale|escape}</span>
                 <span>
-                    <span class="badge >
+                    <span class="badge" >
                         {$s.numeroSegnalazioni}
                     </span>
                 </span>
                 <span>
-                    <a href="" class="btn-gestisci">
+                    <a href="gestisciSegnalazione.php?id={$s.idMateriale|escape}" class="btn-gestisci">
                         Gestisci
                     </a>
                 </span>
