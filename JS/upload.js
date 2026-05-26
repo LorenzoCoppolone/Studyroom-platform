@@ -7,12 +7,14 @@ btnAppunto.onclick = () => {
     btnAppunto.classList.add("active");
     btnEsame.classList.remove("active");
     tagSelect.disabled = false;
+    tipoInput.value = "appunto";
 };
 
 btnEsame.onclick = () => {
     btnEsame.classList.add("active");
     btnAppunto.classList.remove("active");
     tagSelect.disabled = true;
+    tipoInput.value = "esame";
 };
 
 // Recupera dati del file da sessionStorage (se presenti) e precompila il form altrimenti mostra form vuoto

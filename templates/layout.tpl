@@ -27,13 +27,13 @@
 
         <a href="home" class="logo">StudyRoom</a>
 
-        <div class="navbar-search">
-            <input type="text" placeholder="Cerca...">
-
-            <button class="btn-search">
+        <form class="navbar-search" method="GET" action="search.php">
+            <input type="text" name="q" placeholder="Cerca..." maxlength="100" required>
+            <button class="btn-search" type="submit">
                 <i class="fa fa-magnifying-glass"></i>
             </button>
-        </div>
+        </form>
+
 
         <nav class="navbar-links">
 

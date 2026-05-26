@@ -15,15 +15,19 @@
     <h1 class="section-title">Che esame stai preparando?</h1>
     <p class="section-subtitle">Non studiare da solo: usa gli appunti della community</p>
 
-    <div class="search-box">
+    <form class="search-box" method="GET" action="search.php">
+        <input type="text"
+           name="q"
+           placeholder="Inizia a cercare"
+           maxlength="100"
+           required>
 
-        <input type="text" placeholder="Inizia a cercare">
-
-        <button class="btn-search-main">
+        <button class="btn-search-main" type="submit">
             <i class="fa fa-magnifying-glass"></i>
         </button>
-        </section>
+    </form>
 
+        </section>
         <!-- SEZIONE UPLOAD -->
         <section class="section-upload">
             <div class="upload-text">

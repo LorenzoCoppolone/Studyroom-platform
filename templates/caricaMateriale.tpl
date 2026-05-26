@@ -25,7 +25,9 @@
     </div>
 
     <!-- FORM PRINCIPALE -->
-    <form method="POST" enctype="multipart/form-data">
+    <form method="POST" enctype="multipart/form-data" action="caricaMateriale.php">
+        <input type="hidden" name="tipo" id="tipoInput" value="{$tipo|default:'appunto'}">
+
 
         <!-- FILE UPLOAD -->
         <label class="upload-box">
@@ -47,7 +49,7 @@
             <select name="cdl" id="cdlSelect" required onchange="this.form.submit()">
                 <option value="">Seleziona corso di laurea</option>
                 {foreach $corsi as $c}
-                    <option value="{$c.id}" {if $selectedCdl == $c.id}selected{/if}>
+                    <option value="{$c.id}" {if $selectedCdl == $c.id}selected{/if}>{$c.nome}</option>
                         {$c.nome}
                     </option>
                 {/foreach}
@@ -61,7 +63,8 @@
             <select name="insegnamento" id="insSelect" {if !$selectedCdl}disabled{/if} required>
                 <option value="">Seleziona insegnamento</option>
                 {foreach $insegnamenti as $i}
-                    <option value="{$i.id}">{$i.nome}</option>
+                    <option value="{$i.id}" {if $selectedIns == $i.id}selected{/if}>{$i.nome}</option>
+
                 {/foreach}
             </select>
             <div class="error-msg">{$errors.ins|default:''}</div>
@@ -70,7 +73,10 @@
         <!-- TITOLO -->
         <div class="form-group">
             <label>Titolo</label>
-            <input type="text" name="titolo" id="titoloInput" required placeholder="es. Programmazione Web">
+            <input type="text" name="titolo" id="titoloInput" required
+                placeholder="es. Programmazione Web"
+                value="{$titolo|default:''}">
+
             <div class="error-msg">{$errors.titolo|default:''}</div>
         </div>
 
