@@ -64,4 +64,13 @@ class AdminRepository {
     $result = $qb->getQuery()->getArrayResult();
     return $result;
     }
+
+
+    public function eliminaSegnalazioni(int $id_materiale){
+        $qb = $this->em->createQueryBuilder();
+        $qb->delete(Segnalazione::class, 'se')
+        ->where('se.materialeSegnalato = :id_materiale')
+        ->setParameter('id_materiale', $id_materiale);
+        $qb->getQuery()->execute();
+    }
 }

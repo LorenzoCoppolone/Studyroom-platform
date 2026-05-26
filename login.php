@@ -4,4 +4,4 @@ require 'vendor/autoload.php';
 use Controller\UserController;
 
 $controller = new UserController();
-$controller->loginStudente();
+$controller->loginUtente();

@@ -145,4 +145,8 @@ class PersistentManager {
     public function gestisciSegnalazioneMaterialeAdmin(int $id_materiale): array {
         return $this->adminRepository->gestisciSegnalazioneMateriale($id_materiale);
     }
+
+    public function eliminaSegnalazioniAdmin(int $id_materiale): void {
+        $this->adminRepository->eliminaSegnalazioni($id_materiale);
+    }
 }

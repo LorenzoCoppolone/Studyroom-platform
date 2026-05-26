@@ -1,28 +1,4 @@
-<?php
-/* Smarty version 5.8.0, created on 2026-05-26 17:03:11
-  from 'file:Error.tpl' */
-
-/* @var \Smarty\Template $_smarty_tpl */
-if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
-  'version' => '5.8.0',
-  'unifunc' => 'content_6a15d24f6b9309_26765604',
-  'has_nocache_code' => false,
-  'file_dependency' => 
-  array (
-    'db4ed7c91f1b91a2f79a7f3a0d7bfc51b367b584' => 
-    array (
-      0 => 'Error.tpl',
-      1 => 1779814987,
-      2 => 'file',
-    ),
-  ),
-  'includes' => 
-  array (
-  ),
-))) {
-function content_6a15d24f6b9309_26765604 (\Smarty\Template $_smarty_tpl) {
-$_smarty_current_dir = 'C:\\laragon\\www\\Studyroom-platform\\templates';
-?><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="it">
 <head>
     <meta charset="UTF-8">
@@ -46,9 +22,7 @@ $_smarty_current_dir = 'C:\\laragon\\www\\Studyroom-platform\\templates';
         </div>
 
         <h2 class="result-title">
-            <?php echo '<?'; ?>
-= htmlspecialchars($error ?? "Si è verificato un errore imprevisto.") <?php echo '?>'; ?>
-
+            <?= htmlspecialchars($error ?? "Si è verificato un errore imprevisto.") ?>
         </h2>
 
         <div class="result-buttons">
@@ -60,5 +34,3 @@ $_smarty_current_dir = 'C:\\laragon\\www\\Studyroom-platform\\templates';
 
 </body>
 </html>
-<?php }
-}
