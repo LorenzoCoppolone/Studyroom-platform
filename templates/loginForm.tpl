@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Accesso • StudyRoom</title>
+
     <link rel="stylesheet" href="styleLogin.css">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;700&family=Space+Mono:wght@400;700&family=Playfair+Display:wght@900&display=swap" rel="stylesheet">
 </head>
@@ -17,6 +18,12 @@
 
         <div class="login-box">
 
+            {if isset($error)}
+                <div class="login-error">
+                    {$error|escape:'html'}
+                </div>
+            {/if}
+
             <form action="/login" method="POST" class="login-form">
 
                 <div class="form-group">
@@ -27,7 +34,8 @@
                            placeholder="nome.cognome@student.univaq.it"
                            required
                            pattern="^[a-zA-Z0-9._%+-]+@student\.univaq\.it$"
-                           title="Inserisci una email istituzionale che termini con @student.univaq.it">
+                           title="Inserisci una email istituzionale che termini con @student.univaq.it"
+                           value="{$emailInserita|default:''|escape:'html'}">
                 </div>
 
                 <div class="form-group">
@@ -49,7 +57,7 @@
 
             <p class="register-text">
                 È la tua prima volta?
-                <a href="register.html">Registrati ora</a>
+                <a href="register.php">Registrati ora</a>
             </p>
 
         </div>
@@ -58,3 +66,4 @@
 
 </body>
 </html>
+
