@@ -5,17 +5,12 @@ use Model\Materiale;
 use Model\Segnalazione;
 
 class AdminRepository {
+    private EntityManagerInterface $em;
     public function __construct(EntityManagerInterface $em) {
         $this->em = $em;
     }
 
-    public static function getInstance(): self {
-        if (self::$instance === null) {
-            $em = require __DIR__ . '/../../../config/doctrine-bootstrap.php';
-            self::$instance = new self($em);
-        }
-        return self::$instance;
-    }
+    
 
 
   /**

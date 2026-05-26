@@ -6,7 +6,6 @@ use Model\Preferito;
 use Model\Download;
 use Model\Recensione;
 use Model\Segnalazione;
-
 class PersistentManager {
 
     private static ?PersistentManager $instance = null;
@@ -18,6 +17,9 @@ class PersistentManager {
     // Costruttore privato (Singleton)
     private function __construct(EntityManagerInterface $entityManager) {
         $this->em = $entityManager;
+        $this->adminRepository = new AdminRepository($entityManager);
+        $this->materialeRepository = new MaterialeRepository($entityManager);
+        $this->utenteRepository = new UtenteRepository($entityManager);
     }
 
     // Ottieni l'istanza unica
@@ -133,12 +135,11 @@ class PersistentManager {
     }
 
     public function materialiPopolariUtente(int $id_studente, int $offset, int $limit): array {
-    this->utenteRepository->materialiPopolari($id_studente, $offset, $limit);
+    return $this->utenteRepository->materialiPopolari($id_studente, $offset, $limit);
     }
 
     public function trovaSegnalazioniAdmin(int $offset, int $limit): array {
-       $pm = $this->adminRepository::getInstance();
-       return $pm->trovaSegnalazioni($offset, $limit);
+       return $this->adminRepository->trovaSegnalazioni($offset, $limit);
     }
 
     public function gestisciSegnalazioneMaterialeAdmin(int $id_materiale): array {
