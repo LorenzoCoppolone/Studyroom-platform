@@ -1,53 +1,12 @@
-<!DOCTYPE html>
-<html lang="it">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StudyRoom – Cerca materiale</title>
-    <link rel="stylesheet" href="css/search_results.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-</head>
-<body>
+{extends file="layout.tpl"}
 
-<!-- ===================== HEADER ===================== -->
-<header class="site-header">
-    <div class="header-inner">
+{block name="title"}Risultati ricerca — StudyRoom{/block}
 
-        <a href="index.php" class="logo">StudyRoom</a>
+{block name="pageCSS"}
+    <link rel="stylesheet" href="./CSS/styleCercaMateriali.css">
+{/block}
 
-        <form class="header-search" action="search.php" method="GET">
-            <input
-                type="text"
-                name="titolo"
-                class="header-search__input"
-                placeholder="Cerca"
-                value="{$queryCorrente|escape:'html'}"
-            >
-            <button type="submit" class="header-search__btn" aria-label="Cerca">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                     stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-                </svg>
-            </button>
-        </form>
-
-        <nav class="header-nav">
-            <a href="esami.php" class="header-nav__link">Prepara i tuoi esami</a>
-            <a href="auth.php"  class="header-nav__link header-nav__link--auth">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-                    <circle cx="12" cy="7" r="4"/>
-                </svg>
-                Accedi&nbsp;/&nbsp;Registrati
-            </a>
-        </nav>
-
-    </div>
-</header>
-<!-- ===================== /HEADER ===================== -->
-
+{block name="content"}
 
 <!-- ===================== HERO SEARCH ===================== -->
 <section class="hero-search">
@@ -74,7 +33,6 @@
 <section class="filters-bar">
     <div class="filters-bar__inner">
 
-        <!-- FORM UNICO -->
         <form id="filter-form" action="search.php" method="GET">
 
             <!-- Mantieni la query corrente -->
@@ -85,7 +43,7 @@
 
                 <!-- Corso di Laurea -->
                 <div class="filter-pill {if $filtri.corsoDiLaurea}filter-pill--active{/if}">
-                   <select name="corsoDiLaurea" id="select-corso" class="filter-pill__select">
+                    <select name="corsoDiLaurea" id="select-corso" class="filter-pill__select">
                         <option value="">Corso di Laurea</option>
                         {foreach $corsiDiLaurea as $corso}
                             <option value="{$corso.id|escape:'html'}"
@@ -96,29 +54,26 @@
                     </select>
                 </div>
 
-
-<!-- Insegnamento -->
-
-            <div class="filter-pill 
+                <!-- Insegnamento -->
+                <div class="filter-pill 
                     {if $filtri.insegnamento}filter-pill--active{/if}
                     {if !$filtri.corsoDiLaurea}filter-pill--disabled{/if}">
+                    
                     <select id="select-insegnamento"
-        name="insegnamento"
-        class="filter-pill__select"
-        {if !$filtri.corsoDiLaurea}disabled{/if}>
-    <option value="">Insegnamento</option>
+                            name="insegnamento"
+                            class="filter-pill__select"
+                            {if !$filtri.corsoDiLaurea}disabled{/if}>
+                        <option value="">Insegnamento</option>
 
-    {foreach $insegnamenti as $ins}
-        <option value="{$ins.id|escape:'html'}"
-                data-corso-id="{$ins.corsoDiLaureaId|escape:'html'}"
-                {if $filtri.insegnamento == $ins.id}selected{/if}>
-            {$ins.nome|escape:'html'}
-        </option>
-    {/foreach}
-</select>
-
-</div>
-
+                        {foreach $insegnamenti as $ins}
+                            <option value="{$ins.id|escape:'html'}"
+                                    data-corso-id="{$ins.corsoDiLaureaId|escape:'html'}"
+                                    {if $filtri.insegnamento == $ins.id}selected{/if}>
+                                {$ins.nome|escape:'html'}
+                            </option>
+                        {/foreach}
+                    </select>
+                </div>
 
                 <!-- Tag -->
                 <div class="filter-pill {if $filtri.tag}filter-pill--active{/if}">
@@ -150,9 +105,8 @@
                     </select>
                 </div>
 
-            </div><!-- /.filters-bar__pills -->
+            </div>
 
-            <!-- BOTTONE APPLICA FILTRI -->
             <button type="submit" class="btn-applica-filtri">
                 Applica filtri
             </button>
@@ -179,74 +133,66 @@
             </select>
         </div>
 
-    </div><!-- /.filters-bar__inner -->
+    </div>
 </section>
 <!-- ===================== /FILTRI ===================== -->
 
 
 <!-- ===================== RISULTATI ===================== -->
-<main class="results-section">
+<section class="results-section">
     <div class="results-grid">
 
         {if $materiali|@count > 0}
 
             {foreach $materiali as $mat}
 
-                {* Ogni card è un link verso la pagina di dettaglio del materiale *}
                 <a href="materiale.php?id={$mat.idMateriale|escape:'url'}"
                    class="card"
                    aria-label="Apri {$mat.titolo|escape:'html'}">
 
-                    <!-- Icona documento -->
                     <div class="card__icon" aria-hidden="true">
+                        <!-- SVG ICONA DOCUMENTO -->
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 96" fill="none">
-                            <!-- corpo documento -->
                             <rect x="4" y="4" width="72" height="88" rx="6" ry="6"
                                   stroke="#1a1a2e" stroke-width="4" fill="white"/>
-                            <!-- orecchio pagina in alto a destra -->
                             <path d="M52 4 L76 28" stroke="#1a1a2e" stroke-width="4"/>
                             <path d="M52 4 L52 28 L76 28" fill="#e8e0ff" stroke="#1a1a2e" stroke-width="4"
                                   stroke-linejoin="round"/>
-                            <!-- righe di testo -->
                             <line x1="14" y1="44" x2="66" y2="44" stroke="#6c63ff" stroke-width="3.5" stroke-linecap="round"/>
                             <line x1="14" y1="56" x2="66" y2="56" stroke="#6c63ff" stroke-width="3.5" stroke-linecap="round"/>
                             <line x1="14" y1="68" x2="50" y2="68" stroke="#6c63ff" stroke-width="3.5" stroke-linecap="round"/>
                         </svg>
                     </div>
 
-                    <!-- Meta info -->
                     <div class="card__body">
                         <h2 class="card__title">{$mat.titolo|escape:'html'}</h2>
                         <p class="card__meta">{$mat.insegnamento|escape:'html'}</p>
                         <p class="card__meta">{$mat.corsoDiLaurea|escape:'html'}</p>
                         <p class="card__meta card__meta--tipo">{$mat.tipologia|escape:'html'}</p>
 
-                        <!-- Stelle valutazione -->
                         <div class="card__rating" aria-label="Valutazione: {$mat.valutazione} su 5">
                             {section name=s loop=5}
                                 {if $smarty.section.s.index < $mat.valutazione}
-                                    <span class="star star--full" aria-hidden="true">★</span>
+                                    <span class="star star--full">★</span>
                                 {else}
-                                    <span class="star star--empty" aria-hidden="true">★</span>
+                                    <span class="star star--empty">★</span>
                                 {/if}
                             {/section}
                             <span class="card__rating-count">({$mat.numValutazioni|escape:'html'})</span>
                         </div>
 
-                        <!-- Download count -->
                         <div class="card__downloads" aria-label="{$mat.numDownload} download">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                 aria-hidden="true">
+                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
                                 <polyline points="7 10 12 15 17 10"/>
                                 <line x1="12" y1="15" x2="12" y2="3"/>
                             </svg>
                             <span>{$mat.numDownload|escape:'html'}</span>
                         </div>
-                    </div><!-- /.card__body -->
+                    </div>
 
-                </a><!-- /.card -->
+                </a>
 
             {/foreach}
 
@@ -264,26 +210,16 @@
 
         {/if}
 
-    </div><!-- /.results-grid -->
-</main>
+    </div>
+</section>
 <!-- ===================== /RISULTATI ===================== -->
 
 
 <!-- ===================== PAGINAZIONE ===================== -->
-{*
-    Variabili attese dal controller PHP:
-      $paginaCorrente  (int)     – pagina attiva (1-based)
-      $totalePagine    (int)     – numero totale di pagine
-      $urlBasePagina   (string)  – URL con tutti i parametri GET tranne 'page'
-                                   es. "search.php?q=analisi&corsoDiLaurea=3"
-                                   Il controller la costruisce così:
-                                   $params = $_GET; unset($params['page']);
-                                   $urlBase = 'search.php?' . http_build_query($params);
-*}
 {if $totalePagine > 1}
 <nav class="pagination" aria-label="Navigazione pagine">
 
-    {* ---- Freccia precedente ---- *}
+    {* Freccia precedente *}
     {if $paginaCorrente > 1}
         <a href="{$urlBasePagina|escape:'html'}&amp;page={$paginaCorrente - 1}"
            class="pagination__btn pagination__btn--prev"
@@ -302,22 +238,18 @@
         </span>
     {/if}
 
-    {* ---- Numeri di pagina con logica finestra ---- *}
-    {*
-        Mostra sempre: prima pagina, ultima pagina, e una finestra di 2 pagine
-        attorno a quella corrente. Le lacune vengono colmate con "…"
-    *}
+    {* Calcolo finestra pagine *}
     {assign var="winStart" value=$paginaCorrente - 2}
     {assign var="winEnd"   value=$paginaCorrente + 2}
     {if $winStart < 1}{assign var="winStart" value=1}{/if}
     {if $winEnd > $totalePagine}{assign var="winEnd" value=$totalePagine}{/if}
 
-    {* Prima pagina sempre visibile *}
+    {* Prima pagina *}
     {if $winStart > 1}
         <a href="{$urlBasePagina|escape:'html'}&amp;page=1"
            class="pagination__page {if $paginaCorrente == 1}pagination__page--active{/if}">1</a>
         {if $winStart > 2}
-            <span class="pagination__ellipsis" aria-hidden="true">…</span>
+            <span class="pagination__ellipsis">…</span>
         {/if}
     {/if}
 
@@ -331,10 +263,10 @@
         {/if}
     {/for}
 
-    {* Ultima pagina sempre visibile *}
+    {* Ultima pagina *}
     {if $winEnd < $totalePagine}
         {if $winEnd < $totalePagine - 1}
-            <span class="pagination__ellipsis" aria-hidden="true">…</span>
+            <span class="pagination__ellipsis">…</span>
         {/if}
         <a href="{$urlBasePagina|escape:'html'}&amp;page={$totalePagine}"
            class="pagination__page {if $paginaCorrente == $totalePagine}pagination__page--active{/if}">
@@ -342,7 +274,7 @@
         </a>
     {/if}
 
-    {* ---- Freccia successiva ---- *}
+    {* Freccia successiva *}
     {if $paginaCorrente < $totalePagine}
         <a href="{$urlBasePagina|escape:'html'}&amp;page={$paginaCorrente + 1}"
            class="pagination__btn pagination__btn--next"
@@ -365,28 +297,4 @@
 {/if}
 <!-- ===================== /PAGINAZIONE ===================== -->
 
-
-<!-- ===================== FOOTER ===================== -->
-<footer class="site-footer">
-    <div class="footer-inner">
-        <div class="footer-logo-wrap">
-            <img src="img/logo-aquila.png" alt="Università degli Studi dell'Aquila" class="footer-uni-logo">
-        </div>
-
-        <div class="footer-brand">
-            <span class="logo">StudyRoom</span>
-        </div>
-
-        <nav class="footer-nav">
-            <a href="chi-siamo.php"        class="footer-nav__link">Chi siamo</a>
-            <a href="supporto.php"         class="footer-nav__link">Supporto</a>
-            <a href="faq.php"              class="footer-nav__link">FAQ</a>
-            <a href="termini-utilizzo.php" class="footer-nav__link">Termini di utilizzo</a>
-        </nav>
-    </div>
-</footer>
-<!-- ===================== /FOOTER ===================== -->
-
-<script src="js/SelectDipendenti.js"></script>
-</body>
-</html>
+{/block}
