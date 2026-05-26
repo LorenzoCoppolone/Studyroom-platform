@@ -9,6 +9,14 @@ class AdminRepository {
         $this->em = $em;
     }
 
+    public static function getInstance(): self {
+        if (self::$instance === null) {
+            $em = require __DIR__ . '/../../../config/doctrine-bootstrap.php';
+            self::$instance = new self($em);
+        }
+        return self::$instance;
+    }
+
 
   /**
      * Materiali segnalati che recupera l'admin

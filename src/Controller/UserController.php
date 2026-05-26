@@ -124,20 +124,21 @@ class UserController {
                 $base64 = 'data:' . $file->getMimeTypeFile() . ';base64,' . base64_encode($contenuto);
             }
             }
-            $view->mostraHomeLoggato($studente->getUsername(), $base64);
+            $view->mostraHome($studente->getUsername(), $base64);
         }        
         catch (PDOException $e) {
             // Errore lato DB
-            $view->mostraFormErrore("Errore durante il login dell'utente: " . $e->getMessage());
+            $view->mostraFormErrore("Errore durante il login dell'utente: ");
         
         } catch (Exception $e) {
             // Qualsiasi altro errore
-            $view->mostraFormErrore("Errore durante il login dell'utente: " . $e->getMessage());
+            $view->mostraFormErrore("Errore durante il login dell'utente: ");
         }
     }
 
     public function logoutStudente() : void {
         $session = Session::getInstance();
+        $session->unsetSessionElement();
         $session->destroySession(); // Distrugge la sessione, effettivamente facendo il logout
         $view = new viewUser();
         $view->mostraHome(); // Dopo il logout, mostra la home page non loggata
