@@ -137,7 +137,8 @@ class PersistentManager {
     }
 
     public function trovaSegnalazioniAdmin(int $offset, int $limit): array {
-       return $this->adminRepository->trovaSegnalazioni($offset, $limit);
+       $pm = $this->adminRepository::getInstance();
+       return $pm->trovaSegnalazioni($offset, $limit);
     }
 
     public function gestisciSegnalazioneMaterialeAdmin(int $id_materiale): array {
