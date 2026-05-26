@@ -49,7 +49,7 @@
 
             <p class="register-text">
                 È la tua prima volta?
-                <a href="register.html">Registrati ora</a>
+                <a href="registrationForm.php">Registrati ora</a>
             </p>
 
         </div>
