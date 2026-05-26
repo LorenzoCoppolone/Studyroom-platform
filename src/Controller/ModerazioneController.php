@@ -20,16 +20,15 @@ class ModerazioneController {
 
     //Dashboard Admin
 
-    public function dashboardAdmin() : void {
+    public function dashboardAdmin() : array {
         $view = new ViewModerazioneContenuti();
     
             $pm = PersistentManager::getInstance();
-            $segnalazioni = $pm->trovaSegnalazioniAdmin();
+            $segnalazioni = $pm->trovaSegnalazioniAdmin(0,10);
             $view->mostraDashboardAdmin($segnalazioni);
-           
-       
-    }
+            return $segnalazioni;
 
+    }
 
     /**
      * Mostra le segnalazioni
