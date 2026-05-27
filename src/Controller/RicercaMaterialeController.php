@@ -52,7 +52,7 @@ class RicercaMaterialeController
      * Mostra i materiali più popolari (media valutazione più alta).
      * @throws RuntimeException Se si verifica un errore DB o imprevisto.
      */
-    public function richiediMaterialiPopolari(): void
+    public function popolari(): void
     {
         // 1. Nessun input dall'utente: i materiali popolari si recuperano
         try {
@@ -80,7 +80,7 @@ class RicercaMaterialeController
      * @throws RuntimeException Se si verifica un errore DB o imprevisto.
      * @throws InvalidArgumentException Se si verifica un errore di validazione.
      */
-   public function filtraMateriale(): void
+   public function filtra(): void
 {
     try {
     $view = new ViewRicercaMateriale();
@@ -125,7 +125,7 @@ class RicercaMaterialeController
      * Mostra i materiali associati al profilo dello studente loggato (recensioni, preferiti, download, materiale).
      * @throws RuntimeException Se si verifica un errore DB o imprevisto.
      */
-    public function cercaPreferitiStudente() : void {
+    public function preferiti() : void {
         try{
         $view = new ViewRicercaMateriale();
         $page = $view->getDatiPaginazione(); // Ottieni la pagina corrente
@@ -145,7 +145,7 @@ class RicercaMaterialeController
         }
     }
 
-    public function cercaDownloadStudente() : void {
+    public function download() : void {
         try{
         $view = new ViewRicercaMateriale();
         $page = $view->getDatiPaginazione(); // Ottieni la pagina corrente
@@ -165,7 +165,7 @@ class RicercaMaterialeController
         }
     }
 
-    public function cercaMaterialiPopolariStudente() : void {
+    public function popolariUtente() : void {
         try{
         $view = new ViewRicercaMateriale();
         $page = $view->getDatiPaginazione(); // Ottieni la pagina corrente

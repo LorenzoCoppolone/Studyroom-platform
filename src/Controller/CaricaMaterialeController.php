@@ -24,7 +24,7 @@ class CaricaMaterialeController
      * Mostra il form di caricamento materiale.
      * @throws InvalidArgumentException Se l'utente non è loggato.
      */
-    public function avviaCaricamento(): void
+    public function carica(): void
     {
         $view = new ViewCaricaMateriale();
         try{
@@ -58,7 +58,7 @@ class CaricaMaterialeController
      * @throws InvalidArgumentException Se i dati non sono validi o T&C non accettati.
      * @throws RuntimeException Se si verifica un errore DB o imprevisto.
      */
-    public function carica(): void
+    public function salva(): void
 {
     $view = new ViewCaricaMateriale();
 

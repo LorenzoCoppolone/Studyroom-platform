@@ -25,10 +25,10 @@
     <!-- NAVBAR -->
     <header class="navbar">
 
-        <a href="home" class="logo">StudyRoom</a>
+        <a href="" class="logo">StudyRoom</a>
 
         <form class="navbar-search" method="GET" action="/RicercaMateriale/cerca">
-            <input type="text" name="q" placeholder="Cerca..." maxlength="100" required>
+            <input type="text" name="titolo" placeholder="Cerca..." maxlength="100" required>
             <button class="btn-search" type="submit">
                 <i class="fa fa-magnifying-glass"></i>
             </button>
@@ -37,7 +37,7 @@
 
         <nav class="navbar-links">
 
-            <a href="/RicercaMateriali/materialiPopolari" class="nav-link nav-esami">
+            <a href="/RicercaMateriali/popolari" class="nav-link nav-esami">
                 Prepara i tuoi esami
             </a>
 
@@ -56,7 +56,7 @@
                     </span>
 
                     <!-- LOGOUT -->
-                    <a href="logout.php" class="nav-link">
+                    <a href="/User/logout" class="nav-link">
                         Esci
                     </a>
 
@@ -65,11 +65,11 @@
                     <!-- ICONA DEFAULT -->
                     <i class="fa fa-circle-user nav-user-icon"></i>
 
-                    <a href="login.php" class="nav-link">
+                    <a href="/User/login" class="nav-link">
                         Accedi /
                     </a>
 
-                    <a href="register.php" class="nav-link">
+                    <a href="/User/registrazione" class="nav-link">
                        Registrati
                     </a>
 
@@ -104,7 +104,7 @@
 
         <div class="footer-center">
 
-            <a href="home.php" class="footer-brand">
+            <a href="" class="footer-brand">
                 StudyRoom
             </a>
 

@@ -42,6 +42,4 @@
             </a>
 
         </section>
-
-    </main>
 {/block}
