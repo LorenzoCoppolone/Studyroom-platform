@@ -35,7 +35,7 @@
                 <p class="upload-subtitle">Entra a far parte della community</p>
             </div>
 
-            <a href="carica.html" class="upload-box">
+            <a href="/CaricaMateriale/avviaCaricamento/" class="upload-box">
                 <i class="fa fa-cloud-arrow-up upload-icon"></i>
                 <p class="upload-label"><strong>Trascina qui il tuo file o clicca</strong></p>
                 <p class="upload-hint">(Appunti, Esami passati, esercizi, ecc)</p>

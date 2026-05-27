@@ -28,17 +28,18 @@ class CaricaMaterialeController
     {
         $view = new ViewCaricaMateriale();
         try{
-            if (!isLogged()) {
-                $view->mostraErrore("Devi essere loggato per caricare materiale.");
-                return;
-            }
+        $session = Session::getInstance();
+        $idStudente = $session->getSessionElement('studente');
+        if ($idStudente === null) {
+            throw new InvalidArgumentException("Utente non loggato");
+        }
         $pm    = PersistentManager::getInstance();
         $corsi = $pm->getCorsiDiLaureaAsArray(CorsoDiLaurea::class);
         $insegnamenti = $pm->getInsegnamentiAsArray(Insegnamento::class);
         $view = new ViewCaricaMateriale();
         $view->mostraFormCaricamento($corsi, $insegnamenti);
     }catch (\Exception $e) {
-        $view->mostraErrore("Errore imprevisto: " . $e->getMessage());
+        $view->mostraFormErrore("Errore imprevisto: " . $e->getMessage());
     }
     }
 
@@ -57,7 +58,7 @@ class CaricaMaterialeController
      * @throws InvalidArgumentException Se i dati non sono validi o T&C non accettati.
      * @throws RuntimeException Se si verifica un errore DB o imprevisto.
      */
-    public function caricaMateriale(): void
+    public function carica(): void
 {
     $view = new ViewCaricaMateriale();
 
