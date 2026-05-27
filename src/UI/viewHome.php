@@ -1,4 +1,6 @@
 <?php
+namespace UI;
+
 use Smarty\Smarty;
 use config\StartSmarty;
 

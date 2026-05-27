@@ -1,34 +1,42 @@
 <?php
 namespace Controller;
+use Controller\HomeController;
 class FrontController
 {
    public function run($uri)
+
 {
-    $parts = explode("/", trim($uri, "/"));
+    // 1. Rimuove la query string
+    $uri = explode('?', $uri)[0];
 
-    $controllerName = $parts[1] ?? "home";
-    $methodName     = $parts[2] ?? "index";
-    $params         = array_slice($parts, 3);
+    // 2. Divide in parti
+    $parts = explode('/', trim($uri, '/'));
 
-    // Normalizza il nome del controller
-    $controllerClass = ucfirst($controllerName) . "Controller";
+    // 3. Controller e metodo
+    $controllerName = !empty($parts[0]) ? $parts[0] : "Home";
+    $metodo         = $parts[1] ?? "mostraHome";
+    // 4. Parametri aggiuntivi
+    $params = array_slice($parts, 2);
 
-    // Controller non trovato
+    // 5. Costruzione classe
+    $controllerClass = "Controller\\" . ucfirst($controllerName) . "Controller";
+
+    // 6. Controller non trovato
     if (!class_exists($controllerClass)) {
-        header("HTTP/1.1 404 Not Found");
         exit;
     }
 
     $controller = new $controllerClass();
 
-    // Metodo non trovato
-    if (!method_exists($controller, $methodName)) {
+    // 7. Metodo non trovato
+    if (!method_exists($controller, $metodo)) {
         header("HTTP/1.1 405 Method Not Allowed");
         exit;
     }
 
-    // Esegui il metodo con eventuali parametri
-    return call_user_func_array([$controller, $methodName], $params);
+    // 8. Esegui il metodo
+    return call_user_func_array([$controller, $metodo], $params);
 }
+
 
 }

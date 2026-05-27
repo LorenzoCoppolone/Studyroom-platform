@@ -15,9 +15,9 @@
     <h1 class="section-title">Che esame stai preparando?</h1>
     <p class="section-subtitle">Non studiare da solo: usa gli appunti della community</p>
 
-    <form class="search-box" method="GET" action="search.php">
+    <form class="search-box" method="GET" action="/RicercaMateriale/cerca/">
         <input type="text"
-           name="q"
+           name="titolo"
            placeholder="Inizia a cercare"
            maxlength="100"
            required>
