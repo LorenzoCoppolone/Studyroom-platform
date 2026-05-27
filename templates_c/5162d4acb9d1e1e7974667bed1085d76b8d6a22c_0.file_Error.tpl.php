@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.8.0, created on 2026-05-27 16:31:43
+/* Smarty version 5.8.0, created on 2026-05-27 22:02:49
   from 'file:Error.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.8.0',
-  'unifunc' => 'content_6a171c6f075995_01873238',
+  'unifunc' => 'content_6a176a0967d1c1_50665312',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '5162d4acb9d1e1e7974667bed1085d76b8d6a22c' => 
     array (
       0 => 'Error.tpl',
-      1 => 1779825155,
+      1 => 1779917875,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6a171c6f075995_01873238 (\Smarty\Template $_smarty_tpl) {
+function content_6a176a0967d1c1_50665312 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\studyroom-platform\\templates';
 ?><!DOCTYPE html>
 <html lang="it">
@@ -28,7 +28,7 @@ $_smarty_current_dir = 'C:\\laragon\\www\\studyroom-platform\\templates';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Errore - StudyRoom</title>
-    <link rel="stylesheet" href="./CSS/styleResult.css">
+    <link rel="stylesheet" href="/../CSS/styleResult.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
@@ -51,8 +51,7 @@ $_smarty_current_dir = 'C:\\laragon\\www\\studyroom-platform\\templates';
         </h2>
 
         <div class="result-buttons">
-            <a href="home.html" class="btn-home">Torna alla home</a>
-            <a href="carica.html" class="btn-retry">Riprova</a>
+            <a href="/Home/dashboard" class="btn-home">Torna alla home</a>
         </div>
 
     </main>

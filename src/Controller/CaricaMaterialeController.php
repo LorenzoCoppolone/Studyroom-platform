@@ -61,7 +61,6 @@ class CaricaMaterialeController
     public function salva(): void
 {
     $view = new ViewCaricaMateriale();
-
     $tipologia      = $view->getTipologia();
     $fileCaricato   = $view->getFile();
     $idCdl          = $view->getIdCorsoDiLaurea();
@@ -70,7 +69,6 @@ class CaricaMaterialeController
     $tag            = $view->getTag();
     $tac            = $view->getTac();
     $idUtente       = Session::getInstance()->getIdUtenteLoggato();
-
     try {
 
         // VALIDAZIONE

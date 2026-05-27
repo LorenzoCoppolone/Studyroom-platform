@@ -8,7 +8,7 @@
     <title>{block name="title"}StudyRoom{/block}</title>
 
     <!-- CSS Layout -->
-    <link rel="stylesheet" href="./CSS/styleLayout.css">
+    <link rel="stylesheet" href="/../CSS/styleLayout.css">
 
     <!-- CSS Pagina -->
     {block name="pageCSS"}{/block}
@@ -97,7 +97,7 @@
            target="_blank"
            class="footer-logo-univaq">
 
-            <img src="UnivaqLogo.png"
+            <img src="/../img/UnivaqLogo.png"
                  alt="Logo Università degli Studi dell'Aquila">
 
         </a>

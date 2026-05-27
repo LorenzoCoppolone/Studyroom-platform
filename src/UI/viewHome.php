@@ -11,6 +11,11 @@ class viewHome{
         $this->smarty = StartSmarty::configuration();
     }
 
+    public function index() : void {
+        header("Location: Home/dashboard");
+        exit;
+    }
+
     public function mostraHome() : void {
         $this->smarty->display('home.tpl');
     }

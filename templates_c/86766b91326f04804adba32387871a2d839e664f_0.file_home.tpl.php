@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.8.0, created on 2026-05-27 16:42:04
+/* Smarty version 5.8.0, created on 2026-05-27 22:02:47
   from 'file:home.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.8.0',
-  'unifunc' => 'content_6a171edca34ce7_56161131',
+  'unifunc' => 'content_6a176a07567e46_56030106',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '86766b91326f04804adba32387871a2d839e664f' => 
     array (
       0 => 'home.tpl',
-      1 => 1779900121,
+      1 => 1779919358,
       2 => 'file',
     ),
   ),
@@ -20,28 +20,28 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6a171edca34ce7_56161131 (\Smarty\Template $_smarty_tpl) {
+function content_6a176a07567e46_56030106 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\studyroom-platform\\templates';
 $_smarty_tpl->getInheritance()->init($_smarty_tpl, true);
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_993796746a171edca2e421_02400737', "title");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_14823714096a176a075618f7_07566594', "title");
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_6130103906a171edca343f3_77186386', "pageCSS");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_10384188006a176a07566d48_68327713', "pageCSS");
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_16385635296a171edca34946_85514236', "content");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_20785300816a176a07567791_85062486', "content");
 $_smarty_tpl->getInheritance()->endChild($_smarty_tpl, "layout.tpl", $_smarty_current_dir);
 }
 /* {block "title"} */
-class Block_993796746a171edca2e421_02400737 extends \Smarty\Runtime\Block
+class Block_14823714096a176a075618f7_07566594 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\studyroom-platform\\templates';
@@ -53,19 +53,19 @@ $_smarty_current_dir = 'C:\\laragon\\www\\studyroom-platform\\templates';
 }
 /* {/block "title"} */
 /* {block "pageCSS"} */
-class Block_6130103906a171edca343f3_77186386 extends \Smarty\Runtime\Block
+class Block_10384188006a176a07566d48_68327713 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\studyroom-platform\\templates';
 ?>
 
-    <link rel="stylesheet" href="./CSS/styleHome.css">
+    <link rel="stylesheet" href="/../CSS/styleHome.css">
 <?php
 }
 }
 /* {/block "pageCSS"} */
 /* {block "content"} */
-class Block_16385635296a171edca34946_85514236 extends \Smarty\Runtime\Block
+class Block_20785300816a176a07567791_85062486 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\studyroom-platform\\templates';
@@ -97,7 +97,7 @@ $_smarty_current_dir = 'C:\\laragon\\www\\studyroom-platform\\templates';
                 <p class="upload-subtitle">Entra a far parte della community</p>
             </div>
 
-            <a href="/CaricaMateriale/avviaCaricamento/" class="upload-box">
+            <a href="/CaricaMateriale/carica" class="upload-box">
                 <i class="fa fa-cloud-arrow-up upload-icon"></i>
                 <p class="upload-label"><strong>Trascina qui il tuo file o clicca</strong></p>
                 <p class="upload-hint">(Appunti, Esami passati, esercizi, ecc)</p>
