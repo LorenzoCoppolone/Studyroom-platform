@@ -21,7 +21,7 @@ class RicercaMaterialeController
      * @throws InvalidArgumentException Se il titolo è vuoto o troppo corto.
      * @throws RuntimeException Se si verifica un errore DB o imprevisto.
      */
-    public function cercaMaterialePerTitolo(): void 
+    public function cerca(): void 
     {
     $view = new ViewRicercaMateriale();
     $titolo = trim($view->getTitolo());

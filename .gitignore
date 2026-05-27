@@ -11,7 +11,7 @@ Thumbs.db
 .env.example
 config.php
 testEnv.php
-
+composer.phar
 
 # Uploads
 uploads/
@@ -24,7 +24,6 @@ files/
 # Backup o file temporanei
 *.bak
 *.tmp
-prova.php
 # IDE / Editor
 .vscode/
 .idea/

@@ -27,7 +27,7 @@
 
         <a href="home" class="logo">StudyRoom</a>
 
-        <form class="navbar-search" method="GET" action="search.php">
+        <form class="navbar-search" method="GET" action="/RicercaMateriale/cerca">
             <input type="text" name="q" placeholder="Cerca..." maxlength="100" required>
             <button class="btn-search" type="submit">
                 <i class="fa fa-magnifying-glass"></i>
@@ -37,7 +37,7 @@
 
         <nav class="navbar-links">
 
-            <a href="esami.php" class="nav-link nav-esami">
+            <a href="/RicercaMateriali/materialiPopolari" class="nav-link nav-esami">
                 Prepara i tuoi esami
             </a>
 
