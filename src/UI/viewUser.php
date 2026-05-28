@@ -10,9 +10,10 @@ class ViewUser {
         $this->smarty = StartSmarty::configuration();
     }
 
-    public function mostraHomeLoggato(array $studente) : void {
-       $this->smarty->assign("studente", $studente);
-       $this->smarty->display("homeLoggato.tpl");
+    public function mostraHome(string $studente, ?string $file) : void {
+       $this->smarty->assign("utente", $studente);
+       $this->smarty->assign("foto", $file);
+       $this->smarty->display("home.tpl");
     }
 
     //Funzione che mostra la form di registrazione 

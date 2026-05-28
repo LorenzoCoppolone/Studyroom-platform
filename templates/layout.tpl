@@ -47,12 +47,16 @@
 
                     <!-- FOTO PROFILO -->
                     <div class="nav-user-avatar">
-                    <img src="{$utente.foto}" alt="Foto profilo">
+                    {if isset($foto) && $foto != ''}
+                        <img src="{$foto}" alt="Foto profilo">
+                    {else}
+                        <img src="/assets/img/default-profile.png" alt="Profilo di default">
+                    {/if}
                     </div>
 
                     <!-- NOME E COGNOME -->
                     <span class="nav-user-name">
-                        {$utente.nome} {$utente.cognome}
+                        {$utente}
                     </span>
 
                     <!-- LOGOUT -->
