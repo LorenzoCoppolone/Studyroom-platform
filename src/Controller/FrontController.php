@@ -6,6 +6,8 @@ class FrontController
   public function run($uri)
 {
     $parts = explode('/', trim(explode('?', $uri)[0], '/'));
+    if(strtolower($parts[0]) === "studyroom-platform") array_shift($parts);
+    array_shift($parts);
     $controllerName = !empty($parts[0]) ? ucfirst($parts[0]) : "Home";
     if (isset($parts[1]) && is_numeric($parts[1])) {
         $metodo = "mostra";                  // es: materiale/2

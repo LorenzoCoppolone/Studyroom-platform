@@ -1,4 +1,28 @@
-<!DOCTYPE html>
+<?php
+/* Smarty version 5.8.0, created on 2026-05-28 13:53:31
+  from 'file:loginForm.tpl' */
+
+/* @var \Smarty\Template $_smarty_tpl */
+if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
+  'version' => '5.8.0',
+  'unifunc' => 'content_6a1848dbc66ff4_94779373',
+  'has_nocache_code' => false,
+  'file_dependency' => 
+  array (
+    '78683607d622da50857c7846c504d5bcad5568ff' => 
+    array (
+      0 => 'loginForm.tpl',
+      1 => 1779976382,
+      2 => 'file',
+    ),
+  ),
+  'includes' => 
+  array (
+  ),
+))) {
+function content_6a1848dbc66ff4_94779373 (\Smarty\Template $_smarty_tpl) {
+$_smarty_current_dir = 'C:\\laragon\\www\\studyroom-platform\\templates';
+?><!DOCTYPE html>
 <html lang="it">
 <head>
     <meta charset="UTF-8">
@@ -18,11 +42,12 @@
 
         <div class="login-box">
 
-            {if isset($error)}
+            <?php if ((true && ($_smarty_tpl->hasVariable('error') && null !== ($_smarty_tpl->getValue('error') ?? null)))) {?>
                 <div class="login-error">
-                    {$error|escape:'html'}
+                    <?php echo htmlspecialchars((string)$_smarty_tpl->getValue('error'), ENT_QUOTES, 'UTF-8', true);?>
+
                 </div>
-            {/if}
+            <?php }?>
 
             <form action="/User/effettuaLogin" method="POST" class="login-form">
 
@@ -35,7 +60,8 @@
                            required
                            pattern="^[a-zA-Z0-9._%+-]+@^[a-zA-Z0-9._%+-]+@(student\.univaq\.it|studyroom\.it)$"
                            title="Inserisci una email istituzionale che termini con @student.univaq.it"
-                           value="{$emailInserita|default:''|escape:'html'}">
+                           value="<?php echo htmlspecialchars((string)(($tmp = $_smarty_tpl->getValue('emailInserita') ?? null)===null||$tmp==='' ? '' ?? null : $tmp), ENT_QUOTES, 'UTF-8', true);?>
+">
                 </div>
 
                 <div class="form-group">
@@ -67,3 +93,5 @@
 </body>
 </html>
 
+<?php }
+}

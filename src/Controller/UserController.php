@@ -19,7 +19,7 @@ class UserController {
         // Costruttore vuoto, se necessario puoi aggiungere inizializzazioni qui
     }
 
-    public function mostraFormLogin() : void {
+    public function login() : void {
         $view = new viewUser();
         $view->mostraFormLogin();
     }
@@ -62,9 +62,8 @@ class UserController {
         $studente->setValidazioneToken($scadenzaToken);
         $pm->save($studente);
         $view->mostraVerificaEmail($studente->getEmail());
-        if(function_exists('fastcgi_finish_request')) {
-            fastcgi_finish_request(); // Termina la risposta HTTP per l'utente, ma continua a eseguire il codice PHP
-        }
+        ob_flush();
+        flush();
         $this->inviaEmailVerifica($studente, $token);
         $session->setSessionElement('studente', $studente->getId());
     } catch (\Exception $e) {
@@ -82,7 +81,7 @@ class UserController {
      *  verifica della password e gestione della sessione
      * @return void
      */
-    public function login() {
+    public function effettuaLogin() {
         try {
             $base64 = null; // Inizializza la variabile $base64 ovvero l'immagine di default o null se non c'è un'immagine di profilo
             $session = Session::getInstance();
@@ -145,11 +144,10 @@ class UserController {
      * Funzione per gestire la verifica dell'email tramite token 
      * @return void
      */
-    public function verificaEmail() : void {
+    public function verificaEmail(string $token) : void {
 
         try {
             $view = new viewUser();
-            $token = $view->getTokenEmail(); // Ottieni il token dalla query string
             $pm = PersistentManager::getInstance();
             $studente = $pm->findOneBy(Studente::class, [
                 'token' => $token

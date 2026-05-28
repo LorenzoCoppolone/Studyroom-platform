@@ -4,12 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registrazione • StudyRoom</title>
-<<<<<<< HEAD
 
-    <link rel="stylesheet" href="styleRegister.css">
-=======
     <link rel="stylesheet" href="/../CSS/styleRegister.css">
->>>>>>> a99d42d67b48ebee85e8cc160015c9c92ab398e5
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;700&family=Space+Mono:wght@400;700&family=Playfair+Display:wght@900&display=swap" rel="stylesheet">
 </head>
 
@@ -57,13 +53,8 @@
                            name="email" 
                            placeholder="nome.cognome@student.univaq.it"
                            required
-<<<<<<< HEAD
-                           pattern="^[a-zA-Z0-9._%+-]+@student\.univaq\.it$"
-                           value="{$old.email|default:''|escape:'html'}">
-=======
                            pattern=".+@student\.univaq\.it"
                            title="L'email deve terminare con @student.univaq.it">
->>>>>>> a99d42d67b48ebee85e8cc160015c9c92ab398e5
                 </div>
 
                 <div class="form-group">

@@ -139,8 +139,4 @@ class ViewUser {
     public function mostraConvalidaEmail() : void {
         $this->smarty->display("confirmVerificationPage.tpl");
     }
-
-    public function mostraHome() : void {
-        $this->smarty->display("home.tpl");
-    }
 }
