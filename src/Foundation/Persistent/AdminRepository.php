@@ -46,11 +46,9 @@ class AdminRepository {
      */
     public function gestisciSegnalazioneMateriale(int $id_materiale): array {
     $qb = $this->em->createQueryBuilder();
-    $qb->select( 
+    $qb->select(
     'm.id as idMateriale',
     'm.titolo as titoloMateriale',
-    'm.file.mimeType as mimeTypeFile',
-    'm.file.contenuto as contenutoFile',
     's.nome as nomeStudente',
     's.cognome as cognomeStudente',
     's.username as usernameStudente',
@@ -59,12 +57,28 @@ class AdminRepository {
     )
         ->from(Materiale::class, 'm')
         ->join('m.studente', 's')
-        ->Where('m.idMateriale = :id_materiale')
+        ->where('m.id = :id_materiale')
         ->setParameter('id_materiale', $id_materiale);
     $result = $qb->getQuery()->getArrayResult();
     return $result;
     }
 
+
+    /**
+     * Recupera il contenuto binario e il mimeType di un materiale via DBAL (senza hydration ORM).
+     * Restituisce null se il materiale non esiste o non ha file.
+     * @param int $id_materiale
+     * @return array|null ['mimeType' => string, 'contenuto' => resource|string]
+     */
+    public function getFileMateriale(int $id_materiale): ?array {
+        $conn = $this->em->getConnection();
+        $row = $conn->executeQuery(
+            'SELECT file_mimeTypeFile AS mimeType, file_contenutoFile AS contenuto FROM materiale WHERE id = ?',
+            [$id_materiale]
+        )->fetchAssociative();
+
+        return ($row && $row['contenuto'] !== null) ? $row : null;
+    }
 
     public function eliminaSegnalazioni(int $id_materiale){
         $qb = $this->em->createQueryBuilder();

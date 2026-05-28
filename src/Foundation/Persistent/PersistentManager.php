@@ -138,6 +138,10 @@ class PersistentManager {
     return $this->utenteRepository->materialiPopolari($id_studente, $offset, $limit);
     }
 
+    public function getFileMaterialeAdmin(int $id): ?array {
+        return $this->adminRepository->getFileMateriale($id);
+    }
+
     public function trovaSegnalazioniAdmin(int $offset, int $limit): array {
        return $this->adminRepository->trovaSegnalazioni($offset, $limit);
     }

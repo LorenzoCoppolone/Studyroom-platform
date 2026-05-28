@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StudyRoom | Dashboard Admin</title>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/Studyroom-platform/CSS/styleDashboard.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Rajdhani:wght@700&family=Exo+2:wght@700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/Studyroom-platform/CSS/styleAdmin.css">
 </head>
 <body>
 
@@ -31,17 +31,17 @@
                 <span class="titolo-cell">{$s.titoloMateriale|escape}</span>
                 <span>
                     <span class="badge" >
-                        {$s.numeroSegnalazioni}
+                         {$s.numeroSegnalazioni}
                     </span>
                 </span>
                 <span>
-                    <a href="gestisciSegnalazione.php?id={$s.idMateriale|escape}" class="btn-gestisci">
+                    <a href="/Studyroom-platform/index.php/admin/gestisciSegnalazione/{$s.idMateriale|escape}" class="btn-gestisci">
                         Gestisci
                     </a>
                 </span>
             </div>
             {/foreach}
-        {else}
+        {else} 
             <div class="empty">Nessuna segnalazione presente.</div>
         {/if}
     </div>
