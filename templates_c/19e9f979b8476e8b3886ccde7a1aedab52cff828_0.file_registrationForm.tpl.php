@@ -1,15 +1,34 @@
-<!DOCTYPE html>
+<?php
+/* Smarty version 5.8.0, created on 2026-05-27 22:18:35
+  from 'file:registrationForm.tpl' */
+
+/* @var \Smarty\Template $_smarty_tpl */
+if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
+  'version' => '5.8.0',
+  'unifunc' => 'content_6a176dbba01bd6_79681421',
+  'has_nocache_code' => false,
+  'file_dependency' => 
+  array (
+    '19e9f979b8476e8b3886ccde7a1aedab52cff828' => 
+    array (
+      0 => 'registrationForm.tpl',
+      1 => 1779920287,
+      2 => 'file',
+    ),
+  ),
+  'includes' => 
+  array (
+  ),
+))) {
+function content_6a176dbba01bd6_79681421 (\Smarty\Template $_smarty_tpl) {
+$_smarty_current_dir = 'C:\\laragon\\www\\studyroom-platform\\templates';
+?><!DOCTYPE html>
 <html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registrazione • StudyRoom</title>
-<<<<<<< HEAD
-
-    <link rel="stylesheet" href="styleRegister.css">
-=======
     <link rel="stylesheet" href="/../CSS/styleRegister.css">
->>>>>>> a99d42d67b48ebee85e8cc160015c9c92ab398e5
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;700&family=Space+Mono:wght@400;700&family=Playfair+Display:wght@900&display=swap" rel="stylesheet">
 </head>
 
@@ -32,47 +51,29 @@
 
                 <div class="form-group">
                     <label for="cognome">Cognome</label>
-                    <input id="cognome" 
-                           type="text" 
-                           name="cognome" 
-                           placeholder="Cognome"
-                           required minlength="2"
-                           value="{$old.cognome|default:''|escape:'html'}">
+                    <input id="cognome" type="text" name="cognome" placeholder="Cognome"
+                           required minlength="2" title="Inserisci un cognome valido">
                 </div>
 
                 <div class="form-group">
                     <label for="username">Username</label>
-                    <input id="username" 
-                           type="text" 
-                           name="username" 
-                           placeholder="Username"
-                           required minlength="3"
-                           value="{$old.username|default:''|escape:'html'}">
+                    <input id="username" type="text" name="username" placeholder="Username"
+                           required minlength="3" title="L'username deve contenere almeno 3 caratteri">
                 </div>
 
                 <div class="form-group">
                     <label for="email">Email istituzionale</label>
-                    <input id="email" 
-                           type="email" 
-                           name="email" 
-                           placeholder="nome.cognome@student.univaq.it"
+                    <input id="email" type="email" name="email" placeholder="nome.cognome@student.univaq.it"
                            required
-<<<<<<< HEAD
-                           pattern="^[a-zA-Z0-9._%+-]+@student\.univaq\.it$"
-                           value="{$old.email|default:''|escape:'html'}">
-=======
                            pattern=".+@student\.univaq\.it"
                            title="L'email deve terminare con @student.univaq.it">
->>>>>>> a99d42d67b48ebee85e8cc160015c9c92ab398e5
                 </div>
 
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input id="password" 
-                           type="password" 
-                           name="password" 
-                           placeholder="Minimo 8 caratteri"
-                           required minlength="8">
+                    <input id="password" type="password" name="password" placeholder="Minimo 8 caratteri"
+                           required minlength="8"
+                           title="La password deve contenere almeno 8 caratteri">
                 </div>
 
                 <button type="submit" class="btn-register">Registrati</button>
@@ -85,3 +86,6 @@
 
 </body>
 </html>
+
+<?php }
+}

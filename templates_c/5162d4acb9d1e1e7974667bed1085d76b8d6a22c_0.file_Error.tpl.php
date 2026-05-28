@@ -1,4 +1,28 @@
-<!DOCTYPE html>
+<?php
+/* Smarty version 5.8.0, created on 2026-05-27 22:02:49
+  from 'file:Error.tpl' */
+
+/* @var \Smarty\Template $_smarty_tpl */
+if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
+  'version' => '5.8.0',
+  'unifunc' => 'content_6a176a0967d1c1_50665312',
+  'has_nocache_code' => false,
+  'file_dependency' => 
+  array (
+    '5162d4acb9d1e1e7974667bed1085d76b8d6a22c' => 
+    array (
+      0 => 'Error.tpl',
+      1 => 1779917875,
+      2 => 'file',
+    ),
+  ),
+  'includes' => 
+  array (
+  ),
+))) {
+function content_6a176a0967d1c1_50665312 (\Smarty\Template $_smarty_tpl) {
+$_smarty_current_dir = 'C:\\laragon\\www\\studyroom-platform\\templates';
+?><!DOCTYPE html>
 <html lang="it">
 <head>
     <meta charset="UTF-8">
@@ -22,7 +46,8 @@
         </div>
 
         <h2 class="result-title">
-            {$errore} 
+            <?php echo $_smarty_tpl->getValue('errore');?>
+ 
         </h2>
 
         <div class="result-buttons">
@@ -33,3 +58,5 @@
 
 </body>
 </html>
+<?php }
+}

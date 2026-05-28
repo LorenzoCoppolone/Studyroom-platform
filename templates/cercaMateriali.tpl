@@ -10,10 +10,10 @@
 
 <!-- ===================== HERO SEARCH ===================== -->
 <section class="hero-search">
-    <form class="hero-search__form" action="search.php" method="GET">
+    <form class="hero-search__form" action="/CercaMateriali/cerca" method="GET">
         <input
             type="text"
-            name="q"
+            name="titolo"
             class="hero-search__input"
             placeholder="materiale cercato"
             value="{$queryCorrente|escape:'html'}"

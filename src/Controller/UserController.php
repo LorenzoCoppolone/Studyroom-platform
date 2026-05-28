@@ -25,7 +25,7 @@ class UserController {
     }
 
 
-    public function mostraFormRegistrazione() : void {
+    public function registrazione() : void {
         $view = new viewUser();
         $view->mostraFormRegistrazione();
     }
@@ -37,7 +37,7 @@ class UserController {
      * e invio dell'email di verifica
       * @return void
      */
-    public function registrazioneStudente(){
+    public function effettuaRegistrazione(){
     try {
         $session = Session::getInstance();
         $view = new viewUser();
@@ -82,7 +82,7 @@ class UserController {
      *  verifica della password e gestione della sessione
      * @return void
      */
-    public function loginUtente() {
+    public function login() {
         try {
             $base64 = null; // Inizializza la variabile $base64 ovvero l'immagine di default o null se non c'è un'immagine di profilo
             $session = Session::getInstance();
@@ -133,7 +133,7 @@ class UserController {
         }
     }
 
-    public function logoutStudente() : void {
+    public function logoutUtente() : void {
         $session = Session::getInstance();
         $session->unsetSessionElement();
         $session->destroySession(); // Distrugge la sessione, effettivamente facendo il logout
@@ -260,23 +260,15 @@ class UserController {
             $studenteEmail = $studente->getEmail();
             $mail->addAddress($studenteEmail); // Aggiungi il destinatario
             $mail->Subject = 'Conferma la tua registrazione a StudyRoom';
-            $mail->Body    = "Ciao {$studente->getNome()},\n\nPer confermare la tua registrazione a StudyRoom, clicca sul link seguente:\n\n" .
-                              "http://localhost/Studyroom-platform/verificaEmail.php?token=".$token."\n\n" .
-                              "Il link sarà valido per 10 minuti.\n\nGrazie!";
+            $link = "https://Studyroom-platform.test/User/verificaEmail/" . $token;
+
+            $mail->Body = "Ciao {$studente->getNome()},\n\n" .
+              "Per confermare la tua registrazione a StudyRoom, clicca sul link seguente:\n\n" .
+              $link . "\n\n" .
+              "Il link sarà valido per 10 minuti.\n\nGrazie!";
             $mail->send();
         } catch (Exception $e) {
             echo "Errore nell'invio dell'email: {$mail->ErrorInfo}";
         }
-    }
-
-    /**
-     * Funzione per controllare se l'utente sia loggato, 
-     * da usare in tutte le pagine che richiedono l'autenticazione, 
-     * per verificare se l'utente è loggato, altrimenti reindirizzarlo alla pagina di login
-      * @return bool
-     */
-    public function isLogged() : bool {
-        $session = Session::getInstance();
-        return $session->getSessionElement('studente') !== null;
     }
 }
