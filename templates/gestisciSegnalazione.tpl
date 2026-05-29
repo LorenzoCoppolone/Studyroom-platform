@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StudyRoom | Gestisci Segnalazione</title>
 
-    <link rel="icon" type="image/x-icon" href="/Studyroom-platform/img/studyroom_favicon.ico">
+    <link rel="icon" type="image/x-icon" href="/../img/studyroom_favicon.ico">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Rajdhani:wght@700&family=Exo+2:wght@700&family=DM+Serif+Display&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/Studyroom-platform/CSS/styleAdmin.css">
+    <link rel="stylesheet" href="/../CSS/styleAdmin.css">
 </head>
 <body>
 
@@ -18,7 +18,7 @@
 
 <main>
 
-    <a href="/Studyroom-platform/index.php/admin/dashboard" class="back-link">← Torna alla dashboard</a>
+    <a href="/admin/dashboard" class="back-link">← Torna alla dashboard</a>
 
     <h1 class="page-title">Gestisci Segnalazione</h1>
 
@@ -34,13 +34,13 @@
                     <div class="file-meta-value">{$materiale.titolo|escape}</div>
                 </div>
 
-                {if $materiale.mimeType}
+                {if $materiale.fileSrc}
                     {if $materiale.isImage}
-                        <img src="/Studyroom-platform/index.php/admin/serviFile/{$materiale.idMateriale}"
+                        <img src="{$materiale.fileSrc}"
                              alt="Anteprima file"
                              style="max-width:100%; border-radius:8px; margin-top:12px;">
                     {else}
-                        <iframe src="/Studyroom-platform/index.php/admin/serviFile/{$materiale.idMateriale}"
+                        <iframe src="{$materiale.fileSrc}"
                                 width="100%" height="400"
                                 style="border:none; border-radius:8px; margin-top:12px;">
                         </iframe>
@@ -88,7 +88,7 @@
                     <div class="action-group">
 
                         <!-- Accetta: archivia le segnalazioni, il materiale rimane -->
-                        <form method="post" action="/Studyroom-platform/index.php/admin/eseguiAzione">
+                        <form method="post" action="/admin/eseguiAzione">
                             <input type="hidden" name="bottonePremuto" value="accetta">
                             <input type="hidden" name="idMaterialeSegnalato" value="{$materiale.idMateriale|escape}">
                             <input type="hidden" name="idUtente" value="{$utente.id|escape}">
@@ -99,23 +99,23 @@
                         </form>
 
                         <!-- Rifiuta: elimina il materiale e le segnalazioni -->
-                        <form method="post" action="/Studyroom-platform/index.php/admin/eseguiAzione">
+                        <form method="post" action="/admin/eseguiAzione">
                             <input type="hidden" name="bottonePremuto" value="rifiuta">
                             <input type="hidden" name="idMaterialeSegnalato" value="{$materiale.idMateriale|escape}">
                             <input type="hidden" name="idUtente" value="{$utente.id|escape}">
                             <button type="submit" class="btn-action btn-outline"
-                                    onclick="return confirm('Rifiutare la segnalazione eliminerà il materiale. Continuare?')">
+                                    onclick="return confirm('Rifiutare la segnalazione eliminerà il materiale e tutte le segnalazioni ad esso associate. Continuare?')">
                                 ✕&nbsp; Rifiuta segnalazione (rimuovi materiale)
                             </button>
                         </form>
 
                         <!-- Banna utente -->
-                        <form method="post" action="/Studyroom-platform/index.php/admin/eseguiAzione">
+                        <form method="post" action="/admin/eseguiAzione">
                             <input type="hidden" name="bottonePremuto" value="banUtente">
                             <input type="hidden" name="idMaterialeSegnalato" value="{$materiale.idMateriale|escape}">
                             <input type="hidden" name="idUtente" value="{$utente.id|escape}">
                             <button type="submit" class="btn-action btn-danger"
-                                    onclick="return confirm('Sei sicuro di voler bannare questo utente? Non potrà più accedere al sito.')">
+                                    onclick="return confirm('Sei sicuro di voler bannare questo utente?')">
                                 ⛔&nbsp; Banna utente
                             </button>
                         </form>

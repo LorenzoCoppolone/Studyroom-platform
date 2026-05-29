@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.8.0, created on 2026-05-23 18:24:50
+/* Smarty version 5.8.0, created on 2026-05-29 09:14:43
   from 'file:registrationForm.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.8.0',
-  'unifunc' => 'content_6a11f0f2ddbfb4_41468618',
+  'unifunc' => 'content_6a19590351e3b1_60472231',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'b8d94536fd645d61977a3977d953b8be6f1ac44b' => 
     array (
       0 => 'registrationForm.tpl',
-      1 => 1779560687,
+      1 => 1779978991,
       2 => 'file',
     ),
   ),
@@ -20,79 +20,87 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6a11f0f2ddbfb4_41468618 (\Smarty\Template $_smarty_tpl) {
+function content_6a19590351e3b1_60472231 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\Studyroom-platform\\templates';
 ?><!DOCTYPE html>
 <html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StudyRoom | Registrazione</title>
-    <!-- favicon -->
-    <link rel="icon" type="image/x-icon" href="/Studyroom-platform/img/studyroom_favicon.ico">
-    <!-- Link allo stile css -->
-    <link rel="stylesheet" href="/Studyroom-platform/CSS/styleForm.css">
-    <!-- Icone -->
-    <link rel='stylesheet' href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css'>
+    <title>Registrazione • StudyRoom</title>
+
+    <link rel="stylesheet" href="/../CSS/styleRegister.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;700&family=Space+Mono:wght@400;700&family=Playfair+Display:wght@900&display=swap" rel="stylesheet">
 </head>
+
 <body>
 
-    <main>
-        <div class="form-login-container">
+    <div class="register-container">
 
-            <a href="home.html" target="_self">
-                <img src="/Studyroom-platform/img/logo.png" alt="Logo StudyRoom" class="logo-form-registration">
-            </a>
+        <h1 class="logo">StudyRoom</h1>
+        <h2 class="register-title">Registrazione</h2>
 
-            <form action="registrazione.php" method="post" id="formRegistrazione" >
-                <h2>Registrati</h2>
+        <div class="register-box">
 
-                <!-- Nome -->
-                <div class="campo-input">
-                    <input type="text" placeholder="Nome" name="nome" pattern="[a-zA-ZÀ-ÿ\s'\-]+" title="Solo lettere, nessun numero" required>
-                    <i class="bx bx-user"></i>
+            <form action="/User/effettuaRegistrazione" method="POST" class="register-form">
+
+                <div class="form-group">
+                    <label for="nome">Nome</label>
+                    <input id="nome" type="text" name="nome" placeholder="Nome" 
+                        required minlength="2" title="Inserisci un nome valido">
                 </div>
 
-                <!-- Cognome -->
-                <div class="campo-input">
-                    <input type="text" placeholder="Cognome" name="cognome" pattern="[a-zA-ZÀ-ÿ\s'\-]+" title="Solo lettere, nessun numero" required>
-                    <i class="bx bx-badge"></i>
+                <div class="form-group">
+                    <label for="cognome">Cognome</label>
+                    <input id="cognome" 
+                           type="text" 
+                           name="cognome" 
+                           placeholder="Cognome"
+                           required minlength="2"
+                           value="<?php echo htmlspecialchars((string)(($tmp = $_smarty_tpl->getValue('old')['cognome'] ?? null)===null||$tmp==='' ? '' ?? null : $tmp), ENT_QUOTES, 'UTF-8', true);?>
+">
                 </div>
 
-                <!-- Username -->
-                <div class="campo-input">
-                    <input type="text" placeholder="Username" name="username" pattern="[a-zA-Z0-9_]+" 
-       title="Solo lettere, numeri e _ (no spazi)" required>
-                    <i class="bx bx-at"></i>
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input id="username" 
+                           type="text" 
+                           name="username" 
+                           placeholder="Username"
+                           required minlength="3"
+                           value="<?php echo htmlspecialchars((string)(($tmp = $_smarty_tpl->getValue('old')['username'] ?? null)===null||$tmp==='' ? '' ?? null : $tmp), ENT_QUOTES, 'UTF-8', true);?>
+">
                 </div>
 
-                <!-- Email -->
-                <div class="campo-input">
-                    <input type="email" placeholder="Email" name="email" id="email"  pattern="[a-zA-Z0-9._%+\-]+@student\.univaq\.it"title="Usa la tua email universitaria (@student.univaq.it)" required>
-                    <i class="bx bx-envelope"></i>
+                <div class="form-group">
+                    <label for="email">Email istituzionale</label>
+                    <input id="email" 
+                           type="email" 
+                           name="email" 
+                           placeholder="nome.cognome@student.univaq.it"
+                           required
+                           pattern=".+@student\.univaq\.it"
+                           title="L'email deve terminare con @student.univaq.it">
                 </div>
 
-                <!-- Password -->
-                <div class="campo-input">
-                    <input type="password" placeholder="Password" name="password" id="password" minlength="8" title="Minimo 8 caratteri" required>
-                    <i class="bx bx-show toggle-password" id="togglePassword"></i>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input id="password" 
+                           type="password" 
+                           name="password" 
+                           placeholder="Minimo 8 caratteri"
+                           required minlength="8">
                 </div>
-                <span class="msg-errore" id="err-password"></span>
 
-                <!-- Conferma Password -->
-                <div class="campo-input">
-                    <input type="password" placeholder="Conferma Password" name="conferma_password" id="confermaPassword" required>
-                    <i class="bx bx-show toggle-password" id="toggleConferma"></i>
-                </div>
-                <span class="msg-errore" id="err-conferma"></span>
+                <button type="submit" class="btn-register">Registrati</button>
 
-                <button class="btn" type="submit">Registrati</button>
             </form>
+
         </div>
-    </main>
-<?php echo '<script'; ?>
- src="/Studyroom-platform/JS/validazione.js"><?php echo '</script'; ?>
->
+
+    </div>
+
 </body>
-</html><?php }
+</html>
+<?php }
 }

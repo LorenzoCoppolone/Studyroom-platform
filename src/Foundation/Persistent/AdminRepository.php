@@ -41,6 +41,8 @@ class AdminRepository {
 
     /**
      * Materiali segnalati che recupera l'admin
+     * Restituisce tutti i dati necessari al template gestisciSegnalazione in un'unica query:
+     * dati dello studente, titolo del materiale e contenuto/tipo del file.
      * @param int $id_materiale
      * @return array Informazioni del materiale segnalato, restituito così in modo che la view sia semplificata
      */
@@ -49,6 +51,8 @@ class AdminRepository {
     $qb->select(
     'm.id as idMateriale',
     'm.titolo as titoloMateriale',
+    'm.file.contenutoFile as contenutoFile',
+    'm.file.mimeTypeFile as mimeTypeFile',
     's.nome as nomeStudente',
     's.cognome as cognomeStudente',
     's.username as usernameStudente',
@@ -60,25 +64,19 @@ class AdminRepository {
         ->where('m.id = :id_materiale')
         ->setParameter('id_materiale', $id_materiale);
     $result = $qb->getQuery()->getArrayResult();
+
+    // Il contenuto del file è di tipo BLOB: Doctrine lo idrata come resource (stream),
+    // quindi lo convertiamo in stringa binaria per restituire dati puliti alla view.
+    foreach ($result as &$riga) {
+        if (is_resource($riga['contenutoFile'])) {
+            $riga['contenutoFile'] = stream_get_contents($riga['contenutoFile']);
+        }
+    }
+    unset($riga);
+
     return $result;
     }
 
-
-    /**
-     * Recupera il contenuto binario e il mimeType di un materiale via DBAL (senza hydration ORM).
-     * Restituisce null se il materiale non esiste o non ha file.
-     * @param int $id_materiale
-     * @return array|null ['mimeType' => string, 'contenuto' => resource|string]
-     */
-    public function getFileMateriale(int $id_materiale): ?array {
-        $conn = $this->em->getConnection();
-        $row = $conn->executeQuery(
-            'SELECT file_mimeTypeFile AS mimeType, file_contenutoFile AS contenuto FROM materiale WHERE id = ?',
-            [$id_materiale]
-        )->fetchAssociative();
-
-        return ($row && $row['contenuto'] !== null) ? $row : null;
-    }
 
     public function eliminaSegnalazioni(int $id_materiale){
         $qb = $this->em->createQueryBuilder();

@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.8.0, created on 2026-05-28 15:35:15
+/* Smarty version 5.8.0, created on 2026-05-29 08:26:58
   from 'file:dashboardAdmin.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.8.0',
-  'unifunc' => 'content_6a1860b337e722_93423896',
+  'unifunc' => 'content_6a194dd21364d6_08429326',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'e30858b481b3bc0e5909de9de6780b3a11b17589' => 
     array (
       0 => 'dashboardAdmin.tpl',
-      1 => 1779982262,
+      1 => 1780043094,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6a1860b337e722_93423896 (\Smarty\Template $_smarty_tpl) {
+function content_6a194dd21364d6_08429326 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\Studyroom-platform\\templates';
 ?><!DOCTYPE html>
 <html lang="it">
@@ -29,7 +29,7 @@ $_smarty_current_dir = 'C:\\laragon\\www\\Studyroom-platform\\templates';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StudyRoom | Dashboard Admin</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Rajdhani:wght@700&family=Exo+2:wght@700&family=DM+Serif+Display&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/Studyroom-platform/CSS/styleAdmin.css">
+    <link rel="stylesheet" href="/../CSS/styleAdmin.css">
 </head>
 <body>
 
@@ -66,7 +66,7 @@ $foreach0DoElse = false;
                     </span>
                 </span>
                 <span>
-                    <a href="/Studyroom-platform/index.php/admin/gestisciSegnalazione/<?php echo htmlspecialchars((string)$_smarty_tpl->getValue('s')['idMateriale'], ENT_QUOTES, 'UTF-8', true);?>
+                    <a href="/admin/gestisciSegnalazione/<?php echo htmlspecialchars((string)$_smarty_tpl->getValue('s')['idMateriale'], ENT_QUOTES, 'UTF-8', true);?>
 " class="btn-gestisci">
                         Gestisci
                     </a>

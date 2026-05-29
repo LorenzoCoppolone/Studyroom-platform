@@ -35,17 +35,27 @@ class viewAdmin {
     /**
      * Mostra la pagina di gestione di una singola segnalazione.
      * Ristruttura i dati flat del repository in array $materiale e $utente per il template.
+     * Il contenuto binario del file viene incorporato direttamente come data URI base64.
      * @param array $dati Riga restituita da gestisciSegnalazioneMateriale()
      * @return void
      */
-    public function mostraGestisciSegnalazione(array $dati, ?string $mimeType = null): void {
+    public function mostraGestisciSegnalazione(array $dati): void {
         if (!empty($dati)) {
-            $r = $dati[0];
+            $r        = $dati[0];
+            $mimeType = $r['mimeTypeFile'] ?? null;
+
+            // Incorpora il contenuto del file come data URI base64 (nessun endpoint esterno).
+            $fileSrc = null;
+            if (!empty($r['contenutoFile']) && $mimeType !== null) {
+                $fileSrc = 'data:' . $mimeType . ';base64,' . base64_encode($r['contenutoFile']);
+            }
+
             $this->smarty->assign('materiale', [
                 'idMateriale' => $r['idMateriale'],
                 'titolo'      => $r['titoloMateriale'],
                 'mimeType'    => $mimeType,
                 'isImage'     => $mimeType !== null && str_starts_with($mimeType, 'image/'),
+                'fileSrc'     => $fileSrc,
             ]);
             $this->smarty->assign('utente', [
                 'id'       => $r['idStudente'],
@@ -63,7 +73,7 @@ class viewAdmin {
      * @return void
      */
     public function mostraSuccesso(): void {
-        header('Location: /Studyroom-platform/index.php/admin/dashboard');
+        header('Location: /admin/dashboard');
         exit;
     }
 

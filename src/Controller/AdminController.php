@@ -16,7 +16,7 @@ class AdminController {
     public function dashboard(): void {
         $pm   = PersistentManager::getInstance();
         $view = new viewAdmin();
-        $segnalazioni = $pm->trovaSegnalazioniAdmin(0, 100);
+        $segnalazioni = $pm->trovaSegnalazioniAdmin(0, 10);
         $view->mostraDashboardAdmin($segnalazioni);
     }
 
@@ -28,50 +28,18 @@ class AdminController {
     public function gestisciSegnalazione(int $id): void {
         $pm   = PersistentManager::getInstance();
         $view = new viewAdmin();
-        $dati     = $pm->gestisciSegnalazioneMaterialeAdmin($id);
-        $fileRow  = $pm->getFileMaterialeAdmin($id);
-        $mimeType = $fileRow['mimeType'] ?? null;
+        $dati = $pm->gestisciSegnalazioneMaterialeAdmin($id);
 
-        $view->mostraGestisciSegnalazione($dati, $mimeType);
-    }
-
-    /**
-     * Serve il contenuto binario del file di un materiale direttamente al browser.
-     * URL: /Studyroom-platform/index.php/admin/serviFile/{id}
-     * @param int $id ID del materiale
-     */
-    /**
-     * Serve il contenuto binario del file via DBAL (evita l'hydration ORM).
-     * URL: /Studyroom-platform/index.php/admin/serviFile/{id}
-     * @param int $id ID del materiale
-     */
-    public function serviFile(int $id): void {
-        $pm      = PersistentManager::getInstance();
-        $fileRow = $pm->getFileMaterialeAdmin($id);
-
-        if ($fileRow === null) {
-            header('HTTP/1.1 404 Not Found');
-            exit;
-        }
-
-        $mimeType  = $fileRow['mimeType'] ?: 'application/octet-stream';
-        $contenuto = $fileRow['contenuto'];
-        if (is_resource($contenuto)) {
-            $contenuto = stream_get_contents($contenuto);
-        }
-
-        header('Content-Type: ' . $mimeType);
-        header('Content-Disposition: inline');
-        echo $contenuto;
-        exit;
+        $view->mostraGestisciSegnalazione($dati);
     }
 
     /**
      * Esegue l'azione dell'admin: accetta segnalazione, rifiuta (elimina materiale) o banna l'utente.
      * URL: /Studyroom-platform/index.php/admin/eseguiAzione (POST)
+     * per eliminare tutte le segnalazioni relative ad un materiale , avremmo potuto fare un findBy() + delete () Loop su tutte le segnalazioni ma andremo a perdere in prestazioni 
      */
     public function eseguiAzione(): void {
-        $view   = new viewModerazioneContenuti();
+        $view   = new viewAdmin();
         $valore = $view->getDatiSegnalazione();
         $idMaterialeSegnalato = $valore['idMaterialeSegnalato'];
         $bottonePremuto       = $valore['bottonePremuto'];
