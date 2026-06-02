@@ -3,53 +3,76 @@
 namespace Controller;
 
 use Foundation\Persistent\PersistentManager;
-
-use UI\ViewSegnalazione;
-
-use Model\Segnalazione;
 use Model\Studente;
 use Model\Materiale;
-use Model\Amministratore;
-use UI\viewModerazioneContenuti;
-use PDOException;
-use RuntimeException;
-use InvalidArgumentException;
+use UI\viewAdmin;
 
 class AdminController {
 
-    public function mostraSegnalazione() : void {
-        $view = new ViewSegnalazione();
-        $idMateriale = $view->getDatiSegnalazione();
-        $dati = $pm->gestisciSegnalazioneMaterialeAdmin($idMateriale);
-        $view->mostraSegnalazione($dati);
+    /**
+     * Mostra la dashboard admin con la lista di tutti i materiali segnalati.
+     * URL: /Studyroom-platform/index.php/admin/dashboard
+     */
+    public function dashboard(): void {
+        $pm   = PersistentManager::getInstance();
+        $view = new viewAdmin();
+        $segnalazioni = $pm->trovaSegnalazioniAdmin(0, 10);
+        $view->mostraDashboardAdmin($segnalazioni);
     }
 
+    /**
+     * Mostra i dettagli di un materiale segnalato per la gestione.
+     * URL: /Studyroom-platform/index.php/admin/gestisciSegnalazione/{id}
+     * @param int $id ID del materiale segnalato
+     */
+    public function gestisciSegnalazione(int $id): void {
+        $pm   = PersistentManager::getInstance();
+        $view = new viewAdmin();
+        $dati = $pm->gestisciSegnalazioneMaterialeAdmin($id);
+
+        $view->mostraGestisciSegnalazione($dati);
+    }
 
     /**
-     * Gestisce le segnalazioni accettate, rifiutate e ban dell'utente
-     * @return void
+     * Esegue l'azione dell'admin: accetta segnalazione, rifiuta (elimina materiale) o banna l'utente.
+     * URL: /Studyroom-platform/index.php/admin/eseguiAzione (POST)
+     * per eliminare tutte le segnalazioni relative ad un materiale , avremmo potuto fare un findBy() + delete () Loop su tutte le segnalazioni ma andremo a perdere in prestazioni 
      */
-    public function GestisciSegnalazione() : void {
-        $view = new ViewModerazioneContenuti();
+    public function eseguiAzione(): void {
+        $view   = new viewAdmin();
         $valore = $view->getDatiSegnalazione();
         $idMaterialeSegnalato = $valore['idMaterialeSegnalato'];
+        $bottonePremuto       = $valore['bottonePremuto'];
+        $idUtente             = $valore['idUtente'];
+
         try {
             $pm = PersistentManager::getInstance();
-            if($valore['bottonePremuto'] === "accetta"){
+
+            if ($bottonePremuto === 'accetta') {
                 $pm->eliminaSegnalazioniAdmin($idMaterialeSegnalato);
-                $view->mostraSuccesso('Segnalazione accettata correttamente');
-            }elseif($valore['bottonePremuto'] === "banUtente"){
-                $utente = $pm->find(Utente::class, $idUtente);
-                $stato = $utente->setIsBanned(true);
-                $pm->update($utente);
-                $view->mostraSuccesso('Utente bannato correttamente');
-            }else{
-                $pm->delete($idMateriale);
+                $view->mostraSuccesso();
+
+            } elseif ($bottonePremuto === 'banUtente') {
+                $utente = $pm->find(Studente::class, $idUtente);
+                if ($utente === null) {
+                    throw new \RuntimeException("Studente con ID $idUtente non trovato.");
+                }
+                $utente->setIsBanned(true);
+                $pm->update();
+                $view->mostraSuccesso();
+
+            } else {
+                $materiale = $pm->find(Materiale::class, $idMaterialeSegnalato);
+                if ($materiale === null) {
+                    throw new \RuntimeException("Materiale con ID $idMaterialeSegnalato non trovato.");
+                }
                 $pm->eliminaSegnalazioniAdmin($idMaterialeSegnalato);
-                $view->mostraSuccesso('Materiale rimosso correttamente');
+                $pm->delete($materiale);
+                $view->mostraSuccesso();
             }
-        }catch (\Exception $e) {
+
+        } catch (\Exception $e) {
             $view->mostraErrore("Errore imprevisto: " . $e->getMessage());
-        }   
+        }
     }
 }

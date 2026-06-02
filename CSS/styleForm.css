@@ -1,9 +1,10 @@
-*{
+*, *::before, *::after {
     margin: 0;
     padding: 0;
-
-    background: linear-gradient(135deg, #2d1b69 0%, #3d2a8a 40%, #1e3a7a 100%);
     box-sizing: border-box;
+}
+
+body, input, button, a {
     font-family: 'Poppins', sans-serif;
 }
 
@@ -12,71 +13,98 @@ body{
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    /* background: linear-gradient(135deg, #2d1b69 0%, #3d2a8a 40%, #1e3a7a 100%); */
+    padding: 2rem 0;
     background: radial-gradient(
-        ellipse 70% 70% at center,
-        #3d2a8a 0%,
-        #2a1f6e 40%,
-        #0d0b1f 100%
-    );
-
+    ellipse 75% 75% at top,
+    #ddd6fe 0%,
+    #a78bfa 45%,
+    #ffffff 100%
+);
 }
 
-.logo-form-login {
-    position: absolute;
-    top: -250px;       
-    left: 50%;
-    transform: translateX(-50%);
-    width: 200px;
-    height: auto;
-    border-radius: 10px; 
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 0 1rem;
+    gap: 1.5rem;
 }
 
-.logo-form-registration {
-    position: absolute;
-    top: -156px;        
-    left: 50%;
-    transform: translateX(-50%);
-    width: 200px;
-    height: auto;
-    border-radius: 10px; 
+.logo {
+    color: #6C4FD4;
+    font-family: 'Poppins', sans-serif;
+    font-size: 2rem;
+    text-decoration: none;
+    text-align: center;
+    font-weight: 700;
+    letter-spacing: -1px;
 }
+
+.logo a {
+    text-decoration: none;
+    color:  #6C4FD4;
+}
+
 
 .form-login-container{
-    width: 500px;
-    color: #fff;
+    /* width: 430px;
+    color: #ffffff;
+    background-color:rgba(62, 7, 114, 0.803);
     padding: 40px 30px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0,0,0,0.5);
     backdrop-filter: blur(20px);
     box-shadow:
-        0 0 80px 20px rgba(127, 119, 221, 0.20),  /* alone viola */
-        0 24px 48px rgba(0, 0, 0, 0.5);    
+        0 0 80px 20px rgba(127, 119, 221, 0.20), 
+        0 24px 48px rgba(0, 0, 0, 0.5);     */
+
+    width: min(520px, calc(100% - 2rem));
+    padding: 50px 44px;
+    border-radius: 14px;
+
+    background: rgba(76, 29, 149, 0.35); /* meno pieno */
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+
+    border: 1px solid rgba(255, 255, 255, 0.15);
+
+    box-shadow:
+        0 20px 50px rgba(0, 0, 0, 0.25);
 }
 
+
 .form-login-container h2{
-    font-size: 34px;
+    /* font-size: 34px;
     text-align: center;
-    letter-spacing: 1px ;
+    letter-spacing: 1px ; */
+     font-size: 30px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    opacity: 0.95;
+    text-align: center;
 }
 
 .campo-input{
     position: relative;
     width: 100%;
     height: 50px;
-    margin: 30px 0;
+    /* margin: 30px 0; */
+    margin: 22px 0;
 }
 
 .campo-input input{
     width: 100%;
     height: 100%;
-    background: transparent;
-    border: 2px solid #ffffff33;
+    background: rgba(255, 255, 255, 0.18);
+    border: 2px solid rgba(255, 255, 255, 0.45);
     outline: none;
     border-radius: 45px;
     font-size: 17px;
     color: #fff;
     padding: 20px 45px 20px 20px;
+    -webkit-appearance: none;
+    appearance: none;
 }
 
 .campo-input input:focus {
@@ -95,7 +123,7 @@ body{
 }
     
 .campo-input input::placeholder{
-    color: #fff;
+    color: rgba(255, 255, 255, 0.55);
 }
 .campo-input i{
     position: absolute;
@@ -207,38 +235,23 @@ body{
     user-select: none;
 }
 
-/* Barra forza password */
-.forza-container {
-    margin-top: -20px;
-    margin-bottom: 12px;
-    padding-left: 4px;
+@media (max-width: 480px) {
+    .logo {
+        font-size: 1.5rem;
+    }
+    .form-login-container {
+        padding: 32px 24px;
+    }
+    .form-login-container h2 {
+        font-size: 24px;
+    }
+    .campo-input {
+        margin: 16px 0;
+    }
+    .campo-input input {
+        font-size: 15px;
+    }
+    .btn {
+        font-size: 15px;
+    }
 }
-.forza-barre {
-    display: flex;
-    gap: 6px;
-    margin-bottom: 4px;
-}
-.forza-barre span {
-    flex: 1;
-    height: 4px;
-    border-radius: 2px;
-    background: rgba(255,255,255,0.15);
-    transition: background 0.3s;
-}
-.forza-label {
-    font-size: 12px;
-    color: rgba(255,255,255,0.5);
-    transition: color 0.3s;
-}
-
-/* Stati forza */
-.forza-weak   .forza-barre span:nth-child(1) { background: #f87171; }
-.forza-medium .forza-barre span:nth-child(1),
-.forza-medium .forza-barre span:nth-child(2) { background: #facc15; }
-.forza-strong .forza-barre span:nth-child(1),
-.forza-strong .forza-barre span:nth-child(2),
-.forza-strong .forza-barre span:nth-child(3) { background: #4ade80; }
-
-.forza-weak   .forza-label { color: #f87171; }
-.forza-medium .forza-label { color: #facc15; }
-.forza-strong .forza-label { color: #4ade80; }
