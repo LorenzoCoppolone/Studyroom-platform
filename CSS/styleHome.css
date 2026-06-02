@@ -56,48 +56,50 @@ main {
     cursor: pointer;
 }
 
+
 /* Upload */
 .section-upload {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 3rem;
+    gap: 0.6rem;
+    margin-top: 1.5rem;;
     width: 100%;
-    max-width: 700px;
+    max-width: 1000px; /* PIÙ GRANDE */
 }
 
 .upload-title {
     font-family: var(--font-display);
-    font-size: 1.8rem;
+    font-size: 2.5rem;
     color: var(--color-primary);
 }
 
 .upload-subtitle {
     font-family: var(--font-mono);
-    font-size: 1rem;
-    font-weight: 700;
+    font-size: 1.2rem;
+    font-weight: 450;
 }
 
 .upload-box {
-    border: 3px dashed var(--color-upload-border);
+    border: 4px dashed var(--color-upload-border);
     border-radius: var(--radius-box);
-    padding: 1.8rem 2rem;
-    min-width: 180px;
-    min-height: 110px;
+    padding: 4rem 4rem;
+    min-width: 240px;
+    min-height: 120px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.4rem;
+    gap: 0.1rem;
     background: rgba(255, 255, 255, 0.6);
     cursor: pointer;
 }
 
 .upload-label {
-    font-size: 1rem;
+    font-size: 2.1rem;
 }
 
 .upload-hint {
-    font-size: 0.8rem;
+    font-size: 1.2rem;
 }
 
 /* =============================================

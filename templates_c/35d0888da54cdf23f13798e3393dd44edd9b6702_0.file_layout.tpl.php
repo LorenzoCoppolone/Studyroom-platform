@@ -1,3 +1,29 @@
+<?php
+/* Smarty version 5.8.0, created on 2026-05-29 13:47:58
+  from 'file:layout.tpl' */
+
+/* @var \Smarty\Template $_smarty_tpl */
+if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
+  'version' => '5.8.0',
+  'unifunc' => 'content_6a197cee16e9f8_11744623',
+  'has_nocache_code' => false,
+  'file_dependency' => 
+  array (
+    '35d0888da54cdf23f13798e3393dd44edd9b6702' => 
+    array (
+      0 => 'layout.tpl',
+      1 => 1780055275,
+      2 => 'file',
+    ),
+  ),
+  'includes' => 
+  array (
+  ),
+))) {
+function content_6a197cee16e9f8_11744623 (\Smarty\Template $_smarty_tpl) {
+$_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/Studyroom-platform/templates';
+$_smarty_tpl->getInheritance()->init($_smarty_tpl, false);
+?>
 <!DOCTYPE html>
 <html lang="it">
 
@@ -5,13 +31,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>{block name="title"}StudyRoom{/block}</title>
+    <title><?php 
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_5590694696a197cee159a72_66167520', "title");
+?>
+</title>
 
     <!-- CSS Layout -->
     <link rel="stylesheet" href="/Studyroom-platform/CSS/styleLayout.css">
 
     <!-- CSS Pagina -->
-    {block name="pageCSS"}{/block}
+    <?php 
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_9274224936a197cee165779_45683163', "pageCSS");
+?>
+
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Space+Mono:wght@400;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -43,16 +75,19 @@
 
             <div class="nav-auth">
 
-                {if $utente}
+                <?php if ($_smarty_tpl->getValue('utente')) {?>
 
                     <!-- FOTO PROFILO -->
                     <div class="nav-user-avatar">
-                    <img src="{$utente.foto}" alt="Foto profilo">
+                    <img src="<?php echo $_smarty_tpl->getValue('utente')['foto'];?>
+" alt="Foto profilo">
                     </div>
 
                     <!-- NOME E COGNOME -->
                     <span class="nav-user-name">
-                        {$utente.nome} {$utente.cognome}
+                        <?php echo $_smarty_tpl->getValue('utente')['nome'];?>
+ <?php echo $_smarty_tpl->getValue('utente')['cognome'];?>
+
                     </span>
 
                     <!-- LOGOUT -->
@@ -60,7 +95,7 @@
                         Esci
                     </a>
 
-                {else}
+                <?php } else { ?>
 
                     <!-- ICONA DEFAULT -->
                     <i class="fa fa-circle-user nav-user-icon"></i>
@@ -73,7 +108,7 @@
                        Registrati
                     </a>
 
-                {/if}
+                <?php }?>
 
             </div>
 
@@ -85,8 +120,10 @@
     <!-- CONTENUTO PAGINA -->
     <main class="page-content">
 
-        {block name="content"}
-        {/block}
+        <?php 
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_2309167706a197cee16c8a4_79101615', "content");
+?>
+
 
     </main>
 
@@ -121,3 +158,34 @@
 
 </body>
 </html>
+<?php }
+/* {block "title"} */
+class Block_5590694696a197cee159a72_66167520 extends \Smarty\Runtime\Block
+{
+public function callBlock(\Smarty\Template $_smarty_tpl) {
+$_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/Studyroom-platform/templates';
+?>
+StudyRoom<?php
+}
+}
+/* {/block "title"} */
+/* {block "pageCSS"} */
+class Block_9274224936a197cee165779_45683163 extends \Smarty\Runtime\Block
+{
+public function callBlock(\Smarty\Template $_smarty_tpl) {
+$_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/Studyroom-platform/templates';
+}
+}
+/* {/block "pageCSS"} */
+/* {block "content"} */
+class Block_2309167706a197cee16c8a4_79101615 extends \Smarty\Runtime\Block
+{
+public function callBlock(\Smarty\Template $_smarty_tpl) {
+$_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/Studyroom-platform/templates';
+?>
+
+        <?php
+}
+}
+/* {/block "content"} */
+}
