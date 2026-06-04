@@ -8,10 +8,6 @@ class FrontController
         $path  = trim(explode('?', $uri)[0], '/');
         $parts = explode('/', $path);
 
-        if (strtolower($parts[0]) === 'studyroom-platform') {
-            array_shift($parts);
-        }
-
         $controllerName = !empty($parts[0]) ? ucfirst($parts[0]) : 'Home';
 
         if (isset($parts[1]) && is_numeric($parts[1])) {

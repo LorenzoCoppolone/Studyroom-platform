@@ -5,7 +5,7 @@
 {/block}
 
 {block name="pageCSS"}
-    <link rel="stylesheet" href="/Studyroom-platform/CSS/styleHome.css">
+    <link rel="stylesheet" href="/../CSS/styleHome.css">
 {/block}
 
 {block name="content"}

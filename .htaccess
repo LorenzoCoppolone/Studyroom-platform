@@ -1,11 +1,4 @@
 RewriteEngine On
-RewriteBase /Studyroom-platform/
-
-# NON riscrivere file statici
-RewriteCond %{REQUEST_URI} \.(css|js|png|jpg|jpeg|gif|svg|ico|webp|woff|woff2|ttf|eot)$ [NC]
-RewriteRule ^ - [L]
-
-# Se non è un file o una cartella → passa al router
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^ index.php [QSA,L]
