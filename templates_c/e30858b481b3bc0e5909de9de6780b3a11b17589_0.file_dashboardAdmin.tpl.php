@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.8.0, created on 2026-05-29 08:26:58
+/* Smarty version 5.8.0, created on 2026-06-04 16:39:56
   from 'file:dashboardAdmin.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.8.0',
-  'unifunc' => 'content_6a194dd21364d6_08429326',
+  'unifunc' => 'content_6a21aa5cbe43c7_24443314',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'e30858b481b3bc0e5909de9de6780b3a11b17589' => 
     array (
       0 => 'dashboardAdmin.tpl',
-      1 => 1780043094,
+      1 => 1780589155,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6a194dd21364d6_08429326 (\Smarty\Template $_smarty_tpl) {
+function content_6a21aa5cbe43c7_24443314 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\Studyroom-platform\\templates';
 ?><!DOCTYPE html>
 <html lang="it">
@@ -66,7 +66,7 @@ $foreach0DoElse = false;
                     </span>
                 </span>
                 <span>
-                    <a href="/admin/gestisciSegnalazione/<?php echo htmlspecialchars((string)$_smarty_tpl->getValue('s')['idMateriale'], ENT_QUOTES, 'UTF-8', true);?>
+                    <a href="/Admin/gestisciSegnalazione/<?php echo htmlspecialchars((string)$_smarty_tpl->getValue('s')['idMateriale'], ENT_QUOTES, 'UTF-8', true);?>
 " class="btn-gestisci">
                         Gestisci
                     </a>

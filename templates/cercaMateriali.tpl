@@ -3,14 +3,14 @@
 {block name="title"}Risultati ricerca — StudyRoom{/block}
 
 {block name="pageCSS"}
-    <link rel="stylesheet" href="./CSS/styleCercaMateriali.css">
+    <link rel="stylesheet" href="/../CSS/styleCercaMateriale.css">
 {/block}
 
 {block name="content"}
 
 <!-- ===================== HERO SEARCH ===================== -->
 <section class="hero-search">
-    <form class="hero-search__form" action="/CercaMateriali/cerca" method="GET">
+    <form class="hero-search__form" action="/RicercaMateriale/cerca" method="GET">
         <input
             type="text"
             name="titolo"
@@ -33,7 +33,7 @@
 <section class="filters-bar">
     <div class="filters-bar__inner">
 
-        <form id="filter-form" action="search.php" method="GET">
+        <form id="filter-form" action="/RicercaMateriale/filtra" method="GET">
 
             <!-- Mantieni la query corrente -->
             <input type="hidden" name="q" value="{$queryCorrente|escape:'html'}">

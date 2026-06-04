@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.8.0, created on 2026-05-26 19:31:58
+/* Smarty version 5.8.0, created on 2026-06-04 16:30:50
   from 'file:loginForm.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.8.0',
-  'unifunc' => 'content_6a15f52e947388_69161021',
+  'unifunc' => 'content_6a21a83a22d9d8_72011904',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '353f5d9c9127bb292e432ec0e709880d15884e06' => 
     array (
       0 => 'loginForm.tpl',
-      1 => 1779823905,
+      1 => 1779978991,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6a15f52e947388_69161021 (\Smarty\Template $_smarty_tpl) {
+function content_6a21a83a22d9d8_72011904 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\Studyroom-platform\\templates';
 ?><!DOCTYPE html>
 <html lang="it">
@@ -29,7 +29,7 @@ $_smarty_current_dir = 'C:\\laragon\\www\\Studyroom-platform\\templates';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Accesso • StudyRoom</title>
 
-    <link rel="stylesheet" href="./CSS/styleLogin.css">
+    <link rel="stylesheet" href="/../CSS/styleLogin.css">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;700&family=Space+Mono:wght@400;700&family=Playfair+Display:wght@900&display=swap" rel="stylesheet">
 </head>
 
@@ -49,7 +49,7 @@ $_smarty_current_dir = 'C:\\laragon\\www\\Studyroom-platform\\templates';
                 </div>
             <?php }?>
 
-            <form action="login.php" method="POST" class="login-form">
+            <form action="/User/effettuaLogin" method="POST" class="login-form">
 
                 <div class="form-group">
                     <label for="email">Email</label>
@@ -83,7 +83,7 @@ $_smarty_current_dir = 'C:\\laragon\\www\\Studyroom-platform\\templates';
 
             <p class="register-text">
                 È la tua prima volta?
-                <a href="register.php">Registrati ora</a>
+                <a href="/User/registrazione">Registrati ora</a>
             </p>
 
         </div>

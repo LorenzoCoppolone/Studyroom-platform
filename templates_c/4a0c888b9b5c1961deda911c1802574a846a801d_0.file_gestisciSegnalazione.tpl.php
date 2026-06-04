@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.8.0, created on 2026-05-29 15:15:46
+/* Smarty version 5.8.0, created on 2026-06-04 16:40:01
   from 'file:gestisciSegnalazione.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.8.0',
-  'unifunc' => 'content_6a19ada2ede3b6_88645462',
+  'unifunc' => 'content_6a21aa618a5386_24009433',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '4a0c888b9b5c1961deda911c1802574a846a801d' => 
     array (
       0 => 'gestisciSegnalazione.tpl',
-      1 => 1780067742,
+      1 => 1780589167,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6a19ada2ede3b6_88645462 (\Smarty\Template $_smarty_tpl) {
+function content_6a21aa618a5386_24009433 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\Studyroom-platform\\templates';
 ?><!DOCTYPE html>
 <html lang="it">
@@ -42,7 +42,7 @@ $_smarty_current_dir = 'C:\\laragon\\www\\Studyroom-platform\\templates';
 
 <main>
 
-    <a href="/admin/dashboard" class="back-link">← Torna alla dashboard</a>
+    <a href="/Admin/dashboard" class="back-link">← Torna alla dashboard</a>
 
     <h1 class="page-title">Gestisci Segnalazione</h1>
 
@@ -119,7 +119,7 @@ $_smarty_current_dir = 'C:\\laragon\\www\\Studyroom-platform\\templates';
                     <div class="action-group">
 
                         <!-- Accetta: archivia le segnalazioni, il materiale rimane -->
-                        <form method="post" action="/admin/eseguiAzione">
+                        <form method="post" action="/Admin/eseguiAzione">
                             <input type="hidden" name="bottonePremuto" value="accetta">
                             <input type="hidden" name="idMaterialeSegnalato" value="<?php echo htmlspecialchars((string)$_smarty_tpl->getValue('materiale')['idMateriale'], ENT_QUOTES, 'UTF-8', true);?>
 ">
@@ -132,7 +132,7 @@ $_smarty_current_dir = 'C:\\laragon\\www\\Studyroom-platform\\templates';
                         </form>
 
                         <!-- Rifiuta: elimina il materiale e le segnalazioni -->
-                        <form method="post" action="/admin/eseguiAzione">
+                        <form method="post" action="/Admin/eseguiAzione">
                             <input type="hidden" name="bottonePremuto" value="rifiuta">
                             <input type="hidden" name="idMaterialeSegnalato" value="<?php echo htmlspecialchars((string)$_smarty_tpl->getValue('materiale')['idMateriale'], ENT_QUOTES, 'UTF-8', true);?>
 ">
@@ -145,7 +145,7 @@ $_smarty_current_dir = 'C:\\laragon\\www\\Studyroom-platform\\templates';
                         </form>
 
                         <!-- Banna utente -->
-                        <form method="post" action="/admin/eseguiAzione">
+                        <form method="post" action="/Admin/eseguiAzione">
                             <input type="hidden" name="bottonePremuto" value="banUtente">
                             <input type="hidden" name="idMaterialeSegnalato" value="<?php echo htmlspecialchars((string)$_smarty_tpl->getValue('materiale')['idMateriale'], ENT_QUOTES, 'UTF-8', true);?>
 ">

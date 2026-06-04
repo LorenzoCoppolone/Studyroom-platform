@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carica Materiale - StudyRoom</title>
 
-    <link rel="stylesheet" href="styleCarica.css">
+    <link rel="stylesheet" href="/../CSS/styleCarica.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Space+Mono:wght@400;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
@@ -13,7 +13,7 @@
 <body>
 
 <header class="navbar">
-    <a href="home" class="logo">StudyRoom</a>
+    <a href="/Home/dashboard" class="logo">StudyRoom</a>
 </header>
 
 <main class="upload-container">
@@ -25,7 +25,7 @@
     </div>
 
     <!-- FORM PRINCIPALE -->
-    <form method="POST" enctype="multipart/form-data" action="caricaMateriale.php">
+    <form method="POST" enctype="multipart/form-data" action="/CaricaMateriale/salva">
         <input type="hidden" name="tipo" id="tipoInput" value="{$tipo|default:'appunto'}">
 
 
@@ -101,7 +101,7 @@
 
         <!-- BOTTONI -->
         <div class="buttons">
-            <a href="home" class="btn-home"><i class="fa fa-arrow-left"></i> Home</a>
+            <a href="/Home/dashboard" class="btn-home"><i class="fa fa-arrow-left"></i> Home</a>
             <button type="submit" class="btn-upload">Carica <i class="fa fa-arrow-up"></i></button>
         </div>
 
@@ -109,7 +109,7 @@
 
 </main>
 
-<script src="upload.js"></script>
+<script src="/../JS/upload.js"></script>
 </body>
 </html>
 

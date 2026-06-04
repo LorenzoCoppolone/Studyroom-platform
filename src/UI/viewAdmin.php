@@ -86,4 +86,8 @@ class viewAdmin {
         $this->smarty->assign('errore', $messaggio);
         $this->smarty->display('error.tpl');
     }
+
+    public function mostra404(): void {
+        header('HTTP/1.1 404 Not Found');
+    }
 }

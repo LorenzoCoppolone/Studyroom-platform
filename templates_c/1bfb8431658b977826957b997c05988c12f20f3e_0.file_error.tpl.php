@@ -1,11 +1,11 @@
 <?php
-/* Smarty version 5.8.0, created on 2026-05-28 15:37:00
+/* Smarty version 5.8.0, created on 2026-06-04 17:02:36
   from 'file:error.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.8.0',
-  'unifunc' => 'content_6a18611c6485c2_69146326',
+  'unifunc' => 'content_6a21afac938a89_26769704',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6a18611c6485c2_69146326 (\Smarty\Template $_smarty_tpl) {
+function content_6a21afac938a89_26769704 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\Studyroom-platform\\templates';
 ?><!DOCTYPE html>
 <html lang="it">

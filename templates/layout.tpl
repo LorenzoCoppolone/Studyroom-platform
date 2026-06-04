@@ -25,7 +25,7 @@
     <!-- NAVBAR -->
     <header class="navbar">
 
-        <a href="" class="logo">StudyRoom</a>
+        <a href="/Home/dashboard" class="logo">StudyRoom</a>
 
         <form class="navbar-search" method="GET" action="/RicercaMateriale/cerca">
             <input type="text" name="titolo" placeholder="Cerca..." maxlength="100" required>
@@ -37,7 +37,7 @@
 
         <nav class="navbar-links">
 
-            <a href="/RicercaMateriali/popolari" class="nav-link nav-esami">
+            <a href="/RicercaMateriale/popolari" class="nav-link nav-esami">
                 Prepara i tuoi esami
             </a>
 
@@ -56,7 +56,7 @@
                     </span>
 
                     <!-- LOGOUT -->
-                    <a href="/User/logout" class="nav-link">
+                    <a href="/User/logoutUtente" class="nav-link">
                         Esci
                     </a>
 
@@ -104,7 +104,7 @@
 
         <div class="footer-center">
 
-            <a href="" class="footer-brand">
+            <a href="/Home/dashboard" class="footer-brand">
                 StudyRoom
             </a>
 
