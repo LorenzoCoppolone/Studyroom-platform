@@ -90,6 +90,4 @@ class MaterialeRepository {
         $result = $qb->getQuery()->getArrayResult();
         return $result;
     }
-
-    
 }

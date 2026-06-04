@@ -1,3 +1,29 @@
+<?php
+/* Smarty version 5.8.0, created on 2026-06-04 17:15:55
+  from 'file:layout.tpl' */
+
+/* @var \Smarty\Template $_smarty_tpl */
+if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
+  'version' => '5.8.0',
+  'unifunc' => 'content_6a21b2cbea1db0_64758772',
+  'has_nocache_code' => false,
+  'file_dependency' => 
+  array (
+    'e8445b255f91675a60999e8947b1a6cc9a2d4809' => 
+    array (
+      0 => 'layout.tpl',
+      1 => 1780593349,
+      2 => 'file',
+    ),
+  ),
+  'includes' => 
+  array (
+  ),
+))) {
+function content_6a21b2cbea1db0_64758772 (\Smarty\Template $_smarty_tpl) {
+$_smarty_current_dir = 'C:\\laragon\\www\\studyroom-platform\\templates';
+$_smarty_tpl->getInheritance()->init($_smarty_tpl, false);
+?>
 <!DOCTYPE html>
 <html lang="it">
 
@@ -5,13 +31,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>{block name="title"}StudyRoom{/block}</title>
+    <title><?php 
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_9367848666a21b2cbe85e34_44675741', "title");
+?>
+</title>
 
     <!-- CSS Layout -->
     <link rel="stylesheet" href="/../CSS/styleLayout.css">
 
     <!-- CSS Pagina -->
-    {block name="pageCSS"}{/block}
+    <?php 
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_9104685576a21b2cbe93a76_79175567', "pageCSS");
+?>
+
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Space+Mono:wght@400;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -43,7 +75,7 @@
 
             <div class="nav-auth">
 
-                {if $studente}
+                <?php if ($_smarty_tpl->getValue('studente')) {?>
 
                     <!-- FOTO PROFILO -->
                     <div class="nav-user-avatar">
@@ -52,7 +84,8 @@
 
                     <!-- NOME E COGNOME -->
                     <span class="nav-user-name">
-                        {$studente}
+                        <?php echo $_smarty_tpl->getValue('studente');?>
+
                     </span>
 
                     <!-- LOGOUT -->
@@ -60,7 +93,7 @@
                         Esci
                     </a>
 
-                {else}
+                <?php } else { ?>
 
                     <!-- ICONA DEFAULT -->
                     <i class="fa fa-circle-user nav-user-icon"></i>
@@ -73,7 +106,7 @@
                        Registrati
                     </a>
 
-                {/if}
+                <?php }?>
 
             </div>
 
@@ -85,8 +118,10 @@
     <!-- CONTENUTO PAGINA -->
     <main class="page-content">
 
-        {block name="content"}
-        {/block}
+        <?php 
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_20505262806a21b2cbea0228_34187441', "content");
+?>
+
 
     </main>
 
@@ -121,3 +156,34 @@
 
 </body>
 </html>
+<?php }
+/* {block "title"} */
+class Block_9367848666a21b2cbe85e34_44675741 extends \Smarty\Runtime\Block
+{
+public function callBlock(\Smarty\Template $_smarty_tpl) {
+$_smarty_current_dir = 'C:\\laragon\\www\\studyroom-platform\\templates';
+?>
+StudyRoom<?php
+}
+}
+/* {/block "title"} */
+/* {block "pageCSS"} */
+class Block_9104685576a21b2cbe93a76_79175567 extends \Smarty\Runtime\Block
+{
+public function callBlock(\Smarty\Template $_smarty_tpl) {
+$_smarty_current_dir = 'C:\\laragon\\www\\studyroom-platform\\templates';
+}
+}
+/* {/block "pageCSS"} */
+/* {block "content"} */
+class Block_20505262806a21b2cbea0228_34187441 extends \Smarty\Runtime\Block
+{
+public function callBlock(\Smarty\Template $_smarty_tpl) {
+$_smarty_current_dir = 'C:\\laragon\\www\\studyroom-platform\\templates';
+?>
+
+        <?php
+}
+}
+/* {/block "content"} */
+}
