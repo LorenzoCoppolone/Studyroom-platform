@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.8.0, created on 2026-06-05 17:09:37
+/* Smarty version 5.8.0, created on 2026-06-05 21:42:47
   from 'file:loginForm.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.8.0',
-  'unifunc' => 'content_6a2302d1e704b7_63223584',
+  'unifunc' => 'content_6a2342d7d1d441_30572611',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '78683607d622da50857c7846c504d5bcad5568ff' => 
     array (
       0 => 'loginForm.tpl',
-      1 => 1780675487,
+      1 => 1780679582,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6a2302d1e704b7_63223584 (\Smarty\Template $_smarty_tpl) {
+function content_6a2342d7d1d441_30572611 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\studyroom-platform\\templates';
 ?><!DOCTYPE html>
 <html lang="it">
@@ -82,7 +82,7 @@ $_smarty_current_dir = 'C:\\laragon\\www\\studyroom-platform\\templates';
                     <label for="controllo">
                         <input type="checkbox" id="controllo" name="ricordami"> Ricordami
                     </label>
-                    <a href="#">Hai dimenticato la password?</a>
+                    <a href="/User/recuperoPassword">Hai dimenticato la password?</a>
                 </div>
 
                 <button class="btn" type="submit">Accedi</button>

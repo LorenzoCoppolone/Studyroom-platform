@@ -67,9 +67,39 @@ class viewCaricaMateriale {
     * Mostra la form per caricare un materiale
     * @return void
     */
-    public function mostraFormCaricaMateriale(array $corsi, array $insegnamenti) : void {
+    public function mostraFormCaricaMateriale(array $corsi, array $insegnamenti, ?string $username, ?string $base64) : void {
         $this->smarty->assign('corsi', $corsi);
         $this->smarty->assign('insegnamenti', $insegnamenti);
+        $this->smarty->assign('studente', $username);
+        $this->smarty->assign('base64', $base64);
         $this->smarty->display('caricaMateriale.tpl');
+    }
+
+    public function getIdCorsoDiLaurea() : int {
+        return (int)$_POST['corso_di_laurea'];
+    }
+
+    public function getIdInsegnamento() : int {
+        return (int)$_POST['insegnamento'];
+    }
+
+    public function getTipologia() : string {
+        return $_POST['tipologia'];
+    }
+
+    public function getTitolo() : string {
+        return $_POST['titolo'];
+    }
+
+    public function getTag() : ?string {
+        return $_POST['tag'] ?? null;
+    }
+
+    public function getTac() : bool {
+        return isset($_POST['tac']);
+    }
+
+    public function getFile() : array {
+        return $_FILES['file'];
     }
 }

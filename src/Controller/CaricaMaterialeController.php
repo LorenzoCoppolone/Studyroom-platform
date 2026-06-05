@@ -36,14 +36,11 @@ class CaricaMaterialeController
             if ($idStudente === null) {
                 throw new InvalidArgumentException("Utente non loggato");
             }
-        
             $pm    = PersistentManager::getInstance();
-        
+            $studente = $pm->find(Studente::class, $idStudente);
             $corsi = $pm->trovaCorsiDiLaurea();
             $insegnamenti = $pm->trovaInsegnamenti();
-
-            $view->mostraFormCaricaMateriale($corsi, $insegnamenti);
-    
+            $view->mostraFormCaricaMateriale($corsi, $insegnamenti, $studente->getUsername(), $studente->getImmagineProfilo()->getBase64($studente));
         }catch (\Exception $e) {
         $view->mostraFormErrore("Errore imprevisto: " . $e->getMessage());
         }
