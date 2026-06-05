@@ -1,18 +1,49 @@
+<?php
+/* Smarty version 5.8.0, created on 2026-06-05 13:31:25
+  from 'file:layout.tpl' */
+
+/* @var \Smarty\Template $_smarty_tpl */
+if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
+  'version' => '5.8.0',
+  'unifunc' => 'content_6a22b38de0f6f7_83092570',
+  'has_nocache_code' => false,
+  'file_dependency' => 
+  array (
+    '35d0888da54cdf23f13798e3393dd44edd9b6702' => 
+    array (
+      0 => 'layout.tpl',
+      1 => 1780659081,
+      2 => 'file',
+    ),
+  ),
+  'includes' => 
+  array (
+  ),
+))) {
+function content_6a22b38de0f6f7_83092570 (\Smarty\Template $_smarty_tpl) {
+$_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/Studyroom-platform/templates';
+$_smarty_tpl->getInheritance()->init($_smarty_tpl, false);
+?>
 <!DOCTYPE html>
 <html lang="it">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/x-icon" href="/../img/studyroom_favicon.ico">
 
-    <title>{block name="title"}StudyRoom{/block}</title>
+    <title><?php 
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_4146355906a22b38de03c90_26312077', "title");
+?>
+</title>
 
     <!-- CSS Layout -->
     <link rel="stylesheet" href="/../CSS/styleLayout.css">
 
     <!-- CSS Pagina -->
-    {block name="pageCSS"}{/block}
+    <?php 
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_18972337446a22b38de0b7a7_18934220', "pageCSS");
+?>
+
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Space+Mono:wght@400;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -44,7 +75,7 @@
 
             <div class="nav-auth">
 
-                {if $studente}
+                <?php if ($_smarty_tpl->getValue('studente')) {?>
 
                     <!-- FOTO PROFILO -->
                     <div class="nav-user-avatar">
@@ -52,12 +83,16 @@
                     </div>
 
                     <!-- USERNAME -->
-                    <a href="/User/profiloStudente" class="nav-user-name">{$studente}</a>
+                    <a href="/User/profiloStudente" class="nav-user-name"><?php echo $_smarty_tpl->getValue('studente');?>
+</a>
 
 
-                    
+                    <!-- LOGOUT -->
+                    <a href="/User/logoutUtente" class="nav-link">
+                        Esci
+                    </a>
 
-                {else}
+                <?php } else { ?>
 
                     <!-- ICONA DEFAULT -->
                     <i class="fa fa-circle-user nav-user-icon"></i>
@@ -70,7 +105,7 @@
                        Registrati
                     </a>
 
-                {/if}
+                <?php }?>
 
             </div>
 
@@ -82,8 +117,10 @@
     <!-- CONTENUTO PAGINA -->
     <main class="page-content">
 
-        {block name="content"}
-        {/block}
+        <?php 
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1065731976a22b38de0e586_55142294', "content");
+?>
+
 
     </main>
 
@@ -116,3 +153,34 @@
 
 </body>
 </html>
+<?php }
+/* {block "title"} */
+class Block_4146355906a22b38de03c90_26312077 extends \Smarty\Runtime\Block
+{
+public function callBlock(\Smarty\Template $_smarty_tpl) {
+$_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/Studyroom-platform/templates';
+?>
+StudyRoom<?php
+}
+}
+/* {/block "title"} */
+/* {block "pageCSS"} */
+class Block_18972337446a22b38de0b7a7_18934220 extends \Smarty\Runtime\Block
+{
+public function callBlock(\Smarty\Template $_smarty_tpl) {
+$_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/Studyroom-platform/templates';
+}
+}
+/* {/block "pageCSS"} */
+/* {block "content"} */
+class Block_1065731976a22b38de0e586_55142294 extends \Smarty\Runtime\Block
+{
+public function callBlock(\Smarty\Template $_smarty_tpl) {
+$_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/Studyroom-platform/templates';
+?>
+
+        <?php
+}
+}
+/* {/block "content"} */
+}

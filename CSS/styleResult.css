@@ -10,7 +10,7 @@ body {
 
 .logo {
     font-family: 'Playfair Display', serif;
-    font-size: 5rem;
+    font-size: 3.5rem;
     font-weight: 900;
     color: #7B2FBE;
     text-align: center;
@@ -25,7 +25,7 @@ body {
 }
 
 .icon {
-    font-size: 6rem;
+    font-size: 5rem;
     margin-bottom: 1.5rem;
 }
 
@@ -38,7 +38,7 @@ body {
 }
 
 .result-title {
-    font-size: 3rem;
+    font-size: 2rem;
     margin-bottom: 2.5rem;
     font-weight: 700;
     color: #7B2FBE;
@@ -53,8 +53,8 @@ body {
 .btn-home,
 .btn-retry {
     padding: 1.5rem 2.4rem;
-    border-radius: 12px;
-    font-size: 1.5rem;
+    border-radius: 10px;
+    font-size: 1.6rem;
     text-decoration: none;
     font-weight: 600;
 }

@@ -225,6 +225,41 @@ body {
     color: var(--color-text);
 }
 
+/* Contenitore autenticazione */
+.nav-auth {
+    display: flex;
+    align-items: center;
+    gap: 1rem; /* spazio tra avatar, nome e logout */
+}
+
+/* Avatar utente — perfettamente tondo */
+.nav-user-avatar img {
+    width: 42px;          /* larghezza fissa */
+    height: 42px;         /* altezza fissa → QUADRATO */
+    border-radius: 50%;   /* diventa cerchio */
+    object-fit: cover;    /* ritaglia l'immagine senza deformarla */
+    border: 2px solid var(--color-primary);
+}
+
+
+/* Username */
+.nav-user-name {
+    font-family: var(--font-mono);
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-right: 0.5rem;
+    white-space: nowrap; /* evita che vada a capo */
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.nav-user-name:hover {
+    color: var(--color-primary-light);
+    text-decoration: underline;
+}
+
+
 /* =============================================
    FOOTER — card chiara, logo a sinistra / brand al centro
    ============================================= */

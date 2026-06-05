@@ -203,14 +203,20 @@ class UserController {
         try{
         $view = new viewUser();
         $session = Session::getInstance(); // Ottieni l'istanza della sessione
+        
         $idStudenteLoggato = $session->getSessionElement('studente');
+        
         $pm = PersistentManager::getInstance();
         $studente = $pm->findOneById(Studente::class, $idStudenteLoggato);
-        $view->mostraModificaProfilo($studente->getNome(), 
-        $studente->getCognome(), 
-        $studente->getEmail(), 
-        $studente->getUsername(), 
-        $studente->getImmagineProfilo()?? null);
+        
+        $view->mostraProfiloStudente([
+            'nome' => $studente->getNome(),
+            'cognome' => $studente->getCognome(),
+            'email' => $studente->getEmail(),
+            'username' => $studente->getUsername(),
+            'foto' => $studente->getImmagineProfilo() ?? null
+        ]);
+        
         } catch (PDOException $e) {
             $view->mostraFormErrore("Errore durante la visualizzazione del profilo: " . $e->getMessage());
         } catch (Exception $e) {

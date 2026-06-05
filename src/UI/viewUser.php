@@ -4,7 +4,7 @@ namespace UI;
 use Smarty\Smarty;
 use config\StartSmarty;
 
-class ViewUser {
+class viewUser {
     private Smarty $smarty;
     public function __construct() {
         $this->smarty = StartSmarty::configuration();
@@ -38,8 +38,9 @@ class ViewUser {
     }
 
     //Funzione che mostra il profilo dell`utente
-     public function mostraProfiloStudente() : void {
-        // logica per mostrare il profilo dell'utente
+     public function mostraProfiloStudente(array $utente) : void {
+        $this->smarty->assign("utente", $utente);
+        $this->smarty->display("profiloUtente.tpl");
     }
 
      /**
