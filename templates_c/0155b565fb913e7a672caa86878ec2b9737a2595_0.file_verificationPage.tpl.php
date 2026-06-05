@@ -1,4 +1,28 @@
-<!DOCTYPE html>
+<?php
+/* Smarty version 5.8.0, created on 2026-06-04 19:08:53
+  from 'file:verificationPage.tpl' */
+
+/* @var \Smarty\Template $_smarty_tpl */
+if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
+  'version' => '5.8.0',
+  'unifunc' => 'content_6a21cd454f2091_49328080',
+  'has_nocache_code' => false,
+  'file_dependency' => 
+  array (
+    '0155b565fb913e7a672caa86878ec2b9737a2595' => 
+    array (
+      0 => 'verificationPage.tpl',
+      1 => 1780600058,
+      2 => 'file',
+    ),
+  ),
+  'includes' => 
+  array (
+  ),
+))) {
+function content_6a21cd454f2091_49328080 (\Smarty\Template $_smarty_tpl) {
+$_smarty_current_dir = 'C:\\laragon\\www\\Studyroom-platform\\templates';
+?><!DOCTYPE html>
 <html lang="it">
 <head>
     <meta charset="UTF-8">
@@ -27,7 +51,8 @@
             <h2>Controlla la tua email</h2>
             <p>Abbiamo inviato un link di conferma a:</p>
             <!-- L'email deve essere quella dell'utente che sta facendo la registrazione -->
-            <div class="email-badge">{$email}</div>
+            <div class="email-badge"><?php echo $_smarty_tpl->getValue('email');?>
+</div>
             <hr class="divider">
             <div class="nota-spam">
                 <i class="bx bx-error"></i>
@@ -41,4 +66,5 @@
     </div>
 
 </body>
-</html>
+</html><?php }
+}

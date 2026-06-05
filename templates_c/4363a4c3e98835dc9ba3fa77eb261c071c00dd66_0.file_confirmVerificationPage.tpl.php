@@ -1,4 +1,28 @@
-<!DOCTYPE html>
+<?php
+/* Smarty version 5.8.0, created on 2026-06-04 19:09:25
+  from 'file:confirmVerificationPage.tpl' */
+
+/* @var \Smarty\Template $_smarty_tpl */
+if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
+  'version' => '5.8.0',
+  'unifunc' => 'content_6a21cd657489a8_15688197',
+  'has_nocache_code' => false,
+  'file_dependency' => 
+  array (
+    '4363a4c3e98835dc9ba3fa77eb261c071c00dd66' => 
+    array (
+      0 => 'confirmVerificationPage.tpl',
+      1 => 1780600059,
+      2 => 'file',
+    ),
+  ),
+  'includes' => 
+  array (
+  ),
+))) {
+function content_6a21cd657489a8_15688197 (\Smarty\Template $_smarty_tpl) {
+$_smarty_current_dir = 'C:\\laragon\\www\\Studyroom-platform\\templates';
+?><!DOCTYPE html>
 <html lang="it">
 <head>
     <meta charset="UTF-8">
@@ -33,4 +57,5 @@
     </div>
 
 </body>
-</html>
+</html><?php }
+}

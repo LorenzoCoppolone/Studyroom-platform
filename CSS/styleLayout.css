@@ -1,36 +1,45 @@
 /* =============================================
    STUDYROOM — styleLayout.css
+   Allineato allo stile Admin (palette + Poppins)
    ============================================= */
 
 /* ─────────────────────────────────────────────
-   VARIABILI GLOBALI
+   VARIABILI GLOBALI  (coerenti con styleAdmin.css)
    ───────────────────────────────────────────── */
 :root {
 
-    --color-primary: #7B2FBE;
-    --color-primary-light: #9B59D0;
-    --color-accent: #F5C518;
+    /* Palette */
+    --color-primary:        #6C4FD4;
+    --color-primary-dark:   #4f38a8;
+    --color-primary-light:  #ede9fb;
+    --color-accent:         #ff6b6b;
 
-    --color-text: #1A1A1A;
-    --color-text-muted: #555;
-    --color-upload-border: #AAAAAA;
+    --color-text:           #1a1a2e;
+    --color-text-muted:     #7a7a9d;
 
-    --font-display: 'Playfair Display', serif;
-    --font-mono: 'Space Mono', monospace;
-    --font-body: 'Nunito', sans-serif;
+    --color-bg:             #f4f2fc;
+    --color-card:           #ffffff;
+    --color-border:         #ddd8f5;
+    --color-upload-border:  #c4b8ef;
+
+    /* Tipografia — Poppins come nell'admin.
+       I nomi -display/-mono restano per compatibilità con le regole esistenti. */
+    --font-display: 'Poppins', sans-serif;
+    --font-body:    'Poppins', sans-serif;
+    --font-mono:    'Poppins', sans-serif;
 
     --radius-pill: 999px;
-    --radius-box: 16px;
+    --radius-box:  16px;
 
-    --shadow-soft: 0 4px 24px rgba(123, 47, 190, 0.10);
+    --shadow-soft: 0 4px 24px rgba(108, 79, 212, 0.10);
 }
-
-
 
 /* ─────────────────────────────────────────────
    RESET
    ───────────────────────────────────────────── */
-* {
+*,
+*::before,
+*::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -42,122 +51,204 @@ a {
 }
 
 body {
-
     font-family: var(--font-body);
-
     min-height: 100vh;
 
     display: flex;
     flex-direction: column;
 
     color: var(--color-text);
+    line-height: 1.4;
 
-    background: linear-gradient(
-        180deg,
-        #EADAF7 0%,
-        #F4E9FB 40%,
-        #FFFFFF 100%
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    /* Sfondo radiale viola — identico all'admin */
+    background: radial-gradient(
+        ellipse 75% 75% at top,
+        #ddd6fe 0%,
+        #a78bfa 45%,
+        #ffffff 100%
     );
+    background-attachment: fixed;
 }
 
-/* ─────────────────────────────────────────────
-   CONTENUTO PAGINA
-   ───────────────────────────────────────────── */
 .page-content {
     flex: 1;
 }
 
 /* =============================================
-   NAVBAR (versione ottimizzata)
+   NAVBAR — stile "card" come l'header admin
    ============================================= */
-
 .navbar {
     display: flex;
     align-items: center;
     gap: 1rem;
-    padding: 1.2rem 2rem; /* più compatta */
-    background: rgba(255, 255, 255, 0.55);
-    backdrop-filter: blur(8px);
-    border-bottom: 1px solid rgba(123, 47, 190, 0.12);
+
+    padding: 0.75rem 2rem;
+
+    background: var(--color-card);
+    border-bottom: 2px solid var(--color-border);
+    box-shadow: 0 2px 12px rgba(108, 79, 212, 0.07);
+
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    z-index: 10;
 }
 
-/* Logo — resta identico */
 .logo {
     font-family: var(--font-display);
-    font-size: 4rem;
-    font-weight: 900;
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -1px;
     color: var(--color-primary);
-    margin-right: 2rem; /* leggermente meno */
+    margin-right: 1.5rem;
 }
 
-/* Search Bar — meno larga */
+/* ── Search ── */
 .navbar-search {
     display: flex;
     align-items: center;
+    height: 42px;
+    flex: 0 1 400px;
+
     border: 2px solid var(--color-primary);
     border-radius: var(--radius-pill);
-    height: 40px;
     overflow: hidden;
-    flex: 0 5 400px; /* prima 600px */
+    background: var(--color-card);
+
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
+
+.navbar-search:hover {
+    border-color: var(--color-primary-dark);
+    box-shadow: 0 4px 14px rgba(108, 79, 212, 0.18);
+}
+
+.navbar-search:focus-within {
+    border-color: var(--color-primary-dark);
+    box-shadow: 0 0 0 3px var(--color-primary-light);
+}
+
 .navbar-search input {
     flex: 1;
+    min-width: 0;
     border: none;
     outline: none;
-    padding: 0.3rem 0.9rem;
-    font-size: 1.2rem;
+    padding: 0.3rem 1rem;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    color: var(--color-text);
 }
 
 .navbar-search button {
     height: 100%;
-    padding: 0 0.9rem;
-    border-left: 1px solid var(--color-primary);
-    background: transparent;
+    padding: 0 1rem;
+    border: none;
+    border-left: 1px solid var(--color-border);
+    background: var(--color-primary-light);
+    color: var(--color-primary);
     font-size: 1rem;
     cursor: pointer;
+    transition: background-color 0.15s ease, color 0.15s ease;
 }
 
-/* Navbar Links — più piccoli e meno distanti */
+.navbar-search button:hover {
+    background: var(--color-primary);
+    color: #fff;
+}
+
+/* ── Links ── */
 .navbar-links {
     display: flex;
     align-items: center;
-    gap: 4rem; /* prima 15rem */
+    gap: 2rem;
     margin-left: auto;
 }
 
 .nav-esami,
 .nav-link {
-    font-family: var(--font-mono);
-    font-weight: 700;
-    font-size: 1.2rem; /* prima 1.9rem */
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--color-primary);
+    transition: color 0.15s ease;
+}
+
+.nav-esami:hover,
+.nav-link:hover {
+    color: var(--color-primary-dark);
+}
+
+/* "Prepara i tuoi esami" — pill in evidenza */
+.nav-esami {
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-pill);
+    background: var(--color-primary-light);
+}
+
+.nav-esami:hover {
+    background: var(--color-primary);
+    color: #fff;
+}
+
+/* ── Area autenticazione ── */
+.nav-auth {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.nav-user-icon {
+    font-size: 1.8rem;
     color: var(--color-primary);
 }
 
-/* Icona utente — leggermente più piccola */
-.nav-user-icon {
-    font-size: 2rem; /* prima 2.8rem */
-    color: var(--color-primary);
+.nav-user-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid var(--color-primary-light);
+}
+
+.nav-user-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.nav-user-name {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--color-text);
 }
 
 /* =============================================
-   FOOTER
+   FOOTER — card chiara, logo a sinistra / brand al centro
    ============================================= */
-
-
 .footer {
-    padding: 1.2rem 3rem;
-}
-.footer-logo-univaq {width: 100px;
-    margin-left: 2rem;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    transform: translateY(43px);
-    z-index: 2;
+    justify-content: space-between;
+    gap: 1.5rem;
+
+    padding: 1.5rem 3rem;
+
+    background: var(--color-card);
+    border-top: 2px solid var(--color-border);
+}
+
+.footer-logo-univaq {
+    flex: 0 0 100px;
+    display: flex;
+    align-items: center;
 }
 
 .footer-logo-univaq img {
-    height: 55px;
+    height: 50px;
+    display: block;
 }
 
 .footer-center {
@@ -165,75 +256,128 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.6rem;
-    z-index: 2; /* sopra, ma non invade la sinistra */
+    gap: 0.4rem;
+}
+
+/* spacer di destra: bilancia il logo per centrare il blocco brand */
+.footer::after {
+    content: '';
+    flex: 0 0 100px;
 }
 
 .footer-brand {
     font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.5rem;
+    letter-spacing: -0.5px;
     color: var(--color-primary);
-    font-size: 1.2rem;
-}
-
-.footer-brand {
-    display: flex;
-    gap: 0.1rem;
-    font-size: 1.6rem;
-    justify-content: center;
-    align-items: center;
-    transform: translateY(-23px);
 }
 
 .footer-links {
     display: flex;
+    flex-wrap: wrap;
     gap: 1rem;
-    font-size: 1rem;
     justify-content: center;
-    align-items: center;
-    transform: translateY(-20px);
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+}
+
+.footer-links a {
+    transition: color 0.15s ease;
+}
+
+.footer-links a:hover {
+    color: var(--color-primary);
 }
 
 /* =============================================
    RESPONSIVE
    ============================================= */
 
-@media (max-width: 1200px) {
+/* ── Tablet orizzontale: la search va a capo ── */
+@media (max-width: 1024px) {
 
     .navbar {
         flex-wrap: wrap;
+        gap: 0.75rem;
+        padding: 0.75rem 1.5rem;
     }
 
     .navbar-search {
         order: 3;
-        width: 100%;
-        max-width: 100%;
+        flex: 1 1 100%;
+    }
+
+    .navbar-links {
+        gap: 1.25rem;
     }
 }
 
+/* ── Tablet / mobile ── */
 @media (max-width: 768px) {
 
-    .navbar,
-    .footer {
-        padding: 1.5rem;
+    .navbar {
+        padding: 0.75rem 1rem;
     }
 
     .logo {
-        font-size: 2.5rem;
+        font-size: 1.6rem;
+        margin-right: 0;
     }
 
     .navbar-links {
         width: 100%;
+        margin-left: 0;
         justify-content: space-between;
         flex-wrap: wrap;
+        gap: 0.75rem;
     }
 
+    .nav-esami {
+        font-size: 0.9rem;
+        padding: 0.4rem 0.8rem;
+    }
+
+    /* Footer in colonna */
     .footer {
         flex-direction: column;
-        gap: 2rem;
+        gap: 1.25rem;
+        padding: 1.5rem 1rem;
+        text-align: center;
+    }
+
+    .footer-logo-univaq {
+        flex: none;
+        justify-content: center;
+    }
+
+    .footer::after {
+        display: none;
+    }
+}
+
+/* ── Smartphone ── */
+@media (max-width: 480px) {
+
+    .logo {
+        font-size: 1.4rem;
+    }
+
+    .nav-auth {
+        gap: 0.6rem;
+    }
+
+    .nav-user-name {
+        display: none;
+    }
+
+    .nav-esami,
+    .nav-link {
+        font-size: 0.85rem;
     }
 
     .footer-links {
-        gap: 1rem;
-        text-align: center;
+        gap: 0.6rem 1rem;
+        font-size: 0.85rem;
     }
 }

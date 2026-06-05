@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.8.0, created on 2026-06-04 16:40:01
+/* Smarty version 5.8.0, created on 2026-06-04 19:12:26
   from 'file:gestisciSegnalazione.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.8.0',
-  'unifunc' => 'content_6a21aa618a5386_24009433',
+  'unifunc' => 'content_6a21ce1a6fd372_09419031',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '4a0c888b9b5c1961deda911c1802574a846a801d' => 
     array (
       0 => 'gestisciSegnalazione.tpl',
-      1 => 1780589167,
+      1 => 1780600334,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6a21aa618a5386_24009433 (\Smarty\Template $_smarty_tpl) {
+function content_6a21ce1a6fd372_09419031 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\Studyroom-platform\\templates';
 ?><!DOCTYPE html>
 <html lang="it">
@@ -32,6 +32,7 @@ $_smarty_current_dir = 'C:\\laragon\\www\\Studyroom-platform\\templates';
     <link rel="icon" type="image/x-icon" href="/../img/studyroom_favicon.ico">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Rajdhani:wght@700&family=Exo+2:wght@700&family=DM+Serif+Display&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/../CSS/styleAdmin.css">
+    <link rel="icon" type="image/x-icon" href="/../img/studyroom_favicon.ico">
 </head>
 <body>
 

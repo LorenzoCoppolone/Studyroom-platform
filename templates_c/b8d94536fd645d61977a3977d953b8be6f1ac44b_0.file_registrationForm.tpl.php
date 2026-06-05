@@ -1,4 +1,28 @@
-<!DOCTYPE html>
+<?php
+/* Smarty version 5.8.0, created on 2026-06-04 19:13:05
+  from 'file:registrationForm.tpl' */
+
+/* @var \Smarty\Template $_smarty_tpl */
+if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
+  'version' => '5.8.0',
+  'unifunc' => 'content_6a21ce411ebe17_71213462',
+  'has_nocache_code' => false,
+  'file_dependency' => 
+  array (
+    'b8d94536fd645d61977a3977d953b8be6f1ac44b' => 
+    array (
+      0 => 'registrationForm.tpl',
+      1 => 1780600297,
+      2 => 'file',
+    ),
+  ),
+  'includes' => 
+  array (
+  ),
+))) {
+function content_6a21ce411ebe17_71213462 (\Smarty\Template $_smarty_tpl) {
+$_smarty_current_dir = 'C:\\laragon\\www\\Studyroom-platform\\templates';
+?><!DOCTYPE html>
 <html lang="it">
 <head>
     <meta charset="UTF-8">
@@ -33,51 +57,57 @@
             <form action="/User/effettuaRegistrazione" method="post" id="formRegistrazione">
                 <h2>Registrati</h2>
 
-                {* Token CSRF — decommentare se il backend lo fornisce *}
-                {* <input type="hidden" name="csrf_token" value="{$csrfToken|escape:'html'}"> *}
-
-                {* Errore globale (es. email gia registrata) *}
-                {if isset($errore)}
-                    <span class="msg-errore">{$errore|escape:'html'}</span>
-                {/if}
+                                
+                                <?php if ((true && ($_smarty_tpl->hasVariable('errore') && null !== ($_smarty_tpl->getValue('errore') ?? null)))) {?>
+                    <span class="msg-errore"><?php echo htmlspecialchars((string)$_smarty_tpl->getValue('errore'), ENT_QUOTES, 'UTF-8', true);?>
+</span>
+                <?php }?>
 
                 <!-- Nome -->
                 <div class="campo-input">
                     <input type="text" placeholder="Nome" name="nome"
-                           value="{$old.nome|default:''|escape:'html'}"
+                           value="<?php echo htmlspecialchars((string)(($tmp = $_smarty_tpl->getValue('old')['nome'] ?? null)===null||$tmp==='' ? '' ?? null : $tmp), ENT_QUOTES, 'UTF-8', true);?>
+"
                            pattern="[a-zA-ZÀ-ÿ\s'\-]+" title="Solo lettere, nessun numero" required>
                     <i class="bx bx-user"></i>
                 </div>
-                {if isset($errori.nome)}<span class="msg-errore">{$errori.nome|escape:'html'}</span>{/if}
+                <?php if ((true && (true && null !== ($_smarty_tpl->getValue('errori')['nome'] ?? null)))) {?><span class="msg-errore"><?php echo htmlspecialchars((string)$_smarty_tpl->getValue('errori')['nome'], ENT_QUOTES, 'UTF-8', true);?>
+</span><?php }?>
 
                 <!-- Cognome -->
                 <div class="campo-input">
                     <input type="text" placeholder="Cognome" name="cognome"
-                           value="{$old.cognome|default:''|escape:'html'}"
+                           value="<?php echo htmlspecialchars((string)(($tmp = $_smarty_tpl->getValue('old')['cognome'] ?? null)===null||$tmp==='' ? '' ?? null : $tmp), ENT_QUOTES, 'UTF-8', true);?>
+"
                            pattern="[a-zA-ZÀ-ÿ\s'\-]+" title="Solo lettere, nessun numero" required>
                     <i class="bx bx-badge"></i>
                 </div>
-                {if isset($errori.cognome)}<span class="msg-errore">{$errori.cognome|escape:'html'}</span>{/if}
+                <?php if ((true && (true && null !== ($_smarty_tpl->getValue('errori')['cognome'] ?? null)))) {?><span class="msg-errore"><?php echo htmlspecialchars((string)$_smarty_tpl->getValue('errori')['cognome'], ENT_QUOTES, 'UTF-8', true);?>
+</span><?php }?>
 
                 <!-- Username -->
                 <div class="campo-input">
                     <input type="text" placeholder="Username" name="username"
-                           value="{$old.username|default:''|escape:'html'}"
+                           value="<?php echo htmlspecialchars((string)(($tmp = $_smarty_tpl->getValue('old')['username'] ?? null)===null||$tmp==='' ? '' ?? null : $tmp), ENT_QUOTES, 'UTF-8', true);?>
+"
                            pattern="[a-zA-Z0-9_]+"
                            title="Solo lettere, numeri e _ (no spazi)" required>
                     <i class="bx bx-at"></i>
                 </div>
-                {if isset($errori.username)}<span class="msg-errore">{$errori.username|escape:'html'}</span>{/if}
+                <?php if ((true && (true && null !== ($_smarty_tpl->getValue('errori')['username'] ?? null)))) {?><span class="msg-errore"><?php echo htmlspecialchars((string)$_smarty_tpl->getValue('errori')['username'], ENT_QUOTES, 'UTF-8', true);?>
+</span><?php }?>
 
                 <!-- Email -->
                 <div class="campo-input">
                     <input type="email" placeholder="Email" name="email" id="email"
-                           value="{$old.email|default:''|escape:'html'}"
+                           value="<?php echo htmlspecialchars((string)(($tmp = $_smarty_tpl->getValue('old')['email'] ?? null)===null||$tmp==='' ? '' ?? null : $tmp), ENT_QUOTES, 'UTF-8', true);?>
+"
                            pattern="[a-zA-Z0-9._%+\-]+@student\.univaq\.it"
                            title="Usa la tua email universitaria (@student.univaq.it)" required>
                     <i class="bx bx-envelope"></i>
                 </div>
-                {if isset($errori.email)}<span class="msg-errore">{$errori.email|escape:'html'}</span>{/if}
+                <?php if ((true && (true && null !== ($_smarty_tpl->getValue('errori')['email'] ?? null)))) {?><span class="msg-errore"><?php echo htmlspecialchars((string)$_smarty_tpl->getValue('errori')['email'], ENT_QUOTES, 'UTF-8', true);?>
+</span><?php }?>
 
                 <!-- Password -->
                 <div class="campo-input">
@@ -104,6 +134,10 @@
         </div>
     </main>
 
-<script src="/../JS/validazione.js"></script>
+<?php echo '<script'; ?>
+ src="/../JS/validazione.js"><?php echo '</script'; ?>
+>
 </body>
 </html>
+<?php }
+}

@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.8.0, created on 2026-06-04 16:39:56
+/* Smarty version 5.8.0, created on 2026-06-04 19:12:19
   from 'file:dashboardAdmin.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.8.0',
-  'unifunc' => 'content_6a21aa5cbe43c7_24443314',
+  'unifunc' => 'content_6a21ce1307ccb4_53510750',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'e30858b481b3bc0e5909de9de6780b3a11b17589' => 
     array (
       0 => 'dashboardAdmin.tpl',
-      1 => 1780589155,
+      1 => 1780600327,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6a21aa5cbe43c7_24443314 (\Smarty\Template $_smarty_tpl) {
+function content_6a21ce1307ccb4_53510750 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\Studyroom-platform\\templates';
 ?><!DOCTYPE html>
 <html lang="it">
@@ -30,6 +30,7 @@ $_smarty_current_dir = 'C:\\laragon\\www\\Studyroom-platform\\templates';
     <title>StudyRoom | Dashboard Admin</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Rajdhani:wght@700&family=Exo+2:wght@700&family=DM+Serif+Display&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/../CSS/styleAdmin.css">
+    <link rel="icon" type="image/x-icon" href="/../img/studyroom_favicon.ico">
 </head>
 <body>
 

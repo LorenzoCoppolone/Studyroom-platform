@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="/../img/studyroom_favicon.ico">
 
     <title>{block name="title"}StudyRoom{/block}</title>
 
@@ -55,10 +56,7 @@
                         {$studente}
                     </span>
 
-                    <!-- LOGOUT -->
-                    <a href="/User/logoutUtente" class="nav-link">
-                        Esci
-                    </a>
+                    
 
                 {else}
 

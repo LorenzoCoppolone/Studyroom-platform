@@ -1,104 +1,237 @@
 /* =============================================
-   MAIN
+   STUDYROOM — styleHome.css
+   Usa le variabili definite in styleLayout.css
    ============================================= */
+
 main {
     flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 2rem 3rem;
-    gap: 2rem;
+    gap: 3rem;
+
+    width: 100%;
     max-width: 1000px;
     margin: 0 auto;
+    padding: 3rem 1.5rem;
+}
+
+/* =============================================
+   SEZIONE RICERCA
+   ============================================= */
+.section-search {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
     width: 100%;
+    text-align: center;
 }
 
 .section-title {
     font-family: var(--font-display);
-    font-size: 2.8rem;
+    font-weight: 700;
+    font-size: clamp(1.8rem, 5vw, 2.8rem);
+    letter-spacing: -0.5px;
     color: var(--color-primary);
 }
 
 .section-subtitle {
-    font-family: var(--font-mono);
-    font-size: 1.1rem;
-    font-weight: 700;
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: clamp(0.95rem, 2.5vw, 1.15rem);
+    color: var(--color-text-muted);
 }
 
 .search-box {
     display: flex;
     align-items: center;
-    border: 3px solid var(--color-primary);
-    border-radius: var(--radius-pill);
-    overflow: hidden;
     width: 100%;
     max-width: 700px;
-    margin-top: 0.6rem;
-    background: white;
+    margin-top: 0.8rem;
+
+    border: 2px solid var(--color-primary);
+    border-radius: var(--radius-pill);
+    overflow: hidden;
+
+    background: var(--color-card);
     box-shadow: var(--shadow-soft);
+
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.search-box:hover {
+    border-color: var(--color-primary-dark);
+    box-shadow: 0 8px 28px rgba(108, 79, 212, 0.20);
+    transform: translateY(-2px);
+}
+
+.search-box:focus-within {
+    border-color: var(--color-primary-dark);
+    box-shadow: 0 0 0 4px var(--color-primary-light), var(--shadow-soft);
 }
 
 .search-box input {
     flex: 1;
+    min-width: 0;
     border: none;
     outline: none;
-    padding: 0.65rem 1rem;
+    padding: 0.8rem 1.25rem;
+    font-family: var(--font-body);
     font-size: 1rem;
-    font-style: italic;
+    color: var(--color-text);
+}
+
+.search-box input::placeholder {
+    color: var(--color-text-muted);
 }
 
 .btn-search-main {
     border: none;
-    background: transparent;
-    border-left: 3px solid var(--color-primary);
-    padding: 0.65rem 1rem;
+    border-left: 2px solid var(--color-primary);
+    background: var(--color-primary-light);
+    color: var(--color-primary);
+    padding: 0.8rem 1.4rem;
     font-size: 1.1rem;
     cursor: pointer;
+    transition: background-color 0.15s ease, color 0.15s ease;
 }
 
+.btn-search-main:hover {
+    background: var(--color-primary);
+    color: #fff;
+}
 
-/* Upload */
+/* =============================================
+   SEZIONE UPLOAD — testo a sinistra / box a destra, più in basso e più grande
+   ============================================= */
 .section-upload {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 0.6rem;
-    margin-top: 1.5rem;;
+    gap: 2.5rem;
+
     width: 100%;
-    max-width: 900px; /* PIÙ GRANDE */
+    max-width: 1080px;
+    margin-top: 2.5rem;
+    padding: 3.25rem;
+
+    background: var(--color-card);
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius-box);
+    box-shadow: var(--shadow-soft);
+}
+
+.upload-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
 }
 
 .upload-title {
     font-family: var(--font-display);
-    font-size: 2.3rem;
+    font-weight: 700;
+    font-size: clamp(2rem, 4.2vw, 2.8rem);
     color: var(--color-primary);
 }
 
 .upload-subtitle {
-    font-family: var(--font-mono);
-    font-size: 1.2rem;
-    font-weight: 450;
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: clamp(1.05rem, 2.5vw, 1.35rem);
+    color: var(--color-text-muted);
 }
 
 .upload-box {
-    border: 4px dashed var(--color-upload-border);
-    border-radius: var(--radius-box);
-    padding: 2rem 2rem;
-    min-width: 200px;
-    min-height: 140px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.1rem;
-    background: rgba(255, 255, 255, 0.6);
+    justify-content: center;
+    gap: 0.5rem;
+
+    min-width: 320px;
+    min-height: 250px;
+    padding: 2.75rem;
+
+    border: 3px dashed var(--color-upload-border);
+    border-radius: var(--radius-box);
+    background: var(--color-bg);
+    color: var(--color-primary);
+    text-align: center;
     cursor: pointer;
+
+    transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
+}
+
+.upload-box:hover {
+    border-color: var(--color-primary);
+    background: var(--color-primary-light);
+    transform: translateY(-3px);
+}
+
+.upload-icon {
+    font-size: 3.75rem;
+    color: var(--color-primary);
 }
 
 .upload-label {
     font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--color-text);
 }
 
 .upload-hint {
     font-size: 1rem;
+    color: var(--color-text-muted);
+}
+
+/* =============================================
+   RESPONSIVE
+   ============================================= */
+
+@media (max-width: 768px) {
+
+    main {
+        gap: 2rem;
+        padding: 2rem 1.25rem;
+    }
+
+    .section-upload {
+        flex-direction: column;
+        text-align: center;
+        gap: 1.5rem;
+        margin-top: 1.5rem;
+        padding: 2rem 1.5rem;
+    }
+
+    .upload-text {
+        align-items: center;
+    }
+
+    .upload-box {
+        width: 100%;
+        min-height: 190px;
+        padding: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+
+    main {
+        padding: 1.5rem 1rem;
+    }
+
+    .search-box {
+        margin-top: 0.5rem;
+    }
+
+    .search-box input {
+        padding: 0.7rem 1rem;
+    }
+
+    .btn-search-main {
+        padding: 0.7rem 1.1rem;
+        font-size: 1rem;
+    }
 }
 
