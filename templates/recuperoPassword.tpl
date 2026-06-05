@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recupero Password • StudyRoom</title>
 
-    <link rel="stylesheet" href="/../CSS/styleRecupero.css">
+    <link rel="stylesheet" href="/../CSS/styleForm.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Space+Mono:wght@400;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 </head>
 
@@ -18,7 +18,7 @@
 
     <div class="login-box">
 
-        <form method="POST" action="/User/inviaRecuperoPassword" class="login-form">
+        <form method="POST" action="/User/recuperoPassword" class="login-form">
 
             <div class="form-group">
                 <label for="email">Email</label>

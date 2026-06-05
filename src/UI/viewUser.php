@@ -29,7 +29,7 @@ class viewUser {
     }
 
     public function mostraFormRecuperoPassword() {
-        // logica per mostrare la form di recupero password
+        $this->smarty->display("recuperoPassword.tpl");
     }
 
     public function mostraFormErrore(string $messaggio) {

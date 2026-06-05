@@ -29,6 +29,11 @@ class UserController {
         $view = new viewUser();
         $view->mostraFormRegistrazione();
     }
+
+    public function recuperoPassword() : void {
+        $view = new viewUser();
+        $view->mostraFormRecuperoPassword();
+    }
     
     /**
      * Funzione per gestire la registrazione di un nuovo studente,
