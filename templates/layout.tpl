@@ -47,9 +47,13 @@
                 {if $studente}
 
                     <!-- FOTO PROFILO -->
-                    <div class="nav-user-avatar">
-                    <img src="$base64" alt="Foto profilo">
-                    </div>
+                    <a href="/User/profiloStudente" class="nav-user-avatar">
+                        {if $base64}
+                            <img src="{$base64}" alt="Foto profilo">
+                        {else}
+                            <i class="fa fa-circle-user"></i>
+                        {/if}
+                    </a>
 
                     <!-- USERNAME -->
                     <a href="/User/profiloStudente" class="nav-user-name">{$studente}</a>
