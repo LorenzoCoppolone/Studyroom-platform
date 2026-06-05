@@ -3,7 +3,7 @@
 {block name="title"}Profilo Utente - StudyRoom{/block}
 
 {block name="pageCSS"}
-    <link rel="stylesheet" href="styleProfiloUtente.css">
+    <link rel="stylesheet" href="/../CSS/styleProfiloUtente.css">
 {/block}
 
 {block name="content"}
@@ -35,22 +35,22 @@
         </div>
 
         <!-- BOTTONI -->
-        <a href="modificaProfilo" class="btn-modifica">Modifica</a>
-        <a href="logout.php" class="btn-logout">Logout</a>
+        <a href="/User/modificaProfiloStudente" class="btn-modifica">Modifica</a>
+        <a href="/User/logoutUtente" class="btn-logout">Logout</a>
 
     </div>
 
     <!-- COLONNA DESTRA -->
     <div class="profile-right">
-        <a href="preferiti" class="profile-section-btn">Preferiti</a>
-        <a href="scaricati" class="profile-section-btn">Scaricati</a>
-        <a href="mieRecensioni" class="profile-section-btn">Mie recensioni</a>
-        <a href="caricati" class="profile-section-btn">Caricati</a>
+        <a href="/RicercaMateriale/preferiti" class="profile-section-btn">Preferiti</a>
+        <a href="/RicercaMateriale/download" class="profile-section-btn">Scaricati</a>
+        <a href="/User/cercaRecensioniUtente" class="profile-section-btn">Mie recensioni</a>
+        <a href="/RicercaMateriale/popolariUtente" class="profile-section-btn">Caricati</a>
     </div>
 
 </div>
 
 <!-- JS MINIMO -->
-<script src="profiloUtente.js"></script>
+<script src="/../JS/profiloUtente.js"></script>
 
 {/block}

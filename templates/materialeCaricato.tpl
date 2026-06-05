@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    <link rel="stylesheet" href="../CSS/styleSuccess.css">
+    <link rel="stylesheet" href="/../CSS/styleResult.css">
     <meta charset="UTF-8">
     <title>Successo</title>
 </head>
@@ -16,8 +16,8 @@
     </div>
 
     <div class="success-buttons">
-        <a href="/caricaMateriale" class="btn-left">Torna a caricare</a>
-        <a href="/home" class="btn-right">Torna alla home</a>
+        <a href="/CaricaMateriale/carica" class="btn-left">Torna a caricare</a>
+        <a href="/Home/dashboard" class="btn-right">Torna alla home</a>
     </div>
 </div>
 

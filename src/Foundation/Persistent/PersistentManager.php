@@ -13,13 +13,14 @@ class PersistentManager {
     private AdminRepository $adminRepository;
     private MaterialeRepository $materialeRepository;
     private UtenteRepository $utenteRepository;
-
+    private InsegnamentoRepository $insegnamentoRepository;
     // Costruttore privato (Singleton)
     private function __construct(EntityManagerInterface $entityManager) {
         $this->em = $entityManager;
         $this->adminRepository = new AdminRepository($entityManager);
         $this->materialeRepository = new MaterialeRepository($entityManager);
         $this->utenteRepository = new UtenteRepository($entityManager);
+        $this->insegnamentoRepository = new InsegnamentoRepository($entityManager);
     }
 
     // Ottieni l'istanza unica
@@ -148,5 +149,13 @@ class PersistentManager {
 
     public function eliminaSegnalazioniAdmin(int $id_materiale): void {
         $this->adminRepository->eliminaSegnalazioni($id_materiale);
+    }
+
+    public function trovaInsegnamenti(): array {
+        return $this->insegnamentoRepository->trovaInsegnamenti();
+    }
+
+    public function trovaCorsiDiLaurea(): array {
+        return $this->insegnamentoRepository->trovaCorsiDiLaurea();
     }
 }

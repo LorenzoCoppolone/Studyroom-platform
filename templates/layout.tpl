@@ -37,26 +37,26 @@
 
         <nav class="navbar-links">
 
-            <a href="/RicercaMateriali/popolari" class="nav-link nav-esami">
+            <a href="/RicercaMateriale/popolari" class="nav-link nav-esami">
                 Prepara i tuoi esami
             </a>
 
             <div class="nav-auth">
 
-                {if $utente}
+                {if $studente}
 
                     <!-- FOTO PROFILO -->
                     <div class="nav-user-avatar">
-                    <img src="{$utente.foto}" alt="Foto profilo">
+                    <img src="$base64" alt="Foto profilo">
                     </div>
 
                     <!-- NOME E COGNOME -->
                     <span class="nav-user-name">
-                        {$utente.nome} {$utente.cognome}
+                        {$studente}
                     </span>
 
                     <!-- LOGOUT -->
-                    <a href="/User/logout" class="nav-link">
+                    <a href="/User/logoutUtente" class="nav-link">
                         Esci
                     </a>
 

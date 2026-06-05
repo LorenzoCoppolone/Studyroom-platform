@@ -35,7 +35,7 @@
                     </span>
                 </span>
                 <span>
-                    <a href="/admin/gestisciSegnalazione/{$s.idMateriale|escape}" class="btn-gestisci">
+                    <a href="/Admin/gestisciSegnalazione/{$s.idMateriale|escape}" class="btn-gestisci">
                         Gestisci
                     </a>
                 </span>

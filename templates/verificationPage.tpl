@@ -10,8 +10,8 @@
 </head>
 <body>
     <div class="page-container">
-        <a href="home.html" target="_self">
-            <img src="/Studyroom-platform/img/logo.png" alt="Logo StudyRoom" class="logo-verifica">
+        <a href="/Home/dashboard" target="_self">
+            <img src="/../img/logo.png" alt="Logo StudyRoom" class="logo-verifica">
         </a>
         <div class="card">
            <div class="icon-circle">

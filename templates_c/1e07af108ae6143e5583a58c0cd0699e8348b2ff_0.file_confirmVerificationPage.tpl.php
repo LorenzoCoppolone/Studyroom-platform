@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.8.0, created on 2026-05-28 13:59:40
+/* Smarty version 5.8.0, created on 2026-06-04 17:09:18
   from 'file:confirmVerificationPage.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.8.0',
-  'unifunc' => 'content_6a184a4c8af292_91966374',
+  'unifunc' => 'content_6a21b13e4fa357_87877223',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '1e07af108ae6143e5583a58c0cd0699e8348b2ff' => 
     array (
       0 => 'confirmVerificationPage.tpl',
-      1 => 1779976579,
+      1 => 1780592741,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6a184a4c8af292_91966374 (\Smarty\Template $_smarty_tpl) {
+function content_6a21b13e4fa357_87877223 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\studyroom-platform\\templates';
 ?><!DOCTYPE html>
 <html lang="it">
@@ -34,8 +34,8 @@ $_smarty_current_dir = 'C:\\laragon\\www\\studyroom-platform\\templates';
 </head>
 <body>
     <div class="page-container">
-         <a href="home.html" target="_self">
-            <img src="/Studyroom-platform/img/logo.png" alt="Logo StudyRoom" class="logo-conferma">
+         <a href="/Home/dashboard" target="_self">
+            <img src="/../img/logo.png" alt="Logo StudyRoom" class="logo-conferma">
         </a>
         <div class="card">
             <div class="check-circle">
@@ -45,7 +45,7 @@ $_smarty_current_dir = 'C:\\laragon\\www\\studyroom-platform\\templates';
             <p>La tua registrazione è andata a buon fine.<br>
                Benvenuto su <strong>StudyRoom</strong>!</p>
             <hr class="divider">
-            <a href="loginForm.html" class="btn-login">Accedi ora</a>
+            <a href="/User/login" class="btn-login">Accedi ora</a>
         </div>
     </div>
 

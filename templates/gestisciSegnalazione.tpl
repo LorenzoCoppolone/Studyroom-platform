@@ -18,7 +18,7 @@
 
 <main>
 
-    <a href="/admin/dashboard" class="back-link">← Torna alla dashboard</a>
+    <a href="/Admin/dashboard" class="back-link">← Torna alla dashboard</a>
 
     <h1 class="page-title">Gestisci Segnalazione</h1>
 
@@ -88,7 +88,7 @@
                     <div class="action-group">
 
                         <!-- Accetta: archivia le segnalazioni, il materiale rimane -->
-                        <form method="post" action="/admin/eseguiAzione">
+                        <form method="post" action="/Admin/eseguiAzione">
                             <input type="hidden" name="bottonePremuto" value="accetta">
                             <input type="hidden" name="idMaterialeSegnalato" value="{$materiale.idMateriale|escape}">
                             <input type="hidden" name="idUtente" value="{$utente.id|escape}">
@@ -99,7 +99,7 @@
                         </form>
 
                         <!-- Rifiuta: elimina il materiale e le segnalazioni -->
-                        <form method="post" action="/admin/eseguiAzione">
+                        <form method="post" action="/Admin/eseguiAzione">
                             <input type="hidden" name="bottonePremuto" value="rifiuta">
                             <input type="hidden" name="idMaterialeSegnalato" value="{$materiale.idMateriale|escape}">
                             <input type="hidden" name="idUtente" value="{$utente.id|escape}">
@@ -110,7 +110,7 @@
                         </form>
 
                         <!-- Banna utente -->
-                        <form method="post" action="/admin/eseguiAzione">
+                        <form method="post" action="/Admin/eseguiAzione">
                             <input type="hidden" name="bottonePremuto" value="banUtente">
                             <input type="hidden" name="idMaterialeSegnalato" value="{$materiale.idMateriale|escape}">
                             <input type="hidden" name="idUtente" value="{$utente.id|escape}">
