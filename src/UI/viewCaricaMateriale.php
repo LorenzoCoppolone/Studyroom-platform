@@ -55,9 +55,9 @@ class viewCaricaMateriale {
         * Mostra la form per caricare un materiale
         * @return void
         */
-        public function mostraFormCaricaMateriale(array $insegnamenti, array $corsi) : void {
-            $this->smarty->assign('insegnamenti', $insegnamenti);
+        public function mostraFormCaricaMateriale(array $corsi, array $insegnamenti) : void {
             $this->smarty->assign('corsi', $corsi);
+            $this->smarty->assign('insegnamenti', $insegnamenti);
             $this->smarty->display('caricaMateriale.tpl');
         }
 }

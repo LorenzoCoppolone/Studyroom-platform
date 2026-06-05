@@ -97,12 +97,25 @@ class File{
     }
 
     public function getBase64(Studente $studente): ?string {
-       return ($studente->getImmagineProfilo() && $studente->getImmagineProfilo()->getContenutoFile() !== null)
-    ? 'data:' . $studente->getImmagineProfilo()->getMimeType() . ';base64,' . base64_encode(
-        is_resource($studente->getImmagineProfilo()->getContenutoFile())
-            ? stream_get_contents($studente->getImmagineProfilo()->getContenutoFile())
-            : $studente->getImmagineProfilo()->getContenutoFile()
-    )
-    : null;
+      $img = $studente->getImmagineProfilo();
+$foto = null;
+
+if ($img) {
+
+    $contenuto = $img->getContenutoFile();
+
+    // Caso: Doctrine restituisce uno stream
+    if (is_resource($contenuto)) {
+        rewind($contenuto); // fondamentale
+        $contenuto = stream_get_contents($contenuto);
+    }
+
+    // Caso: Doctrine restituisce già una stringa binaria
+    if (is_string($contenuto) && strlen($contenuto) > 0) {
+        $base64 = 'data:' . $img->getMimeTypeFile() . ';base64,' . base64_encode($contenuto);
+    }
+}
+
+return $base64;
     }
 }

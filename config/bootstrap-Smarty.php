@@ -9,7 +9,9 @@ if ($autoload === false) {
 require_once $autoload;
 use Smarty\Smarty;
 $smarty = new Smarty();
-
+$smarty->compile_check = true;
+$smarty->force_compile = true;
+$smarty->caching = false;
 // cartelle nella root del progetto
 $smarty->setTemplateDir(__DIR__ . '/../templates/');
 $smarty->setCompileDir(__DIR__ . '/../templates_c/');

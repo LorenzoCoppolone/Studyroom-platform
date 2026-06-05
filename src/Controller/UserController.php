@@ -220,26 +220,18 @@ class UserController {
     }
 
     public function modificaProfiloStudente() : void {
+       try{
         $view = new viewUser();
-        $modifiche = $view->getDatiModifiche(); // Ottieni i dati delle modifiche da apportare al profilo, se presenti
-         try {
-            $pm = PersistentManager::getInstance();
-            $session = Session::getInstance();
-            $idStudenteLoggato = $session->getSessionElement('studente');
-            $studente = $pm->find(Studente::class, $idStudenteLoggato);
-            if ($studente === null) {
-                $view->mostraFormErrore("Utente non trovato");
-                return;
-            }
-            $studente->setNome($modifiche['nome']?? $studente->getNome());
-            $studente->setCognome($modifiche['cognome']?? $studente->getCognome());
-            $studente->setEmail($modifiche['email']?? $studente->getEmail());
-            $studente->setUsername($modifiche['username']?? $studente->getUsername());
-            $studente->setPassword($modifiche['password']?? $studente->getPassword());
-            $immagine = new File($modifiche['immagine'][0], $modifiche['immagine'][1], $modifiche['immagine'][2], $modifiche['immagine'][3], $modifiche['immagine'][4]);
-            $studente->setImmagineProfilo($immagine ?? $studente->getImmagineProfilo());
-            $pm->update($studente);
-            $view->mostraFormSuccessoProfilo();
+        $session = Session::getInstance(); // Ottieni l'istanza della sessione
+        $idStudenteLoggato = $session->getSessionElement('studente');
+        $pm = PersistentManager::getInstance();
+        $studente = $pm->find(Studente::class, $idStudenteLoggato); // Trova lo studente loggato
+        $view->mostraModificaProfilo([
+            "nome" => $studente->getNome(),
+            "cognome" => $studente->getCognome(),
+            "username" => $studente->getUsername(),
+            "foto" => $studente->getImmagineProfilo()->getBase64($studente)
+        ]);
         } catch (Exception $e) {
             $view->mostraFormErrore("Errore durante la modifica del profilo: " . $e->getMessage());
         } catch (PDOException $e) {
@@ -265,21 +257,17 @@ class UserController {
                 $view->mostraFormErrore("Devi effettuare l'accesso per modificare il profilo.");
                 return;
             }
-
             $pm = PersistentManager::getInstance();
             $studente = $pm->find(Studente::class, $idStudenteLoggato);
             if ($studente === null) {
                 $view->mostraFormErrore("Utente non trovato.");
-                return;
+                exit;
             }
-
             $dati = $view->getDatiModificaProfilo();
-
             // Aggiorna i campi testuali solo se valorizzati, altrimenti mantieni quelli attuali
             if (!empty($dati['nome']))     { $studente->setNome($dati['nome']); }
             if (!empty($dati['cognome']))  { $studente->setCognome($dati['cognome']); }
             if (!empty($dati['username'])) { $studente->setUsername($dati['username']); }
-
             // Aggiorna la foto profilo solo se è stato caricato un nuovo file senza errori
             $immagine = $dati['immagine'];
             if (!empty($immagine[1]) && (int)$immagine[2] === UPLOAD_ERR_OK) {
@@ -288,9 +276,8 @@ class UserController {
                 $mimeType    = $immagine[4];
                 $studente->setImmagineProfilo(new File($contenuto, $mimeType, $dimensione));
             }
-
             $pm->update($studente);
-            $view->mostraFormSuccessoProfilo();
+            $view->mostraFormSuccesso("Profilo aggiornato con successo.");
         } catch (PDOException $e) {
             $view->mostraFormErrore("Errore durante l'aggiornamento del profilo: " . $e->getMessage());
         } catch (Exception $e) {

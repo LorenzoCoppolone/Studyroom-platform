@@ -20,13 +20,7 @@ class HomeController{
             if ($studente->getImmagineProfilo() === null) {
                 $base64 = null;
             } else {
-            $base64 = $studente->getImmagineProfilo() && $studente->getImmagineProfilo()->getContenutoFile() !== null
-    ? 'data:' . $studente->getImmagineProfilo()->getMimeType() . ';base64,' . base64_encode(
-        is_resource($studente->getImmagineProfilo()->getContenutoFile())
-            ? stream_get_contents($studente->getImmagineProfilo()->getContenutoFile())
-            : $studente->getImmagineProfilo()->getContenutoFile()
-    )
-    : null;
+                $base64 = $studente->getImmagineProfilo()->getBase64($studente);
             }
             $view->mostraHome($username, $base64);
         }

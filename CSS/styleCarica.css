@@ -1,228 +1,445 @@
-/* FONT E RESET */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+/* =============================================
+   STUDYROOM — styleCarica.css
+   Form di caricamento materiale, coerente con
+   styleModificaProfilo.css e styleLayout.css
+   ============================================= */
+
+main {
+    flex: 1;
+    width: 100%;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem;
 }
 
-body {
-    font-family: 'Nunito', sans-serif;
-    background: linear-gradient(180deg, #EADAF7 0%, #F4E9FB 40%, #FFFFFF 100%);
-    min-height: 100vh;
+/* Card contenitore */
+.upload-card {
+    background: var(--color-card);
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius-box);
+    box-shadow: var(--shadow-soft);
+    padding: 2.5rem;
 }
 
-/* CAMPO IN ERRORE */
-.input-error {
-    border-color: #ff4d4d !important;
-    background: #ffecec;
-}
-
-/* TESTO ERRORE */
-.error-msg {
-    color: #ff4d4d;
-    font-size: 0.9rem;
-    margin-top: 4px;
-    font-family: 'Nunito';
-}
-
-/* NAVBAR */
-.navbar {
-    padding: 2rem 4rem;
-}
-
-.logo {
-    font-family: 'Playfair Display', serif;
-    font-size: 3.5rem;
-    font-weight: 900;
-    color: #7B2FBE;
-    text-decoration: none;
-}
-
-/* CONTAINER */
-.upload-container {
-    max-width: 900px;
-    margin: 3rem auto;
+.upload-card-title {
     display: flex;
-    flex-direction: column;
-    gap: 3rem;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: var(--font-display);
+    font-size: clamp(1.4rem, 4vw, 1.9rem);
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: var(--color-primary);
+    margin-bottom: 1.75rem;
 }
 
-/* TIPO DOCUMENTO */
+.upload-card-title i {
+    font-size: 0.9em;
+}
+
+/* Errore globale */
+.upload-error {
+    background: var(--color-primary-light);
+    border: 1.5px solid var(--color-accent);
+    color: var(--color-accent);
+    border-radius: var(--radius-box);
+    padding: 0.8rem 1rem;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Testo errore campo */
+.error-msg {
+    color: var(--color-accent);
+    font-size: 0.85rem;
+    font-family: var(--font-body);
+    min-height: 1em;
+}
+
+/* =============================================
+   SELETTORE TIPO DOCUMENTO
+   ============================================= */
 .type-selector {
     display: flex;
-    gap: 2rem;
-    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1.75rem;
 }
 
 .type-btn {
-    padding: 1rem 4.5rem;
-    border-radius: 999px;
-    border: 2px solid #7B2FBE;
-    background: white;
-    font-family: 'Space Mono';
-    font-size: 2rem;
+    flex: 1;
+    padding: 0.8rem 1rem;
+    border-radius: var(--radius-pill);
+    border: 1.5px solid var(--color-border);
+    background: var(--color-card);
+    color: var(--color-primary);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 600;
     cursor: pointer;
+    transition: background-color 0.15s ease, color 0.15s ease,
+                border-color 0.15s ease;
+}
+
+.type-btn:hover {
+    border-color: var(--color-primary);
 }
 
 .type-btn.active {
-    background: #7B2FBE;
-    color: white;
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: #fff;
 }
 
-/* UPLOAD BOX */
-.file-name {
-    margin-top: 8px;
-    font-size: 1rem;
-    color: #333;
-    text-align: center;
-    font-family: 'Nunito';
+/* =============================================
+   FORM
+   ============================================= */
+.upload-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
 }
 
+/* =============================================
+   UPLOAD BOX
+   ============================================= */
 .upload-box {
-    border: 3px dashed #AAAAAA;
-    border-radius: 16px;
-    padding: 3rem;
+    display: block;
+    border: 2px dashed var(--color-upload-border);
+    border-radius: var(--radius-box);
+    padding: 2.25rem 1.5rem;
     cursor: pointer;
-    background: rgba(255, 255, 255, 0.6);
+    background: var(--color-primary-light);
+    transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.upload-box:hover {
+    border-color: var(--color-primary);
 }
 
 .upload-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
     text-align: center;
 }
 
+.upload-box-icon {
+    font-size: 2.5rem;
+    color: var(--color-primary);
+    margin-bottom: 0.3rem;
+}
+
 .upload-title {
-    font-size: 2.2rem;
+    font-family: var(--font-display);
+    font-size: 1.2rem;
     font-weight: 700;
+    color: var(--color-text);
 }
 
 .upload-info {
-    font-size: 1.4rem;
-    color: #555;
-    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    margin-bottom: 0.75rem;
 }
 
 .upload-btn {
-    padding: 1rem 2.5rem;
-    border-radius: 999px;
-    border: none;
-    background: #7B2FBE;
-    color: white;
-    cursor: pointer;
-    font-size: 1.5rem;
+    pointer-events: none; /* il click è gestito dalla label */
 }
 
-/* FORM */
-.form-section {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
+.file-name {
+    margin-top: 0.75rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    text-align: center;
+    word-break: break-word;
 }
 
+/* =============================================
+   CAMPI
+   ============================================= */
 .form-group {
     display: flex;
     flex-direction: column;
     gap: 0.4rem;
-    font-size: 2rem;
-    padding: auto;
 }
 
 .form-group label {
-    font-family: 'Space Mono';
+    font-family: var(--font-body);
+    font-size: 0.9rem;
     font-weight: 700;
+    color: var(--color-primary);
+    margin-left: 0.2rem;
 }
 
 .form-group input,
 .form-group select {
-    padding: 0.9rem 1rem;
-    border-radius: 12px;
-    border: 2px solid #7B2FBE;
-    font-size: 1.5rem;
+    width: 100%;
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius-pill);
+    padding: 0.7rem 1.2rem;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    color: var(--color-text);
+    background: var(--color-card);
+    outline: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
-/* DROPDOWN */
-.dropdown {
-    border: 2px solid #7B2FBE;
-    border-radius: 12px;
-    background: white;
-    display: none;
-    flex-direction: column;
-    max-height: 200px;
+/* Nomi lunghi di corsi/insegnamenti: niente a capo, troncati con "…" */
+.form-group select {
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* Lascia spazio alla freccia nativa così il testo non ci finisce sopra */
+    padding-right: 2.5rem;
+}
+
+/* Le opzioni nel menu a tendina non sforano la larghezza della select */
+.form-group select option {
+    white-space: normal;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px var(--color-primary-light);
+}
+
+.form-group input::placeholder {
+    color: var(--color-text-muted);
+}
+
+/* Campo disabilitato (es. insegnamento bloccato) */
+.form-group select:disabled {
+    background: var(--color-primary-light);
+    color: var(--color-text-muted);
+    cursor: not-allowed;
+    opacity: 0.8;
+}
+
+/* Campo non valido (validazione) */
+.input-error {
+    border-color: var(--color-accent) !important;
+    box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.18) !important;
+}
+
+/* =============================================
+   COMBOBOX — campo di ricerca con suggerimenti
+   ============================================= */
+.combo {
+    position: relative;
+}
+
+/* Icona lente dentro al campo */
+.combo-icon {
+    position: absolute;
+    top: 50%;
+    left: 1.1rem;
+    transform: translateY(-50%);
+    color: var(--color-primary);
+    font-size: 0.95rem;
+    pointer-events: none;
+}
+
+/* L'input eredita lo stile da .form-group input; qui aggiungo solo
+   lo spazio per l'icona */
+.combo-input {
+    padding-left: 2.7rem !important;
+}
+
+.combo-input:disabled {
+    background: var(--color-primary-light);
+    color: var(--color-text-muted);
+    cursor: not-allowed;
+    opacity: 0.8;
+}
+
+/* Lista dei suggerimenti — vincolata alla larghezza del campo,
+   quindi i nomi lunghi restano dentro la card (vanno a capo) */
+.combo-list {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    right: 0;
+    z-index: 30;
+
+    list-style: none;
+    margin: 0;
+    padding: 0.35rem;
+
+    max-height: 240px;
     overflow-y: auto;
+
+    background: var(--color-card);
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius-box);
+    box-shadow: var(--shadow-soft);
+
+    display: none;
 }
 
-.dropdown div {
-    padding: 0.8rem;
+.combo-list.open {
+    display: block;
+}
+
+.combo-item {
+    padding: 0.6rem 0.85rem;
+    border-radius: 10px;
     cursor: pointer;
+    font-size: 0.95rem;
+    color: var(--color-text);
+    white-space: normal;        /* i nomi lunghi vanno a capo, non allargano */
+    transition: background-color 0.12s ease, color 0.12s ease;
 }
 
-.dropdown div:hover {
-    background: #EADAF7;
+.combo-item:hover,
+.combo-item.active {
+    background: var(--color-primary-light);
+    color: var(--color-primary);
 }
 
-/* CHECKBOX */
+.combo-empty {
+    padding: 0.6rem 0.85rem;
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    text-align: center;
+}
+
+/* =============================================
+   CHECKBOX TERMINI
+   ============================================= */
 .form-check {
     display: flex;
     align-items: center;
-    gap: 0.8rem;
+    gap: 0.7rem;
     cursor: pointer;
-    font-size: 2rem;
-
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    color: var(--color-text);
 }
 
-/* Nasconde il checkbox nativo */
 .form-check input[type="checkbox"] {
     appearance: none;
     -webkit-appearance: none;
-    width: 40px;
-    height: 40px;
-    border: 3px solid #7B2FBE;
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+    border: 2px solid var(--color-primary);
     border-radius: 6px;
     cursor: pointer;
     position: relative;
-    background: white;
+    background: var(--color-card);
+    transition: background-color 0.15s ease;
 }
 
-/* Checkmark */
 .form-check input[type="checkbox"]::after {
-    content: "";
+    content: "\f00c"; /* fa-check */
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    font-size: 0.7rem;
+    color: #fff;
     position: absolute;
-    width: 30px;
-    height: 30px;
-    background: #7B2FBE;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%) scale(0);
-    border-radius: 3px;
-    transition: 0.15s ease-in-out;
+    transition: transform 0.15s ease-in-out;
 }
 
-/* Quando è selezionato */
+.form-check input[type="checkbox"]:checked {
+    background: var(--color-primary);
+}
+
 .form-check input[type="checkbox"]:checked::after {
     transform: translate(-50%, -50%) scale(1);
 }
 
-/* BOTTONI */
-.buttons {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 2rem;
-}
-
-.btn-home {
-    padding: 1rem 4rem;
-    background: #ccc;
-    border-radius: 12px;
-    text-decoration: none;
-    color: black;
-    font-size: 2rem;
-}
-
-.btn-upload {
-    padding: 1rem 4rem;
-    background: #7B2FBE;
-    border-radius: 12px;
-    border: none;
-    color: white;
-    font-size: 2rem;
+.form-check label {
     cursor: pointer;
+}
+
+/* =============================================
+   AZIONI
+   ============================================= */
+.upload-actions {
+    display: flex;
+    align-items: stretch;
+    gap: 1rem;
+    margin-top: 1.25rem;
+}
+
+/* Home: azione secondaria, compatta */
+.btn-home {
+    flex: 0 0 auto;
+}
+
+/* Carica: azione primaria, in evidenza */
+.btn-carica {
+    flex: 1;
+    gap: 0.6rem;
+
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+    color: #fff;
+    padding: 0.9rem 1.6rem;
+
+    border: none;
+    border-radius: var(--radius-pill);
+    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+    box-shadow: 0 6px 18px rgba(108, 79, 212, 0.35);
+
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+}
+
+.btn-carica i {
+    transition: transform 0.2s ease;
+}
+
+.btn-carica:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 26px rgba(108, 79, 212, 0.45);
+    filter: brightness(1.05);
+}
+
+.btn-carica:hover i {
+    transform: translateY(-3px);
+}
+
+.btn-carica:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 12px rgba(108, 79, 212, 0.3);
+}
+
+.btn-carica:focus-visible {
+    outline: 3px solid var(--color-primary-light);
+    outline-offset: 2px;
+}
+
+/* =============================================
+   RESPONSIVE
+   ============================================= */
+@media (max-width: 480px) {
+
+    main {
+        padding: 1.5rem 1rem;
+    }
+
+    .upload-card {
+        padding: 1.75rem 1.5rem;
+    }
+
+    .upload-actions {
+        flex-direction: column;
+    }
+
+    .btn-home,
+    .btn-carica {
+        flex: 1 1 auto;
+        width: 100%;
+    }
 }
