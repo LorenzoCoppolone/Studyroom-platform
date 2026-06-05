@@ -7,26 +7,37 @@ Use config\StartSmarty;
 
 class viewRicercaMateriale {
 
+    /** @var Smarty Istanza Smarty per la gestione dei template */
     private Smarty $smarty;
 
+    /**
+     * Costruttore: inizializza Smarty tramite configurazione centralizzata.
+     */
     public function __construct() {
         $this->smarty = StartSmarty::configuration();
     }
-// Funzione che restituisce il titolo inserito dall'utente
+
+    /**
+     * Restituisce il titolo inserito dall'utente nella barra di ricerca.
+     *
+     * @return string
+     */
     public function getTitolo(): string {
         return $_GET['titolo'];
     }
 
+    /**
+     * Restituisce il nome del bottone cliccato (es. "cerca", "ordina").
+     *
+     * @return string
+     */
     public function getBottoneCliccato() : string {
         return $_GET['bottone'] ?? '';
     }
 
-     /**
-     * Restituisce il token email presente nella query string
-     *
     /**
-     * Restituisce i dati inseriti dall'utente nella ricerca
-     * 
+     * Restituisce i dati inseriti dall'utente nella ricerca.
+     *
      * @return array
      */
     public function getDatiFiltro(): array {
@@ -41,10 +52,10 @@ class viewRicercaMateriale {
         ];
     }
 
-
     /**
-     * Mostra i risultati della ricerca
-     * 
+     * Mostra i risultati della ricerca dei materiali.
+     *
+     * @param array $materiale Lista dei materiali trovati
      * @return void
      */
     public function mostraMateriali(array $materiale) : void {
@@ -53,7 +64,8 @@ class viewRicercaMateriale {
     }
 
     /**
-     * Mostra un form con il messaggio di errore all'utente
+     * Mostra un form con il messaggio di errore all'utente.
+     *
      * @param string $messaggio
      * @return void
      */
