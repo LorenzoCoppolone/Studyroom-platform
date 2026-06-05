@@ -11,15 +11,18 @@ use UI\viewAdmin;
 class AdminController {
 
     /**
-     * Consente l'accesso solo a un admin autenticato (sessione 'admin' impostata
-     * esclusivamente da UserController::effettuaLogin).
-     * In caso contrario risponde con un 404 identico a quello di FrontController,
-     * così la rotta admin risulta indistinguibile da una inesistente e non rivela
+     * Verifica che l'utente sia un amministratore autenticato.
+     *
+     * Se la sessione non contiene 'admin', viene restituito un 404
+     * identico a quello del FrontController, così da non rivelare
      * l'esistenza dell'area riservata.
+     *
+     * @return void
      */
     private function verificaAccessoAdmin(): void {
-        $session = Session::getInstance(); // garantisce session_start()
+        $session = Session::getInstance(); 
         $view = new viewAdmin();
+        
         if ($session->getSessionElement('admin') === null) {
             $view->mostra404();
             exit;
@@ -29,37 +32,58 @@ class AdminController {
     /**
      * Mostra la dashboard admin con la lista di tutti i materiali segnalati.
      * URL: /Studyroom-platform/index.php/admin/dashboard
+     *
+     * @return void
      */
     public function dashboard(): void {
         $this->verificaAccessoAdmin();
+        
         $pm   = PersistentManager::getInstance();
         $view = new viewAdmin();
+        
         $segnalazioni = $pm->trovaSegnalazioniAdmin(0, 10);
+        
         $view->mostraDashboardAdmin($segnalazioni);
     }
 
     /**
      * Mostra i dettagli di un materiale segnalato per la gestione.
      * URL: /Studyroom-platform/index.php/admin/gestisciSegnalazione/{id}
+     *
      * @param int $id ID del materiale segnalato
+     * @return void
      */
     public function gestisciSegnalazione(int $id): void {
         $this->verificaAccessoAdmin();
+        
         $pm   = PersistentManager::getInstance();
         $view = new viewAdmin();
+        
         $dati = $pm->gestisciSegnalazioneMaterialeAdmin($id);
+        
         $view->mostraGestisciSegnalazione($dati);
     }
 
     /**
-     * Esegue l'azione dell'admin: accetta segnalazione, rifiuta (elimina materiale) o banna l'utente.
+     * Esegue l'azione dell'admin:
+     * - accetta segnalazione (rimuove solo la segnalazione)
+     * - banna l'utente
+     * - elimina il materiale (e tutte le segnalazioni collegate)
+     *
      * URL: /Studyroom-platform/index.php/admin/eseguiAzione (POST)
-     * per eliminare tutte le segnalazioni relative ad un materiale , avremmo potuto fare un findBy() + delete () Loop su tutte le segnalazioni ma andremo a perdere in prestazioni 
+     *
+     * Nota: per eliminare tutte le segnalazioni relative a un materiale
+     * si usa un metodo dedicato nel PersistentManager, evitando un loop
+     * findBy() + delete() che sarebbe meno efficiente.
+     *
+     * @return void
      */
     public function eseguiAzione(): void {
         $this->verificaAccessoAdmin();
+        
         $view   = new viewAdmin();
         $valore = $view->getDatiSegnalazione();
+        
         $idMaterialeSegnalato = $valore['idMaterialeSegnalato'];
         $bottonePremuto       = $valore['bottonePremuto'];
         $idUtente             = $valore['idUtente'];
@@ -67,26 +91,35 @@ class AdminController {
         try {
             $pm = PersistentManager::getInstance();
 
+            // ACCETTA SEGNALAZIONE → elimina solo la segnalazione
             if ($bottonePremuto === 'accetta') {
                 $pm->eliminaSegnalazioniAdmin($idMaterialeSegnalato);
                 $view->mostraSuccesso();
 
+            // BAN UTENTE
             } elseif ($bottonePremuto === 'banUtente') {
                 $utente = $pm->find(Studente::class, $idUtente);
+                
                 if ($utente === null) {
                     throw new \RuntimeException("Studente con ID $idUtente non trovato.");
                 }
+
                 $utente->setIsBanned(true);
                 $pm->update();
                 $view->mostraSuccesso();
 
+            // RIFIUTA SEGNALAZIONE → elimina materiale + segnalazioni
             } else {
+                
                 $materiale = $pm->find(Materiale::class, $idMaterialeSegnalato);
+                
                 if ($materiale === null) {
                     throw new \RuntimeException("Materiale con ID $idMaterialeSegnalato non trovato.");
                 }
+                
                 $pm->eliminaSegnalazioniAdmin($idMaterialeSegnalato);
                 $pm->delete($materiale);
+                
                 $view->mostraSuccesso();
             }
 
