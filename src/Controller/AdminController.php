@@ -48,7 +48,6 @@ class AdminController {
         $pm   = PersistentManager::getInstance();
         $view = new viewAdmin();
         $dati = $pm->gestisciSegnalazioneMaterialeAdmin($id);
-
         $view->mostraGestisciSegnalazione($dati);
     }
 

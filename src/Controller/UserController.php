@@ -114,14 +114,7 @@ class UserController {
                 exit;
             }else {
                 $session->setSessionElement('studente', $studente->getId());
-                $file = $studente->getImmagineProfilo();
-            }
-            if ($file && $file->getContenutoFile() !== null) {
-                $contenuto = $file->getContenutoFile();
-            if (is_resource($contenuto)) {
-                $contenuto = stream_get_contents($contenuto);
-                $base64 = 'data:' . $file->getMimeTypeFile() . ';base64,' . base64_encode($contenuto);
-            }
+                $base64 = $studente->getImmagineProfilo()->getBase64($studente);
             }
             $view->mostraHome($studente->getUsername(), $base64);
         }        
@@ -203,20 +196,16 @@ class UserController {
         try{
         $view = new viewUser();
         $session = Session::getInstance(); // Ottieni l'istanza della sessione
-        
         $idStudenteLoggato = $session->getSessionElement('studente');
-        
         $pm = PersistentManager::getInstance();
-        $studente = $pm->findOneById(Studente::class, $idStudenteLoggato);
-        
+        $studente = $pm->find(Studente::class, $idStudenteLoggato); // Trova lo studente loggato
         $view->mostraProfiloStudente([
             'nome' => $studente->getNome(),
             'cognome' => $studente->getCognome(),
             'email' => $studente->getEmail(),
             'username' => $studente->getUsername(),
-            'foto' => $studente->getImmagineProfilo() ?? null
-        ]);
-        
+            'foto' => $studente->getImmagineProfilo()->getBase64($studente)
+        ]); // Mostra il profilo dello studente con i suoi dati,
         } catch (PDOException $e) {
             $view->mostraFormErrore("Errore durante la visualizzazione del profilo: " . $e->getMessage());
         } catch (Exception $e) {
@@ -231,7 +220,7 @@ class UserController {
             $pm = PersistentManager::getInstance();
             $session = Session::getInstance();
             $idStudenteLoggato = $session->getSessionElement('studente');
-            $studente = $pm->findOneById(Studente::class, $idStudenteLoggato);
+            $studente = $pm->find(Studente::class, $idStudenteLoggato);
             if ($studente === null) {
                 $view->mostraFormErrore("Utente non trovato");
                 return;

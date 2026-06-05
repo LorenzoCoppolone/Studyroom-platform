@@ -28,19 +28,16 @@ class SegnalazioneContenutiController {
         $motivo      = $view->getMotivo();
         $idUtente = Session::getInstance()->getIdUtenteLoggato();
         if(empty($idUtente)) {
-            $view->mostraFormErrore("Utente non loggato");
-            return;
+            throw new InvalidArgumentException("Utente non loggato");
         } 
         if (strlen($motivo) > 255) {
-            $view->mostraFormErrore("Il motivo non puo' superare i 255 caratteri!");
-            return;
+            throw new InvalidArgumentException("Il motivo della segnalazione non può superare i 255 caratteri.");
         }
         try {
             $pm = PersistentManager::getInstance();
             $studente = $pm->find(Studente::class,$idUtente);
             if($studente->getIsBanned() === true || $studente->getIsVerificato() === false) {
-                $view->mostraFormErrore("Utente non autenticato");
-                return;
+                throw new RuntimeException("Utente non verificato");
             }
             $risultati = $pm->findBy(Segnalazione::class, [
                 'studente'  => $idUtente,
@@ -54,11 +51,13 @@ class SegnalazioneContenutiController {
                 $segnalazione = new Segnalazione($motivo, $studente, $materiale, $admin);
                 $pm->save($segnalazione);
                 $view->mostraConfermaSegnalazione();
+            } else {
+                throw new RuntimeException("Hai già segnalato questo materiale");
             }
         } catch (PDOException $e) {
             $view->mostraErrore("Errore durante l'inserimento della segnalazione");
         } catch (\Exception $e) {
-            $view->mostraFormErrore("Errore durante l'inserimento della segnalazione");
+            $view->mostraFormErrore("Errore durante l'inserimento della segnalazione" . $e->getMessage());
         }
     }
 }

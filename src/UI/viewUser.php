@@ -40,6 +40,8 @@ class viewUser {
     //Funzione che mostra il profilo dell`utente
      public function mostraProfiloStudente(array $utente) : void {
         $this->smarty->assign("utente", $utente);
+        $this->smarty->assign("base64", $utente['foto']);
+        $this->smarty->assign("studente", $utente['username']);
         $this->smarty->display("profiloUtente.tpl");
     }
 

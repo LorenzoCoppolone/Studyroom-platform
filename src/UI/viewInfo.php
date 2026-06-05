@@ -12,19 +12,27 @@ class viewInfo {
         $this->smarty = StartSmarty::configuration();
     }
 
-    public function chiSiamo() : void {
+    public function chiSiamo(?string $username, ?string $base64) : void {
+        $this->smarty->assign('studente', $username);
+        $this->smarty->assign('base64', $base64);
         $this->smarty->display('chi-siamo.tpl');
     }
 
-    public function supporto() : void {
+    public function supporto(?string $username, ?string $base64) : void {
+        $this->smarty->assign('studente', $username);
+        $this->smarty->assign('base64', $base64);
         $this->smarty->display('supporto.tpl');
     }
 
-    public function faq() : void {
+    public function faq(?string $username, ?string $base64) : void {
+        $this->smarty->assign('studente', $username);
+        $this->smarty->assign('base64', $base64);
         $this->smarty->display('faq.tpl');
     }
 
-    public function termini() : void {
+    public function termini(?string $username, ?string $base64) : void {
+        $this->smarty->assign('studente', $username);
+        $this->smarty->assign('base64', $base64);
         $this->smarty->display('termini.tpl');
     }
 }

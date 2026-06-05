@@ -16,7 +16,9 @@ class viewHome{
         exit;
     }
 
-    public function mostraHome() : void {
+    public function mostraHome(?string $username, ?string $base64) : void {
+        $this->smarty->assign('studente', $username);
+        $this->smarty->assign('base64', $base64);
         $this->smarty->display('home.tpl');
     }
 }
