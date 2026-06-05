@@ -3,6 +3,7 @@ namespace UI;
 
 use Smarty\Smarty;
 use config\StartSmarty;
+use Exception;
 
 class viewUser {
     private Smarty $smarty;
@@ -30,6 +31,22 @@ class viewUser {
 
     public function mostraFormRecuperoPassword() {
         $this->smarty->display("recuperoPassword.tpl");
+    }
+
+    public function getEmailRecuperoPassword(): string {
+        return trim($_POST['email'] ?? '');
+    }
+
+    public function mostraFormReimpostaPassword(string $token): void {
+        $this->smarty->assign("token", $token);
+        $this->smarty->display("reimpostaPassword.tpl");
+    }
+
+    public function getDatiReimpostaPassword(): array {
+        return [
+            'password' => $_POST['password'] ?? '',
+            'confermaPassword' => $_POST['confermaPassword'] ?? ''
+        ];
     }
 
     public function mostraFormErrore(string $messaggio) {

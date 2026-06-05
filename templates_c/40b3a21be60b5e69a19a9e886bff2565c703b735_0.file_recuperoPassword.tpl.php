@@ -1,4 +1,28 @@
-<!DOCTYPE html>
+<?php
+/* Smarty version 5.8.0, created on 2026-06-05 18:36:12
+  from 'file:recuperoPassword.tpl' */
+
+/* @var \Smarty\Template $_smarty_tpl */
+if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
+  'version' => '5.8.0',
+  'unifunc' => 'content_6a22fafcec7160_56651004',
+  'has_nocache_code' => false,
+  'file_dependency' => 
+  array (
+    '40b3a21be60b5e69a19a9e886bff2565c703b735' => 
+    array (
+      0 => 'recuperoPassword.tpl',
+      1 => 1780677365,
+      2 => 'file',
+    ),
+  ),
+  'includes' => 
+  array (
+  ),
+))) {
+function content_6a22fafcec7160_56651004 (\Smarty\Template $_smarty_tpl) {
+$_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/Studyroom-platform/templates';
+?><!DOCTYPE html>
 <html lang="it">
 <head>
     <meta charset="UTF-8">
@@ -29,13 +53,15 @@
             <!-- Email -->
                 <div class="campo-input">
                     <input type="email" placeholder="Email" name="email"
-                           value="{$emailInserita|default:''|escape:'html'}" required>
+                           value="<?php echo htmlspecialchars((string)(($tmp = $_smarty_tpl->getValue('emailInserita') ?? null)===null||$tmp==='' ? '' ?? null : $tmp), ENT_QUOTES, 'UTF-8', true);?>
+" required>
                     <i class="bx bx-envelope"></i>
                 </div>
 
             <!-- MESSAGGIO ERRORE -->
             <span class="msg-errore">
-                {$errore|default:''}
+                <?php echo (($tmp = $_smarty_tpl->getValue('errore') ?? null)===null||$tmp==='' ? '' ?? null : $tmp);?>
+
             </span>
 
             <!-- BOTTONE -->
@@ -54,3 +80,5 @@
 
 </body>
 </html>
+<?php }
+}
