@@ -13,7 +13,7 @@
 
     <div class="register-container">
 
-        <h1 class="logo">StudyRoom</h1>
+        <a href="/Home/dashboard" class="logo">StudyRoom</a>
         <h2 class="register-title">Registrazione</h2>
 
         <div class="register-box">
