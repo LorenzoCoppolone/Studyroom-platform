@@ -130,9 +130,9 @@ class UserController {
         }
     }
 
-    public function logoutUtente() : void {
+    public function logout() : void {
         $session = Session::getInstance();
-        $session->unsetSessionElement();
+        $session->unsetSessionElement('studente');
         $session->destroySession(); // Distrugge la sessione, effettivamente facendo il logout
         $view = new viewUser();
         $view->mostraHome(null, null); // Dopo il logout, mostra la home page non loggata
