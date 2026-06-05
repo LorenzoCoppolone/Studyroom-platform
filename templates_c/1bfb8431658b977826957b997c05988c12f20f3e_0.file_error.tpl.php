@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.8.0, created on 2026-06-04 17:02:36
+/* Smarty version 5.8.0, created on 2026-06-05 14:24:21
   from 'file:error.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.8.0',
-  'unifunc' => 'content_6a21afac938a89_26769704',
+  'unifunc' => 'content_6a22dc15015ae1_11272654',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '1bfb8431658b977826957b997c05988c12f20f3e' => 
     array (
       0 => 'error.tpl',
-      1 => 1779978991,
+      1 => 1780668032,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6a21afac938a89_26769704 (\Smarty\Template $_smarty_tpl) {
+function content_6a22dc15015ae1_11272654 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\Studyroom-platform\\templates';
 ?><!DOCTYPE html>
 <html lang="it">
@@ -36,7 +36,7 @@ $_smarty_current_dir = 'C:\\laragon\\www\\Studyroom-platform\\templates';
 <body>
 
     <header class="result-header">
-        <h1 class="logo">StudyRoom</h1>
+        <a href="/Home/dashboard" class="logo">StudyRoom</a>
     </header>
 
     <main class="result-container">

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StudyRoom | Verifica Email</title>
     <link rel="icon" type="image/x-icon" href="/../img/studyroom_favicon.ico">
-    <link rel="stylesheet" href="/../CSS/styleEmailPages.css?v=3">
+    <link rel="stylesheet" href="/../CSS/styleEmailPages.css?v=4">
     <link rel='stylesheet' href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css'>
 
     <!-- FONTS -->

@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.8.0, created on 2026-06-04 19:08:53
+/* Smarty version 5.8.0, created on 2026-06-05 14:25:26
   from 'file:verificationPage.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.8.0',
-  'unifunc' => 'content_6a21cd454f2091_49328080',
+  'unifunc' => 'content_6a22dc562067b3_86946880',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '0155b565fb913e7a672caa86878ec2b9737a2595' => 
     array (
       0 => 'verificationPage.tpl',
-      1 => 1780600058,
+      1 => 1780669411,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6a21cd454f2091_49328080 (\Smarty\Template $_smarty_tpl) {
+function content_6a22dc562067b3_86946880 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\Studyroom-platform\\templates';
 ?><!DOCTYPE html>
 <html lang="it">
@@ -29,7 +29,7 @@ $_smarty_current_dir = 'C:\\laragon\\www\\Studyroom-platform\\templates';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StudyRoom | Verifica Email</title>
     <link rel="icon" type="image/x-icon" href="/../img/studyroom_favicon.ico">
-    <link rel="stylesheet" href="/../CSS/styleEmailPages.css?v=3">
+    <link rel="stylesheet" href="/../CSS/styleEmailPages.css?v=4">
     <link rel='stylesheet' href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css'>
 
     <!-- FONTS -->
