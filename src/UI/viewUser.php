@@ -23,6 +23,10 @@ class viewUser {
 
     /**
      * Mostra la home page, con o senza utente loggato.
+     *
+     * @param string|null $studente Username dello studente loggato
+     * @param string|null $base64   Immagine profilo codificata in base64
+     * @return void
      */
     public function mostraHome(?string $studente = null, ?string $base64 = null) : void {
        $this->smarty->assign("studente", $studente);
@@ -32,6 +36,7 @@ class viewUser {
 
     /**
      * Mostra la form di registrazione.
+     * @return void
      */ 
     public function mostraFormRegistrazione () { 
             $this->smarty->display("registrationForm.tpl");
@@ -39,6 +44,8 @@ class viewUser {
 
     /**
      * Mostra la form di login.
+     * 
+     * @return void
      */
     public function mostraFormLogin () {
         $this->smarty->display("loginForm.tpl");
@@ -50,6 +57,8 @@ class viewUser {
     
     /**
      * Mostra la form per inserire l'email nel recupero password.
+     * 
+     * @return void
      */
     public function mostraFormRecuperoPassword() {
         $this->smarty->display("recuperoPassword.tpl");
@@ -57,6 +66,8 @@ class viewUser {
 
     /**
      * Restituisce l'email inserita nella form di recupero password.
+     * 
+     * @return string
      */
     public function getEmailRecuperoPassword(): string {
         return trim($_POST['email'] ?? '');
@@ -64,6 +75,9 @@ class viewUser {
 
     /**
      * Mostra la form per reimpostare la password tramite token.
+     *
+     * @param string $token Token di recupero valido
+     * @return void
      */
     public function mostraFormReimpostaPassword(string $token): void {
         $this->smarty->assign("token", $token);
@@ -72,6 +86,8 @@ class viewUser {
 
     /**
      * Restituisce i dati inseriti nella form di nuova password.
+     *
+     * @return array
      */
     public function getDatiNuovaPassword(): array {
         return [
@@ -87,6 +103,9 @@ class viewUser {
     
     /**
      * Mostra il profilo dello studente loggato.
+     *
+     * @param array $utente Dati dello studente
+     * @return void
      */
      public function mostraProfiloStudente(array $utente) : void {
         $this->smarty->assign("utente", $utente);
@@ -97,6 +116,9 @@ class viewUser {
 
     /**
      * Mostra la form per modificare il profilo dello studente.
+     *
+     * @param array $utente Dati dello studente
+     * @return void
      */
     public function mostraModificaProfilo(array $utente) : void {
         $this->smarty->assign("utente", $utente);
@@ -107,6 +129,8 @@ class viewUser {
 
     /**
      * Restituisce i dati inseriti nella form di modifica profilo.
+     *
+     * @return array
      */
     public function getDatiModificaProfilo() : array {
         return [
@@ -131,6 +155,8 @@ class viewUser {
      
     /**
      * Restituisce i dati inseriti nella form di registrazione.
+     *
+     * @return array
      */
     public function getDatiRegistrazione() : array {
         return [
@@ -148,6 +174,8 @@ class viewUser {
 
     /**
      * Restituisce i dati inseriti nella form di login.
+     *
+     * @return array
      */
      public function getDatiLogin() : array {
         return [
@@ -162,6 +190,8 @@ class viewUser {
 
     /**
      * Restituisce la pagina corrente per la paginazione.
+     *
+     * @return int
      */
     public function getDatiPaginazione() : int {
         return (int)($_GET['pagina'] ?? 1);
@@ -169,6 +199,8 @@ class viewUser {
 
     /**
      * Restituisce il token presente nella query string.
+     *
+     * @return string
      */
     public function getTokenEmail() : string {
         return $_GET['token'] ?? '';
@@ -180,6 +212,9 @@ class viewUser {
     
     /**
      * Mostra una pagina di errore generica.
+     *
+     * @param string $messaggio
+     * @return void
      */
     public function mostraFormErrore(string $messaggio) : void {
         $this->smarty->assign("errore", $messaggio);
@@ -188,6 +223,9 @@ class viewUser {
 
     /**
      * Mostra la pagina che invita a verificare l'email.
+     *
+     * @param string $email
+     * @return void
      */
     public function mostraVerificaEmail(string $email) : void {
         $this->smarty->assign("email", $email);
@@ -196,6 +234,8 @@ class viewUser {
 
     /**
      * Mostra la conferma di email verificata.
+     *
+     * @return void
      */
     public function mostraConvalidaEmail() : void {
         $this->smarty->display("confirmVerificationPage.tpl");
@@ -203,6 +243,9 @@ class viewUser {
 
     /**
      * Mostra una pagina di successo generica.
+     *
+     * @param string $messaggio
+     * @return void
      */
     public function mostraFormSuccesso(string $messaggio) : void {
         $this->smarty->assign("successo", $messaggio);
@@ -215,6 +258,9 @@ class viewUser {
 
     /**
      * Mostra le recensioni dello studente (implementazione futura).
+     *
+     * @param array $recensioni
+     * @return void
      */
     public function mostraRecensioniStudente(array $recensioni) : void {
         // Implementazione futura
