@@ -7,6 +7,7 @@ use Foundation\Session;
 use UI\viewUser;
 use Model\Studente;
 use Model\Amministratore;
+use Model\File;
 use UI\viewAdmin;
 use PDOException;
 use Exception;
@@ -243,6 +244,57 @@ class UserController {
             $view->mostraFormErrore("Errore durante la modifica del profilo: " . $e->getMessage());
         } catch (PDOException $e) {
             $view->mostraFormErrore("Errore durante la modifica del profilo: " . $e->getMessage());
+        }
+    }
+
+    /**
+     * Salva le modifiche inviate dal form "Modifica profilo" (modificaProfilo.tpl).
+     * Aggiorna nome, cognome e username dello studente loggato e, se è stata
+     * caricata una nuova immagine, sostituisce la foto profilo.
+     *
+     * Chiamata dal bottone "Salva modifiche" tramite POST su /User/aggiornaProfiloStudente.
+     * @return void
+     */
+    public function aggiornaProfiloStudente() : void {
+        $view = new viewUser();
+        try {
+            $session = Session::getInstance();
+            $idStudenteLoggato = $session->getSessionElement('studente');
+
+            if ($idStudenteLoggato === null) {
+                $view->mostraFormErrore("Devi effettuare l'accesso per modificare il profilo.");
+                return;
+            }
+
+            $pm = PersistentManager::getInstance();
+            $studente = $pm->find(Studente::class, $idStudenteLoggato);
+            if ($studente === null) {
+                $view->mostraFormErrore("Utente non trovato.");
+                return;
+            }
+
+            $dati = $view->getDatiModificaProfilo();
+
+            // Aggiorna i campi testuali solo se valorizzati, altrimenti mantieni quelli attuali
+            if (!empty($dati['nome']))     { $studente->setNome($dati['nome']); }
+            if (!empty($dati['cognome']))  { $studente->setCognome($dati['cognome']); }
+            if (!empty($dati['username'])) { $studente->setUsername($dati['username']); }
+
+            // Aggiorna la foto profilo solo se è stato caricato un nuovo file senza errori
+            $immagine = $dati['immagine'];
+            if (!empty($immagine[1]) && (int)$immagine[2] === UPLOAD_ERR_OK) {
+                $contenuto   = file_get_contents($immagine[1]);
+                $dimensione  = (float)($immagine[3] / (1024 * 1024)); // dimensione in MB
+                $mimeType    = $immagine[4];
+                $studente->setImmagineProfilo(new File($contenuto, $mimeType, $dimensione));
+            }
+
+            $pm->update($studente);
+            $view->mostraFormSuccessoProfilo();
+        } catch (PDOException $e) {
+            $view->mostraFormErrore("Errore durante l'aggiornamento del profilo: " . $e->getMessage());
+        } catch (Exception $e) {
+            $view->mostraFormErrore("Errore durante l'aggiornamento del profilo: " . $e->getMessage());
         }
     }
     /**
