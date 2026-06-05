@@ -122,8 +122,11 @@ class viewUser {
      * Mostra il modulo di modifica del profilo dell'utente
      * @return void
      */
-    public function mostraModificaProfilo() : void {
-        // logica per mostrare il modulo di modifica del profilo dell'utente
+    public function mostraModificaProfilo(array $utente) : void {
+        $this->smarty->assign("utente", $utente);
+        $this->smarty->assign("base64", $utente['foto']);
+        $this->smarty->assign("studente", $utente['username']);
+        $this->smarty->display("modificaProfilo.tpl");
     }
 
     /**
@@ -142,5 +145,10 @@ class viewUser {
     */
     public function mostraConvalidaEmail() : void {
         $this->smarty->display("confirmVerificationPage.tpl");
+    }
+
+    public function mostraFormSuccesso(string $messaggio) : void {
+        $this->smarty->assign("successo", $messaggio);
+        $this->smarty->display("successo.tpl");
     }
 }
