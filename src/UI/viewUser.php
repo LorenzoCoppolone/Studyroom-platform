@@ -10,7 +10,7 @@ class viewUser {
         $this->smarty = StartSmarty::configuration();
     }
 
-    public function mostraHome(string $studente, ?string $base64) : void {
+    public function mostraHome(?string $studente = null, ?string $base64 = null) : void {
        $this->smarty->assign("studente", $studente);
        $this->smarty->assign("base64", $base64);
        $this->smarty->display("home.tpl");
