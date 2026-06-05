@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.8.0, created on 2026-06-05 11:42:11
+/* Smarty version 5.8.0, created on 2026-06-05 13:31:25
   from 'file:layout.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.8.0',
-  'unifunc' => 'content_6a2299f35e6e53_17567072',
+  'unifunc' => 'content_6a22b38de0f6f7_83092570',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '35d0888da54cdf23f13798e3393dd44edd9b6702' => 
     array (
       0 => 'layout.tpl',
-      1 => 1780652361,
+      1 => 1780659081,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6a2299f35e6e53_17567072 (\Smarty\Template $_smarty_tpl) {
+function content_6a22b38de0f6f7_83092570 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/Studyroom-platform/templates';
 $_smarty_tpl->getInheritance()->init($_smarty_tpl, false);
 ?>
@@ -32,7 +32,7 @@ $_smarty_tpl->getInheritance()->init($_smarty_tpl, false);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title><?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_12788652726a2299f35d7038_92463326', "title");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_4146355906a22b38de03c90_26312077', "title");
 ?>
 </title>
 
@@ -41,7 +41,7 @@ $_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_12788652726a2
 
     <!-- CSS Pagina -->
     <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_8301628556a2299f35dbad5_29770451', "pageCSS");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_18972337446a22b38de0b7a7_18934220', "pageCSS");
 ?>
 
 
@@ -82,11 +82,10 @@ $_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_8301628556a22
                     <img src="$base64" alt="Foto profilo">
                     </div>
 
-                    <!-- NOME E COGNOME -->
-                    <span class="nav-user-name">
-                        <?php echo $_smarty_tpl->getValue('studente');?>
+                    <!-- USERNAME -->
+                    <a href="/User/profiloStudente" class="nav-user-name"><?php echo $_smarty_tpl->getValue('studente');?>
+</a>
 
-                    </span>
 
                     <!-- LOGOUT -->
                     <a href="/User/logoutUtente" class="nav-link">
@@ -119,7 +118,7 @@ $_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_8301628556a22
     <main class="page-content">
 
         <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_11829028866a2299f35e53e7_54455298', "content");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1065731976a22b38de0e586_55142294', "content");
 ?>
 
 
@@ -156,7 +155,7 @@ $_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_11829028866a2
 </html>
 <?php }
 /* {block "title"} */
-class Block_12788652726a2299f35d7038_92463326 extends \Smarty\Runtime\Block
+class Block_4146355906a22b38de03c90_26312077 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/Studyroom-platform/templates';
@@ -166,7 +165,7 @@ StudyRoom<?php
 }
 /* {/block "title"} */
 /* {block "pageCSS"} */
-class Block_8301628556a2299f35dbad5_29770451 extends \Smarty\Runtime\Block
+class Block_18972337446a22b38de0b7a7_18934220 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/Studyroom-platform/templates';
@@ -174,7 +173,7 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/Studyroom-platform
 }
 /* {/block "pageCSS"} */
 /* {block "content"} */
-class Block_11829028866a2299f35e53e7_54455298 extends \Smarty\Runtime\Block
+class Block_1065731976a22b38de0e586_55142294 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/Studyroom-platform/templates';

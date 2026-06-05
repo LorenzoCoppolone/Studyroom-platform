@@ -50,10 +50,9 @@
                     <img src="$base64" alt="Foto profilo">
                     </div>
 
-                    <!-- NOME E COGNOME -->
-                    <span class="nav-user-name">
-                        {$studente}
-                    </span>
+                    <!-- USERNAME -->
+                    <a href="/User/profiloStudente" class="nav-user-name">{$studente}</a>
+
 
                     <!-- LOGOUT -->
                     <a href="/User/logoutUtente" class="nav-link">
