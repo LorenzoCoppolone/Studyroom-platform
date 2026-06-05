@@ -308,4 +308,225 @@ class UserController {
             echo "Errore nell'invio dell'email: {$mail->ErrorInfo}";
         }
     }
+
+    public function effettuaRecuperoPassword(): void {
+        
+        try {
+
+            $view = new viewUser();
+            $pm = PersistentManager::getInstance();
+
+            $email = $view->getEmailRecuperoPassword();
+
+            if (empty($email)) {
+                throw new Exception("Inserisci un indirizzo email.");
+            }
+
+            $studente = $pm->findOneBy(
+                Studente::class,
+            [   'email' => $email]
+            );
+
+            if ($studente === null) {
+
+                $view->mostraFormErrore(
+                    "Nessun account associato a questa email."
+                );
+
+                return;
+            }
+
+            $token = bin2hex(random_bytes(32));
+
+            $studente->setToken($token);
+
+            $scadenzaToken = (new \DateTime(
+                'now',
+                new \DateTimeZone('Europe/Rome')
+            ))->add(new \DateInterval('PT10M'));
+
+            $studente->setValidazioneToken($scadenzaToken);
+
+            $pm->update($studente);
+
+            $view->mostraVerificaEmail($email);
+
+            ob_flush();
+            flush();
+
+            $this->inviaEmailRecuperoPassword(
+                $studente,
+                $token
+            );
+
+        } catch (Exception $e) {
+
+            $view = new viewUser();
+
+            $view->mostraFormErrore(
+                "Errore durante il recupero password: "
+                . $e->getMessage()
+            );
+        }
+    }
+
+    public function inviaEmailRecuperoPassword(
+        Studente $studente,
+        string $token
+    ): void
+    {
+        try {
+
+            require __DIR__ .
+                '/../../config/mailer-bootstrap.php';
+
+            $mail->addAddress(
+                $studente->getEmail()
+            );
+
+            $mail->Subject =
+                'Recupero password StudyRoom';
+
+            $link =
+            "https://Studyroom-platform.test/User/reimpostaPassword/"
+                . $token;
+
+            $mail->Body =
+                "Ciao {$studente->getNome()},\n\n" .
+                "Hai richiesto il recupero della password.\n\n" .
+                "Clicca sul seguente link:\n\n" .
+                $link .
+                "\n\n" .
+                "Il link sarà valido per 10 minuti.";
+
+            $mail->send();
+
+        } catch (Exception $e) {
+
+            echo "Errore nell'invio email: "
+                . $mail->ErrorInfo;
+        }
+    }
+
+    public function reimpostaPassword(string $token): void {
+        try {
+
+            $view = new viewUser();
+            $pm = PersistentManager::getInstance();
+
+            $studente = $pm->findOneBy(
+                Studente::class,
+                ['token' => $token]
+            );
+
+            if ($studente === null) {
+                $view->mostraFormErrore(
+                    "Link di recupero non valido."
+                );
+                return;
+            }
+
+            $now = new \DateTime(
+                'now',
+                new \DateTimeZone('Europe/Rome')
+            );
+
+            if (
+                $studente->getValidazioneToken() === null ||
+                $now > $studente->getValidazioneToken()
+            ) {
+
+                $view->mostraFormErrore(
+                    "Il link di recupero è scaduto."
+                );
+
+                return;
+            }   
+
+            $view->mostraFormReimpostaPassword($token);
+
+        } catch (Exception $e) {
+
+            $view = new viewUser();
+
+            $view->mostraFormErrore(
+                "Errore: " . $e->getMessage()
+            );
+        }
+    }
+
+    public function salvaNuovaPassword(): void
+{
+    $view = new viewUser();
+
+    try {
+        $pm = PersistentManager::getInstance();
+
+        // Recupero dati dal form tramite viewUser
+        $d = $view->getDatiNuovaPassword();
+        $token   = $d['token'];
+        $pass    = $d['password'];
+        $confirm = $d['confirm'];
+
+        // Validazioni
+        if (empty($token)) {
+            throw new Exception("Token mancante.");
+        }
+
+        if (empty($pass) || empty($confirm)) {
+            throw new Exception("Compila tutti i campi.");
+        }
+
+        if ($pass !== $confirm) {
+            throw new Exception("Le password non coincidono.");
+        }
+
+        if (strlen($pass) < 8) {
+            throw new Exception("La password deve contenere almeno 8 caratteri.");
+        }
+
+        // Cerco lo studente tramite token
+        $studente = $pm->findOneBy(
+            Studente::class,
+            ['token' => $token]
+        );
+
+        if ($studente === null) {
+            throw new Exception("Link non valido.");
+        }
+
+        // Controllo scadenza token
+        $now = new \DateTime('now', new \DateTimeZone('Europe/Rome'));
+
+        if (
+            $studente->getValidazioneToken() === null ||
+            $now > $studente->getValidazioneToken()
+        ) {
+            throw new Exception("Il link è scaduto.");
+        }
+
+        // Aggiorno password
+        $passwordHash = password_hash($pass, PASSWORD_BCRYPT);
+        $studente->setPassword($passwordHash);
+
+        // Invalido token
+        $studente->setToken(null);
+        $studente->setValidazioneToken(null);
+
+        // Salvo
+        $pm->update($studente);
+
+        // Mostro  login
+        $view->mostraFormLogin();
+
+    } catch (Exception $e) {
+
+        // Riapro il form con errore
+        $view->mostraFormReimpostaPassword(
+            $d['token'] ?? '',
+            $e->getMessage()
+        );
+    }
+}
+
 }

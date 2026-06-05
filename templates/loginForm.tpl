@@ -59,7 +59,7 @@
                     <label for="controllo">
                         <input type="checkbox" id="controllo" name="ricordami"> Ricordami
                     </label>
-                    <a href="#">Hai dimenticato la password?</a>
+                    <a href="/User/recuperoPassword">Hai dimenticato la password?</a>
                 </div>
 
                 <button class="btn" type="submit">Accedi</button>

@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.8.0, created on 2026-06-05 16:40:46
+/* Smarty version 5.8.0, created on 2026-06-05 17:43:59
   from 'file:profiloUtente.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.8.0',
-  'unifunc' => 'content_6a22dfee48aff8_34241696',
+  'unifunc' => 'content_6a22eebf43b399_86801002',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'c9661a70b774c49763d3b41f31c2b3114a587aa9' => 
     array (
       0 => 'profiloUtente.tpl',
-      1 => 1780659077,
+      1 => 1780674219,
       2 => 'file',
     ),
   ),
@@ -20,30 +20,30 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6a22dfee48aff8_34241696 (\Smarty\Template $_smarty_tpl) {
+function content_6a22eebf43b399_86801002 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/Studyroom-platform/templates';
 $_smarty_tpl->getInheritance()->init($_smarty_tpl, true);
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_8652176296a22dfee47f853_34219041', "title");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_19629854006a22eebf4310f9_59625592', "title");
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_12566254156a22dfee486522_88733340', "pageCSS");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_18167157746a22eebf436e27_51326652', "pageCSS");
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_17349374676a22dfee486ed4_89017365', "content");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_19419542046a22eebf437651_87913438', "content");
 ?>
 
 <?php $_smarty_tpl->getInheritance()->endChild($_smarty_tpl, "layout.tpl", $_smarty_current_dir);
 }
 /* {block "title"} */
-class Block_8652176296a22dfee47f853_34219041 extends \Smarty\Runtime\Block
+class Block_19629854006a22eebf4310f9_59625592 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/Studyroom-platform/templates';
@@ -53,7 +53,7 @@ Profilo Utente - StudyRoom<?php
 }
 /* {/block "title"} */
 /* {block "pageCSS"} */
-class Block_12566254156a22dfee486522_88733340 extends \Smarty\Runtime\Block
+class Block_18167157746a22eebf436e27_51326652 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/Studyroom-platform/templates';
@@ -65,64 +65,74 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/Studyroom-platform
 }
 /* {/block "pageCSS"} */
 /* {block "content"} */
-class Block_17349374676a22dfee486ed4_89017365 extends \Smarty\Runtime\Block
+class Block_19419542046a22eebf437651_87913438 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/Studyroom-platform/templates';
 ?>
 
 
-<div class="profile-container">
+<section class="profile-card">
 
-    <!-- COLONNA SINISTRA -->
-    <div class="profile-left">
+    <!-- HEADER: foto + dati + Modifica -->
+    <header class="profile-header">
 
-        <!-- FOTO PROFILO -->
         <div class="profile-photo">
-            <img id="profileImg" 
-                 src="<?php echo (($tmp = $_smarty_tpl->getValue('utente')['foto'] ?? null)===null||$tmp==='' ? 'default_profile.png' ?? null : $tmp);?>
-" 
-                 alt="Foto profilo">
+            <?php if ($_smarty_tpl->getValue('utente')['foto']) {?>
+                <img src="<?php echo $_smarty_tpl->getValue('utente')['foto'];?>
+" alt="Foto profilo">
+            <?php } else { ?>
+                <i class="fa fa-circle-user"></i>
+            <?php }?>
         </div>
 
-        <label class="change-photo">
-            Cambia immagine
-            <input type="file" id="photoInput" accept="image/*" hidden>
-        </label>
+        <div class="profile-identity">
+            <h1 class="profile-name"><?php echo $_smarty_tpl->getValue('utente')['nome'];?>
+ <?php echo $_smarty_tpl->getValue('utente')['cognome'];?>
+</h1>
+            <p class="profile-meta"><i class="fa fa-envelope"></i> <?php echo $_smarty_tpl->getValue('utente')['email'];?>
+</p>
+            <p class="profile-meta"><i class="fa fa-at"></i> <?php echo $_smarty_tpl->getValue('utente')['username'];?>
+</p>
 
-        <!-- INFO UTENTE -->
-        <div class="profile-info">
-            <p><strong>Nome:</strong> <?php echo $_smarty_tpl->getValue('utente')['nome'];?>
-</p>
-            <p><strong>Cognome:</strong> <?php echo $_smarty_tpl->getValue('utente')['cognome'];?>
-</p>
-            <p><strong>Email:</strong> <?php echo $_smarty_tpl->getValue('utente')['email'];?>
-</p>
-            <p><strong>Username:</strong> <?php echo $_smarty_tpl->getValue('utente')['username'];?>
-</p>
-            <p><strong>Password:</strong> ********</p>
+            <a href="/User/modificaProfiloStudente" class="btn btn-primary btn-modifica">
+                <i class="fa fa-pen"></i> Modifica
+            </a>
         </div>
 
-        <!-- BOTTONI -->
-        <a href="/User/modificaProfiloStudente" class="btn-modifica">Modifica</a>
-        <a href="/User/logoutUtente" class="btn-logout">Logout</a>
+    </header>
 
+    <hr class="profile-divider">
+
+    <!-- SEZIONI -->
+    <nav class="profile-sections">
+        <a href="/RicercaMateriale/preferiti" class="section-link">
+            <i class="fa fa-heart"></i> Preferiti
+        </a>
+        <a href="/RicercaMateriale/download" class="section-link">
+            <i class="fa fa-download"></i> Scaricati
+        </a>
+        <a href="/User/cercaRecensioniUtente" class="section-link">
+            <i class="fa fa-star"></i> Mie recensioni
+        </a>
+        <a href="/RicercaMateriale/popolariUtente" class="section-link">
+            <i class="fa fa-file-arrow-up"></i> Caricati
+        </a>
+    </nav>
+
+    <hr class="profile-divider">
+
+    <!-- AZIONI ACCOUNT -->
+    <div class="profile-account-actions">
+        <a href="/User/recuperoPassword" class="btn btn-secondary">
+            <i class="fa fa-key"></i> Modifica password
+        </a>
+        <a href="/User/Logout" class="btn btn-logout">
+            <i class="fa fa-right-from-bracket"></i> Logout
+        </a>
     </div>
 
-    <!-- COLONNA DESTRA -->
-    <div class="profile-right">
-        <a href="/RicercaMateriale/preferiti" class="profile-section-btn">Preferiti</a>
-        <a href="/RicercaMateriale/download" class="profile-section-btn">Scaricati</a>
-        <a href="/User/cercaRecensioniUtente" class="profile-section-btn">Mie recensioni</a>
-        <a href="/RicercaMateriale/popolariUtente" class="profile-section-btn">Caricati</a>
-    </div>
-
-</div>
-
-<!-- JS MINIMO -->
-<?php echo '<script'; ?>
- src="/../JS/profiloUtente.js"><?php echo '</script'; ?>
->
+</section>
 
 <?php
 }
