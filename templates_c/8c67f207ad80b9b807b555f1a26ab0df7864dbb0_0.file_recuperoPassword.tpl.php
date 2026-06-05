@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.8.0, created on 2026-06-05 15:03:20
+/* Smarty version 5.8.0, created on 2026-06-05 17:12:43
   from 'file:recuperoPassword.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.8.0',
-  'unifunc' => 'content_6a22e5383f4ba4_34882989',
+  'unifunc' => 'content_6a23038b02fe67_50012813',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '8c67f207ad80b9b807b555f1a26ab0df7864dbb0' => 
     array (
       0 => 'recuperoPassword.tpl',
-      1 => 1780670557,
+      1 => 1780679532,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6a22e5383f4ba4_34882989 (\Smarty\Template $_smarty_tpl) {
+function content_6a23038b02fe67_50012813 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\Studyroom-platform\\templates';
 ?><!DOCTYPE html>
 <html lang="it">
@@ -29,46 +29,54 @@ $_smarty_current_dir = 'C:\\laragon\\www\\Studyroom-platform\\templates';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recupero Password • StudyRoom</title>
 
-    <link rel="stylesheet" href="/../CSS/styleRecupero.css">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Space+Mono:wght@400;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Icone -->
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
+
+    <link rel="stylesheet" href="/../CSS/styleForm.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
-<div class="login-container">
+<main>
 
+    <!-- LOGO -->
     <a href="/Home/dashboard" class="logo">StudyRoom</a>
-    <h2 class="login-title">Recupero Password</h2>
 
-    <div class="login-box">
+    <!-- BOX FORM -->
+    <div class="form-login-container">
 
-        <form method="POST" action="/User/inviaRecuperoPassword" class="login-form">
+        <h2>Recupero Password</h2>
 
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input id="email"
-                       type="email"
-                       name="email"
-                       placeholder="nome.cognome@student.univaq.it"
-                       required>
-            </div>
+        <form method="POST" action="/User/effettuaRecuperoPassword">
 
-            <div class="error-msg">
+            <!-- Email -->
+                <div class="campo-input">
+                    <input type="email" placeholder="Email" name="email"
+                           value="<?php echo htmlspecialchars((string)(($tmp = $_smarty_tpl->getValue('emailInserita') ?? null)===null||$tmp==='' ? '' ?? null : $tmp), ENT_QUOTES, 'UTF-8', true);?>
+" required>
+                    <i class="bx bx-envelope"></i>
+                </div>
+
+            <!-- MESSAGGIO ERRORE -->
+            <span class="msg-errore">
                 <?php echo (($tmp = $_smarty_tpl->getValue('errore') ?? null)===null||$tmp==='' ? '' ?? null : $tmp);?>
 
-            </div>
+            </span>
 
-            <button type="submit" class="btn-login">Invia</button>
+            <!-- BOTTONE -->
+            <button type="submit" class="btn">Invia</button>
 
         </form>
 
-        <p class="register-text">
+        <!-- LINK LOGIN -->
+        <p class="registrazione">
             Torna al <a href="/User/login">Login</a>
         </p>
 
     </div>
 
-</div>
+</main>
 
 </body>
 </html>
