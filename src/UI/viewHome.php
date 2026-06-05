@@ -5,6 +5,7 @@ use Smarty\Smarty;
 use config\StartSmarty;
 
 class viewHome{
+
     /** @var Smarty Istanza Smarty per la gestione dei template */
     private Smarty $smarty;
 
@@ -18,6 +19,8 @@ class viewHome{
     /**
      * Metodo di ingresso della Home:
      * reindirizza automaticamente alla dashboard.
+     * 
+     * @return void
      */
     public function index() : void {
         header("Location: Home/dashboard");
@@ -29,6 +32,7 @@ class viewHome{
      *
      * @param string|null $username Username dello studente loggato (se presente)
      * @param string|null $base64   Immagine profilo codificata in base64 (se presente)
+     * @return void
      */
     public function mostraHome(?string $username, ?string $base64) : void {
         $this->smarty->assign('studente', $username);
