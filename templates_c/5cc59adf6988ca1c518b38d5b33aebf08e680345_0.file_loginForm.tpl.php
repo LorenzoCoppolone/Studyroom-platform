@@ -1,11 +1,11 @@
 <?php
-/* Smarty version 5.8.0, created on 2026-06-05 18:02:15
+/* Smarty version 5.8.0, created on 2026-06-05 20:26:55
   from 'file:loginForm.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.8.0',
-  'unifunc' => 'content_6a22f307598a59_91701417',
+  'unifunc' => 'content_6a2314ef649375_07809382',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6a22f307598a59_91701417 (\Smarty\Template $_smarty_tpl) {
+function content_6a2314ef649375_07809382 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/Studyroom-platform/templates';
 ?><!DOCTYPE html>
 <html lang="it">
