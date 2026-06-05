@@ -12,7 +12,7 @@
 <body>
 
     <header class="result-header">
-        <h1 class="logo">StudyRoom</h1>
+        <a href="/Home/dashboard" class="logo">StudyRoom</a>
     </header>
 
     <main class="result-container">
