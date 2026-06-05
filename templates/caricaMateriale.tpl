@@ -48,14 +48,18 @@
             <label>Corso di Laurea</label>
             <select name="cdl" id="cdlSelect" required onchange="this.form.submit()">
                 <option value="">Seleziona corso di laurea</option>
+
                 {foreach $corsi as $c}
-                    <option value="{$c.id}" {if $selectedCdl == $c.id}selected{/if}>{$c.nome}</option>
+                    <option value="{$c.id}" {if $selectedCdl == $c.id}selected{/if}>
                         {$c.nome}
                     </option>
                 {/foreach}
+
             </select>
+
             <div class="error-msg">{$errors.cdl|default:''}</div>
         </div>
+
 
         <!-- INSEGNAMENTO -->
         <div class="form-group">

@@ -1,0 +1,120 @@
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Nunito', sans-serif;
+    background: linear-gradient(180deg, #EADAF7 0%, #F4E9FB 40%, #FFFFFF 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 4rem;
+}
+
+/* CONTAINER */
+.login-container {
+    text-align: center;
+    width: 100%;
+    max-width: 450px;
+}
+
+/* LOGO */
+.logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: #7B2FBE;
+    text-decoration: none !important;
+}
+
+/* TITOLO */
+.login-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #4A1A7F;
+    margin-bottom: 2.2rem;
+}
+
+/* BOX */
+.login-box {
+    background: #5A0FA3;
+    padding: 3rem 2rem;
+    border-radius: 24px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.18);
+    color: white;
+}
+
+/* FORM */
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.form-group label {
+    font-family: 'Space Mono';
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #EADAF7;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 1rem;
+    border-radius: 14px;
+    border: 2px solid #EADAF7;
+    font-size: 1.1rem;
+    margin-top: 0.4rem;
+}
+
+/* ERRORI */
+.error-msg {
+    color: #ffb3b3;
+    font-size: 1.2rem;
+    margin-top: -0.5rem;
+}
+
+/* SUCCESSO */
+.success-msg {
+    color: #C8FFDA;
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+/* BOTTONE */
+.btn-login {
+    padding: 1rem;
+    background: white;
+    color: #5A0FA3;
+    border: none;
+    border-radius: 14px;
+    font-size: 1.6rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn-login:hover {
+    background: #EADAF7;
+}
+
+/* LINK */
+.register-text {
+    margin-top: 2rem;
+    font-size: 1.2rem;
+}
+
+.register-text a {
+    color: #FFD6FF;
+    font-size: 1.4rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.register-text a:hover {
+    text-decoration: underline;
+}
