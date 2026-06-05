@@ -42,10 +42,11 @@ class viewUser {
         $this->smarty->display("reimpostaPassword.tpl");
     }
 
-    public function getDatiReimpostaPassword(): array {
+    public function getDatiNuovaPassword(): array {
         return [
+            'token' => $_POST['token'] ?? '',
             'password' => $_POST['password'] ?? '',
-            'confermaPassword' => $_POST['confermaPassword'] ?? ''
+            'confirm' => $_POST['confirm'] ?? ''
         ];
     }
 
@@ -160,4 +161,6 @@ class viewUser {
     public function mostraConvalidaEmail() : void {
         $this->smarty->display("confirmVerificationPage.tpl");
     }
+
+    
 }
