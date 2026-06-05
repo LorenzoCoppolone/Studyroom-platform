@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.8.0, created on 2026-06-05 11:37:17
+/* Smarty version 5.8.0, created on 2026-06-05 11:42:11
   from 'file:layout.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.8.0',
-  'unifunc' => 'content_6a2298cd1f3473_67894624',
+  'unifunc' => 'content_6a2299f35e6e53_17567072',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '35d0888da54cdf23f13798e3393dd44edd9b6702' => 
     array (
       0 => 'layout.tpl',
-      1 => 1780652233,
+      1 => 1780652361,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6a2298cd1f3473_67894624 (\Smarty\Template $_smarty_tpl) {
+function content_6a2299f35e6e53_17567072 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/Studyroom-platform/templates';
 $_smarty_tpl->getInheritance()->init($_smarty_tpl, false);
 ?>
@@ -32,7 +32,7 @@ $_smarty_tpl->getInheritance()->init($_smarty_tpl, false);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title><?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_14433422616a2298cd1dfdf5_65834626', "title");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_12788652726a2299f35d7038_92463326', "title");
 ?>
 </title>
 
@@ -41,7 +41,7 @@ $_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_14433422616a2
 
     <!-- CSS Pagina -->
     <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_10648083386a2298cd1eab44_53518678', "pageCSS");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_8301628556a2299f35dbad5_29770451', "pageCSS");
 ?>
 
 
@@ -69,29 +69,27 @@ $_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_10648083386a2
 
         <nav class="navbar-links">
 
-            <a href="/RicercaMateriali/popolari" class="nav-link nav-esami">
+            <a href="/RicercaMateriale/popolari" class="nav-link nav-esami">
                 Prepara i tuoi esami
             </a>
 
             <div class="nav-auth">
 
-                <?php if ($_smarty_tpl->getValue('utente')) {?>
+                <?php if ($_smarty_tpl->getValue('studente')) {?>
 
                     <!-- FOTO PROFILO -->
                     <div class="nav-user-avatar">
-                    <img src="<?php echo $_smarty_tpl->getValue('utente')['foto'];?>
-" alt="Foto profilo">
+                    <img src="$base64" alt="Foto profilo">
                     </div>
 
                     <!-- NOME E COGNOME -->
                     <span class="nav-user-name">
-                        <?php echo $_smarty_tpl->getValue('utente')['nome'];?>
- <?php echo $_smarty_tpl->getValue('utente')['cognome'];?>
+                        <?php echo $_smarty_tpl->getValue('studente');?>
 
                     </span>
 
                     <!-- LOGOUT -->
-                    <a href="/User/logout" class="nav-link">
+                    <a href="/User/logoutUtente" class="nav-link">
                         Esci
                     </a>
 
@@ -121,7 +119,7 @@ $_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_10648083386a2
     <main class="page-content">
 
         <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_12599929116a2298cd1f1689_29004575', "content");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_11829028866a2299f35e53e7_54455298', "content");
 ?>
 
 
@@ -158,7 +156,7 @@ $_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_12599929116a2
 </html>
 <?php }
 /* {block "title"} */
-class Block_14433422616a2298cd1dfdf5_65834626 extends \Smarty\Runtime\Block
+class Block_12788652726a2299f35d7038_92463326 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/Studyroom-platform/templates';
@@ -168,7 +166,7 @@ StudyRoom<?php
 }
 /* {/block "title"} */
 /* {block "pageCSS"} */
-class Block_10648083386a2298cd1eab44_53518678 extends \Smarty\Runtime\Block
+class Block_8301628556a2299f35dbad5_29770451 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/Studyroom-platform/templates';
@@ -176,7 +174,7 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/Studyroom-platform
 }
 /* {/block "pageCSS"} */
 /* {block "content"} */
-class Block_12599929116a2298cd1f1689_29004575 extends \Smarty\Runtime\Block
+class Block_11829028866a2299f35e53e7_54455298 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/Studyroom-platform/templates';

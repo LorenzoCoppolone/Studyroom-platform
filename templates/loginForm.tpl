@@ -13,7 +13,7 @@
 
     <div class="login-container">
 
-        <h1 class="logo">StudyRoom</h1>
+        <a href="/Home/dashboard" class="logo">StudyRoom</a>
         <h2 class="login-title">Accesso</h2>
 
         <div class="login-box">

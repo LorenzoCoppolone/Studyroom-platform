@@ -19,31 +19,30 @@ body {
 .login-container {
     text-align: center;
     width: 100%;
-    max-width: 720px; /* PIÙ GRANDE */
+    max-width: 450px; /* PIÙ GRANDE */
 }
 
 /* LOGO */
 .logo {
     font-family: 'Playfair Display', serif;
-    font-size: 6rem;
+    font-size: 3.5rem;
     font-weight: 900;
     color: #7B2FBE;
-    margin-bottom: 1rem;
     text-decoration: none !important;
 }
 
 /* TITOLO */
 .login-title {
-    font-size: 3rem;
+    font-size: 2rem;
     font-weight: 700;
     color: #4A1A7F;
-    margin-bottom: 2.5rem;
+    margin-bottom: 2.2rem;
 }
 
 /* LOGIN BOX */
 .login-box {
     background: #5A0FA3; /* viola scuro più profondo */
-    padding: 5rem 4rem; /* PIÙ GRANDE */
+    padding: 3rem 2rem; /* PIÙ GRANDE */
     border-radius: 24px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.18);
     color: white;
@@ -53,7 +52,7 @@ body {
 .login-form {
     display: flex;
     flex-direction: column;
-    gap: 2.2rem; /* più spazio */
+    gap: 1.5rem; /* più spazio */
 }
 
 .form-group {
@@ -62,17 +61,17 @@ body {
 
 .form-group label {
     font-family: 'Space Mono';
-    font-size: 1.8rem;
-    font-weight: 700;
+    font-size: 1.2rem;
+    font-weight: 600;
     color: #EADAF7;
 }
 
 .form-group input {
     width: 100%;
-    padding: 1.2rem;
+    padding: 1rem;
     border-radius: 14px;
     border: 2px solid #EADAF7;
-    font-size: 1.5rem;
+    font-size: 1.1rem;
     margin-top: 0.4rem;
 }
 
@@ -93,7 +92,7 @@ body {
     display: block;
     text-align: right;
     color: #EADAF7;
-    font-size: 1.6rem;
+    font-size: 1.2rem;
     text-decoration: none;
     margin-top: -1rem;
 }
@@ -104,12 +103,12 @@ body {
 
 /* BOTTONE */
 .btn-login {
-    padding: 1.2rem;
+    padding: 1rem;
     background: white;
     color: #5A0FA3;
     border: none;
     border-radius: 14px;
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     font-weight: 700;
     cursor: pointer;
     transition: 0.2s;
@@ -122,12 +121,12 @@ body {
 /* REGISTRAZIONE */
 .register-text {
     margin-top: 2.5rem;
-    font-size: 1.6rem;
+    font-size: 1.2rem;
 }
 
 .register-text a {
     color: #FFD6FF;
-    font-size: 2rem;
+    font-size: 1.8rem;
     font-weight: 700;
     text-decoration: none;
 }

@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.8.0, created on 2026-06-04 17:16:12
+/* Smarty version 5.8.0, created on 2026-06-05 11:42:09
   from 'file:loginForm.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.8.0',
-  'unifunc' => 'content_6a2196bcf220f4_27371664',
+  'unifunc' => 'content_6a2299f158b4f5_30094174',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '5cc59adf6988ca1c518b38d5b33aebf08e680345' => 
     array (
       0 => 'loginForm.tpl',
-      1 => 1779977604,
+      1 => 1780652526,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6a2196bcf220f4_27371664 (\Smarty\Template $_smarty_tpl) {
+function content_6a2299f158b4f5_30094174 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/Studyroom-platform/templates';
 ?><!DOCTYPE html>
 <html lang="it">
@@ -37,7 +37,7 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/Studyroom-platform
 
     <div class="login-container">
 
-        <h1 class="logo">StudyRoom</h1>
+        <a href="/Home/dashboard" class="logo">StudyRoom</a>
         <h2 class="login-title">Accesso</h2>
 
         <div class="login-box">
