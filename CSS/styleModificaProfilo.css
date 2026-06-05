@@ -1,0 +1,227 @@
+/* =============================================
+   STUDYROOM — styleModificaProfilo.css
+   Form di modifica profilo, coerente con
+   styleProfiloUtente.css e styleLayout.css
+   ============================================= */
+
+main {
+    flex: 1;
+    width: 100%;
+    max-width: 620px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem;
+}
+
+/* Card contenitore */
+.edit-card {
+    background: var(--color-card);
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius-box);
+    box-shadow: var(--shadow-soft);
+    padding: 2.5rem;
+}
+
+.edit-title {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: var(--font-display);
+    font-size: clamp(1.4rem, 4vw, 1.9rem);
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: var(--color-primary);
+    margin-bottom: 2rem;
+}
+
+.edit-title i {
+    font-size: 0.9em;
+}
+
+/* Errore globale */
+.edit-error {
+    background: var(--color-primary-light);
+    border: 1.5px solid var(--color-accent);
+    color: var(--color-accent);
+    border-radius: var(--radius-box);
+    padding: 0.8rem 1rem;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+}
+
+.edit-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.4rem;
+}
+
+/* =============================================
+   BLOCCO FOTO PROFILO
+   ============================================= */
+.edit-photo-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+}
+
+.edit-photo {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid var(--color-primary);
+    background: var(--color-primary-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.edit-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.edit-photo i {
+    font-size: 4.5rem;
+    color: var(--color-primary);
+}
+
+.edit-photo-btn {
+    cursor: pointer;
+}
+
+.edit-photo-hint {
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+}
+
+/* =============================================
+   CAMPI INPUT
+   ============================================= */
+.edit-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.edit-field label {
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-left: 0.2rem;
+}
+
+.campo-input {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    background: var(--color-card);
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius-pill);
+    padding: 0.7rem 1.2rem;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.campo-input:focus-within {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px var(--color-primary-light);
+}
+
+.campo-input i {
+    width: 18px;
+    text-align: center;
+    color: var(--color-primary);
+}
+
+.campo-input input {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    color: var(--color-text);
+}
+
+.campo-input input::placeholder {
+    color: var(--color-text-muted);
+}
+
+/* =============================================
+   BOTTONI
+   ============================================= */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: var(--radius-pill);
+    padding: 0.65rem 1.4rem;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.15s ease, color 0.15s ease,
+                border-color 0.15s ease, transform 0.1s ease;
+}
+
+.btn-primary {
+    background: var(--color-primary);
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background: var(--color-primary-dark);
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background: var(--color-primary-light);
+    color: var(--color-primary);
+    border: 1.5px solid var(--color-border);
+}
+
+.btn-secondary:hover {
+    background: var(--color-primary);
+    color: #fff;
+    border-color: var(--color-primary);
+    transform: translateY(-2px);
+}
+
+/* =============================================
+   AZIONI IN FONDO
+   ============================================= */
+.edit-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.edit-actions .btn {
+    flex: 1;
+}
+
+/* =============================================
+   RESPONSIVE
+   ============================================= */
+@media (max-width: 480px) {
+
+    main {
+        padding: 1.5rem 1rem;
+    }
+
+    .edit-card {
+        padding: 1.75rem 1.5rem;
+    }
+
+    .edit-actions {
+        flex-direction: column;
+    }
+}
