@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.8.0, created on 2026-05-29 13:47:58
+/* Smarty version 5.8.0, created on 2026-06-05 11:37:17
   from 'file:layout.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.8.0',
-  'unifunc' => 'content_6a197cee16e9f8_11744623',
+  'unifunc' => 'content_6a2298cd1f3473_67894624',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '35d0888da54cdf23f13798e3393dd44edd9b6702' => 
     array (
       0 => 'layout.tpl',
-      1 => 1780055275,
+      1 => 1780652233,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6a197cee16e9f8_11744623 (\Smarty\Template $_smarty_tpl) {
+function content_6a2298cd1f3473_67894624 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/Studyroom-platform/templates';
 $_smarty_tpl->getInheritance()->init($_smarty_tpl, false);
 ?>
@@ -32,16 +32,16 @@ $_smarty_tpl->getInheritance()->init($_smarty_tpl, false);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title><?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_5590694696a197cee159a72_66167520', "title");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_14433422616a2298cd1dfdf5_65834626', "title");
 ?>
 </title>
 
     <!-- CSS Layout -->
-    <link rel="stylesheet" href="/Studyroom-platform/CSS/styleLayout.css">
+    <link rel="stylesheet" href="/../CSS/styleLayout.css">
 
     <!-- CSS Pagina -->
     <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_9274224936a197cee165779_45683163', "pageCSS");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_10648083386a2298cd1eab44_53518678', "pageCSS");
 ?>
 
 
@@ -57,7 +57,7 @@ $_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_9274224936a19
     <!-- NAVBAR -->
     <header class="navbar">
 
-        <a href="" class="logo">StudyRoom</a>
+        <a href="/Home/dashboard" class="logo">StudyRoom</a>
 
         <form class="navbar-search" method="GET" action="/RicercaMateriale/cerca">
             <input type="text" name="titolo" placeholder="Cerca..." maxlength="100" required>
@@ -121,7 +121,7 @@ $_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_9274224936a19
     <main class="page-content">
 
         <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_2309167706a197cee16c8a4_79101615', "content");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_12599929116a2298cd1f1689_29004575', "content");
 ?>
 
 
@@ -134,22 +134,20 @@ $_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_2309167706a19
            target="_blank"
            class="footer-logo-univaq">
 
-            <img src="/Studyroom-platform/img/UnivaqLogo.png"
+            <img src="/../img/UnivaqLogo.png"
                  alt="Logo Università degli Studi dell'Aquila">
 
         </a>
 
         <div class="footer-center">
 
-            <a href="" class="footer-brand">
-                StudyRoom
-            </a>
+            <a href="/Home/dashboard" class="footer-brand">StudyRoom</a>
 
             <nav class="footer-links">
-                <a href="chi-siamo.php">Chi siamo</a>
-                <a href="supporto.php">Supporto</a>
-                <a href="faq.php">FAQ</a>
-                <a href="termini.php">Termini di utilizzo</a>
+                <a href="/Info/chiSiamo">Chi siamo</a>
+                <a href="/Info/supporto">Supporto</a>
+                <a href="/Info/faq">FAQ</a>
+                <a href="/Info/termini">Termini di utilizzo</a>
             </nav>
 
         </div>
@@ -160,7 +158,7 @@ $_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_2309167706a19
 </html>
 <?php }
 /* {block "title"} */
-class Block_5590694696a197cee159a72_66167520 extends \Smarty\Runtime\Block
+class Block_14433422616a2298cd1dfdf5_65834626 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/Studyroom-platform/templates';
@@ -170,7 +168,7 @@ StudyRoom<?php
 }
 /* {/block "title"} */
 /* {block "pageCSS"} */
-class Block_9274224936a197cee165779_45683163 extends \Smarty\Runtime\Block
+class Block_10648083386a2298cd1eab44_53518678 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/Studyroom-platform/templates';
@@ -178,7 +176,7 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/Studyroom-platform
 }
 /* {/block "pageCSS"} */
 /* {block "content"} */
-class Block_2309167706a197cee16c8a4_79101615 extends \Smarty\Runtime\Block
+class Block_12599929116a2298cd1f1689_29004575 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/Studyroom-platform/templates';

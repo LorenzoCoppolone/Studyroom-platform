@@ -25,7 +25,7 @@
     <!-- NAVBAR -->
     <header class="navbar">
 
-        <a href="" class="logo">StudyRoom</a>
+        <a href="/Home/dashboard" class="logo">StudyRoom</a>
 
         <form class="navbar-search" method="GET" action="/RicercaMateriale/cerca">
             <input type="text" name="titolo" placeholder="Cerca..." maxlength="100" required>
@@ -104,15 +104,13 @@
 
         <div class="footer-center">
 
-            <a href="" class="footer-brand">
-                StudyRoom
-            </a>
+            <a href="/Home/dashboard" class="footer-brand">StudyRoom</a>
 
             <nav class="footer-links">
-                <a href="chi-siamo.php">Chi siamo</a>
-                <a href="supporto.php">Supporto</a>
-                <a href="faq.php">FAQ</a>
-                <a href="termini.php">Termini di utilizzo</a>
+                <a href="/Info/chiSiamo">Chi siamo</a>
+                <a href="/Info/supporto">Supporto</a>
+                <a href="/Info/faq">FAQ</a>
+                <a href="/Info/termini">Termini di utilizzo</a>
             </nav>
 
         </div>
