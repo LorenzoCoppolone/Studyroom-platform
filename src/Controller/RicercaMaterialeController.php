@@ -29,20 +29,21 @@ class RicercaMaterialeController
     $limit = 10; // Numero di risultati per pagina
     $offset = $this->paginazione($page, $limit); // Calcola l'offset per la query
     if ($titolo === '') {
-        $view->mostraFormErrore("Il termine di ricerca non può essere vuoto.");
-        return;
-    }
-    if (mb_strlen($titolo) < 1) {
-        $view->mostraFormErrore("Il termine di ricerca deve essere di almeno 1 carattere.");
-        return;
+      throw new InvalidArgumentException("Il termine di ricerca non può essere vuoto.");
     }
     try {
         $pm = PersistentManager::getInstance();
         $materiali = $pm->cercaMateriale($titolo, $offset, $limit);
-        Session::getInstance()->setSessionElement('ricerca_titolo', $titolo);
-        Session::getInstance()->setSessionElement('ricerca_filtri', []);
-        $view->mostraMateriali($materiali, $page); // Passo anche la pagina corrente per attivare la paginazione
-
+        $session = Session::getInstance();
+        $session->setSessionElement('ricerca_titolo', $titolo);
+        $session->setSessionElement('ricerca_filtri', []);
+        $id = $session->getSessionElement('studente');
+        $studente = $pm->find(Studente::class, $id);
+        if($studente !== null) {
+            $view->mostraMateriali($materiali, $page, $studente->getUsername(), $studente->getImmagineProfilo()->getBase64($studente));
+        } else {
+            $view->mostraMateriali($materiali, $page, null, null);
+        }
     } catch (PDOException $e) {
         throw new RuntimeException("Errore DB durante la ricerca: " . $e->getMessage());
     }
@@ -62,9 +63,16 @@ class RicercaMaterialeController
             $offset = $this->paginazione($page, $limit);
             $pm        = PersistentManager::getInstance();
             $materiali = $pm->getMaterialiPopolari($offset, $limit);
-            Session::getInstance()->setSessionElement('ricerca_titolo', '');
-            Session::getInstance()->setSessionElement('ricerca_filtri', []);
-            $view->mostraMateriali($materiali);
+            $session = Session::getInstance();
+            $session->setSessionElement('ricerca_titolo', '');
+            $session->setSessionElement('ricerca_filtri', []);
+            $id = $session->getSessionElement('studente');
+            $studente = $pm->find(Studente::class, $id);
+            if($studente !== null) {
+                $view->mostraMateriali($materiali, 1, $studente->getUsername(), $studente->getImmagineProfilo()->getBase64($studente));
+            } else {
+                $view->mostraMateriali($materiali, 1, null, null);
+            }
         } catch (PDOException $e) {
             throw new RuntimeException("Errore DB durante il recupero dei materiali: " . $e->getMessage());
         } catch (\Exception $e) {
@@ -88,7 +96,7 @@ class RicercaMaterialeController
     $nuoviFiltri = $view->getDatiFiltro(); // Filtri inviati dalla UI
     $page = $view->getPage() ?? 1; // Pagina corrente, default 1
     $limit = 10; // Numero di risultati per pagina
-    $offset = this->paginazione($page, $limit);
+    $offset = $this->paginazione($page, $limit);
     $filtriAttuali = Session::getInstance()->getSessionElement('ricerca_filtri') ?? []; // Recupero i filtri già presenti in sessione
     // Sovrascrivo i filtri della sessione con quelli nuovi
     foreach ($nuoviFiltri as $chiave => $valore) {
@@ -114,7 +122,14 @@ class RicercaMaterialeController
             $filtriAttuali['insegnamento']    ?? null,
             $filtriAttuali['tag']             ?? null
         );
-        $view->mostraMateriali($materiali, $page); // Passo anche la pagina corrente per mantenere la paginazione attiva
+        $session = Session::getInstance();
+        $id = $session->getSessionElement('studente');
+        $studente = $pm->find(Studente::class, $id);
+        if($studente !== null) {
+            $view->mostraMateriali($materiali, $page, $studente->getUsername(), $studente->getImmagineProfilo()->getBase64($studente));
+        } else {
+            $view->mostraMateriali($materiali, $page, null, null);
+        }
     } catch (PDOException $e) {
         $view->mostraFormErrore("Errore DB durante l'applicazione dei filtri: " . $e->getMessage());
     } catch (\Exception $e) {
@@ -130,7 +145,7 @@ class RicercaMaterialeController
         $view = new ViewRicercaMateriale();
         $page = $view->getDatiPaginazione(); // Ottieni la pagina corrente
         $limit = 10; // Numero di elementi per pagina
-        $offset = this->paginazione($page, $limit); // Calcola l'offset per la query
+        $offset = $this->paginazione($page, $limit); // Calcola l'offset per la query
         $session = Session::getInstance(); // Ottieni l'istanza della sessione
         $idStudenteLoggato = $session->getSessionElement('studente');
         $pm = PersistentManager::getInstance();
@@ -150,7 +165,7 @@ class RicercaMaterialeController
         $view = new ViewRicercaMateriale();
         $page = $view->getDatiPaginazione(); // Ottieni la pagina corrente
         $limit = 10; // Numero di elementi per pagina
-        $offset = this->paginazione($page, $limit); // Calcola l'offset per la query
+        $offset = $this->paginazione($page, $limit); // Calcola l'offset per la query
         $session = Session::getInstance(); // Ottieni l'istanza della sessione
         $idStudenteLoggato = $session->getSessionElement('studente');
         $pm = PersistentManager::getInstance();
@@ -170,7 +185,7 @@ class RicercaMaterialeController
         $view = new ViewRicercaMateriale();
         $page = $view->getDatiPaginazione(); // Ottieni la pagina corrente
         $limit = 10; // Numero di elementi per pagina
-        $offset = this->paginazione($page, $limit); // Calcola l'offset per la query
+        $offset = $this->paginazione($page, $limit); // Calcola l'offset per la query
         $session = Session::getInstance(); // Ottieni l'istanza della sessione
         $idStudenteLoggato = $session->getSessionElement('studente');
         $pm = PersistentManager::getInstance();
