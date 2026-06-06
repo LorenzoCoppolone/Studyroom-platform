@@ -129,6 +129,10 @@ class viewUser {
      * @return void
      */
      public function mostraProfiloStudente(array $utente) : void {
+        header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+        header("Cache-Control: post-check=0, pre-check=0", false);
+        header("Pragma: no-cache");
+        header("Expires: 0");
         $this->smarty->assign("utente", $utente);
         $this->smarty->assign("base64", $utente['foto']);
         $this->smarty->assign("studente", $utente['username']);
@@ -239,6 +243,10 @@ class viewUser {
      * @return void
      */
     public function mostraFormErrore(string $messaggio) : void {
+        header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+        header("Cache-Control: post-check=0, pre-check=0", false);
+        header("Pragma: no-cache");
+        header("Expires: 0");
         $this->smarty->assign("errore", $messaggio);
         $this->smarty->display("error.tpl");
     }
@@ -250,6 +258,10 @@ class viewUser {
      * @return void
      */
     public function mostraVerificaEmail(string $email) : void {
+        header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+        header("Cache-Control: post-check=0, pre-check=0", false);
+        header("Pragma: no-cache");
+        header("Expires: 0");
         $this->smarty->assign("email", $email);
         $this->smarty->display("verificationPage.tpl");
     }
@@ -270,6 +282,10 @@ class viewUser {
      * @return void
      */
     public function mostraFormSuccesso(string $messaggio) : void {
+        header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+        header("Cache-Control: post-check=0, pre-check=0", false);
+        header("Pragma: no-cache");
+        header("Expires: 0");
         $this->smarty->assign("successo", $messaggio);
         $this->smarty->display("successo.tpl");
     }
