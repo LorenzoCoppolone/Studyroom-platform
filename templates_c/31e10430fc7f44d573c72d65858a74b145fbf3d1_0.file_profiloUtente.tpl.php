@@ -1,11 +1,11 @@
 <?php
-/* Smarty version 5.8.0, created on 2026-06-06 14:08:15
+/* Smarty version 5.8.0, created on 2026-06-06 19:30:51
   from 'file:profiloUtente.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.8.0',
-  'unifunc' => 'content_6a2429cf36ffc2_89879414',
+  'unifunc' => 'content_6a24756b8771c4_01404628',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
@@ -20,30 +20,30 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6a2429cf36ffc2_89879414 (\Smarty\Template $_smarty_tpl) {
+function content_6a24756b8771c4_01404628 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\studyroom-platform\\templates';
 $_smarty_tpl->getInheritance()->init($_smarty_tpl, true);
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_13876514466a2429cf367ce4_08314132', "title");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_9369902536a24756b86b6a7_89506235', "title");
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_5637814836a2429cf36ad32_20336202', "pageCSS");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_15033111276a24756b870236_67200465', "pageCSS");
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1041059566a2429cf36b2c8_04363402', "content");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_18916398766a24756b870c71_98448090', "content");
 ?>
 
 <?php $_smarty_tpl->getInheritance()->endChild($_smarty_tpl, "layout.tpl", $_smarty_current_dir);
 }
 /* {block "title"} */
-class Block_13876514466a2429cf367ce4_08314132 extends \Smarty\Runtime\Block
+class Block_9369902536a24756b86b6a7_89506235 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\studyroom-platform\\templates';
@@ -53,7 +53,7 @@ Profilo Utente - StudyRoom<?php
 }
 /* {/block "title"} */
 /* {block "pageCSS"} */
-class Block_5637814836a2429cf36ad32_20336202 extends \Smarty\Runtime\Block
+class Block_15033111276a24756b870236_67200465 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\studyroom-platform\\templates';
@@ -65,7 +65,7 @@ $_smarty_current_dir = 'C:\\laragon\\www\\studyroom-platform\\templates';
 }
 /* {/block "pageCSS"} */
 /* {block "content"} */
-class Block_1041059566a2429cf36b2c8_04363402 extends \Smarty\Runtime\Block
+class Block_18916398766a24756b870c71_98448090 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\studyroom-platform\\templates';
