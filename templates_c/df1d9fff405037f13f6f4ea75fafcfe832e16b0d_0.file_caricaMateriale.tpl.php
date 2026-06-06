@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.8.0, created on 2026-06-05 16:20:56
+/* Smarty version 5.8.0, created on 2026-06-06 17:11:09
   from 'file:caricaMateriale.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.8.0',
-  'unifunc' => 'content_6a22db4875a3a3_02364821',
+  'unifunc' => 'content_6a24388d62ba13_15222695',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'df1d9fff405037f13f6f4ea75fafcfe832e16b0d' => 
     array (
       0 => 'caricaMateriale.tpl',
-      1 => 1780669251,
+      1 => 1780683703,
       2 => 'file',
     ),
   ),
@@ -20,121 +20,176 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6a22db4875a3a3_02364821 (\Smarty\Template $_smarty_tpl) {
+function content_6a24388d62ba13_15222695 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/Studyroom-platform/templates';
-?><!DOCTYPE html>
-<html lang="it">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carica Materiale - StudyRoom</title>
+$_smarty_tpl->getInheritance()->init($_smarty_tpl, true);
+?>
+
+
+<?php 
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_15997121696a24388d612b59_56477662', "title");
+?>
+
+
+<?php 
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_12982059296a24388d613cc0_38441432', "pageCSS");
+?>
+
+
+<?php 
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_20733202206a24388d614192_46734109', "content");
+?>
+
+<?php $_smarty_tpl->getInheritance()->endChild($_smarty_tpl, "layout.tpl", $_smarty_current_dir);
+}
+/* {block "title"} */
+class Block_15997121696a24388d612b59_56477662 extends \Smarty\Runtime\Block
+{
+public function callBlock(\Smarty\Template $_smarty_tpl) {
+$_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/Studyroom-platform/templates';
+?>
+Carica Materiale - StudyRoom<?php
+}
+}
+/* {/block "title"} */
+/* {block "pageCSS"} */
+class Block_12982059296a24388d613cc0_38441432 extends \Smarty\Runtime\Block
+{
+public function callBlock(\Smarty\Template $_smarty_tpl) {
+$_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/Studyroom-platform/templates';
+?>
 
     <link rel="stylesheet" href="/../CSS/styleCarica.css">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Space+Mono:wght@400;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-</head>
+<?php
+}
+}
+/* {/block "pageCSS"} */
+/* {block "content"} */
+class Block_20733202206a24388d614192_46734109 extends \Smarty\Runtime\Block
+{
+public function callBlock(\Smarty\Template $_smarty_tpl) {
+$_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/Studyroom-platform/templates';
+?>
 
-<body>
 
-<header class="navbar">
-    <a href="/Home/dashboard" class="logo">StudyRoom</a>
-</header>
+<section class="upload-card">
 
-<main class="upload-container">
+    <h1 class="upload-card-title"><i class="fa fa-cloud-arrow-up"></i> Carica materiale</h1>
+
+        <?php if ((true && ($_smarty_tpl->hasVariable('errore') && null !== ($_smarty_tpl->getValue('errore') ?? null)))) {?>
+        <p class="upload-error"><?php echo htmlspecialchars((string)$_smarty_tpl->getValue('errore'), ENT_QUOTES, 'UTF-8', true);?>
+</p>
+    <?php }?>
 
     <!-- TIPO DOCUMENTO -->
     <div class="type-selector">
-        <button id="btnAppunto" class="type-btn <?php if ($_smarty_tpl->getValue('tipo') == 'appunto') {?>active<?php }?>">Appunto</button>
-        <button id="btnEsame" class="type-btn <?php if ($_smarty_tpl->getValue('tipo') == 'esame') {?>active<?php }?>">Esame</button>
+        <button type="button" id="btnAppunto" class="type-btn <?php if ($_smarty_tpl->getValue('tipo') != 'esame') {?>active<?php }?>">Appunto</button>
+        <button type="button" id="btnEsame" class="type-btn <?php if ($_smarty_tpl->getValue('tipo') == 'esame') {?>active<?php }?>">Esame</button>
     </div>
 
     <!-- FORM PRINCIPALE -->
-    <form method="POST" enctype="multipart/form-data" action="/CaricaMateriale/salva">
+    <form method="POST" enctype="multipart/form-data" action="/CaricaMateriale/salva" class="upload-form">
         <input type="hidden" name="tipo" id="tipoInput" value="<?php echo (($tmp = $_smarty_tpl->getValue('tipo') ?? null)===null||$tmp==='' ? 'appunto' ?? null : $tmp);?>
 ">
-
 
         <!-- FILE UPLOAD -->
         <label class="upload-box">
             <input type="file" name="file" id="fileInput" accept="application/pdf" required hidden>
             <div class="upload-content">
+                <i class="fa fa-file-pdf upload-box-icon"></i>
                 <p class="upload-title">Scegli file</p>
-                <p class="upload-info">Max 2MB • Formato PDF</p>
-                <button type="button" class="upload-btn">Upload <i class="fa fa-hand-pointer"></i></button>
-            </div>
-            <div class="error-msg">
-                <?php echo (($tmp = $_smarty_tpl->getValue('errors')['file'] ?? null)===null||$tmp==='' ? '' ?? null : $tmp);?>
-
+                <p class="upload-info">Max 2MB &bull; Formato PDF</p>
+                <span class="btn btn-primary upload-btn">Upload <i class="fa fa-hand-pointer"></i></span>
             </div>
             <div id="fileName" class="file-name"></div>
         </label>
+        <div class="error-msg"><?php echo (($tmp = $_smarty_tpl->getValue('errors')['file'] ?? null)===null||$tmp==='' ? '' ?? null : $tmp);?>
+</div>
 
-        <!-- CORSO DI LAUREA -->
+        <!-- CORSO DI LAUREA (ricerca: scrivi e scegli) -->
         <div class="form-group">
-            <label>Corso di Laurea</label>
-            <select name="cdl" id="cdlSelect" required onchange="this.form.submit()">
-                <option value="">Seleziona corso di laurea</option>
-
-                <?php
+            <label for="cdlInput">Corso di Laurea</label>
+            <div class="combo" id="cdlCombo">
+                <i class="fa fa-magnifying-glass combo-icon"></i>
+                <input type="text" id="cdlInput" class="combo-input" autocomplete="off"
+                       placeholder="Scrivi il tuo corso di laurea..."
+                       value="<?php echo htmlspecialchars((string)(($tmp = $_smarty_tpl->getValue('selectedCdlNome') ?? null)===null||$tmp==='' ? '' ?? null : $tmp), ENT_QUOTES, 'UTF-8', true);?>
+" required>
+                <input type="hidden" name="cdl" id="cdlValue" value="<?php echo (($tmp = $_smarty_tpl->getValue('selectedCdl') ?? null)===null||$tmp==='' ? '' ?? null : $tmp);?>
+">
+                <ul class="combo-list" id="cdlList" role="listbox">
+                    <?php
 $_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('corsi'), 'c');
 $foreach0DoElse = true;
 foreach ($_from ?? [] as $_smarty_tpl->getVariable('c')->value) {
 $foreach0DoElse = false;
 ?>
-                    <option value="<?php echo $_smarty_tpl->getValue('c')['id'];?>
-" <?php if ($_smarty_tpl->getValue('selectedCdl') == $_smarty_tpl->getValue('c')['id']) {?>selected<?php }?>>
-                        <?php echo $_smarty_tpl->getValue('c')['nome'];?>
-
-                    </option>
-                <?php
+                        <li class="combo-item" role="option"
+                            data-value="<?php echo $_smarty_tpl->getValue('c')['id'];?>
+" data-label="<?php echo htmlspecialchars((string)$_smarty_tpl->getValue('c')['nome'], ENT_QUOTES, 'UTF-8', true);?>
+"><?php echo $_smarty_tpl->getValue('c')['nome'];?>
+</li>
+                    <?php
 }
 $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
-
-            </select>
-
+                    <li class="combo-empty" hidden>Nessun corso trovato</li>
+                </ul>
+            </div>
             <div class="error-msg"><?php echo (($tmp = $_smarty_tpl->getValue('errors')['cdl'] ?? null)===null||$tmp==='' ? '' ?? null : $tmp);?>
 </div>
         </div>
 
-
-        <!-- INSEGNAMENTO -->
+        <!-- INSEGNAMENTO (bloccato finché non si sceglie il corso) -->
         <div class="form-group">
-            <label>Insegnamento</label>
-            <select name="insegnamento" id="insSelect" <?php if (!$_smarty_tpl->getValue('selectedCdl')) {?>disabled<?php }?> required>
-                <option value="">Seleziona insegnamento</option>
-                <?php
+            <label for="insInput">Insegnamento</label>
+            <div class="combo" id="insCombo">
+                <i class="fa fa-magnifying-glass combo-icon"></i>
+                <input type="text" id="insInput" class="combo-input" autocomplete="off"
+                       placeholder="Seleziona prima un corso di laurea"
+                       data-placeholder-locked="Seleziona prima un corso di laurea"
+                       data-placeholder-ready="Scrivi l'insegnamento..."
+                       value="<?php echo htmlspecialchars((string)(($tmp = $_smarty_tpl->getValue('selectedInsNome') ?? null)===null||$tmp==='' ? '' ?? null : $tmp), ENT_QUOTES, 'UTF-8', true);?>
+" required disabled>
+                <input type="hidden" name="insegnamento" id="insValue" value="<?php echo (($tmp = $_smarty_tpl->getValue('selectedIns') ?? null)===null||$tmp==='' ? '' ?? null : $tmp);?>
+">
+                <ul class="combo-list" id="insList" role="listbox">
+                    <?php
 $_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('insegnamenti'), 'i');
 $foreach1DoElse = true;
 foreach ($_from ?? [] as $_smarty_tpl->getVariable('i')->value) {
 $foreach1DoElse = false;
 ?>
-                    <option value="<?php echo $_smarty_tpl->getValue('i')['id'];?>
-" <?php if ($_smarty_tpl->getValue('selectedIns') == $_smarty_tpl->getValue('i')['id']) {?>selected<?php }?>><?php echo $_smarty_tpl->getValue('i')['nome'];?>
-</option>
-
-                <?php
+                        <li class="combo-item" role="option"
+                            data-value="<?php echo $_smarty_tpl->getValue('i')['id'];?>
+" data-cdl="<?php echo $_smarty_tpl->getValue('i')['codiceCorso'];?>
+"
+                            data-label="<?php echo htmlspecialchars((string)$_smarty_tpl->getValue('i')['nome'], ENT_QUOTES, 'UTF-8', true);?>
+"><?php echo $_smarty_tpl->getValue('i')['nome'];?>
+</li>
+                    <?php
 }
 $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
-            </select>
+                    <li class="combo-empty" hidden>Nessun insegnamento trovato</li>
+                </ul>
+            </div>
             <div class="error-msg"><?php echo (($tmp = $_smarty_tpl->getValue('errors')['ins'] ?? null)===null||$tmp==='' ? '' ?? null : $tmp);?>
 </div>
         </div>
 
         <!-- TITOLO -->
         <div class="form-group">
-            <label>Titolo</label>
+            <label for="titoloInput">Titolo</label>
             <input type="text" name="titolo" id="titoloInput" required
-                placeholder="es. Programmazione Web"
-                value="<?php echo (($tmp = $_smarty_tpl->getValue('titolo') ?? null)===null||$tmp==='' ? '' ?? null : $tmp);?>
+                   placeholder="es. Programmazione Web"
+                   value="<?php echo (($tmp = $_smarty_tpl->getValue('titolo') ?? null)===null||$tmp==='' ? '' ?? null : $tmp);?>
 ">
-
             <div class="error-msg"><?php echo (($tmp = $_smarty_tpl->getValue('errors')['titolo'] ?? null)===null||$tmp==='' ? '' ?? null : $tmp);?>
 </div>
         </div>
 
         <!-- TAG (solo Appunto) -->
-        <div class="form-group">
-            <label>Tag</label>
+        <div class="form-group" id="tagGroup">
+            <label for="tagSelect">Tag</label>
             <select name="tag" id="tagSelect" <?php if ($_smarty_tpl->getValue('tipo') == 'esame') {?>disabled<?php }?>>
                 <option value="">Seleziona tipo</option>
                 <option value="Riassunto">Riassunto</option>
@@ -148,26 +203,29 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
         <!-- CHECKBOX -->
         <div class="form-check">
             <input type="checkbox" name="terms" id="termsCheck" required>
-            <label for="termsCheck">Termini e Condizioni</label>
+            <label for="termsCheck">Accetto i Termini e Condizioni</label>
         </div>
         <div class="error-msg"><?php echo (($tmp = $_smarty_tpl->getValue('errors')['terms'] ?? null)===null||$tmp==='' ? '' ?? null : $tmp);?>
 </div>
 
         <!-- BOTTONI -->
-        <div class="buttons">
-            <a href="/Home/dashboard" class="btn-home"><i class="fa fa-arrow-left"></i> Home</a>
-            <button type="submit" class="btn-upload">Carica <i class="fa fa-arrow-up"></i></button>
+        <div class="upload-actions">
+            <a href="/Home/dashboard" class="btn btn-secondary btn-home"><i class="fa fa-arrow-left"></i> Home</a>
+            <button type="submit" class="btn btn-carica">
+                <i class="fa fa-cloud-arrow-up"></i> Carica materiale
+            </button>
         </div>
 
     </form>
 
-</main>
+</section>
 
 <?php echo '<script'; ?>
  src="/../JS/upload.js"><?php echo '</script'; ?>
 >
-</body>
-</html>
 
-<?php }
+<?php
+}
+}
+/* {/block "content"} */
 }

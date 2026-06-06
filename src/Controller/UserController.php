@@ -289,7 +289,7 @@ class UserController {
                 return;
             }
             
-            $studente = $pm->find(Studente::class, $idStudenteLoggato);
+            $studente = $pm->find(Studente::class, $id);
             
             if ($studente === null) {
                 $view->mostraFormErrore("Utente non trovato.");
