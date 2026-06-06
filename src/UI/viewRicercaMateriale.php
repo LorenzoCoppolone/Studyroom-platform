@@ -59,8 +59,8 @@ class viewRicercaMateriale {
      * @param int $page Pagina corrente per la paginazione
      * @return void
      */
-    public function mostraMateriali(array $materiale, int $page, ?string $username, ?string $base64) : void {
-        $this->smarty->assign("materiale", $materiale);
+    public function mostraMateriali(array $materiali, int $page, ?string $username, ?string $base64) : void {
+        $this->smarty->assign("materiali", $materiali);
         $this->smarty->assign("page", $page);
         $this->smarty->assign("username", $username);
         $this->smarty->assign("base64", $base64);

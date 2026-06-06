@@ -1,11 +1,11 @@
 <?php
-/* Smarty version 5.8.0, created on 2026-06-06 17:11:16
+/* Smarty version 5.8.0, created on 2026-06-06 17:32:57
   from 'file:home.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.8.0',
-  'unifunc' => 'content_6a2438948ae879_58830187',
+  'unifunc' => 'content_6a243da90d28b4_78571234',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
@@ -20,28 +20,28 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6a2438948ae879_58830187 (\Smarty\Template $_smarty_tpl) {
+function content_6a243da90d28b4_78571234 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/Studyroom-platform/templates';
 $_smarty_tpl->getInheritance()->init($_smarty_tpl, true);
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_10993340186a2438948ac502_95962829', "title");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_6428740916a243da90cfe93_83877526', "title");
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_10287347126a2438948add58_07277633', "pageCSS");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_19770261716a243da90d2009_00788905', "pageCSS");
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_13173651986a2438948ae3f4_22960517', "content");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_19267690456a243da90d2505_01755833', "content");
 $_smarty_tpl->getInheritance()->endChild($_smarty_tpl, "layout.tpl", $_smarty_current_dir);
 }
 /* {block "title"} */
-class Block_10993340186a2438948ac502_95962829 extends \Smarty\Runtime\Block
+class Block_6428740916a243da90cfe93_83877526 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/Studyroom-platform/templates';
@@ -53,7 +53,7 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/Studyroom-platform
 }
 /* {/block "title"} */
 /* {block "pageCSS"} */
-class Block_10287347126a2438948add58_07277633 extends \Smarty\Runtime\Block
+class Block_19770261716a243da90d2009_00788905 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/Studyroom-platform/templates';
@@ -65,7 +65,7 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/Studyroom-platform
 }
 /* {/block "pageCSS"} */
 /* {block "content"} */
-class Block_13173651986a2438948ae3f4_22960517 extends \Smarty\Runtime\Block
+class Block_19267690456a243da90d2505_01755833 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/Studyroom-platform/templates';
