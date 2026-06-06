@@ -46,9 +46,9 @@ class RicercaMaterialeController
     $filtri = $session->getSessionElement('ricerca_filtri') ?? [];
     if($id !== null) {
         $studente = $pm->find(Studente::class, $id);
-        $view->mostraMateriali($materiali, $page, $arrayPaginazione['totPage'], $studente->getUsername(), $studente->getImmagineProfilo()->getBase64($studente), $corsiDiLaurea, $insegnamenti, $filtri, $arrayPaginazione['totaleMateriali']);
+        $view->mostraMateriali($materiali, $page, $arrayPaginazione['totPage'], $studente->getUsername(), $studente->getImmagineProfilo()->getBase64($studente), $corsiDiLaurea, $insegnamenti, $filtri);
     } else {
-        $view->mostraMateriali($materiali, $page, $arrayPaginazione['totPage'], null, null, $corsiDiLaurea, $insegnamenti, $filtri, $arrayPaginazione['totaleMateriali']);
+        $view->mostraMateriali($materiali, $page, $arrayPaginazione['totPage'], null, null, $corsiDiLaurea, $insegnamenti, $filtri);
     }
     } catch (PDOException $e) {
         $view->mostraFormErrore("Errore DB durante la ricerca: " . $e->getMessage());
@@ -83,9 +83,9 @@ class RicercaMaterialeController
             $corsiDiLaurea = $pm->trovaCorsiDiLaurea();
             $insegnamenti = $pm->trovaInsegnamenti();
             if($studente !== null) {
-                $view->mostraMateriali($materiali, $page, $arrayPaginazione['totPage'], $studente->getUsername(), $studente->getImmagineProfilo()->getBase64($studente), $corsiDiLaurea, $insegnamenti, $filtri, $arrayPaginazione['totaleMateriali']);
+                $view->mostraMateriali($materiali, $page, $arrayPaginazione['totPage'], $studente->getUsername(), $studente->getImmagineProfilo()->getBase64($studente), $corsiDiLaurea, $insegnamenti, $filtri);
             } else {
-                $view->mostraMateriali($materiali, 1, 1, null, null, $corsiDiLaurea, $insegnamenti, $filtri, 0);
+                $view->mostraMateriali($materiali, 1, 1, null, null, $corsiDiLaurea, $insegnamenti, $filtri);
             }
         } catch (PDOException $e) {
             $view->mostraFormErrore("Errore DB durante il recupero dei materiali: " . $e->getMessage());
@@ -142,7 +142,7 @@ class RicercaMaterialeController
         $insegnamenti = $pm->cercaInsegnamenti();
         $studente = $pm->find(Studente::class, $id);
         if($studente !== null) {
-            $view->mostraMateriali($materiali, $page, $arrayPaginazione['totPage'], $studente->getUsername(), $studente->getImmagineProfilo()->getBase64($studente), $corsiDiLaurea, $insegnamenti, $filtri, $arrayPaginazione['totaleMateriali']);
+            $view->mostraMateriali($materiali, $page, $arrayPaginazione['totPage'], $studente->getUsername(), $studente->getImmagineProfilo()->getBase64($studente), $corsiDiLaurea, $insegnamenti, $filtri);
         } else {
             $view->mostraMateriali($materiali, $page, $arrayPaginazione['totPage'], null, null, $corsiDiLaurea, $insegnamenti, $filtri, $arrayPaginazione['totaleMateriali']);
         }

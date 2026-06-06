@@ -103,6 +103,10 @@ class PersistentManager {
         return $this->em->getRepository($class)->findOneBy($criteria);
     }
 
+    public function countAll(string $class, array $criteria = []): int {
+        return $this->em->getRepository($class)->count($criteria);
+    }
+
     // Query custom
 
     public function cercaMateriale(    
