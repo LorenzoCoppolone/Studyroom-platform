@@ -6,6 +6,10 @@ use Foundation\Persistent\PersistentManager;
 use Foundation\Session;
 use Foundation\Services\AnteprimaPdfService;
 use UI\ViewRicercaMateriale;
+use Model\Materiale;
+use Model\Preferito;
+use Model\Download;
+use Model\Studente;
 use PDOException;
 use RuntimeException;
 use InvalidArgumentException;
@@ -23,6 +27,7 @@ class RicercaMaterialeController
      */
     public function cerca(): void 
     {
+    try {
     $view = new ViewRicercaMateriale();
     $titolo = trim($view->getTitolo());
     $page = $view->getPage() ?? 1; // Ottieni la pagina corrente, default 1 se non specificata
@@ -31,21 +36,24 @@ class RicercaMaterialeController
     if ($titolo === '') {
       throw new InvalidArgumentException("Il termine di ricerca non può essere vuoto.");
     }
-    try {
-        $pm = PersistentManager::getInstance();
-        $materiali = $pm->cercaMateriale($titolo, $offset, $limit);
-        $session = Session::getInstance();
-        $session->setSessionElement('ricerca_titolo', $titolo);
-        $session->setSessionElement('ricerca_filtri', []);
-        $id = $session->getSessionElement('studente');
+    $pm = PersistentManager::getInstance();
+    $materiali = $pm->cercaMateriale($titolo, $offset, $limit);
+    $session = Session::getInstance();
+    $session->setSessionElement('ricerca_titolo', $titolo);
+    $session->setSessionElement('ricerca_filtri', []);
+    $id = $session->getSessionElement('studente');
+    if($id !== null) {
         $studente = $pm->find(Studente::class, $id);
-        if($studente !== null) {
-            $view->mostraMateriali($materiali, $page, $studente->getUsername(), $studente->getImmagineProfilo()->getBase64($studente));
-        } else {
-            $view->mostraMateriali($materiali, $page, null, null);
-        }
+        $view->mostraMateriali($materiali, $page, $studente->getUsername(), $studente->getImmagineProfilo()->getBase64($studente));
+    } else {
+        $view->mostraMateriali($materiali, $page, null, null);
+    }
     } catch (PDOException $e) {
-        throw new RuntimeException("Errore DB durante la ricerca: " . $e->getMessage());
+        $view->mostraFormErrore("Errore DB durante la ricerca: " . $e->getMessage());
+    }catch (InvalidArgumentException $e) {
+        $view->mostraFormErrore("Errore di validazione: " . $e->getMessage());
+    } catch (\Exception $e) {
+        $view->mostraFormErrore("Errore imprevisto: " . $e->getMessage());
     }
 }
 
@@ -74,9 +82,9 @@ class RicercaMaterialeController
                 $view->mostraMateriali($materiali, 1, null, null);
             }
         } catch (PDOException $e) {
-            throw new RuntimeException("Errore DB durante il recupero dei materiali: " . $e->getMessage());
+            $view->mostraFormErrore("Errore DB durante il recupero dei materiali: " . $e->getMessage());
         } catch (\Exception $e) {
-            throw new RuntimeException("Errore imprevisto: " . $e->getMessage());
+            $view->mostraFormErrore("Errore imprevisto: " . $e->getMessage());
         }
     }
 

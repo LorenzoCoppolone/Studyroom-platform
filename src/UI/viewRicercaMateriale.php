@@ -64,7 +64,7 @@ class viewRicercaMateriale {
         $this->smarty->assign("page", $page);
         $this->smarty->assign("username", $username);
         $this->smarty->assign("base64", $base64);
-        $this->smarty->display("ricercaMateriali.tpl");
+        $this->smarty->display("ricercaMateriale.tpl");
     }
 
     /**
