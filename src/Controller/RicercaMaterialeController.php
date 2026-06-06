@@ -31,22 +31,24 @@ class RicercaMaterialeController
     $view = new ViewRicercaMateriale();
     $titolo = trim($view->getTitolo());
     $page = $view->getPage() ?? 1; // Ottieni la pagina corrente, default 1 se non specificata
-    $limit = 10; // Numero di risultati per pagina
-    $offset = $this->paginazione($page, $limit); // Calcola l'offset per la query
+    $arrayPaginazione = $this->paginazione($page); // Calcola l'offset per la query
     if ($titolo === '') {
       throw new InvalidArgumentException("Il termine di ricerca non può essere vuoto.");
     }
     $pm = PersistentManager::getInstance();
-    $materiali = $pm->cercaMateriale($titolo, $offset, $limit);
+    $materiali = $pm->cercaMateriale($titolo, $arrayPaginazione['offset'], $arrayPaginazione['limit']);
     $session = Session::getInstance();
     $session->setSessionElement('ricerca_titolo', $titolo);
     $session->setSessionElement('ricerca_filtri', []);
     $id = $session->getSessionElement('studente');
+    $corsiDiLaurea = $pm->trovaCorsiDiLaurea();
+    $insegnamenti = $pm->trovaInsegnamenti();
+    $filtri = $session->getSessionElement('ricerca_filtri') ?? [];
     if($id !== null) {
         $studente = $pm->find(Studente::class, $id);
-        $view->mostraMateriali($materiali, $page, $studente->getUsername(), $studente->getImmagineProfilo()->getBase64($studente));
+        $view->mostraMateriali($materiali, $page, $arrayPaginazione['totPage'], $studente->getUsername(), $studente->getImmagineProfilo()->getBase64($studente), $corsiDiLaurea, $insegnamenti, $filtri, $arrayPaginazione['totaleMateriali']);
     } else {
-        $view->mostraMateriali($materiali, $page, null, null);
+        $view->mostraMateriali($materiali, $page, $arrayPaginazione['totPage'], null, null, $corsiDiLaurea, $insegnamenti, $filtri, $arrayPaginazione['totaleMateriali']);
     }
     } catch (PDOException $e) {
         $view->mostraFormErrore("Errore DB durante la ricerca: " . $e->getMessage());
@@ -68,18 +70,22 @@ class RicercaMaterialeController
             $view = new ViewRicercaMateriale();
             $page = $view->getPage() ?? 1;
             $limit = 10;
-            $offset = $this->paginazione($page, $limit);
+            $arrayPaginazione = $this->paginazione($page, $limit);
             $pm        = PersistentManager::getInstance();
-            $materiali = $pm->getMaterialiPopolari($offset, $limit);
+            $materiali = $pm->getMaterialiPopolari($arrayPaginazione['offset'], $arrayPaginazione['limit']);
             $session = Session::getInstance();
             $session->setSessionElement('ricerca_titolo', '');
             $session->setSessionElement('ricerca_filtri', []);
             $id = $session->getSessionElement('studente');
+
             $studente = $pm->find(Studente::class, $id);
+            $filtri = $session->getSessionElement('ricerca_filtri') ?? [];
+            $corsiDiLaurea = $pm->trovaCorsiDiLaurea();
+            $insegnamenti = $pm->trovaInsegnamenti();
             if($studente !== null) {
-                $view->mostraMateriali($materiali, 1, $studente->getUsername(), $studente->getImmagineProfilo()->getBase64($studente));
+                $view->mostraMateriali($materiali, $page, $arrayPaginazione['totPage'], $studente->getUsername(), $studente->getImmagineProfilo()->getBase64($studente), $corsiDiLaurea, $insegnamenti, $filtri, $arrayPaginazione['totaleMateriali']);
             } else {
-                $view->mostraMateriali($materiali, 1, null, null);
+                $view->mostraMateriali($materiali, 1, 1, null, null, $corsiDiLaurea, $insegnamenti, $filtri, 0);
             }
         } catch (PDOException $e) {
             $view->mostraFormErrore("Errore DB durante il recupero dei materiali: " . $e->getMessage());
@@ -132,11 +138,13 @@ class RicercaMaterialeController
         );
         $session = Session::getInstance();
         $id = $session->getSessionElement('studente');
+        $corsiDiLaurea = $pm->cercaCorsiDiLaurea();
+        $insegnamenti = $pm->cercaInsegnamenti();
         $studente = $pm->find(Studente::class, $id);
         if($studente !== null) {
-            $view->mostraMateriali($materiali, $page, $studente->getUsername(), $studente->getImmagineProfilo()->getBase64($studente));
+            $view->mostraMateriali($materiali, $page, $arrayPaginazione['totPage'], $studente->getUsername(), $studente->getImmagineProfilo()->getBase64($studente), $corsiDiLaurea, $insegnamenti, $filtri, $arrayPaginazione['totaleMateriali']);
         } else {
-            $view->mostraMateriali($materiali, $page, null, null);
+            $view->mostraMateriali($materiali, $page, $arrayPaginazione['totPage'], null, null, $corsiDiLaurea, $insegnamenti, $filtri, $arrayPaginazione['totaleMateriali']);
         }
     } catch (PDOException $e) {
         $view->mostraFormErrore("Errore DB durante l'applicazione dei filtri: " . $e->getMessage());
@@ -208,9 +216,46 @@ class RicercaMaterialeController
         }
     }
 
-    public function paginazione(int $page, int $limit) : int {
+    public function paginazione(int $page) : array {
         $page = max(1, $page); // Assicurati che la pagina sia almeno 1
+        $limit = 10; // Numero di risultati per pagina
         $offset = ($page - 1) * $limit; // Calcola l'offset per la query
-        return $offset;
+        $pm = PersistentManager::getInstance();
+        $session = Session::getInstance();
+        $titolo = $session->getSessionElement('ricerca_titolo') ?? '';
+        if($titolo === '') {
+        $view = new ViewRicercaMateriale();
+            if($view->getDatiFiltro() === []){
+                $totaleMateriali = $pm->countAll(Materiale::class, ['titolo' => '%' . $view->getTitolo() . '%']);
+            } else {
+                $filtri = $view->getDatiFiltro();
+                $totaleMateriali = $pm->countAll(Materiale::class, [
+                'titolo' => '%' . $view->getTitolo() . '%',
+                'tipologia' => $filtri['tipologia'] ?? null,
+                'corso_di_laurea' => $filtri['corso_di_laurea'] ?? null,
+                'insegnamento' => $filtri['insegnamento'] ?? null,
+                'tag' => $filtri['tag'] ?? null
+                ]);
+            }
+        } else {
+            if($session->getSessionElement('ricerca_filtri') === []) {
+                $totaleMateriali = $pm->countAll(Materiale::class, ['titolo' => '%' . $titolo . '%']);
+            } else {
+                $filtri = $session->getSessionElement('ricerca_filtri');
+                $totaleMateriali = $pm->countAll(Materiale::class, [
+                    'titolo' => '%' . $titolo . '%',
+                    'tipologia' => $filtri['tipologia'] ?? null,
+                    'corso_di_laurea' => $filtri['corso_di_laurea'] ?? null,
+                    'insegnamento' => $filtri['insegnamento'] ?? null,
+                    'tag' => $filtri['tag'] ?? null
+                ]);
+            }
+        }
+        $totPage = ceil($totaleMateriali / $limit);
+    return [
+        'offset' =>$offset,
+        'limit' => $limit,
+        'totPage' => $totPage
+    ];
     }
 }
