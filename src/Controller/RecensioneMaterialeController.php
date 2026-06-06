@@ -2,46 +2,58 @@
 
 namespace Controller;
  
-use Foundation\Persistent\PersistentManager;
-use Foundation\Session;
 use UI\ViewRecensioneMateriale;
+use Foundation\Session;
+use Foundation\Persistent\PersistentManager;
+use Model\Recensione;
+use Model\Materiale;
+use Model\Studente;
 use PDOException;
 use RuntimeException;
 use InvalidArgumentException;
  
 /**
- * Gestisce l'inserimento, la modifica e l'eliminazione di una recensione
+ * recensioneMaterialeController
+ *
+ * Gestisce l'inserimento e l'eliminazione delle recensioni
+ * effettuate dagli studenti sui materiali.
  */
 class recensioneMaterialeController {
 
     /**
      * Inserisce una recensione effettuata dallo studente.
+     *
+     * @return void
      */
     public function inserisciRecensioneController() : void {
+        
         $view = new ViewRecensioneMateriale();
         $idMateriale = $view->getIdMateriale();
         $voto        = (float) $view->getVoto();
         $commento    = $view->getCommento();
         $idUtente = Session::getInstance()->getIdUtenteLoggato();
+        
+        // Validazione utente
         if (empty($idUtente)) {
             $view->mostraFormErrore('Utente non loggato!');
             return;
         }
 
+        // Validazione commento
         if (strlen($commento) > 255) {
             $view->mostraFormErrore('Il commento non può superare i 255 caratteri!');
             return;
         }
         
-        // Logica di inserimento
         try {
             $pm = PersistentManager::getIstance();
 
-            // Verificare: uno studente può recensire un materiale una sola volta
+            // Controllo se esiste già una recensione dello stesso studente
             $risultati = $pm->findBy(Recensione::class, [
                 'studente'  => $idUtente,
                 'materiale' => $idMateriale
             ]);
+            
             $recensioneEsistente = $risultati[0] ?? null;
 
             if($recensioneEsistente === null) {
@@ -49,13 +61,10 @@ class recensioneMaterialeController {
                 $materiale = $pm->find(Materiale::class, $idMateriale);
                 $studente = $pm->find(Studente::class, $idUtente);
 
-                // Creo la nuova recensione
                 $nuovaRecensione = new Recensione(0, $voto, $commento, $studente, $materiale);
 
-                // Salvo la recensione nel DB
                 $pm->save($nuovaRecensione);
 
-                // Mostro la conferma
                 $view->mostraPopUpRecensione();
             }
 
@@ -68,25 +77,21 @@ class recensioneMaterialeController {
 
     /**
      * Elimina una recensione effettuata dallo studente.
+     *
      * @return void
      */
     public function eliminaRecensione() : void {
 
-        // Istanzio la view
+   
         $view = new ViewRecensioneMateriale();
-
-        // Recupero i dati di input
         $idMateriale = $view->getIdMateriale();
-
-        // Recupero l'Id Utente dalla Session
         $idUtente = Session::getInstance()->getIdUtenteLoggato();
 
-        // Validazione
+        // Validazione utente
         if (empty($idUtente)) {
             throw new InvalidArgumentException("Utente non loggato.");
         }
         
-        // Logica di eliminazione
         try {
             $pm = PersistentManager::getIstance();
 
@@ -95,19 +100,20 @@ class recensioneMaterialeController {
                 'studente'  => $idUtente,
                 'materiale' => $idMateriale
             ]);
+           
             $recensioneSelezionato = $risultati[0] ?? null;
 
             // Eliminazione
             $pm->delete($recensioneSelezionato);
 
-            // Mostro la conferma all'utente
+            // Conferma
             $view->mostraPopUpConferma();
 
         } catch(PDOExcception $e) {
             throw new RuntimeException("Errore DB durante l'eliminazione della recensione': " . $e->getMessage());
+        
         } catch (\Exception $e) {
             throw new RuntimeException("Errore imprevisto: " . $e->getMessage());
         }
     }
-
 }
