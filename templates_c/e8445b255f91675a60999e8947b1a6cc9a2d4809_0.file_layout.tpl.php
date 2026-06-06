@@ -1,11 +1,11 @@
 <?php
-/* Smarty version 5.8.0, created on 2026-06-06 00:01:12
+/* Smarty version 5.8.0, created on 2026-06-06 10:51:15
   from 'file:layout.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.8.0',
-  'unifunc' => 'content_6a2363484b6fc0_09458719',
+  'unifunc' => 'content_6a23fba3416e77_10777685',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6a2363484b6fc0_09458719 (\Smarty\Template $_smarty_tpl) {
+function content_6a23fba3416e77_10777685 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\studyroom-platform\\templates';
 $_smarty_tpl->getInheritance()->init($_smarty_tpl, false);
 ?>
@@ -33,7 +33,7 @@ $_smarty_tpl->getInheritance()->init($_smarty_tpl, false);
     <link rel="icon" type="image/x-icon" href="/../img/studyroom_favicon.ico">
 
     <title><?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_6824760376a2363484b09f8_79075481', "title");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_19267836906a23fba340b991_67342173', "title");
 ?>
 </title>
 
@@ -42,7 +42,7 @@ $_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_6824760376a23
 
     <!-- CSS Pagina -->
     <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_2546994136a2363484b1408_78119011', "pageCSS");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_5892297656a23fba340ca30_56260504', "pageCSS");
 ?>
 
 
@@ -121,7 +121,7 @@ $_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_2546994136a23
     <main class="page-content">
 
         <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_4688853126a2363484b6796_41058869', "content");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_12726697506a23fba3415b00_65940588', "content");
 ?>
 
 
@@ -158,7 +158,7 @@ $_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_4688853126a23
 </html>
 <?php }
 /* {block "title"} */
-class Block_6824760376a2363484b09f8_79075481 extends \Smarty\Runtime\Block
+class Block_19267836906a23fba340b991_67342173 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\studyroom-platform\\templates';
@@ -168,7 +168,7 @@ StudyRoom<?php
 }
 /* {/block "title"} */
 /* {block "pageCSS"} */
-class Block_2546994136a2363484b1408_78119011 extends \Smarty\Runtime\Block
+class Block_5892297656a23fba340ca30_56260504 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\studyroom-platform\\templates';
@@ -176,7 +176,7 @@ $_smarty_current_dir = 'C:\\laragon\\www\\studyroom-platform\\templates';
 }
 /* {/block "pageCSS"} */
 /* {block "content"} */
-class Block_4688853126a2363484b6796_41058869 extends \Smarty\Runtime\Block
+class Block_12726697506a23fba3415b00_65940588 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\studyroom-platform\\templates';

@@ -80,11 +80,11 @@ class UserController {
         $studente = new Studente( $d['nome'], $d['cognome'], $d['email'], $passwordHash, $d['username']);
         
         $token = bin2hex(random_bytes(32));
-        $studente->setToken($token);
+        $studente->setValidationToken($token);
         
         $scadenzaToken = (new \DateTime('now', new \DateTimeZone('Europe/Rome')))->add(new \DateInterval('PT10M')); // Token valido per 10 minuti
         
-        $studente->setValidazioneToken($scadenzaToken);
+        $studente->setValidationTokenTime($scadenzaToken);
         
         $pm->save($studente);
         
@@ -111,54 +111,39 @@ class UserController {
      */
     public function effettuaLogin() {
         try {
-            $base64 = null; // Inizializza la variabile $base64 ovvero l'immagine di default o null se non c'è un'immagine di profilo
-            
             $session = Session::getInstance();
             $view = new viewUser();
             $pm = PersistentManager::getInstance();
-            
             $datiLogin = $view->getDatiLogin();
-            
+            $this->rememberMe($datiLogin['email'], $datiLogin['remember']);
             if (empty($datiLogin['email'])) throw new \Exception("L'email è obbligatoria.");
             if (empty($datiLogin['password'])) throw new \Exception("La password è obbligatoria.");
-            
             $studente = $pm->findOneBy(Studente::class, ['email' => $datiLogin['email'] ]);
             $admin = $pm->findOneBy(Amministratore::class, ['email' => $datiLogin['email']]);
-            
             if ($studente === null && $admin === null) {
-                $view->mostraFormErrore("L'email o la password sono errate"); // Mostra di nuovo la form di login
-                exit; // Termina l'esecuzione della funzione
+                throw new \Exception("Credenziali non corrette."); // Lancia un'eccezione per indicare che le credenziali non sono corrette
             }
-            
             // login Admin
             if($admin !== null && password_verify($datiLogin['password'], $admin->getPassword())){
                 $session->setSessionElement('admin', $admin->getId());
                 $viewAdmin = new viewAdmin();
                 $viewAdmin->mostraDashboardAdmin($pm->trovaSegnalazioniAdmin(0,10));
-                exit;
             }
-            
             // Controlli studente
             if(!$studente->getIsVerified()) {
-                $view->mostraFormErrore("L'email non è stata verificata, controlla la tua email o riprova a registrarti"); // Mostra di nuovo la form di login
-                exit;
+                throw new \Exception("Devi verificare la tua email prima di accedere."); // Lancia un'ecezione per indicare che l'email non è verificata
             }
             elseif($studente->getIsBanned()) {
-                $view->mostraFormErrore("Il tuo account è stato bannato, contatta l'assistenza per maggiori informazioni"); // Mostra di nuovo la form di login
-                exit;
+                throw new \Exception("Il tuo account è stato sospeso, contatta l'amministratore per maggiori informazioni."); // Lancia un'ecezione per indicare che l'account è sospeso
             }
-            
             if (!password_verify($datiLogin['password'], $studente->getPassword())) {
                 throw new \Exception("Credenziali non corrette."); // Lancia un'ecezione per indicare che le credenziali non sono corrette
-                exit;
             }
             else {
                 $session->setSessionElement('studente', $studente->getId());
-                $base64 = $studente->getImmagineProfilo()->getBase64($studente);
+                $base64 = $studente->getImmagineProfilo() ? $studente->getImmagineProfilo()->getBase64($studente) : null;
             }
-            
             $view->mostraHome($studente->getUsername(), $base64);
-        
         }        
         catch (PDOException $e) {
             $view->mostraFormErrore("Errore durante il login dell'utente: " . $e->getMessage());
@@ -172,9 +157,23 @@ class UserController {
      */
     public function logout() : void {
         $session = Session::getInstance();
+        $idStudente = $session->getSessionElement('studente');
+        if ($idStudente !== null){
+            $pm = PersistentManager::getInstance();
+            $studente = $pm->find(Studente::class, $idStudente);
+            if ($studente !== null && $studente->getRememberToken() !== null) {
+                $studente->setRememberToken(null);
+                $studente->setRememberTokenTime(null);
+                $pm->update($studente);
+                setcookie('remember_me', '', time() - 3600, "/", "", true, true); // Rimuove il cookie
+            }
+        }
+         elseif ($session->getSessionElement('admin') !== null) {
+            $session->unsetSessionElement('admin');
+            $session->destroySession();
+        }
         $session->unsetSessionElement('studente');
         $session->destroySession(); // Distrugge la sessione, effettivamente facendo il logout
-        
         $view = new viewUser();
         $view->mostraHome(null, null); // Dopo il logout, mostra la home page non loggata
     }
@@ -190,7 +189,7 @@ class UserController {
             $view = new viewUser();
             $pm = PersistentManager::getInstance();
             
-            $studente = $pm->findOneBy(Studente::class, ['token' => $token]); // Cerco lo studente nel DB per token
+            $studente = $pm->findOneBy(Studente::class, ['validationToken' => $token]); // Cerco lo studente nel DB per token
 
             if ($studente === null) {
                 $view->mostraFormTokenNonValido(); // Mostra la form che informa l'utente che il token non è valido
@@ -199,14 +198,14 @@ class UserController {
 
             $now = new \DateTime('now', new \DateTimeZone('Europe/Rome')); // Ottieni la data e ora attuale
 
-            if ($now > $studente->getValidazioneToken() || $studente->getToken() === null) {
+            if ($now > $studente->getValidationTokenTime() || $studente->getValidationTokenTime() === null) {
                 $pm->delete($studente); // Elimina lo studente dal database se il token è scaduto
                 $view->mostraFormTokenScaduto(); // Mostra la form che informa l'utente che il token è scaduto
                 return; // Termina l'esecuzione della funzione
             }
 
-            $studente->setToken(null); // Rimuovi il token dallo studente
-            $studente->setValidazioneToken(null); // Rimuovi la scadenza del token
+            $studente->setValidationToken(null); // Rimuovi il token dallo studente
+            $studente->setValidationTokenTime(null); // Rimuovi la scadenza del token
             $studente->setIsVerified(true); // Imposta l'email come verificata
             
             $pm->update($studente); // Salva le modifiche al database
@@ -537,5 +536,22 @@ class UserController {
         } catch (Exception $e) {
             $view->mostraFormReimpostaPassword($d['token'] ?? '', $e->getMessage());
         }
+    }
+
+    private function rememberMe(string $email, ?bool $remember): void {
+        if($remember !== true) {
+            return; // L'utente non ha selezionato "Remember Me", quindi non facciamo nulla
+        }
+        $pm = PersistentManager::getInstance();
+        $studente = $pm->findOneBy(Studente::class, ['email' => $email]);
+        if ($studente === null) {
+            return;
+        }
+        $token = bin2hex(random_bytes(32));
+        setcookie('remember_me', $token, time() + (60 * 60 * 24 * 30), "/", "", true, true); // Cookie valido per 30 giorni
+        $hashToken = hash('sha256', $token);
+        $studente->setRememberToken($hashToken);
+        $studente->setRememberTokenTime((new \DateTime('now', new \DateTimeZone('Europe/Rome')))->modify('+30 days'));// Scadenza token in linea con il cookie
+        $pm->update($studente);
     }
 }

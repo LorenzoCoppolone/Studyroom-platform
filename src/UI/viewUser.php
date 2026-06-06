@@ -28,10 +28,14 @@ class viewUser {
      * @param string|null $base64   Immagine profilo codificata in base64
      * @return void
      */
-    public function mostraHome(?string $studente = null, ?string $base64 = null) : void {
-       $this->smarty->assign("studente", $studente);
-       $this->smarty->assign("base64", $base64);
-       $this->smarty->display("home.tpl");
+    public function mostraHome(?string $studente, ?string $base64) : void {
+        header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+        header("Cache-Control: post-check=0, pre-check=0", false);
+        header("Pragma: no-cache");
+        header("Expires: 0");
+        $this->smarty->assign("studente", $studente);
+        $this->smarty->assign("base64", $base64);
+        $this->smarty->display("home.tpl");
     }
 
     /**
@@ -39,7 +43,11 @@ class viewUser {
      * @return void
      */ 
     public function mostraFormRegistrazione () { 
-            $this->smarty->display("registrationForm.tpl");
+        header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+        header("Cache-Control: post-check=0, pre-check=0", false);
+        header("Pragma: no-cache");
+        header("Expires: 0");
+        $this->smarty->display("registrationForm.tpl");
     }
 
     /**
@@ -48,6 +56,10 @@ class viewUser {
      * @return void
      */
     public function mostraFormLogin () {
+        header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+        header("Cache-Control: post-check=0, pre-check=0", false);
+        header("Pragma: no-cache");
+        header("Expires: 0");
         $this->smarty->display("loginForm.tpl");
     }
 
@@ -61,6 +73,10 @@ class viewUser {
      * @return void
      */
     public function mostraFormRecuperoPassword() {
+        header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+        header("Cache-Control: post-check=0, pre-check=0", false);
+        header("Pragma: no-cache");
+        header("Expires: 0");
         $this->smarty->display("recuperoPassword.tpl");
     }
 
@@ -80,6 +96,10 @@ class viewUser {
      * @return void
      */
     public function mostraFormReimpostaPassword(string $token): void {
+        header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+        header("Cache-Control: post-check=0, pre-check=0", false);
+        header("Pragma: no-cache");
+        header("Expires: 0");
         $this->smarty->assign("token", $token);
         $this->smarty->display("reimpostaPassword.tpl");
     }
@@ -180,7 +200,8 @@ class viewUser {
      public function getDatiLogin() : array {
         return [
             'email' => $_POST['email'] ?? '',
-            'password' => $_POST['password'] ?? ''
+            'password' => $_POST['password'] ?? '',
+            'remember' => isset($_POST['ricordami']) && $_POST['ricordami'] === 'on' ? true : false
         ];
     }
 

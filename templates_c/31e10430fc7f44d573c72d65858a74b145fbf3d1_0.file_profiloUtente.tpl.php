@@ -1,11 +1,11 @@
 <?php
-/* Smarty version 5.8.0, created on 2026-06-05 22:47:32
+/* Smarty version 5.8.0, created on 2026-06-06 10:43:05
   from 'file:profiloUtente.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.8.0',
-  'unifunc' => 'content_6a2352041ac013_28387511',
+  'unifunc' => 'content_6a23f9b9106525_69291855',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
@@ -20,30 +20,30 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6a2352041ac013_28387511 (\Smarty\Template $_smarty_tpl) {
+function content_6a23f9b9106525_69291855 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\studyroom-platform\\templates';
 $_smarty_tpl->getInheritance()->init($_smarty_tpl, true);
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_20393074606a23520419fab8_56376791', "title");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_9237282306a23f9b90f10a1_77525077', "title");
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_4840522436a2352041a4b72_65835714', "pageCSS");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_695021376a23f9b90f92f0_24220782', "pageCSS");
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1665822536a2352041a5682_84553216', "content");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_21470520646a23f9b90fa797_82270404', "content");
 ?>
 
 <?php $_smarty_tpl->getInheritance()->endChild($_smarty_tpl, "layout.tpl", $_smarty_current_dir);
 }
 /* {block "title"} */
-class Block_20393074606a23520419fab8_56376791 extends \Smarty\Runtime\Block
+class Block_9237282306a23f9b90f10a1_77525077 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\studyroom-platform\\templates';
@@ -53,7 +53,7 @@ Profilo Utente - StudyRoom<?php
 }
 /* {/block "title"} */
 /* {block "pageCSS"} */
-class Block_4840522436a2352041a4b72_65835714 extends \Smarty\Runtime\Block
+class Block_695021376a23f9b90f92f0_24220782 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\studyroom-platform\\templates';
@@ -65,7 +65,7 @@ $_smarty_current_dir = 'C:\\laragon\\www\\studyroom-platform\\templates';
 }
 /* {/block "pageCSS"} */
 /* {block "content"} */
-class Block_1665822536a2352041a5682_84553216 extends \Smarty\Runtime\Block
+class Block_21470520646a23f9b90fa797_82270404 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\studyroom-platform\\templates';

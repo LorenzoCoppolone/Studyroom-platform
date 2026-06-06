@@ -17,10 +17,16 @@ class Studente extends Utente {
     private bool $isBanned = false;
 
     #[ORM\Column(type: Types::STRING, nullable: true)]
-    private ?string $token; //stringa generata per l'autenticazione dell'utente via email
+    private ?string $validationToken; //stringa generata per l'autenticazione dell'utente via email
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTime $validazioneToken; //data di scadenza del token
+    private ?\DateTime $validationTokenTime; //data di scadenza del token
+
+    #[ORM\Column(type: Types::STRING, nullable: true)]
+    private ?string $rememberMeToken; //stringa generata per l'autenticazione dell'utente via cookie
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTime $rememberMeTokenTime; //data di scadenza del token di autenticazione via cookie
 
     #[ORM\Column(type: Types::BOOLEAN)]
     private bool $isVerified = false; //indica se l'utente ha verificato la propria email
@@ -228,32 +234,32 @@ class Studente extends Utente {
     * Imposta il token di autenticazione dello studente.
     * @param string $token Token di autenticazione.
     */
-    public function setToken(?string $token): void {
-        $this->token = $token;
+    public function setValidationToken(?string $token): void {
+        $this->validationToken = $token;
     }
 
     /**
      * Ottiene il token di autenticazione dello studente.
      * @return string Token di autenticazione.
      */
-    public function getToken(): ?string {
-        return $this->token;
+    public function getValidationToken(): ?string {
+        return $this->validationToken;
     }
 
     /**
      * Imposta la data di validazione del token di autenticazione dello studente.
      * @param \datetime $validazioneToken Data di validazione del token.
      */
-    public function setValidazioneToken(?\DateTime $validazioneToken): void {
-        $this->validazioneToken = $validazioneToken;
+    public function setValidationTokenTime(?\DateTime $validazioneToken): void {
+        $this->validationTokenTime = $validazioneToken;
     }
 
     /**
      * Ottiene la data di validazione del token di autenticazione dello studente.
      * @return \datetime Data di validazione del token.
      */
-    public function getValidazioneToken(): ?\DateTime {
-        return $this->validazioneToken;
+    public function getValidationTokenTime(): ?\DateTime {
+        return $this->validationTokenTime;
     }
 
         /**
@@ -272,5 +278,35 @@ class Studente extends Utente {
         return $this->immagineProfilo;
     }
 
+    /**
+     * Imposta il token di autenticazione via cookie dello studente.
+     * @param string $rememberMeToken Token di autenticazione via cookie.
+     */
+    public function setRememberToken(?string $rememberMeToken): void {
+        $this->rememberMeToken = $rememberMeToken;
+    }
 
+    /**
+     * Ottiene il token di autenticazione via cookie dello studente.
+     * @return string Token di autenticazione via cookie.
+     */
+    public function getRememberToken(): ?string {
+        return $this->rememberMeToken;
+    }
+
+    /**
+     * Imposta la data di scadenza del token di autenticazione via cookie dello studente.
+     * @param \datetime $rememberMeTokenTime Data di scadenza del token di autenticazione via cookie.
+     */
+    public function setRememberTokenTime(?\DateTime $rememberMeTokenTime): void {
+        $this->rememberMeTokenTime = $rememberMeTokenTime;
+    }
+
+    /**
+     * Ottiene la data di scadenza del token di autenticazione via cookie dello studente.
+     * @return \datetime Data di scadenza del token di autenticazione via cookie.
+     */
+    public function getRememberTokenTime(): \DateTime|null {
+        return $this->rememberMeTokenTime;
+    }
 }

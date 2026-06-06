@@ -16,7 +16,7 @@
 <body>
     <div class="page-container">
         <div class="logo">
-            <a href="/Home/dashboard">
+            <a href="/Home/index">
                 <p>StudyRoom</p>
             </a>
         </div>
