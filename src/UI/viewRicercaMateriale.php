@@ -23,7 +23,7 @@ class viewRicercaMateriale {
      * @return string
      */
     public function getTitolo(): string {
-        return $_GET['titolo'];
+        return $_GET['titolo'] ?? '';
     }
 
     /**
@@ -43,7 +43,7 @@ class viewRicercaMateriale {
     public function getDatiFiltro(): array {
         return [
             // prelievo in $_GET dei valori associati alle chiavi sotto elencate
-            'titolo' => $_GET['titolo'],
+            'titolo' => $_GET['titolo'] ?? '',
             'insegnamento' => $_GET['insegnamento'],
             'tipologia' => $_GET['tipologia'],
             'corso_di_laurea' => $_GET['corso_di_laurea'],
@@ -59,10 +59,10 @@ class viewRicercaMateriale {
      * @param int $page Pagina corrente per la paginazione
      * @return void
      */
-    public function mostraMateriali(array $materiale, int $page) : void {
-        $this->smarty->assign("materiale", $materiale);
+    public function mostraMateriali(array $materiali, int $page) : void {
+        $this->smarty->assign("materiali", $materiali);
         $this->smarty->assign("page", $page);
-        $this->smarty->display("cercaMateriali.tpl");
+        $this->smarty->display("ricercaMateriale.tpl");
     }
 
     /**
