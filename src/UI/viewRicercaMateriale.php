@@ -46,7 +46,7 @@ class viewRicercaMateriale {
             'titolo' => $_GET['titolo'] ?? '',
             'insegnamento' => $_GET['insegnamento'],
             'tipologia' => $_GET['tipologia'],
-            'corso_di_laurea' => $_GET['corso_di_laurea'],
+            'corso_di_laurea' => $_GET['corsoDiLaurea'],
             'tag' => $_GET['tag'],
             'criterio_ordinamento' => $_GET['criterio']
         ];
@@ -59,11 +59,16 @@ class viewRicercaMateriale {
      * @param int $page Pagina corrente per la paginazione
      * @return void
      */
-    public function mostraMateriali(array $materiale, int $page, ?string $username, ?string $base64) : void {
-        $this->smarty->assign("materiale", $materiale);
+    public function mostraMateriali(array $materiali, int $page, int $totPage, ?string $username, ?string $base64, array $corsiDiLaurea, array $insegnamenti, array $filtri) : void {
+        $this->smarty->assign("materiali", $materiali);
         $this->smarty->assign("page", $page);
-        $this->smarty->assign("username", $username);
+        $this->smarty->assign("page", $totPage);
+        $this->smarty->assign("studente", $username);
         $this->smarty->assign("base64", $base64);
+        $this->smarty->assign("corsiDiLaurea", $corsiDiLaurea);
+        $this->smarty->assign("insegnamenti", $insegnamenti);
+        $this->smarty->assign("filtri", $filtri);
+
         $this->smarty->display("ricercaMateriale.tpl");
     }
 
