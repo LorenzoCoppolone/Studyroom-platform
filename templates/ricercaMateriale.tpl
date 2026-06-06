@@ -3,7 +3,7 @@
 {block name="title"}Risultati ricerca — StudyRoom{/block}
 
 {block name="pageCSS"}
-    <link rel="stylesheet" href="/../CSS/styleCercaMateriale.css">
+    <link rel="stylesheet" href="/../CSS/styleRicercaMateriale.css">
 {/block}
 
 {block name="content"}
@@ -75,16 +75,13 @@
                     </select>
                 </div>
 
-                <!-- Tag -->
+                <!-- Tag (STATICI) -->
                 <div class="filter-pill {if $filtri.tag}filter-pill--active{/if}">
                     <select name="tag" class="filter-pill__select">
                         <option value="">Tag</option>
-                        {foreach $tags as $tag}
-                            <option value="{$tag.id|escape:'html'}"
-                                {if $filtri.tag == $tag.id}selected{/if}>
-                                {$tag.nome|escape:'html'}
-                            </option>
-                        {/foreach}
+                        <option value="Riassunto" {if $filtri.tag == 'Riassunto'}selected{/if}>Riassunto</option>
+                        <option value="Note"      {if $filtri.tag == 'Note'}selected{/if}>Note</option>
+                        <option value="Esercizi"  {if $filtri.tag == 'Esercizi'}selected{/if}>Esercizi</option>
                     </select>
                 </div>
 

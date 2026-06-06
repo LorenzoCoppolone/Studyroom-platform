@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.8.0, created on 2026-06-06 17:34:28
+/* Smarty version 5.8.0, created on 2026-06-06 18:13:14
   from 'file:ricercaMateriale.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.8.0',
-  'unifunc' => 'content_6a243e04240a69_15151185',
+  'unifunc' => 'content_6a24471af36677_37159730',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'cd8945ad829034556ed324b6be468c2a82f713d6' => 
     array (
       0 => 'ricercaMateriale.tpl',
-      1 => 1780652316,
+      1 => 1780762392,
       2 => 'file',
     ),
   ),
@@ -20,30 +20,30 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6a243e04240a69_15151185 (\Smarty\Template $_smarty_tpl) {
+function content_6a24471af36677_37159730 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/Studyroom-platform/templates';
 $_smarty_tpl->getInheritance()->init($_smarty_tpl, true);
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1899880046a243e04217603_51848686', "title");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_9133203946a24471af10d30_67551410', "title");
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_16961998196a243e04219596_68676015', "pageCSS");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_4687322436a24471af12e12_09434449', "pageCSS");
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_20822368446a243e04219ab8_21923088', "content");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_19150236276a24471af132f1_07606637', "content");
 ?>
 
 <?php $_smarty_tpl->getInheritance()->endChild($_smarty_tpl, "layout.tpl", $_smarty_current_dir);
 }
 /* {block "title"} */
-class Block_1899880046a243e04217603_51848686 extends \Smarty\Runtime\Block
+class Block_9133203946a24471af10d30_67551410 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/Studyroom-platform/templates';
@@ -53,19 +53,19 @@ Risultati ricerca — StudyRoom<?php
 }
 /* {/block "title"} */
 /* {block "pageCSS"} */
-class Block_16961998196a243e04219596_68676015 extends \Smarty\Runtime\Block
+class Block_4687322436a24471af12e12_09434449 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/Studyroom-platform/templates';
 ?>
 
-    <link rel="stylesheet" href="/../CSS/styleCercaMateriale.css">
+    <link rel="stylesheet" href="/../CSS/styleRicercaMateriale.css">
 <?php
 }
 }
 /* {/block "pageCSS"} */
 /* {block "content"} */
-class Block_20822368446a243e04219ab8_21923088 extends \Smarty\Runtime\Block
+class Block_19150236276a24471af132f1_07606637 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/Studyroom-platform/templates';
@@ -160,25 +160,13 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
                     </select>
                 </div>
 
-                <!-- Tag -->
+                <!-- Tag (STATICI) -->
                 <div class="filter-pill <?php if ($_smarty_tpl->getValue('filtri')['tag']) {?>filter-pill--active<?php }?>">
                     <select name="tag" class="filter-pill__select">
                         <option value="">Tag</option>
-                        <?php
-$_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('tags'), 'tag');
-$foreach2DoElse = true;
-foreach ($_from ?? [] as $_smarty_tpl->getVariable('tag')->value) {
-$foreach2DoElse = false;
-?>
-                            <option value="<?php echo htmlspecialchars((string)$_smarty_tpl->getValue('tag')['id'], ENT_QUOTES, 'UTF-8', true);?>
-"
-                                <?php if ($_smarty_tpl->getValue('filtri')['tag'] == $_smarty_tpl->getValue('tag')['id']) {?>selected<?php }?>>
-                                <?php echo htmlspecialchars((string)$_smarty_tpl->getValue('tag')['nome'], ENT_QUOTES, 'UTF-8', true);?>
-
-                            </option>
-                        <?php
-}
-$_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
+                        <option value="Riassunto" <?php if ($_smarty_tpl->getValue('filtri')['tag'] == 'Riassunto') {?>selected<?php }?>>Riassunto</option>
+                        <option value="Note"      <?php if ($_smarty_tpl->getValue('filtri')['tag'] == 'Note') {?>selected<?php }?>>Note</option>
+                        <option value="Esercizi"  <?php if ($_smarty_tpl->getValue('filtri')['tag'] == 'Esercizi') {?>selected<?php }?>>Esercizi</option>
                     </select>
                 </div>
 
@@ -240,9 +228,9 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
 
             <?php
 $_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('materiali'), 'mat');
-$foreach3DoElse = true;
+$foreach2DoElse = true;
 foreach ($_from ?? [] as $_smarty_tpl->getVariable('mat')->value) {
-$foreach3DoElse = false;
+$foreach2DoElse = false;
 ?>
 
                 <a href="materiale.php?id=<?php echo rawurlencode((string)$_smarty_tpl->getValue('mat')['idMateriale']);?>
