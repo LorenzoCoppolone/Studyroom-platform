@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.8.0, created on 2026-06-05 20:26:58
+/* Smarty version 5.8.0, created on 2026-06-06 16:54:00
   from 'file:verificationPage.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.8.0',
-  'unifunc' => 'content_6a2314f2ae2b99_48356829',
+  'unifunc' => 'content_6a243488630f26_95766268',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'bde911dfe1a2a7368e1680d557c8673400572662' => 
     array (
       0 => 'verificationPage.tpl',
-      1 => 1780670347,
+      1 => 1780756078,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6a2314f2ae2b99_48356829 (\Smarty\Template $_smarty_tpl) {
+function content_6a243488630f26_95766268 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/Studyroom-platform/templates';
 ?><!DOCTYPE html>
 <html lang="it">
@@ -60,11 +60,14 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/Studyroom-platform
             </div>
             <div class="resend-row">
                 <span>Non hai ricevuto nulla?</span>
-                <button class="resend-btn">Invia di nuovo</button>
+               <a href="/User/EmailVerifica?email=<?php echo $_smarty_tpl->getValue('email');?>
+" class="resend-btn">
+                    Invia di nuovo
+                </a>
+
             </div>
         </div>
     </div>
-
 </body>
 </html><?php }
 }

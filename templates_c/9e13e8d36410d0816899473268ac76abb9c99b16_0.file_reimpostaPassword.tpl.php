@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.8.0, created on 2026-06-05 20:36:45
+/* Smarty version 5.8.0, created on 2026-06-06 16:53:53
   from 'file:reimpostaPassword.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.8.0',
-  'unifunc' => 'content_6a23173dd8d635_74604941',
+  'unifunc' => 'content_6a24348147a9f2_61495745',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '9e13e8d36410d0816899473268ac76abb9c99b16' => 
     array (
       0 => 'reimpostaPassword.tpl',
-      1 => 1780678764,
+      1 => 1780756078,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6a23173dd8d635_74604941 (\Smarty\Template $_smarty_tpl) {
+function content_6a24348147a9f2_61495745 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/Studyroom-platform/templates';
 ?><!DOCTYPE html>
 <html lang="it">
@@ -79,15 +79,12 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/Studyroom-platform
 
         <!-- LINK LOGIN -->
         <p class="registrazione">
-            Torna al <a href="/User/login">Login</a>
+            Torna alla <a href="/Home/dashboard">Home</a>
         </p>
 
     </div>
 
 </main>
-<?php echo '<script'; ?>
- src="/../JS/validazione.js"><?php echo '</script'; ?>
->
 </body>
 </html>
 <?php }
