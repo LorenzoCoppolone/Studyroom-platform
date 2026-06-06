@@ -22,12 +22,11 @@
         </div>
 
         <h2 class="result-title">
-            <?= htmlspecialchars($successo ?? "Operazione completata con successo!") ?>
+            {$successo}
         </h2>
 
         <div class="result-buttons">
             <a href="/Home/dashboard" class="btn-home">Torna alla home</a>
-            <a href="/CaricaMateriale/carica" class="btn-retry">Continua a caricare</a>
         </div>
 
     </main>

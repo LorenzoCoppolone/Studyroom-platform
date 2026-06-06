@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.8.0, created on 2026-06-05 17:02:31
+/* Smarty version 5.8.0, created on 2026-06-06 13:53:57
   from 'file:successo.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.8.0',
-  'unifunc' => 'content_6a230127f3a205_01868103',
+  'unifunc' => 'content_6a2426759619b9_96702825',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '839c556d5826996805486aa760b0d325187c6efe' => 
     array (
       0 => 'successo.tpl',
-      1 => 1780592741,
+      1 => 1780753266,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6a230127f3a205_01868103 (\Smarty\Template $_smarty_tpl) {
+function content_6a2426759619b9_96702825 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\studyroom-platform\\templates';
 ?><!DOCTYPE html>
 <html lang="it">
@@ -46,14 +46,12 @@ $_smarty_current_dir = 'C:\\laragon\\www\\studyroom-platform\\templates';
         </div>
 
         <h2 class="result-title">
-            <?php echo '<?'; ?>
-= htmlspecialchars($successo ?? "Operazione completata con successo!") <?php echo '?>'; ?>
+            <?php echo $_smarty_tpl->getValue('successo');?>
 
         </h2>
 
         <div class="result-buttons">
             <a href="/Home/dashboard" class="btn-home">Torna alla home</a>
-            <a href="/CaricaMateriale/carica" class="btn-retry">Continua a caricare</a>
         </div>
 
     </main>

@@ -35,10 +35,12 @@
             </div>
             <div class="resend-row">
                 <span>Non hai ricevuto nulla?</span>
-                <button class="resend-btn">Invia di nuovo</button>
+               <a href="/User/EmailVerifica?email={$email}" class="resend-btn">
+                    Invia di nuovo
+                </a>
+
             </div>
         </div>
     </div>
-
 </body>
 </html>

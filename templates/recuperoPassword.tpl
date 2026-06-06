@@ -45,7 +45,7 @@
 
         <!-- LINK LOGIN -->
         <p class="registrazione">
-            Torna al <a href="/User/login">Login</a>
+            Torna alla <a href="/Home/dashboard">Home</a>
         </p>
 
     </div>

@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.8.0, created on 2026-06-05 22:45:07
+/* Smarty version 5.8.0, created on 2026-06-06 14:21:24
   from 'file:recuperoPassword.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.8.0',
-  'unifunc' => 'content_6a235173664c51_43282539',
+  'unifunc' => 'content_6a242ce4471c39_86521795',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'c82b9d12e53d78eede4772492dd9e2cb3e4ade6c' => 
     array (
       0 => 'recuperoPassword.tpl',
-      1 => 1780679582,
+      1 => 1780753524,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6a235173664c51_43282539 (\Smarty\Template $_smarty_tpl) {
+function content_6a242ce4471c39_86521795 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\studyroom-platform\\templates';
 ?><!DOCTYPE html>
 <html lang="it">
@@ -71,7 +71,7 @@ $_smarty_current_dir = 'C:\\laragon\\www\\studyroom-platform\\templates';
 
         <!-- LINK LOGIN -->
         <p class="registrazione">
-            Torna al <a href="/User/login">Login</a>
+            Torna alla <a href="/Home/dashboard">Home</a>
         </p>
 
     </div>

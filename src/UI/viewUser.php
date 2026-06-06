@@ -86,7 +86,8 @@ class viewUser {
      * @return string
      */
     public function getEmailRecuperoPassword(): string {
-        return trim($_POST['email'] ?? '');
+        $dati = array_merge($_POST, $_GET);
+        return trim($dati['email'] ?? '');
     }
 
     /**
@@ -113,7 +114,7 @@ class viewUser {
         return [
             'token' => $_POST['token'] ?? '',
             'password' => $_POST['password'] ?? '',
-            'confirm' => $_POST['confirm'] ?? ''
+            'confirm' => $_POST['conferma_password'] ?? ''
         ];
     }
 

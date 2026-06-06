@@ -20,6 +20,10 @@ class UserController {
         // Costruttore vuoto – previsto per eventuali inizializzazioni future
     }
 
+    public function recuperoPasswordAvvenuto() : void {
+        $view = new viewUser();
+        $view->mostraFormSuccesso("Recupero password avvenuto con successo!");
+    }
     /**
      * Mostra la form di login.
      */
@@ -58,45 +62,31 @@ class UserController {
         $session = Session::getInstance();
         $view = new viewUser();
         $pm = PersistentManager::getInstance();
-
         $d = $view->getDatiRegistrazione();
-
         if (empty($d['nome']) || empty($d['cognome']) || empty($d['username']) || empty($d['email']) || empty($d['password'])) {
             throw new \Exception("Tutti i campi sono obbligatori.");
         }
-
         if (!preg_match('/^[a-zA-Z0-9._%+-]+@student\.univaq\.it$/', $d['email'])) {
             throw new \Exception("Devi usare la tua email universitaria.");
         }
-
         if (!empty($pm->findOneBy(Studente::class, ['email' => $d['email']]))) {
             throw new \Exception("Email già registrata.");
         }    
         elseif (!empty($pm->findOneBy(Studente::class, ['username' => $d['username']]))) {
             throw new \Exception("Username già registrato.");
         }
-
         $passwordHash = password_hash($d['password'], PASSWORD_BCRYPT);
         $studente = new Studente( $d['nome'], $d['cognome'], $d['email'], $passwordHash, $d['username']);
-        
         $token = bin2hex(random_bytes(32));
         $studente->setValidationToken($token);
-        
         $scadenzaToken = (new \DateTime('now', new \DateTimeZone('Europe/Rome')))->add(new \DateInterval('PT10M')); // Token valido per 10 minuti
-        
         $studente->setValidationTokenTime($scadenzaToken);
-        
         $pm->save($studente);
-        
         $view->mostraVerificaEmail($studente->getEmail());
-        
         ob_flush();
         flush();
-        
         $this->inviaEmailVerifica($studente, $token);
-        
         $session->setSessionElement('studente', $studente->getId());
-    
     } catch (\Exception $e) {
         $view->mostraFormErrore("Errore durante la registrazione: " . $e->getMessage());
     }
@@ -188,30 +178,21 @@ class UserController {
         try {
             $view = new viewUser();
             $pm = PersistentManager::getInstance();
-            
             $studente = $pm->findOneBy(Studente::class, ['validationToken' => $token]); // Cerco lo studente nel DB per token
-
             if ($studente === null) {
                 $view->mostraFormTokenNonValido(); // Mostra la form che informa l'utente che il token non è valido
                 return; // Termina l'esecuzione della funzione
             }
-
             $now = new \DateTime('now', new \DateTimeZone('Europe/Rome')); // Ottieni la data e ora attuale
-
             if ($now > $studente->getValidationTokenTime() || $studente->getValidationTokenTime() === null) {
                 $pm->delete($studente); // Elimina lo studente dal database se il token è scaduto
                 $view->mostraFormTokenScaduto(); // Mostra la form che informa l'utente che il token è scaduto
                 return; // Termina l'esecuzione della funzione
             }
-
             $studente->setValidationToken(null); // Rimuovi il token dallo studente
             $studente->setValidationTokenTime(null); // Rimuovi la scadenza del token
             $studente->setIsVerified(true); // Imposta l'email come verificata
-            
             $pm->update($studente); // Salva le modifiche al database
-            
-            $view->mostraConvalidaEmail(); // Mostra la form di conferma che l'email è stata verificata con successo
-
         } catch (PDOException $e) {
            $view->mostraFormErorre("Errore durante la verifica dell'email: " . $e->getMessage());
         }
@@ -347,23 +328,18 @@ class UserController {
     /**
      * Invia email di verifica registrazione.
      */
-    public function inviaEmailVerifica(studente $studente, string $token) {
+    public function inviaEmailVerifica(studente $studente, string $token): void {
         try {
             require __DIR__ . '/../../config/mailer-bootstrap.php';
-            
-            $mail->addAddress($studente->getEmail()); 
+            $mail->addAddress ($studente->getEmail());
             $mail->Subject = 'Conferma la tua registrazione a StudyRoom';
-            
             $link = "https://Studyroom-platform.test/User/verificaEmail/" . $token;
-
             $mail->Body =
               "Ciao {$studente->getNome()},\n\n" .
               "Per confermare la tua registrazione a StudyRoom, clicca sul link seguente:\n\n" .
               $link . "\n\n" .
               "Il link sarà valido per 10 minuti.\n\nGrazie!";
-            
               $mail->send();
-        
         } catch (Exception $e) {
             echo "Errore nell'invio dell'email: {$mail->ErrorInfo}";
         }
@@ -379,39 +355,25 @@ class UserController {
         try {
             $view = new viewUser();
             $pm = PersistentManager::getInstance();
-
             $email = $view->getEmailRecuperoPassword();
-
             if (empty($email)) {
                 throw new Exception("Inserisci un indirizzo email.");
             }
-
             $studente = $pm->findOneBy(
                 Studente::class,
             [   'email' => $email]
             );
-
             if ($studente === null) {
-                $view->mostraFormErrore(
-                    "Nessun account associato a questa email.");
-                return;
+               throw new Exception("Nessun account trovato con questa email.");
             }
-
             $token = bin2hex(random_bytes(32));
-            $studente->setToken($token);
-
-            $scadenzaToken = (new \DateTime('now',new \DateTimeZone('Europe/Rome')))
-                                ->add(new \DateInterval('PT10M'));
-
-            $studente->setValidazioneToken($scadenzaToken);
-
+            $studente->setValidationToken($token);
+            $scadenzaToken = (new \DateTime('now',new \DateTimeZone('Europe/Rome')))->add(new \DateInterval('PT10M'));
+            $studente->setValidationTokenTime($scadenzaToken);
             $pm->update($studente);
-
             $view->mostraVerificaEmail($email);
-
             ob_flush();
             flush();
-
             $this->inviaEmailRecuperoPassword($studente, $token);
 
         } catch (Exception $e) {
@@ -425,23 +387,22 @@ class UserController {
      */
     public function inviaEmailRecuperoPassword(Studente $studente, string $token): void {
         try {
+            $view = new viewUser();
             require __DIR__ . '/../../config/mailer-bootstrap.php';
-
-            $mail->addAddress($studente->getEmail());
+            $mail->addAddress($studente ? $studente->getEmail() : $view->getEmailRecuperoPassword());
             $mail->Subject ='Recupero password StudyRoom';
-
             $link ="https://Studyroom-platform.test/User/reimpostaPassword/" . $token;
-
+            $nome = $studente ? $studente->getNome() : 'Utente';
             $mail->Body =
-                "Ciao {$studente->getNome()},\n\n" .
+                "Ciao {$nome},\n\n" .
                 "Hai richiesto il recupero della password.\n\n" .
                 "Clicca sul seguente link:\n\n" .
                 $link .
                 "\n\n" .
-                "Il link sarà valido per 10 minuti.";
-
+                "Il link è valido per 10 minuti.\n\n" .
+                "Se non hai richiesto tu il recupero password, ignora questa email.\n\n" .
+                "Grazie!";
             $mail->send();
-
         } catch (Exception $e) {
             echo "Errore nell'invio email: " . $mail->ErrorInfo;
         }
@@ -454,27 +415,18 @@ class UserController {
         try {
             $view = new viewUser();
             $pm = PersistentManager::getInstance();
-
-            $studente = $pm->findOneBy(Studente::class,['token' => $token]);
-
+            $studente = $pm->findOneBy(Studente::class,['validationToken' => $token]);
             if ($studente === null) {
-                $view->mostraFormErrore( "Link di recupero non valido.");
-                return;
+                throw new Exception("Link di recupero non valido.");
             }
-
             $now = new \DateTime('now', new \DateTimeZone('Europe/Rome'));
-
-            if ($studente->getValidazioneToken() === null || $now > $studente->getValidazioneToken()) {
-                $view->mostraFormErrore("Il link di recupero è scaduto.");
-                return;
+            if ($studente->getValidationTokenTime() === null || $now > $studente->getValidationTokenTime()) {
+                throw new Exception("Il link di recupero è scaduto.");
             }   
-
             $view->mostraFormReimpostaPassword($token);
-
-        } catch (Exception $e) {
-            $view = new viewUser();
+        }catch (Exception $e) {
             $view->mostraFormErrore("Errore: " . $e->getMessage());
-        }
+         }
     }
 
     /**
@@ -486,55 +438,40 @@ class UserController {
      */
     public function salvaNuovaPassword(): void{
     $view = new viewUser();
-
         try {
             $pm = PersistentManager::getInstance();
-
             $d = $view->getDatiNuovaPassword();
             $token   = $d['token'];
             $pass    = $d['password'];
             $confirm = $d['confirm'];
-
             if (empty($token)) {
                 throw new Exception("Token mancante.");
             }
-
             if (empty($pass) || empty($confirm)) {
                 throw new Exception("Compila tutti i campi.");
             }
-
             if ($pass !== $confirm) {
                 throw new Exception("Le password non coincidono.");
             }
-
             if (strlen($pass) < 8) {
                 throw new Exception("La password deve contenere almeno 8 caratteri.");
             }
-
-            $studente = $pm->findOneBy(Studente::class,['token' => $token]);
-
+            $studente = $pm->findOneBy(Studente::class,['validationToken' => $token]);
             if ($studente === null) {
                 throw new Exception("Link non valido.");
             }
-
             $now = new \DateTime('now', new \DateTimeZone('Europe/Rome'));
-
-            if ($studente->getValidazioneToken() === null || $now > $studente->getValidazioneToken()) {
+            if ($studente->getValidationTokenTime() === null || $now > $studente->getValidationTokenTime()) {
                 throw new Exception("Il link è scaduto.");
             }
-
             $passwordHash = password_hash($pass, PASSWORD_BCRYPT);
             $studente->setPassword($passwordHash);
-
-            $studente->setToken(null);
-            $studente->setValidazioneToken(null);
-
+            $studente->setValidationToken(null);
+            $studente->setValidationTokenTime(null);
             $pm->update($studente);
-
-            $view->mostraFormLogin();
-
+            $view->mostraFormSuccesso("Password reimpostata con successo.");
         } catch (Exception $e) {
-            $view->mostraFormReimpostaPassword($d['token'] ?? '', $e->getMessage());
+            $view->mostraFormErrore("Errore: " . $e->getMessage());
         }
     }
 
@@ -553,5 +490,37 @@ class UserController {
         $studente->setRememberToken($hashToken);
         $studente->setRememberTokenTime((new \DateTime('now', new \DateTimeZone('Europe/Rome')))->modify('+30 days'));// Scadenza token in linea con il cookie
         $pm->update($studente);
+    }
+    public function emailVerifica() : void {
+         try {
+            $view = new viewUser();
+            $email = $view->getEmailRecuperoPassword();
+            $pm = PersistentManager::getInstance();
+            $studente = $pm->findOneBy(Studente::class, ['email' => $email]);
+            require __DIR__ . '/../../config/mailer-bootstrap.php';
+            $mail->addAddress($studente ? $studente->getEmail() : $view->getEmailRecuperoPassword());
+            $pm = PersistentManager::getInstance();
+            $studente = $pm->findOneBy(Studente::class, ['email' => $email]);
+            $token = $studente->getValidationToken();
+            $mail->Subject ='Recupero password StudyRoom';
+            $link ="https://Studyroom-platform.test/User/reimpostaPassword/" . $token;
+            $nome = $studente ? $studente->getNome() : 'Utente';
+            $mail->Body =
+                "Ciao {$nome},\n\n" .
+                "Hai richiesto il recupero della password.\n\n" .
+                "Clicca sul seguente link:\n\n" .
+                $link .
+                "\n\n" .
+                "Il link è valido per 10 minuti.\n\n" .
+                "Se non hai richiesto tu il recupero password, ignora questa email.\n\n" .
+                "Grazie!";
+            $view->mostraVerificaEmail($email);
+            ob_flush();
+            flush();
+            $mail->send();
+        } catch (Exception $e) {
+            echo "Errore nell'invio email: " . $mail->ErrorInfo;
+        }
+       
     }
 }
