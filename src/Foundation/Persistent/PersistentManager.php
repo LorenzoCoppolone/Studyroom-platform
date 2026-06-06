@@ -104,8 +104,15 @@ class PersistentManager {
     }
 
     public function countAll(string $class, array $criteria = []): int {
-        return $this->em->getRepository($class)->count($criteria);
+    $qb = $this->em->createQueryBuilder();
+    $qb->select('COUNT(e)')
+       ->from($class, 'e');
+    foreach ($criteria as $field => $value) {
+        $qb->andWhere("e.$field LIKE :$field")->setParameter($field, $value);
     }
+    return (int) $qb->getQuery()->getSingleScalarResult();
+}
+
 
     // Query custom
 
