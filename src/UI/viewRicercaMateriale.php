@@ -56,10 +56,12 @@ class viewRicercaMateriale {
      * Mostra i risultati della ricerca dei materiali.
      *
      * @param array $materiale Lista dei materiali trovati
+     * @param int $page Pagina corrente per la paginazione
      * @return void
      */
-    public function mostraMateriali(array $materiale) : void {
+    public function mostraMateriali(array $materiale, int $page) : void {
         $this->smarty->assign("materiale", $materiale);
+        $this->smarty->assign("page", $page);
         $this->smarty->display("cercaMateriali.tpl");
     }
 
@@ -73,5 +75,8 @@ class viewRicercaMateriale {
         $this->smarty->assign('errore', $messaggio);
         $this->smarty->display('Error.tpl');
     }
-     
+    
+    public function getPage(): ?int {
+        return isset($_GET['page']) ? (int)$_GET['page']: null;
+    }
 }

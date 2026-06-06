@@ -16,32 +16,6 @@ class viewCaricaMateriale {
         $this->smarty = StartSmarty::configuration();
     }
 
-    /** -------------------------------------------------------------
-     *  SEZIONE 2 — LETTURA DATI DA FORM
-     * --------------------------------------------------------------*/
-
-    /**
-     * Restituisce i dati del materiale da caricare.
-     * 
-     * @return array Array di dati passati da http
-     */
-    public function getDatiMateriale() : array {
-        return [
-            'titolo' => $_POST['titolo'],
-            'insegnamento' => $_POST['insegnamento'],
-            'tipologia' => $_POST['tipologia'],
-            'corso_di_laurea' => $_POST['corso_di_laurea'],
-            'tag' => $_POST['tag'] ?? null,
-            'MimeType' => $_FILES['file']['type'],
-            'Contenuto' => file_get_contents($_FILES['file']['tmp_name']),
-            'error' => $_FILES['file']['error'],
-            'size' => $_FILES['file']['size'],
-        ];
-    }
-
-    /** -------------------------------------------------------------
-     *  SEZIONE — MESSAGGI DI SISTEMA / FORM DI CARICAMENTO
-     * --------------------------------------------------------------*/
     /**
     * Mostra un form con il messaggio di errore all'utente
     *
@@ -75,8 +49,8 @@ class viewCaricaMateriale {
         $this->smarty->display('caricaMateriale.tpl');
     }
 
-    public function getIdCorsoDiLaurea() : int {
-        return (int)$_POST['corso_di_laurea'];
+    public function getIdCorsoDiLaurea() : string {
+        return $_POST['cdl'];
     }
 
     public function getIdInsegnamento() : int {
@@ -84,7 +58,7 @@ class viewCaricaMateriale {
     }
 
     public function getTipologia() : string {
-        return $_POST['tipologia'];
+        return $_POST['tipo'];
     }
 
     public function getTitolo() : string {
@@ -96,7 +70,7 @@ class viewCaricaMateriale {
     }
 
     public function getTac() : bool {
-        return isset($_POST['tac']);
+        return $_POST['terms'];
     }
 
     public function getFile() : array {

@@ -74,7 +74,8 @@ class CaricaMaterialeController
         $titolo         = $view->getTitolo();
         $tag            = $view->getTag();
         $tac            = $view->getTac();
-        $idUtente       = Session::getInstance()->getIdUtenteLoggato();
+        $session        = Session::getInstance();
+        $idUtente       = $session->getSessionElement('studente');
         
         try {
             // VALIDAZIONE
@@ -91,40 +92,38 @@ class CaricaMaterialeController
             // LETTURA FILE
             $contenutoFile  = file_get_contents($fileCaricato['tmp_name']);
             $mimeTypeFile   = mime_content_type($fileCaricato['tmp_name']);
-            $dimensioneFile = $fileCaricato['size'];
-
+            $dimensioneFile = (float) $fileCaricato['size'];
             $pm = PersistentManager::getInstance();
-
             // STUDENTE
             $studente = $pm->find(Studente::class, $idUtente);
             if ($studente === null) {
-                $view->mostraErrore("Utente non trovato.");
-                return;
+                $view->mostraFormErrore("Utente non trovato.");
+                exit;
             }
 
             // CORSO DI LAUREA
             $corsoDiLaurea = $pm->find(CorsoDiLaurea::class, $idCdl);
             if ($corsoDiLaurea === null) {
-                $view->mostraErrore("Corso di laurea non trovato.");
-                return;
+                $view->mostraFormErrore("Corso di laurea non trovato.");
+                exit;
             }   
 
             // INSEGNAMENTO
             $insegnamento = $pm->find(Insegnamento::class, $idInsegnamento);
             if ($insegnamento === null) {
-                $view->mostraErrore("Insegnamento non trovato.");
-                return;
+                $view->mostraFormErrore("Insegnamento non trovato.");
+                exit;
             }
         
             // COSTRUZIONE FILE
-            $file = new File($mimeTypeFile, $dimensioneFile, $contenutoFile);
+            $file = new File($contenutoFile, $mimeTypeFile, $dimensioneFile);
             
             // COSTRUZIONE MATERIALE
             if ($tipologia === 'appunto') {
-                $tagEnum = Tag::tryFrom(strtolower($tag));
+                $tagEnum = Tag::tryFrom(strtoupper(trim($tag)));
                 if ($tagEnum === null) {
-                    $view->mostraErrore("Tag '$tag' non valido.");
-                    return;
+                    $view->mostraFormErrore("Tag '$tag' non valido.");
+                    exit;
                 }
             
                 $materiale = new Appunto($titolo, $file, $insegnamento, $studente, $tagEnum);
@@ -139,9 +138,9 @@ class CaricaMaterialeController
             $view->mostraFormSuccesso("Materiale caricato con successo!");
 
         } catch (PDOException $e) {
-            $view->mostraErrore("Errore durante il caricamento: " . $e->getMessage());
+            $view->mostraFormErrore("Errore durante il caricamento: " . $e->getMessage());
         } catch (\Exception $e) {
-            $view->mostraErrore("Errore imprevisto: " . $e->getMessage());
+            $view->mostraFormErrore("Errore imprevisto: " . $e->getMessage());
         }
     }
 
@@ -163,13 +162,13 @@ class CaricaMaterialeController
         string $tipologia,
         string $titolo,
         ?string $tag,
-        int $idCdl,
+        string $idCdl,
         int $idInsegnamento,
         bool $tac,
         array $fileCaricato
     ) : void {
 
-        if (!$tac) {
+        if ($tac !== true) {
             throw new InvalidArgumentException("Devi accettare i Termini e Condizioni per procedere.");
         }
 
@@ -185,7 +184,7 @@ class CaricaMaterialeController
             throw new InvalidArgumentException("Il tag è obbligatorio per gli appunti.");
         }
 
-        if ($idCdl <= 0) {
+        if (!isset($idCdl)) {
             throw new InvalidArgumentException("Corso di laurea non valido.");
         }
 

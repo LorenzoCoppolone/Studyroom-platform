@@ -98,7 +98,7 @@ class File{
 
     public function getBase64(Studente $studente): ?string {
       $img = $studente->getImmagineProfilo();
-$foto = null;
+$base64 = null;
 
 if ($img) {
 

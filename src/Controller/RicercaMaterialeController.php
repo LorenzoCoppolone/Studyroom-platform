@@ -27,7 +27,7 @@ class RicercaMaterialeController
     $titolo = trim($view->getTitolo());
     $page = $view->getPage() ?? 1; // Ottieni la pagina corrente, default 1 se non specificata
     $limit = 10; // Numero di risultati per pagina
-    $offset = this->paginazione($page, $limit); // Calcola l'offset per la query
+    $offset = $this->paginazione($page, $limit); // Calcola l'offset per la query
     if ($titolo === '') {
         $view->mostraFormErrore("Il termine di ricerca non può essere vuoto.");
         return;
@@ -59,7 +59,7 @@ class RicercaMaterialeController
             $view = new ViewRicercaMateriale();
             $page = $view->getPage() ?? 1;
             $limit = 10;
-            $offset = this->paginazione($page, $limit);
+            $offset = $this->paginazione($page, $limit);
             $pm        = PersistentManager::getInstance();
             $materiali = $pm->getMaterialiPopolari($offset, $limit);
             Session::getInstance()->setSessionElement('ricerca_titolo', '');

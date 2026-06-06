@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.8.0, created on 2026-06-04 17:08:49
+/* Smarty version 5.8.0, created on 2026-06-05 22:43:38
   from 'file:verificationPage.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.8.0',
-  'unifunc' => 'content_6a21b121100392_24175344',
+  'unifunc' => 'content_6a23511a3c9362_81607834',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'c8dab7b1092003dae84d2b289866534ab54fa9c0' => 
     array (
       0 => 'verificationPage.tpl',
-      1 => 1780592741,
+      1 => 1780670234,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6a21b121100392_24175344 (\Smarty\Template $_smarty_tpl) {
+function content_6a23511a3c9362_81607834 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\studyroom-platform\\templates';
 ?><!DOCTYPE html>
 <html lang="it">
@@ -29,14 +29,21 @@ $_smarty_current_dir = 'C:\\laragon\\www\\studyroom-platform\\templates';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StudyRoom | Verifica Email</title>
     <link rel="icon" type="image/x-icon" href="/../img/studyroom_favicon.ico">
-    <link rel="stylesheet" href="/../CSS/styleEmailPages.css">
+    <link rel="stylesheet" href="/../CSS/styleEmailPages.css?v=4">
     <link rel='stylesheet' href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css'>
+
+    <!-- FONTS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="page-container">
-        <a href="/Home/dashboard" target="_self">
-            <img src="/../img/logo.png" alt="Logo StudyRoom" class="logo-verifica">
-        </a>
+        <div class="logo">
+            <a href="/Home/dashboard">
+                <p>StudyRoom</p>
+            </a>
+        </div>
         <div class="card">
            <div class="icon-circle">
                 <i class="bx bx-mail-send"></i>

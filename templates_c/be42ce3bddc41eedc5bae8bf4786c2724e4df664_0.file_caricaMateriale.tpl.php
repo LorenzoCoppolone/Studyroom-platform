@@ -1,11 +1,11 @@
 <?php
-/* Smarty version 5.8.0, created on 2026-06-05 21:51:38
+/* Smarty version 5.8.0, created on 2026-06-05 23:51:16
   from 'file:caricaMateriale.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.8.0',
-  'unifunc' => 'content_6a2344ea23f8f6_10467245',
+  'unifunc' => 'content_6a2360f472c527_87699045',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
@@ -20,30 +20,30 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6a2344ea23f8f6_10467245 (\Smarty\Template $_smarty_tpl) {
+function content_6a2360f472c527_87699045 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\studyroom-platform\\templates';
 $_smarty_tpl->getInheritance()->init($_smarty_tpl, true);
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_14307104456a2344ea219768_32269510', "title");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_11555102336a2360f4718ac3_15306838', "title");
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_7486297316a2344ea21f314_27679106', "pageCSS");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_6644485776a2360f471b722_76823109', "pageCSS");
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_12594171366a2344ea21fdb9_71515837', "content");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_5889012496a2360f471bc92_37856960', "content");
 ?>
 
 <?php $_smarty_tpl->getInheritance()->endChild($_smarty_tpl, "layout.tpl", $_smarty_current_dir);
 }
 /* {block "title"} */
-class Block_14307104456a2344ea219768_32269510 extends \Smarty\Runtime\Block
+class Block_11555102336a2360f4718ac3_15306838 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\studyroom-platform\\templates';
@@ -53,7 +53,7 @@ Carica Materiale - StudyRoom<?php
 }
 /* {/block "title"} */
 /* {block "pageCSS"} */
-class Block_7486297316a2344ea21f314_27679106 extends \Smarty\Runtime\Block
+class Block_6644485776a2360f471b722_76823109 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\studyroom-platform\\templates';
@@ -65,7 +65,7 @@ $_smarty_current_dir = 'C:\\laragon\\www\\studyroom-platform\\templates';
 }
 /* {/block "pageCSS"} */
 /* {block "content"} */
-class Block_12594171366a2344ea21fdb9_71515837 extends \Smarty\Runtime\Block
+class Block_5889012496a2360f471bc92_37856960 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\studyroom-platform\\templates';

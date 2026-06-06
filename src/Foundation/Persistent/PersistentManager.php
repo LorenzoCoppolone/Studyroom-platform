@@ -65,7 +65,7 @@ class PersistentManager {
      * @param id ID dell'oggetto da cercare
      * @return object|null Restituisce l'oggetto trovato nel DB
      */
-    public function find(string $class, int $id): ?object {
+    public function find(string $class, $id): ?object {
         return $this->em->find($class, $id);
     }
 
