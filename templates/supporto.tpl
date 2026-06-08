@@ -18,9 +18,9 @@
     </p>
 
     <ul class="info-list">
-        <li><strong>Yuvraj Singh</strong> — yuvraj.singh@student.univaq.it</li>
-        <li><strong>Lorenzo Coppolone</strong> — lorenzo.coppolone@student.univaq.it</li>
-        <li><strong>Matteo Massimi</strong> — matteo.massimi@student.univaq.it</li>
+        <li><strong>Yuvraj Singh</strong> — <a href="mailto:yuvraj.singh@student.univaq.it">yuvraj.singh@student.univaq.it</a></li>
+        <li><strong>Lorenzo Coppolone</strong> — <a href="mailto:lorenzo.coppolone@student.univaq.it">lorenzo.coppolone@student.univaq.it</a></li>
+        <li><strong>Matteo Massimi</strong> — <a href="mailto:matteo.massimi@student.univaq.it">matteo.massimi@student.univaq.it</a></li>
     </ul>
 
     <p class="info-text">

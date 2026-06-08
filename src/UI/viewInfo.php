@@ -23,7 +23,7 @@ class viewInfo {
      * @param string|null $base64   Immagine profilo codificata in base64
      * @return void
      */
-    public function chiSiamo(?string $username, ?string $base64) : void {
+    public function chiSiamo(?string $username = null, ?string $base64 = null) : void {
         $this->smarty->assign('studente', $username);
         $this->smarty->assign('base64', $base64);
         $this->smarty->display('chi-siamo.tpl');
@@ -36,7 +36,7 @@ class viewInfo {
      * @param string|null $base64   Immagine profilo codificata in base64
      * @return void
      */
-    public function supporto(?string $username, ?string $base64) : void {
+    public function supporto(?string $username = null, ?string $base64 = null) : void {
         $this->smarty->assign('studente', $username);
         $this->smarty->assign('base64', $base64);
         $this->smarty->display('supporto.tpl');
@@ -49,7 +49,7 @@ class viewInfo {
      * @param string|null $base64   Immagine profilo codificata in base64
      * @return void
      */
-    public function faq(?string $username, ?string $base64) : void {
+    public function faq(?string $username = null, ?string $base64 = null) : void {
         $this->smarty->assign('studente', $username);
         $this->smarty->assign('base64', $base64);
         $this->smarty->display('faq.tpl');
@@ -62,7 +62,7 @@ class viewInfo {
      * @param string|null $base64   Immagine profilo codificata in base64
      * @return void
      */
-    public function termini(?string $username, ?string $base64) : void {
+    public function termini(?string $username = null, ?string $base64 = null) : void {
         $this->smarty->assign('studente', $username);
         $this->smarty->assign('base64', $base64);
         $this->smarty->display('termini.tpl');

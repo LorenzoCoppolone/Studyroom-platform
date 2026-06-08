@@ -159,22 +159,28 @@ class RicercaMaterialeController
     
             Session::getInstance()->setSessionElement('ricerca_filtri', $filtriAttuali);
             $pm = PersistentManager::getInstance();
-        
-            $materiali = $pm->cercaMateriale($titolo, $offset, $limit,
-            $filtriAttuali['tipologia']       ?? null , $filtriAttuali['corso_di_laurea'] ?? null,
-            $filtriAttuali['insegnamento']    ?? null , $filtriAttuali['tag']             ?? null );
-        
-            $session = Session::getInstance();
+
+            $materiali = $pm->cercaMateriale(
+                $titolo,
+                $arrayPaginazione['offset'],
+                $arrayPaginazione['limit'],
+                $filtriAttuali['insegnamento']         ?? '',
+                $filtriAttuali['tipologia']            ?? '',
+                $filtriAttuali['corso_di_laurea']      ?? '',
+                $filtriAttuali['tag']                  ?? '',
+                $filtriAttuali['criterio_ordinamento'] ?? ''
+            );
+
             $id = $session->getSessionElement('studente');
-            $corsiDiLaurea = $pm->cercaCorsiDiLaurea();
-            $insegnamenti = $pm->cercaInsegnamenti();
-            $studente = $pm->find(Studente::class, $id);
-        
+            $corsiDiLaurea = $pm->trovaCorsiDiLaurea();
+            $insegnamenti = $pm->trovaInsegnamenti();
+            $studente = $id !== null ? $pm->find(Studente::class, $id) : null;
+
             if($studente !== null) {
                 $view->mostraMateriali($materiali, $page, $arrayPaginazione['totPage'], $studente->getUsername(), $studente->getImmagineProfilo()->getBase64($studente), $corsiDiLaurea, $insegnamenti, $filtriAttuali);
-            
+
             } else {
-            $view->mostraMateriali($materiali, $page, $arrayPaginazione['totPage'], null, null, $corsiDiLaurea, $insegnamenti, $arrayPaginazione['totPage'], $filtriAttuali);
+                $view->mostraMateriali($materiali, $page, $arrayPaginazione['totPage'], null, null, $corsiDiLaurea, $insegnamenti, $filtriAttuali);
             }
     
         } catch (PDOException $e) {

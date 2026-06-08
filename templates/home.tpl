@@ -1,7 +1,7 @@
 {extends file="layout.tpl"}
 
 {block name="title"}
-    StudyRoom - Home
+    Home | StudyRoom
 {/block}
 
 {block name="pageCSS"}

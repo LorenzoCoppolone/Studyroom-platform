@@ -20,10 +20,6 @@ class UserController {
         // Costruttore vuoto – previsto per eventuali inizializzazioni future
     }
 
-    public function recuperoPasswordAvvenuto() : void {
-        $view = new viewUser();
-        $view->mostraFormSuccesso("Recupero password avvenuto con successo!");
-    }
     /**
      * Mostra la form di login.
      */
@@ -100,12 +96,11 @@ class UserController {
      * - gestione sessione
      */
     public function effettuaLogin() {
+        $view = new viewUser();
         try {
             $session = Session::getInstance();
-            $view = new viewUser();
             $pm = PersistentManager::getInstance();
             $datiLogin = $view->getDatiLogin();
-            $this->rememberMe($datiLogin['email'], $datiLogin['remember']);
             if (empty($datiLogin['email'])) throw new \Exception("L'email è obbligatoria.");
             if (empty($datiLogin['password'])) throw new \Exception("La password è obbligatoria.");
             $studente = $pm->findOneBy(Studente::class, ['email' => $datiLogin['email'] ]);
@@ -114,27 +109,30 @@ class UserController {
                 throw new \Exception("Credenziali non corrette."); // Lancia un'eccezione per indicare che le credenziali non sono corrette
             }
             // login Admin
-            if($admin !== null && password_verify($datiLogin['password'], $admin->getPassword())){
+            if ($admin !== null) {
+                if (!password_verify($datiLogin['password'], $admin->getPassword())) {
+                    throw new \Exception("Credenziali non corrette.");
+                }
                 $session->setSessionElement('admin', $admin->getId());
                 $viewAdmin = new viewAdmin();
                 $viewAdmin->mostraDashboardAdmin($pm->trovaSegnalazioniAdmin(0,10));
+                return; // Login admin completato: non proseguire con i controlli dello studente
             }
-            // Controlli studente
-            if(!$studente->getIsVerified()) {
-                throw new \Exception("Devi verificare la tua email prima di accedere."); // Lancia un'ecezione per indicare che l'email non è verificata
-            }
-            elseif($studente->getIsBanned()) {
-                throw new \Exception("Il tuo account è stato sospeso, contatta l'amministratore per maggiori informazioni."); // Lancia un'ecezione per indicare che l'account è sospeso
-            }
+            // login Studente
             if (!password_verify($datiLogin['password'], $studente->getPassword())) {
                 throw new \Exception("Credenziali non corrette."); // Lancia un'ecezione per indicare che le credenziali non sono corrette
             }
-            else {
-                $session->setSessionElement('studente', $studente->getId());
-                $base64 = $studente->getImmagineProfilo() ? $studente->getImmagineProfilo()->getBase64($studente) : null;
+            if (!$studente->getIsVerified()) {
+                throw new \Exception("Devi verificare la tua email prima di accedere."); // Lancia un'ecezione per indicare che l'email non è verificata
             }
+            if ($studente->getIsBanned()) {
+                throw new \Exception("Il tuo account è stato sospeso, contatta l'amministratore per maggiori informazioni."); // Lancia un'ecezione per indicare che l'account è sospeso
+            }
+            $this->rememberMe($datiLogin['email'], $datiLogin['remember']);
+            $session->setSessionElement('studente', $studente->getId());
+            $base64 = $studente->getImmagineProfilo() ? $studente->getImmagineProfilo()->getBase64($studente) : null;
             $view->mostraHome($studente->getUsername(), $base64);
-        }        
+        }
         catch (PDOException $e) {
             $view->mostraFormErrore("Errore durante il login dell'utente: " . $e->getMessage());
         } catch (Exception $e) {
@@ -184,7 +182,7 @@ class UserController {
                 return; // Termina l'esecuzione della funzione
             }
             $now = new \DateTime('now', new \DateTimeZone('Europe/Rome')); // Ottieni la data e ora attuale
-            if ($now > $studente->getValidationTokenTime() || $studente->getValidationTokenTime() === null) {
+            if ($studente->getValidationTokenTime() === null || $now > $studente->getValidationTokenTime()) {
                 $pm->delete($studente); // Elimina lo studente dal database se il token è scaduto
                 $view->mostraFormTokenScaduto(); // Mostra la form che informa l'utente che il token è scaduto
                 return; // Termina l'esecuzione della funzione
@@ -351,9 +349,9 @@ class UserController {
      * - genera token
      * - invia email con link di reset
      */
-    public function effettuaRecuperoPassword(): void { 
+    public function effettuaRecuperoPassword(): void {
+        $view = new viewUser();
         try {
-            $view = new viewUser();
             $pm = PersistentManager::getInstance();
             $email = $view->getEmailRecuperoPassword();
             if (empty($email)) {
@@ -367,44 +365,41 @@ class UserController {
                throw new Exception("Nessun account trovato con questa email.");
             }
             $token = bin2hex(random_bytes(32));
-            $studente->setValidationToken($token);
+            $studente->setResetToken($token);
             $scadenzaToken = (new \DateTime('now',new \DateTimeZone('Europe/Rome')))->add(new \DateInterval('PT10M'));
-            $studente->setValidationTokenTime($scadenzaToken);
-            $pm->update($studente);
-            $view->mostraVerificaEmail($email);
-            ob_flush();
-            flush();
+            $studente->setResetTokenTime($scadenzaToken);
+            $pm->update();
+            // Invio l'email PRIMA di confermare all'utente: se fallisce
+            // l'eccezione viene propagata e l'utente vede un errore reale.
             $this->inviaEmailRecuperoPassword($studente, $token);
-
+            $view->mostraVerificaEmail($email);
         } catch (Exception $e) {
-            $view = new viewUser();
             $view->mostraFormErrore("Errore durante il recupero password: " . $e->getMessage());
         }
     }
 
     /**
      * Invia email con link per reimpostare la password.
+     * In caso di fallimento dell'invio lancia un'eccezione, così il chiamante
+     * può mostrare un errore invece di confermare un'operazione non riuscita.
      */
     public function inviaEmailRecuperoPassword(Studente $studente, string $token): void {
-        try {
-            $view = new viewUser();
-            require __DIR__ . '/../../config/mailer-bootstrap.php';
-            $mail->addAddress($studente ? $studente->getEmail() : $view->getEmailRecuperoPassword());
-            $mail->Subject ='Recupero password StudyRoom';
-            $link ="https://Studyroom-platform.test/User/reimpostaPassword/" . $token;
-            $nome = $studente ? $studente->getNome() : 'Utente';
-            $mail->Body =
-                "Ciao {$nome},\n\n" .
-                "Hai richiesto il recupero della password.\n\n" .
-                "Clicca sul seguente link:\n\n" .
-                $link .
-                "\n\n" .
-                "Il link è valido per 10 minuti.\n\n" .
-                "Se non hai richiesto tu il recupero password, ignora questa email.\n\n" .
-                "Grazie!";
-            $mail->send();
-        } catch (Exception $e) {
-            echo "Errore nell'invio email: " . $mail->ErrorInfo;
+        require __DIR__ . '/../../config/mailer-bootstrap.php';
+        $mail->addAddress($studente->getEmail());
+        $mail->Subject ='Recupero password StudyRoom';
+        $link ="https://Studyroom-platform.test/User/reimpostaPassword/" . $token;
+        $nome = $studente->getNome();
+        $mail->Body =
+            "Ciao {$nome},\n\n" .
+            "Hai richiesto il recupero della password.\n\n" .
+            "Clicca sul seguente link:\n\n" .
+            $link .
+            "\n\n" .
+            "Il link è valido per 10 minuti.\n\n" .
+            "Se non hai richiesto tu il recupero password, ignora questa email.\n\n" .
+            "Grazie!";
+        if (!$mail->send()) {
+            throw new Exception("Invio email non riuscito: " . $mail->ErrorInfo);
         }
     }
 
@@ -415,14 +410,14 @@ class UserController {
         try {
             $view = new viewUser();
             $pm = PersistentManager::getInstance();
-            $studente = $pm->findOneBy(Studente::class,['validationToken' => $token]);
+            $studente = $pm->findOneBy(Studente::class,['resetToken' => $token]);
             if ($studente === null) {
                 throw new Exception("Link di recupero non valido.");
             }
             $now = new \DateTime('now', new \DateTimeZone('Europe/Rome'));
-            if ($studente->getValidationTokenTime() === null || $now > $studente->getValidationTokenTime()) {
+            if ($studente->getResetTokenTime() === null || $now > $studente->getResetTokenTime()) {
                 throw new Exception("Il link di recupero è scaduto.");
-            }   
+            }
             $view->mostraFormReimpostaPassword($token);
         }catch (Exception $e) {
             $view->mostraFormErrore("Errore: " . $e->getMessage());
@@ -456,19 +451,19 @@ class UserController {
             if (strlen($pass) < 8) {
                 throw new Exception("La password deve contenere almeno 8 caratteri.");
             }
-            $studente = $pm->findOneBy(Studente::class,['validationToken' => $token]);
+            $studente = $pm->findOneBy(Studente::class,['resetToken' => $token]);
             if ($studente === null) {
                 throw new Exception("Link non valido.");
             }
             $now = new \DateTime('now', new \DateTimeZone('Europe/Rome'));
-            if ($studente->getValidationTokenTime() === null || $now > $studente->getValidationTokenTime()) {
+            if ($studente->getResetTokenTime() === null || $now > $studente->getResetTokenTime()) {
                 throw new Exception("Il link è scaduto.");
             }
             $passwordHash = password_hash($pass, PASSWORD_BCRYPT);
             $studente->setPassword($passwordHash);
-            $studente->setValidationToken(null);
-            $studente->setValidationTokenTime(null);
-            $pm->update($studente);
+            $studente->setResetToken(null);
+            $studente->setResetTokenTime(null);
+            $pm->update();
             $view->mostraFormSuccesso("Password reimpostata con successo.");
         } catch (Exception $e) {
             $view->mostraFormErrore("Errore: " . $e->getMessage());
@@ -490,37 +485,5 @@ class UserController {
         $studente->setRememberToken($hashToken);
         $studente->setRememberTokenTime((new \DateTime('now', new \DateTimeZone('Europe/Rome')))->modify('+30 days'));// Scadenza token in linea con il cookie
         $pm->update($studente);
-    }
-    public function emailVerifica() : void {
-         try {
-            $view = new viewUser();
-            $email = $view->getEmailRecuperoPassword();
-            $pm = PersistentManager::getInstance();
-            $studente = $pm->findOneBy(Studente::class, ['email' => $email]);
-            require __DIR__ . '/../../config/mailer-bootstrap.php';
-            $mail->addAddress($studente ? $studente->getEmail() : $view->getEmailRecuperoPassword());
-            $pm = PersistentManager::getInstance();
-            $studente = $pm->findOneBy(Studente::class, ['email' => $email]);
-            $token = $studente->getValidationToken();
-            $mail->Subject ='Recupero password StudyRoom';
-            $link ="https://Studyroom-platform.test/User/reimpostaPassword/" . $token;
-            $nome = $studente ? $studente->getNome() : 'Utente';
-            $mail->Body =
-                "Ciao {$nome},\n\n" .
-                "Hai richiesto il recupero della password.\n\n" .
-                "Clicca sul seguente link:\n\n" .
-                $link .
-                "\n\n" .
-                "Il link è valido per 10 minuti.\n\n" .
-                "Se non hai richiesto tu il recupero password, ignora questa email.\n\n" .
-                "Grazie!";
-            $view->mostraVerificaEmail($email);
-            ob_flush();
-            flush();
-            $mail->send();
-        } catch (Exception $e) {
-            echo "Errore nell'invio email: " . $mail->ErrorInfo;
-        }
-       
     }
 }

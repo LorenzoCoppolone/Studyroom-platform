@@ -340,7 +340,6 @@ a {
     border-radius: var(--radius-md);
     background: var(--white);
     box-shadow: var(--shadow-card);
-    cursor: pointer;
     transition:
         transform    var(--transition),
         box-shadow   var(--transition),
@@ -371,6 +370,7 @@ a {
     flex-direction: column;
     gap: 0.2rem;
     min-width: 0;
+    flex: 1;
 }
 
 .card__title {
@@ -439,6 +439,59 @@ a {
     height: 15px;
     stroke: var(--muted);
 }
+
+/* Footer card: download count + bottone scarica */
+.card__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-top: 0.55rem;
+}
+
+.card__footer .card__downloads {
+    margin-top: 0;
+}
+
+.card__download-form {
+    margin: 0;
+}
+
+.card__download-btn {
+    border: none;
+    background: var(--brand);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.4rem 1rem;
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: background var(--transition), transform 0.1s ease;
+}
+
+.card__download-btn:hover { background: var(--brand-dark); }
+.card__download-btn:active { transform: scale(0.96); }
+
+/* Bottone "Applica filtri" */
+.btn-applica-filtri {
+    align-self: flex-start;
+    border: none;
+    background: var(--brand);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 600;
+    padding: 0.5rem 1.4rem;
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    margin-top: 0.85rem;
+    box-shadow: var(--shadow-card);
+    transition: background var(--transition), transform 0.1s ease;
+}
+
+.btn-applica-filtri:hover { background: var(--brand-dark); }
+.btn-applica-filtri:active { transform: scale(0.97); }
 
 /* ============================================================
    EMPTY STATE

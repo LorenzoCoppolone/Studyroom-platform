@@ -15,8 +15,10 @@
             type="text"
             name="titolo"
             class="hero-search__input"
-            placeholder="materiale cercato"
+            placeholder="Cerca un materiale per titolo…"
             value="{$queryCorrente|escape:'html'}"
+            maxlength="100"
+            required
         >
         <button type="submit" class="hero-search__btn" aria-label="Avvia ricerca">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
@@ -35,19 +37,20 @@
 
         <form id="filter-form" action="/RicercaMateriale/filtra" method="GET">
 
-            <!-- Mantieni la query corrente -->
-            <input type="hidden" name="q" value="{$queryCorrente|escape:'html'}">
+            {* Mantiene la query corrente nell'URL (utile per la paginazione) *}
+            <input type="hidden" name="titolo" value="{$queryCorrente|escape:'html'}">
             <input type="hidden" name="page" value="1">
 
             <div class="filters-bar__pills">
 
                 <!-- Corso di Laurea -->
-                <div class="filter-pill {if $filtri.corsoDiLaurea}filter-pill--active{/if}">
+                <div class="filter-pill {if $filtri.corso_di_laurea}filter-pill--active{/if}">
                     <select name="corsoDiLaurea" id="select-corso" class="filter-pill__select">
                         <option value="">Corso di Laurea</option>
                         {foreach $corsiDiLaurea as $corso}
-                            <option value="{$corso.id|escape:'html'}"
-                                {if $filtri.corsoDiLaurea == $corso.id}selected{/if}>
+                            <option value="{$corso.nome|escape:'html'}"
+                                    data-codice="{$corso.id|escape:'html'}"
+                                    {if $filtri.corso_di_laurea == $corso.nome}selected{/if}>
                                 {$corso.nome|escape:'html'}
                             </option>
                         {/foreach}
@@ -55,27 +58,27 @@
                 </div>
 
                 <!-- Insegnamento -->
-                <div class="filter-pill 
+                <div class="filter-pill
                     {if $filtri.insegnamento}filter-pill--active{/if}
-                    {if !$filtri.corsoDiLaurea}filter-pill--disabled{/if}">
-                    
+                    {if !$filtri.corso_di_laurea}filter-pill--disabled{/if}">
+
                     <select id="select-insegnamento"
                             name="insegnamento"
                             class="filter-pill__select"
-                            {if !$filtri.corsoDiLaurea}disabled{/if}>
+                            {if !$filtri.corso_di_laurea}disabled{/if}>
                         <option value="">Insegnamento</option>
 
                         {foreach $insegnamenti as $ins}
-                            <option value="{$ins.id|escape:'html'}"
-                                    data-corso-id="{$ins.corsoDiLaureaId|escape:'html'}"
-                                    {if $filtri.insegnamento == $ins.id}selected{/if}>
+                            <option value="{$ins.nome|escape:'html'}"
+                                    data-corso="{$ins.codiceCorso|escape:'html'}"
+                                    {if $filtri.insegnamento == $ins.nome}selected{/if}>
                                 {$ins.nome|escape:'html'}
                             </option>
                         {/foreach}
                     </select>
                 </div>
 
-                <!-- Tag (STATICI) -->
+                <!-- Tag -->
                 <div class="filter-pill {if $filtri.tag}filter-pill--active{/if}">
                     <select name="tag" class="filter-pill__select">
                         <option value="">Tag</option>
@@ -89,16 +92,8 @@
                 <div class="filter-pill {if $filtri.tipologia}filter-pill--active{/if}">
                     <select name="tipologia" class="filter-pill__select">
                         <option value="">Tipologia</option>
-
-                        <option value="appunto"
-                            {if $filtri.tipologia == 'appunto'}selected{/if}>
-                            Appunto
-                        </option>
-
-                        <option value="esame"
-                            {if $filtri.tipologia == 'esame'}selected{/if}>
-                            Esame
-                        </option>
+                        <option value="appunto" {if $filtri.tipologia == 'appunto'}selected{/if}>Appunto</option>
+                        <option value="esame"   {if $filtri.tipologia == 'esame'}selected{/if}>Esame</option>
                     </select>
                 </div>
 
@@ -117,15 +112,14 @@
                      fill="none" stroke="currentColor" stroke-width="2.2"
                      stroke-linecap="round" stroke-linejoin="round">
                     <line x1="12" y1="5" x2="12" y2="19"/><polyline points="5 12 12 5 19 12"/>
-                    <line x1="12" y1="19" x2="12" y2="5"/><polyline points="19 12 12 19 5 12"/>
                 </svg>
                 Ordina per
             </span>
 
-            <select name="ordinamento" form="filter-form" class="sort-bar__select">
-                <option value="rilevanza"   {if $ordinamento == 'rilevanza'}selected{/if}>Rilevanza</option>
-                <option value="recente"     {if $ordinamento == 'recente'}selected{/if}>Più recente</option>
-                <option value="scaricati"   {if $ordinamento == 'scaricati'}selected{/if}>Più scaricati</option>
+            <select name="criterio" form="filter-form" class="sort-bar__select"
+                    onchange="document.getElementById('filter-form').submit();">
+                <option value=""            {if $ordinamento == ''}selected{/if}>Rilevanza</option>
+                <option value="download"    {if $ordinamento == 'download'}selected{/if}>Più scaricati</option>
                 <option value="valutazione" {if $ordinamento == 'valutazione'}selected{/if}>Valutazione</option>
             </select>
         </div>
@@ -143,12 +137,11 @@
 
             {foreach $materiali as $mat}
 
-                <a href="materiale.php?id={$mat.idMateriale|escape:'url'}"
-                   class="card"
-                   aria-label="Apri {$mat.titolo|escape:'html'}">
+                {assign var="stelle" value=$mat.mediaValutazione|default:0|round}
+
+                <article class="card">
 
                     <div class="card__icon" aria-hidden="true">
-                        <!-- SVG ICONA DOCUMENTO -->
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 96" fill="none">
                             <rect x="4" y="4" width="72" height="88" rx="6" ry="6"
                                   stroke="#1a1a2e" stroke-width="4" fill="white"/>
@@ -162,34 +155,41 @@
                     </div>
 
                     <div class="card__body">
-                        <h2 class="card__title">{$mat.titolo|escape:'html'}</h2>
+                        <h2 class="card__title">{$mat.titoloMateriale|escape:'html'}</h2>
                         <p class="card__meta">{$mat.insegnamento|escape:'html'}</p>
-                        <p class="card__meta">{$mat.corsoDiLaurea|escape:'html'}</p>
+                        <p class="card__meta">{$mat.corso_di_Laurea|escape:'html'}</p>
                         <p class="card__meta card__meta--tipo">{$mat.tipologia|escape:'html'}</p>
 
-                        <div class="card__rating" aria-label="Valutazione: {$mat.valutazione} su 5">
+                        <div class="card__rating" aria-label="Valutazione: {$stelle} su 5">
                             {section name=s loop=5}
-                                {if $smarty.section.s.index < $mat.valutazione}
+                                {if $smarty.section.s.index < $stelle}
                                     <span class="star star--full">★</span>
                                 {else}
                                     <span class="star star--empty">★</span>
                                 {/if}
                             {/section}
-                            <span class="card__rating-count">({$mat.numValutazioni|escape:'html'})</span>
+                            <span class="card__rating-count">({$mat.numeroRecensioni|default:0|escape:'html'} recensioni)</span>
                         </div>
 
-                        <div class="card__downloads" aria-label="{$mat.numDownload} download">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                                <polyline points="7 10 12 15 17 10"/>
-                                <line x1="12" y1="15" x2="12" y2="3"/>
-                            </svg>
-                            <span>{$mat.numDownload|escape:'html'}</span>
+                        <div class="card__footer">
+                            <div class="card__downloads" aria-label="{$mat.numeroDownload|default:0} download">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                    <polyline points="7 10 12 15 17 10"/>
+                                    <line x1="12" y1="15" x2="12" y2="3"/>
+                                </svg>
+                                <span>{$mat.numeroDownload|default:0|escape:'html'}</span>
+                            </div>
+
+                            <form class="card__download-form" action="/dowloadMateriale/eseguiDownload" method="POST">
+                                <input type="hidden" name="idMateriale" value="{$mat.idMateriale|escape:'html'}">
+                                <button type="submit" class="card__download-btn">Scarica</button>
+                            </form>
                         </div>
                     </div>
 
-                </a>
+                </article>
 
             {/foreach}
 
@@ -293,5 +293,42 @@
 </nav>
 {/if}
 <!-- ===================== /PAGINAZIONE ===================== -->
+
+
+{* Filtro a cascata: mostra solo gli insegnamenti del corso selezionato *}
+<script>
+(function () {
+    var selectCorso = document.getElementById('select-corso');
+    var selectIns   = document.getElementById('select-insegnamento');
+    if (!selectCorso || !selectIns) return;
+
+    var pillIns = selectIns.closest('.filter-pill');
+
+    function aggiornaInsegnamenti() {
+        var opt = selectCorso.options[selectCorso.selectedIndex];
+        var codiceCorso = opt ? opt.getAttribute('data-codice') : '';
+        var corsoSelezionato = selectCorso.value !== '';
+
+        // Abilita/disabilita la pill insegnamento in base al corso scelto
+        selectIns.disabled = !corsoSelezionato;
+        if (pillIns) {
+            pillIns.classList.toggle('filter-pill--disabled', !corsoSelezionato);
+        }
+
+        // Mostra solo gli insegnamenti del corso selezionato
+        Array.prototype.forEach.call(selectIns.options, function (o) {
+            if (o.value === '') return; // opzione placeholder sempre visibile
+            var match = o.getAttribute('data-corso') === codiceCorso;
+            o.hidden = !match;
+            if (!match && o.selected) {
+                selectIns.value = '';
+            }
+        });
+    }
+
+    selectCorso.addEventListener('change', aggiornaInsegnamenti);
+    aggiornaInsegnamenti();
+})();
+</script>
 
 {/block}

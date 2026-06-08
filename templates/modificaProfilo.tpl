@@ -1,6 +1,6 @@
 {extends file="layout.tpl"}
 
-{block name="title"}Modifica Profilo - StudyRoom{/block}
+{block name="title"}Modifica Profilo | StudyRoom{/block}
 
 {block name="pageCSS"}
     <link rel="stylesheet" href="/../CSS/styleModificaProfilo.css">

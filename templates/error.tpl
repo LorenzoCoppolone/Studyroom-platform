@@ -18,17 +18,24 @@
 
     <!-- CONTENITORE CENTRALE -->
     <main>
-        <div class="result-container">
+        <div class="result-container" role="alert">
 
-            <div class="icon error">
+            <div class="icon error" aria-hidden="true">
                 <i class="fa-solid fa-circle-xmark"></i>
             </div>
 
-            <h2 class="result-title">
+            <h1 class="result-title">
                 {$errore}
-            </h2>
+            </h1>
+
+            {if isset($dettaglio) && $dettaglio}
+                <p class="result-subtitle">{$dettaglio}</p>
+            {/if}
 
             <div class="result-buttons">
+                {if isset($riprova) && $riprova}
+                    <a href="{$riprova}" class="btn-retry">Riprova</a>
+                {/if}
                 <a href="/Home/dashboard" class="btn-home">Torna alla home</a>
             </div>
 

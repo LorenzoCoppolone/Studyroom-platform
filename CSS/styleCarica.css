@@ -24,12 +24,14 @@ main {
 .upload-card-title {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 0.6rem;
     font-family: var(--font-display);
     font-size: clamp(1.4rem, 4vw, 1.9rem);
     font-weight: 700;
     letter-spacing: -0.5px;
-    color: var(--color-primary);
+    color: var(--color-text);
+    text-align: center;
     margin-bottom: 1.75rem;
 }
 
@@ -68,27 +70,57 @@ main {
 
 .type-btn {
     flex: 1;
-    padding: 0.8rem 1rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.85rem 1rem;
     border-radius: var(--radius-pill);
     border: 1.5px solid var(--color-border);
     background: var(--color-card);
-    color: var(--color-primary);
+    color: var(--color-text-muted);
     font-family: var(--font-body);
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.15s ease, color 0.15s ease,
-                border-color 0.15s ease;
+    transition: background-color 0.18s ease, color 0.18s ease,
+                border-color 0.18s ease, transform 0.12s ease,
+                box-shadow 0.18s ease;
 }
 
+.type-btn i {
+    font-size: 0.95em;
+    transition: transform 0.18s ease;
+}
+
+/* Hover sullo stato non attivo: tinta leggera + lieve sollevamento */
 .type-btn:hover {
     border-color: var(--color-primary);
+    color: var(--color-primary);
+    background: var(--color-primary-light);
+    transform: translateY(-2px);
 }
 
+.type-btn:hover i {
+    transform: scale(1.1);
+}
+
+/* Stato attivo: gradiente coerente con il bottone "Carica materiale" */
 .type-btn.active {
-    background: var(--color-primary);
-    border-color: var(--color-primary);
+    border-color: transparent;
     color: #fff;
+    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+    box-shadow: 0 6px 18px rgba(108, 79, 212, 0.30);
+}
+
+.type-btn.active:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(108, 79, 212, 0.38);
+}
+
+.type-btn:focus-visible {
+    outline: 3px solid var(--color-primary-light);
+    outline-offset: 2px;
 }
 
 /* =============================================
@@ -366,26 +398,69 @@ main {
    ============================================= */
 .upload-actions {
     display: flex;
-    align-items: stretch;
+    align-items: stretch; /* Home e Carica condividono la stessa altezza */
+    justify-content: center;
     gap: 1rem;
     margin-top: 1.25rem;
 }
 
-/* Home: azione secondaria, compatta */
+/* Base bottone — riallineato a styleModificaProfilo.css / styleProfiloUtente.css
+   (questa pagina carica solo styleLayout + styleCarica, quindi .btn va definito qui) */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: var(--radius-pill);
+    padding: 0.65rem 1.4rem;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.15s ease, color 0.15s ease,
+                border-color 0.15s ease, transform 0.1s ease;
+}
+
+/* Primaria — usata dal pulsante "Upload" dentro il box file */
+.btn-primary {
+    background: var(--color-primary);
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background: var(--color-primary-dark);
+}
+
+/* Home: azione secondaria — stessi colori delle altre schermate */
+.btn-secondary {
+    background: var(--color-primary-light);
+    color: var(--color-primary);
+    border: 1.5px solid var(--color-border);
+}
+
+.btn-secondary:hover {
+    background: var(--color-primary);
+    color: #fff;
+    border-color: var(--color-primary);
+    transform: translateY(-2px);
+}
+
 .btn-home {
     flex: 0 0 auto;
 }
 
-/* Carica: azione primaria, in evidenza */
+/* Carica: azione primaria, in evidenza ma compatta */
 .btn-carica {
-    flex: 1;
-    gap: 0.6rem;
+    flex: 0 0 auto;
+    gap: 0.5rem;
 
-    font-size: 1.05rem;
+    font-size: 0.95rem;
     font-weight: 700;
     letter-spacing: 0.2px;
     color: #fff;
-    padding: 0.9rem 1.6rem;
+    padding: 0.6rem 1.3rem;
 
     border: none;
     border-radius: var(--radius-pill);

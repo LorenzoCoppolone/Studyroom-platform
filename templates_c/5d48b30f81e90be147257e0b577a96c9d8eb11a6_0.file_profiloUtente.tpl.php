@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.8.0, created on 2026-06-05 15:02:41
+/* Smarty version 5.8.0, created on 2026-06-08 15:19:48
   from 'file:profiloUtente.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.8.0',
-  'unifunc' => 'content_6a22e511ab0402_21840474',
+  'unifunc' => 'content_6a26dd94f211f4_49444490',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '5d48b30f81e90be147257e0b577a96c9d8eb11a6' => 
     array (
       0 => 'profiloUtente.tpl',
-      1 => 1780671645,
+      1 => 1780673928,
       2 => 'file',
     ),
   ),
@@ -20,30 +20,30 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6a22e511ab0402_21840474 (\Smarty\Template $_smarty_tpl) {
+function content_6a26dd94f211f4_49444490 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\Studyroom-platform\\templates';
 $_smarty_tpl->getInheritance()->init($_smarty_tpl, true);
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_682887596a22e511a91071_54258346', "title");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1185383046a26dd94f03eb7_59848958', "title");
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_2049010716a22e511a9b672_86585226', "pageCSS");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_14672825476a26dd94f0f084_64123087', "pageCSS");
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_4366113006a22e511a9cb58_53300591', "content");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_20658267006a26dd94f10289_23517818', "content");
 ?>
 
 <?php $_smarty_tpl->getInheritance()->endChild($_smarty_tpl, "layout.tpl", $_smarty_current_dir);
 }
 /* {block "title"} */
-class Block_682887596a22e511a91071_54258346 extends \Smarty\Runtime\Block
+class Block_1185383046a26dd94f03eb7_59848958 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\Studyroom-platform\\templates';
@@ -53,7 +53,7 @@ Profilo Utente - StudyRoom<?php
 }
 /* {/block "title"} */
 /* {block "pageCSS"} */
-class Block_2049010716a22e511a9b672_86585226 extends \Smarty\Runtime\Block
+class Block_14672825476a26dd94f0f084_64123087 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\Studyroom-platform\\templates';
@@ -65,7 +65,7 @@ $_smarty_current_dir = 'C:\\laragon\\www\\Studyroom-platform\\templates';
 }
 /* {/block "pageCSS"} */
 /* {block "content"} */
-class Block_4366113006a22e511a9cb58_53300591 extends \Smarty\Runtime\Block
+class Block_20658267006a26dd94f10289_23517818 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\Studyroom-platform\\templates';
@@ -127,7 +127,7 @@ $_smarty_current_dir = 'C:\\laragon\\www\\Studyroom-platform\\templates';
         <a href="/User/recuperoPassword" class="btn btn-secondary">
             <i class="fa fa-key"></i> Modifica password
         </a>
-        <a href="/User/logoutUtente" class="btn btn-logout">
+        <a href="/User/Logout" class="btn btn-logout">
             <i class="fa fa-right-from-bracket"></i> Logout
         </a>
     </div>

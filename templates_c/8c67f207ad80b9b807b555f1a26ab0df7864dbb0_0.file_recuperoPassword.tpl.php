@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.8.0, created on 2026-06-05 17:12:43
+/* Smarty version 5.8.0, created on 2026-06-08 15:48:11
   from 'file:recuperoPassword.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.8.0',
-  'unifunc' => 'content_6a23038b02fe67_50012813',
+  'unifunc' => 'content_6a26e43b1f4967_23252207',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '8c67f207ad80b9b807b555f1a26ab0df7864dbb0' => 
     array (
       0 => 'recuperoPassword.tpl',
-      1 => 1780679532,
+      1 => 1780933638,
       2 => 'file',
     ),
   ),
@@ -20,14 +20,14 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6a23038b02fe67_50012813 (\Smarty\Template $_smarty_tpl) {
+function content_6a26e43b1f4967_23252207 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\Studyroom-platform\\templates';
 ?><!DOCTYPE html>
 <html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recupero Password • StudyRoom</title>
+    <title>Recupero Password | StudyRoom</title>
 
     <!-- Icone -->
     <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
@@ -71,7 +71,7 @@ $_smarty_current_dir = 'C:\\laragon\\www\\Studyroom-platform\\templates';
 
         <!-- LINK LOGIN -->
         <p class="registrazione">
-            Torna al <a href="/User/login">Login</a>
+            Torna alla <a href="/Home/dashboard">Home</a>
         </p>
 
     </div>

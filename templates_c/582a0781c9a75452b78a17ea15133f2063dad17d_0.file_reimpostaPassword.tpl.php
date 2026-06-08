@@ -1,4 +1,28 @@
-<!DOCTYPE html>
+<?php
+/* Smarty version 5.8.0, created on 2026-06-08 15:32:50
+  from 'file:reimpostaPassword.tpl' */
+
+/* @var \Smarty\Template $_smarty_tpl */
+if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
+  'version' => '5.8.0',
+  'unifunc' => 'content_6a26e0a2a50357_46598472',
+  'has_nocache_code' => false,
+  'file_dependency' => 
+  array (
+    '582a0781c9a75452b78a17ea15133f2063dad17d' => 
+    array (
+      0 => 'reimpostaPassword.tpl',
+      1 => 1780854377,
+      2 => 'file',
+    ),
+  ),
+  'includes' => 
+  array (
+  ),
+))) {
+function content_6a26e0a2a50357_46598472 (\Smarty\Template $_smarty_tpl) {
+$_smarty_current_dir = 'C:\\laragon\\www\\Studyroom-platform\\templates';
+?><!DOCTYPE html>
 <html lang="it">
 <head>
     <meta charset="UTF-8">
@@ -26,7 +50,8 @@
 
         <form method="POST" action="/User/salvaNuovaPassword">
 
-            <input type="hidden" name="token" value="{$token}">
+            <input type="hidden" name="token" value="<?php echo $_smarty_tpl->getValue('token');?>
+">
 
             <!-- NUOVA PASSWORD -->
             <!-- Password -->
@@ -43,7 +68,8 @@
 
             <!-- ERRORE -->
             <span class="msg-errore">
-                {$errore|default:''}
+                <?php echo (($tmp = $_smarty_tpl->getValue('errore') ?? null)===null||$tmp==='' ? '' ?? null : $tmp);?>
+
             </span>
 
             <!-- BOTTONE -->
@@ -59,6 +85,7 @@
     </div>
 
 </main>
-<script src="/../JS/validazione.js"></script>
 </body>
 </html>
+<?php }
+}
