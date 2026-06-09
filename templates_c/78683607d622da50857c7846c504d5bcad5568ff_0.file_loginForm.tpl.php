@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.8.0, created on 2026-06-06 17:11:11
+/* Smarty version 5.8.0, created on 2026-06-09 12:41:39
   from 'file:loginForm.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.8.0',
-  'unifunc' => 'content_6a2454af7233f7_09310859',
+  'unifunc' => 'content_6a280a03657be5_31746782',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '78683607d622da50857c7846c504d5bcad5568ff' => 
     array (
       0 => 'loginForm.tpl',
-      1 => 1780679582,
+      1 => 1780989839,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6a2454af7233f7_09310859 (\Smarty\Template $_smarty_tpl) {
+function content_6a280a03657be5_31746782 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\studyroom-platform\\templates';
 ?><!DOCTYPE html>
 <html lang="it">

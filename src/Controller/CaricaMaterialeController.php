@@ -38,6 +38,12 @@ class CaricaMaterialeController
             }
             $pm    = PersistentManager::getInstance();
             $studente = $pm->find(Studente::class, $idStudente);
+            if($studente->getIsVerified() === false) {
+                throw new InvalidArgumentException("Utente non verificato");
+            }
+            if($studente->getIsBanned() === true) {
+                throw new InvalidArgumentException("Utente bannato");
+            }
             $corsi = $pm->trovaCorsiDiLaurea();
             $insegnamenti = $pm->trovaInsegnamenti();
             $view->mostraFormCaricaMateriale($corsi, $insegnamenti, $studente->getUsername(), $studente->getImmagineProfilo()->getBase64($studente));

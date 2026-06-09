@@ -31,7 +31,7 @@ class InfoController {
         
         if (!isset($studente) || $studente === null) {
             $view = new viewInfo();
-            $view->chiSiamo();
+            $view->chiSiamo(null, null);
             exit;
         
         }else {
@@ -63,7 +63,7 @@ class InfoController {
         
         if (!isset($studente) || $studente === null) {
             $view = new viewInfo();
-            $view->supporto();
+            $view->supporto(null, null);
             exit;
         
         }else {
@@ -96,7 +96,7 @@ class InfoController {
         
         if (!isset($studente) || $studente === null) {
             $view = new viewInfo();
-            $view->faq();
+            $view->faq(null, null);
             exit;
     
         }else {
@@ -128,7 +128,7 @@ class InfoController {
         
         if (!isset($studente) || $studente === null) {
             $view = new viewInfo();
-            $view->termini();
+            $view->termini(null, null);
             exit;
         
         }else {
