@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.8.0, created on 2026-06-09 12:46:43
+/* Smarty version 5.8.0, created on 2026-06-09 15:37:41
   from 'file:error.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.8.0',
-  'unifunc' => 'content_6a280b3357ec17_06346641',
+  'unifunc' => 'content_6a283345327380_23855702',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '521ef1275f667d143ba653ac44fc20a5bdbbed14' => 
     array (
       0 => 'error.tpl',
-      1 => 1780989839,
+      1 => 1781018578,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6a280b3357ec17_06346641 (\Smarty\Template $_smarty_tpl) {
+function content_6a283345327380_23855702 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\studyroom-platform\\templates';
 ?><!DOCTYPE html>
 <html lang="it">
@@ -42,18 +42,27 @@ $_smarty_current_dir = 'C:\\laragon\\www\\studyroom-platform\\templates';
 
     <!-- CONTENITORE CENTRALE -->
     <main>
-        <div class="result-container">
+        <div class="result-container" role="alert">
 
-            <div class="icon error">
+            <div class="icon error" aria-hidden="true">
                 <i class="fa-solid fa-circle-xmark"></i>
             </div>
 
-            <h2 class="result-title">
+            <h1 class="result-title">
                 <?php echo $_smarty_tpl->getValue('errore');?>
 
-            </h2>
+            </h1>
+
+            <?php if ((true && ($_smarty_tpl->hasVariable('dettaglio') && null !== ($_smarty_tpl->getValue('dettaglio') ?? null))) && $_smarty_tpl->getValue('dettaglio')) {?>
+                <p class="result-subtitle"><?php echo $_smarty_tpl->getValue('dettaglio');?>
+</p>
+            <?php }?>
 
             <div class="result-buttons">
+                <?php if ((true && ($_smarty_tpl->hasVariable('riprova') && null !== ($_smarty_tpl->getValue('riprova') ?? null))) && $_smarty_tpl->getValue('riprova')) {?>
+                    <a href="<?php echo $_smarty_tpl->getValue('riprova');?>
+" class="btn-retry">Riprova</a>
+                <?php }?>
                 <a href="/Home/dashboard" class="btn-home">Torna alla home</a>
             </div>
 
