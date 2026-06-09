@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.8.0, created on 2026-06-05 14:14:33
+/* Smarty version 5.8.0, created on 2026-06-08 18:37:33
   from 'file:registrationForm.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.8.0',
-  'unifunc' => 'content_6a22d9c97fe4d6_96426982',
+  'unifunc' => 'content_6a26efcdb074a2_96356568',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'b8d94536fd645d61977a3977d953b8be6f1ac44b' => 
     array (
       0 => 'registrationForm.tpl',
-      1 => 1780668501,
+      1 => 1780933667,
       2 => 'file',
     ),
   ),
@@ -20,14 +20,14 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6a22d9c97fe4d6_96426982 (\Smarty\Template $_smarty_tpl) {
+function content_6a26efcdb074a2_96356568 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\Studyroom-platform\\templates';
 ?><!DOCTYPE html>
 <html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StudyRoom | Registrazione</title>
+    <title>Registrazione | StudyRoom</title>
 
     <!-- favicon -->
     <link rel="icon" type="image/x-icon" href="/../img/studyroom_favicon.ico">

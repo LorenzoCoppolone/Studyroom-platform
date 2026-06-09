@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StudyRoom | Registrazione</title>
+    <title>Registrazione | StudyRoom</title>
 
     <!-- favicon -->
     <link rel="icon" type="image/x-icon" href="/../img/studyroom_favicon.ico">

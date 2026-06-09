@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StudyRoom | Gestisci Segnalazione</title>
+    <title>Gestisci Segnalazione | StudyRoom</title>
 
     <link rel="icon" type="image/x-icon" href="/../img/studyroom_favicon.ico">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Rajdhani:wght@700&family=Exo+2:wght@700&family=DM+Serif+Display&display=swap" rel="stylesheet">

@@ -73,6 +73,22 @@ main {
     margin-bottom: 0.5rem;
 }
 
+/* Link nel corpo informativo (es. email mailto del supporto) */
+.info-text a,
+.info-list a {
+    color: var(--color-primary);
+    font-weight: 600;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.info-text a:hover,
+.info-list a:hover {
+    color: var(--color-primary-dark);
+    border-bottom-color: currentColor;
+}
+
 /* =============================================
    FAQ
    ============================================= */
@@ -90,7 +106,30 @@ main {
     font-weight: 700;
     font-size: clamp(1.1rem, 2.5vw, 1.3rem);
     color: var(--color-primary);
-    margin-bottom: 0.5rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    cursor: pointer;
+    list-style: none;            /* rimuove il triangolo di default (Firefox) */
+}
+
+.faq-question::-webkit-details-marker {
+    display: none;               /* rimuove il triangolo di default (WebKit) */
+}
+
+/* Indicatore "+" che ruota in "×" quando l'item è aperto */
+.faq-question::after {
+    content: "+";
+    font-size: 1.5em;
+    line-height: 1;
+    color: var(--color-primary);
+    transition: transform 0.2s ease;
+}
+
+.faq-item[open] .faq-question::after {
+    transform: rotate(45deg);
 }
 
 .faq-answer {
@@ -98,6 +137,7 @@ main {
     font-size: 1.05rem;
     line-height: 1.7;
     color: var(--color-text-muted);
+    margin-top: 0.75rem;
 }
 
 /* =============================================

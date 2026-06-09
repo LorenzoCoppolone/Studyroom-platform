@@ -45,8 +45,8 @@ class MaterialeRepository {
             'i.nomeInsegnamento as insegnamento',
             'c.nomeCorso as corso_di_Laurea',
             's.username as nome_studente',
-            'COUNT(d.id) as numeroDownload',
-            'COUNT(r.id) as numeroRecensioni',
+            'COUNT(DISTINCT d.id) as numeroDownload',
+            'COUNT(DISTINCT r.id) as numeroRecensioni',
             'AVG(r.voto) as mediaValutazione',
         )
             ->addSelect(

@@ -24,17 +24,21 @@ class viewCaricaMateriale {
     */
     public function mostraFormErrore(string $messaggio) : void {
         $this->smarty->assign('errore', $messaggio);
-        $this->smarty->display('Error.tpl');
+        $this->smarty->display('error.tpl');
     }
 
     /**
-    * Mostra un form con il messaggio di errore all'utente
+    * Mostra la pagina di successo dopo il caricamento di un materiale.
+    * Oltre al bottone "Torna alla home", mostra anche un bottone per
+    * tornare al form di caricamento (variabile 'ricarica').
+    *
     * @param string $messaggio
     * @return void
     */
     public function mostraFormSuccesso(string $messaggio) : void {
         $this->smarty->assign('successo', $messaggio);
-        $this->smarty->display('materialeCaricato.tpl');
+        $this->smarty->assign('ricarica', '/CaricaMateriale/carica');
+        $this->smarty->display('successo.tpl');
     }
 
     /**

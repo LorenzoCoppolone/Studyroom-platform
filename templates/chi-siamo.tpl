@@ -1,6 +1,6 @@
 {extends file="layout.tpl"}
 
-{block name="title"}Chi siamo - StudyRoom{/block}
+{block name="title"}Chi siamo | StudyRoom{/block}
 
 {block name="pageCSS"}
 <link rel="stylesheet" href="/../CSS/styleInfo.css">

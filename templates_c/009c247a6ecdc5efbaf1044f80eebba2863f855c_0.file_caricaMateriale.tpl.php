@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.8.0, created on 2026-06-05 17:44:20
+/* Smarty version 5.8.0, created on 2026-06-09 17:16:10
   from 'file:caricaMateriale.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.8.0',
-  'unifunc' => 'content_6a230af46c4149_60500445',
+  'unifunc' => 'content_6a282e3a50bf70_22193595',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '009c247a6ecdc5efbaf1044f80eebba2863f855c' => 
     array (
       0 => 'caricaMateriale.tpl',
-      1 => 1780681331,
+      1 => 1780930178,
       2 => 'file',
     ),
   ),
@@ -20,30 +20,30 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6a230af46c4149_60500445 (\Smarty\Template $_smarty_tpl) {
+function content_6a282e3a50bf70_22193595 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\Studyroom-platform\\templates';
 $_smarty_tpl->getInheritance()->init($_smarty_tpl, true);
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_4012955756a230af466b251_29415037', "title");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1849052676a282e3a4bd976_96609118', "title");
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_18204014376a230af4674212_93616726', "pageCSS");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1239943686a282e3a4c9240_65101633', "pageCSS");
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_18894734496a230af4675654_51857264', "content");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_17167594596a282e3a4ca420_74986739', "content");
 ?>
 
 <?php $_smarty_tpl->getInheritance()->endChild($_smarty_tpl, "layout.tpl", $_smarty_current_dir);
 }
 /* {block "title"} */
-class Block_4012955756a230af466b251_29415037 extends \Smarty\Runtime\Block
+class Block_1849052676a282e3a4bd976_96609118 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\Studyroom-platform\\templates';
@@ -53,7 +53,7 @@ Carica Materiale - StudyRoom<?php
 }
 /* {/block "title"} */
 /* {block "pageCSS"} */
-class Block_18204014376a230af4674212_93616726 extends \Smarty\Runtime\Block
+class Block_1239943686a282e3a4c9240_65101633 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\Studyroom-platform\\templates';
@@ -65,7 +65,7 @@ $_smarty_current_dir = 'C:\\laragon\\www\\Studyroom-platform\\templates';
 }
 /* {/block "pageCSS"} */
 /* {block "content"} */
-class Block_18894734496a230af4675654_51857264 extends \Smarty\Runtime\Block
+class Block_17167594596a282e3a4ca420_74986739 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\Studyroom-platform\\templates';
@@ -83,8 +83,8 @@ $_smarty_current_dir = 'C:\\laragon\\www\\Studyroom-platform\\templates';
 
     <!-- TIPO DOCUMENTO -->
     <div class="type-selector">
-        <button type="button" id="btnAppunto" class="type-btn <?php if ($_smarty_tpl->getValue('tipo') != 'esame') {?>active<?php }?>">Appunto</button>
-        <button type="button" id="btnEsame" class="type-btn <?php if ($_smarty_tpl->getValue('tipo') == 'esame') {?>active<?php }?>">Esame</button>
+        <button type="button" id="btnAppunto" class="type-btn <?php if ($_smarty_tpl->getValue('tipo') != 'esame') {?>active<?php }?>"><i class="fa fa-pen-to-square"></i> Appunto</button>
+        <button type="button" id="btnEsame" class="type-btn <?php if ($_smarty_tpl->getValue('tipo') == 'esame') {?>active<?php }?>"><i class="fa fa-graduation-cap"></i> Esame</button>
     </div>
 
     <!-- FORM PRINCIPALE -->

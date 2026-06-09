@@ -19,8 +19,8 @@
 
     <!-- TIPO DOCUMENTO -->
     <div class="type-selector">
-        <button type="button" id="btnAppunto" class="type-btn {if $tipo != 'esame'}active{/if}">Appunto</button>
-        <button type="button" id="btnEsame" class="type-btn {if $tipo == 'esame'}active{/if}">Esame</button>
+        <button type="button" id="btnAppunto" class="type-btn {if $tipo != 'esame'}active{/if}"><i class="fa fa-pen-to-square"></i> Appunto</button>
+        <button type="button" id="btnEsame" class="type-btn {if $tipo == 'esame'}active{/if}"><i class="fa fa-graduation-cap"></i> Esame</button>
     </div>
 
     <!-- FORM PRINCIPALE -->

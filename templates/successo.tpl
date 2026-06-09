@@ -18,17 +18,24 @@
 
     <!-- CONTENITORE CENTRALE -->
     <main>
-        <div class="result-container">
+        <div class="result-container" role="status">
 
-            <div class="icon success">
+            <div class="icon success" aria-hidden="true">
                 <i class="fa-solid fa-circle-check"></i>
             </div>
 
-            <h2 class="result-title">
+            <h1 class="result-title">
                 {$successo}
-            </h2>
+            </h1>
+
+            {if isset($dettaglio) && $dettaglio}
+                <p class="result-subtitle">{$dettaglio}</p>
+            {/if}
 
             <div class="result-buttons">
+                {if isset($ricarica) && $ricarica}
+                    <a href="{$ricarica}" class="btn-retry">Torna a caricare</a>
+                {/if}
                 <a href="/Home/dashboard" class="btn-home">Torna alla home</a>
             </div>
 
@@ -37,4 +44,3 @@
 
 </body>
 </html>
-
