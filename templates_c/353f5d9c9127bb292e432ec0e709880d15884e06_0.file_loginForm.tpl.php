@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.8.0, created on 2026-05-26 19:31:58
+/* Smarty version 5.8.0, created on 2026-06-05 17:28:20
   from 'file:loginForm.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.8.0',
-  'unifunc' => 'content_6a15f52e947388_69161021',
+  'unifunc' => 'content_6a230734470612_05069612',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '353f5d9c9127bb292e432ec0e709880d15884e06' => 
     array (
       0 => 'loginForm.tpl',
-      1 => 1779823905,
+      1 => 1780679532,
       2 => 'file',
     ),
   ),
@@ -20,76 +20,85 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6a15f52e947388_69161021 (\Smarty\Template $_smarty_tpl) {
+function content_6a230734470612_05069612 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\Studyroom-platform\\templates';
 ?><!DOCTYPE html>
 <html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Accesso • StudyRoom</title>
+    <title>StudyRoom | Login</title>
 
-    <link rel="stylesheet" href="./CSS/styleLogin.css">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;700&family=Space+Mono:wght@400;700&family=Playfair+Display:wght@900&display=swap" rel="stylesheet">
+    <!-- favicon -->
+    <link rel="icon" type="image/x-icon" href="/../img/studyroom_favicon.ico">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/../CSS/styleForm.css">
+
+    <!-- Icone -->
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
+
+    <!-- FONTS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
-
 <body>
 
-    <div class="login-container">
+    <main>
 
-        <h1 class="logo">StudyRoom</h1>
-        <h2 class="login-title">Accesso</h2>
-
-        <div class="login-box">
-
-            <?php if ((true && ($_smarty_tpl->hasVariable('error') && null !== ($_smarty_tpl->getValue('error') ?? null)))) {?>
-                <div class="login-error">
-                    <?php echo htmlspecialchars((string)$_smarty_tpl->getValue('error'), ENT_QUOTES, 'UTF-8', true);?>
-
-                </div>
-            <?php }?>
-
-            <form action="login.php" method="POST" class="login-form">
-
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input id="email" 
-                           type="email" 
-                           name="email" 
-                           placeholder="nome.cognome@student.univaq.it"
-                           required
-                           pattern="^[a-zA-Z0-9._%+-]+@^[a-zA-Z0-9._%+-]+@(student\.univaq\.it|studyroom\.it)$"
-                           title="Inserisci una email istituzionale che termini con @student.univaq.it"
-                           value="<?php echo htmlspecialchars((string)(($tmp = $_smarty_tpl->getValue('emailInserita') ?? null)===null||$tmp==='' ? '' ?? null : $tmp), ENT_QUOTES, 'UTF-8', true);?>
-">
-                </div>
-
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input id="password" 
-                           type="password" 
-                           name="password" 
-                           placeholder="Password"
-                           required
-                           minlength="8"
-                           title="La password deve contenere almeno 8 caratteri">
-                </div>
-
-                <a href="/password-reset" class="forgot-password">Non ricordo la password</a>
-
-                <button type="submit" class="btn-login">Accedi</button>
-
-            </form>
-
-            <p class="register-text">
-                È la tua prima volta?
-                <a href="register.php">Registrati ora</a>
-            </p>
-
+        <div class="logo">
+            <a href="/Home/dashboard">
+                <p>StudyRoom</p>
+            </a>
         </div>
 
-    </div>
+        <div class="form-login-container">
 
+            <form action="/User/effettuaLogin" method="post">
+                <h2>Accedi</h2>
+
+                                
+                                <?php if ((true && ($_smarty_tpl->hasVariable('error') && null !== ($_smarty_tpl->getValue('error') ?? null)))) {?>
+                    <span class="msg-errore"><?php echo htmlspecialchars((string)$_smarty_tpl->getValue('error'), ENT_QUOTES, 'UTF-8', true);?>
+</span>
+                <?php }?>
+
+                <!-- Email -->
+                <div class="campo-input">
+                    <input type="email" placeholder="Email" name="email"
+                           value="<?php echo htmlspecialchars((string)(($tmp = $_smarty_tpl->getValue('emailInserita') ?? null)===null||$tmp==='' ? '' ?? null : $tmp), ENT_QUOTES, 'UTF-8', true);?>
+" required>
+                    <i class="bx bx-envelope"></i>
+                </div>
+
+                <!-- Password -->
+                <div class="campo-input">
+                    <input type="password" placeholder="Password" name="password" id="password" required>
+                    <i class="bx bx-show toggle-password" id="togglePassword"></i>
+                </div>
+
+                <div class="Ricordami">
+                    <label for="controllo">
+                        <input type="checkbox" id="controllo" name="ricordami"> Ricordami
+                    </label>
+                    <a href="/User/recuperoPassword">Hai dimenticato la password?</a>
+                </div>
+
+                <button class="btn" type="submit">Accedi</button>
+
+                <div class="registrazione">
+                    <p>Non hai un account?
+                        <a href="/User/registrazione">Registrati</a>
+                    </p>
+                </div>
+            </form>
+        </div>
+    </main>
+
+<?php echo '<script'; ?>
+ src="/../JS/validazione.js"><?php echo '</script'; ?>
+>
 </body>
 </html>
 

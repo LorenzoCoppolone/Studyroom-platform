@@ -3,14 +3,14 @@
 {block name="title"}Risultati ricerca — StudyRoom{/block}
 
 {block name="pageCSS"}
-    <link rel="stylesheet" href="./CSS/styleCercaMateriali.css">
+    <link rel="stylesheet" href="/../CSS/styleRicercaMateriale.css">
 {/block}
 
 {block name="content"}
 
 <!-- ===================== HERO SEARCH ===================== -->
 <section class="hero-search">
-    <form class="hero-search__form" action="/CercaMateriali/cerca" method="GET">
+    <form class="hero-search__form" action="/RicercaMateriale/cerca" method="GET">
         <input
             type="text"
             name="titolo"
@@ -33,7 +33,7 @@
 <section class="filters-bar">
     <div class="filters-bar__inner">
 
-        <form id="filter-form" action="search.php" method="GET">
+        <form id="filter-form" action="/RicercaMateriale/filtra" method="GET">
 
             <!-- Mantieni la query corrente -->
             <input type="hidden" name="q" value="{$queryCorrente|escape:'html'}">
@@ -75,16 +75,13 @@
                     </select>
                 </div>
 
-                <!-- Tag -->
+                <!-- Tag (STATICI) -->
                 <div class="filter-pill {if $filtri.tag}filter-pill--active{/if}">
                     <select name="tag" class="filter-pill__select">
                         <option value="">Tag</option>
-                        {foreach $tags as $tag}
-                            <option value="{$tag.id|escape:'html'}"
-                                {if $filtri.tag == $tag.id}selected{/if}>
-                                {$tag.nome|escape:'html'}
-                            </option>
-                        {/foreach}
+                        <option value="Riassunto" {if $filtri.tag == 'Riassunto'}selected{/if}>Riassunto</option>
+                        <option value="Note"      {if $filtri.tag == 'Note'}selected{/if}>Note</option>
+                        <option value="Esercizi"  {if $filtri.tag == 'Esercizi'}selected{/if}>Esercizi</option>
                     </select>
                 </div>
 

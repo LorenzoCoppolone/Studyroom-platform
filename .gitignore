@@ -24,7 +24,9 @@ files/
 # Backup o file temporanei
 *.bak
 *.tmp
+
 # IDE / Editor
 .vscode/
 .idea/
 *.swp
+CLAUDE.md

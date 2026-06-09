@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.8.0, created on 2026-05-25 08:47:21
+/* Smarty version 5.8.0, created on 2026-06-05 17:44:20
   from 'file:layout.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.8.0',
-  'unifunc' => 'content_6a140c999b07b8_82534673',
+  'unifunc' => 'content_6a230af4f158b8_35121368',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '9aa57d2e42009dba92a96c44e09465022733ad30' => 
     array (
       0 => 'layout.tpl',
-      1 => 1779698827,
+      1 => 1780672199,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6a140c999b07b8_82534673 (\Smarty\Template $_smarty_tpl) {
+function content_6a230af4f158b8_35121368 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\Studyroom-platform\\templates';
 $_smarty_tpl->getInheritance()->init($_smarty_tpl, false);
 ?>
@@ -30,18 +30,19 @@ $_smarty_tpl->getInheritance()->init($_smarty_tpl, false);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="/../img/studyroom_favicon.ico">
 
     <title><?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1275054006a140c999a5368_69965077', "title");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_19772509736a230af4efe313_16577889', "title");
 ?>
 </title>
 
     <!-- CSS Layout -->
-    <link rel="stylesheet" href="./CSS/styleLayout.css">
+    <link rel="stylesheet" href="/../CSS/styleLayout.css">
 
     <!-- CSS Pagina -->
     <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_6520950696a140c999ae5e4_89194131', "pageCSS");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_12733056886a230af4f02427_53266117', "pageCSS");
 ?>
 
 
@@ -57,35 +58,60 @@ $_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_6520950696a14
     <!-- NAVBAR -->
     <header class="navbar">
 
-        <a href="./templates/home.tpl" class="logo">StudyRoom</a>
+        <a href="/Home/dashboard" class="logo">StudyRoom</a>
 
-        <div class="navbar-search">
-            <input type="text" placeholder="Cerca...">
-
-            <button class="btn-search">
+        <form class="navbar-search" method="GET" action="/RicercaMateriale/cerca">
+            <input type="text" name="titolo" placeholder="Cerca..." maxlength="100" required>
+            <button class="btn-search" type="submit">
                 <i class="fa fa-magnifying-glass"></i>
             </button>
-        </div>
+        </form>
+
 
         <nav class="navbar-links">
 
-            <a href="esami.tpl" class="nav-link nav-esami">
+            <a href="/RicercaMateriale/popolari" class="nav-link nav-esami">
                 Prepara i tuoi esami
             </a>
 
             <div class="nav-auth">
 
-                <i class="fa fa-circle-user nav-user-icon"></i>
+                <?php if ($_smarty_tpl->getValue('studente')) {?>
 
-                <a href="loginForm.tpl" class="nav-link">
-                    Accedi /
-                </a>
+                    <!-- FOTO PROFILO -->
+                    <a href="/User/profiloStudente" class="nav-user-avatar">
+                        <?php if ($_smarty_tpl->getValue('base64')) {?>
+                            <img src="<?php echo $_smarty_tpl->getValue('base64');?>
+" alt="Foto profilo">
+                        <?php } else { ?>
+                            <i class="fa fa-circle-user"></i>
+                        <?php }?>
+                    </a>
 
-                <a href="registrationForm.tpl" class="nav-link">
-                    Registrati
-                </a>
+                    <!-- USERNAME -->
+                    <a href="/User/profiloStudente" class="nav-user-name"><?php echo $_smarty_tpl->getValue('studente');?>
+</a>
+
+
+                    
+
+                <?php } else { ?>
+
+                    <!-- ICONA DEFAULT -->
+                    <i class="fa fa-circle-user nav-user-icon"></i>
+
+                    <a href="/User/login" class="nav-link">
+                        Accedi /
+                    </a>
+
+                    <a href="/User/registrazione" class="nav-link">
+                       Registrati
+                    </a>
+
+                <?php }?>
 
             </div>
+
 
         </nav>
 
@@ -95,7 +121,7 @@ $_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_6520950696a14
     <main class="page-content">
 
         <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_11067600246a140c999af9c0_13803960', "content");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_13094104576a230af4f12d28_05088820', "content");
 ?>
 
 
@@ -108,22 +134,20 @@ $_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_11067600246a1
            target="_blank"
            class="footer-logo-univaq">
 
-            <img src="./img/UnivaqLogo.png"
+            <img src="/../img/UnivaqLogo.png"
                  alt="Logo Università degli Studi dell'Aquila">
 
         </a>
 
         <div class="footer-center">
 
-            <a href="home.php" class="footer-brand">
-                StudyRoom
-            </a>
+            <a href="/Home/dashboard" class="footer-brand">StudyRoom</a>
 
             <nav class="footer-links">
-                <a href="chi-siamo.tpl">Chi siamo</a>
-                <a href="supporto.tpl">Supporto</a>
-                <a href="faq.tpl">FAQ</a>
-                <a href="termini.tpl">Termini di utilizzo</a>
+                <a href="/Info/chiSiamo">Chi siamo</a>
+                <a href="/Info/supporto">Supporto</a>
+                <a href="/Info/faq">FAQ</a>
+                <a href="/Info/termini">Termini di utilizzo</a>
             </nav>
 
         </div>
@@ -134,7 +158,7 @@ $_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_11067600246a1
 </html>
 <?php }
 /* {block "title"} */
-class Block_1275054006a140c999a5368_69965077 extends \Smarty\Runtime\Block
+class Block_19772509736a230af4efe313_16577889 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\Studyroom-platform\\templates';
@@ -144,7 +168,7 @@ StudyRoom<?php
 }
 /* {/block "title"} */
 /* {block "pageCSS"} */
-class Block_6520950696a140c999ae5e4_89194131 extends \Smarty\Runtime\Block
+class Block_12733056886a230af4f02427_53266117 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\Studyroom-platform\\templates';
@@ -152,7 +176,7 @@ $_smarty_current_dir = 'C:\\laragon\\www\\Studyroom-platform\\templates';
 }
 /* {/block "pageCSS"} */
 /* {block "content"} */
-class Block_11067600246a140c999af9c0_13803960 extends \Smarty\Runtime\Block
+class Block_13094104576a230af4f12d28_05088820 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\Studyroom-platform\\templates';

@@ -3,67 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Accesso • StudyRoom</title>
+    <title>StudyRoom | Login</title>
 
-    <link rel="stylesheet" href="/../CSS/styleLogin.css">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;700&family=Space+Mono:wght@400;700&family=Playfair+Display:wght@900&display=swap" rel="stylesheet">
+    <!-- favicon -->
+    <link rel="icon" type="image/x-icon" href="/../img/studyroom_favicon.ico">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/../CSS/styleForm.css">
+
+    <!-- Icone -->
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
+
+    <!-- FONTS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
-
 <body>
 
-    <div class="login-container">
+    <main>
 
-        <h1 class="logo">StudyRoom</h1>
-        <h2 class="login-title">Accesso</h2>
-
-        <div class="login-box">
-
-            {if isset($error)}
-                <div class="login-error">
-                    {$error|escape:'html'}
-                </div>
-            {/if}
-
-            <form action="/User/effettuaLogin" method="POST" class="login-form">
-
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input id="email" 
-                           type="email" 
-                           name="email" 
-                           placeholder="nome.cognome@student.univaq.it"
-                           required
-                           pattern="^[a-zA-Z0-9._%+-]+@^[a-zA-Z0-9._%+-]+@(student\.univaq\.it|studyroom\.it)$"
-                           title="Inserisci una email istituzionale che termini con @student.univaq.it"
-                           value="{$emailInserita|default:''|escape:'html'}">
-                </div>
-
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input id="password" 
-                           type="password" 
-                           name="password" 
-                           placeholder="Password"
-                           required
-                           minlength="8"
-                           title="La password deve contenere almeno 8 caratteri">
-                </div>
-
-                <a href="/password-reset" class="forgot-password">Non ricordo la password</a>
-
-                <button type="submit" class="btn-login">Accedi</button>
-
-            </form>
-
-            <p class="register-text">
-                È la tua prima volta?
-                <a href="/User/registrazione">Registrati ora</a>
-            </p>
-
+        <div class="logo">
+            <a href="/Home/dashboard">
+                <p>StudyRoom</p>
+            </a>
         </div>
 
-    </div>
+        <div class="form-login-container">
 
+            <form action="/User/effettuaLogin" method="post">
+                <h2>Accedi</h2>
+
+                {* Token CSRF — decommentare se il backend lo fornisce *}
+                {* <input type="hidden" name="csrf_token" value="{$csrfToken|escape:'html'}"> *}
+
+                {* Errore di autenticazione (credenziali errate) *}
+                {if isset($error)}
+                    <span class="msg-errore">{$error|escape:'html'}</span>
+                {/if}
+
+                <!-- Email -->
+                <div class="campo-input">
+                    <input type="email" placeholder="Email" name="email"
+                           value="{$emailInserita|default:''|escape:'html'}" required>
+                    <i class="bx bx-envelope"></i>
+                </div>
+
+                <!-- Password -->
+                <div class="campo-input">
+                    <input type="password" placeholder="Password" name="password" id="password" required>
+                    <i class="bx bx-show toggle-password" id="togglePassword"></i>
+                </div>
+
+                <div class="Ricordami">
+                    <label for="controllo">
+                        <input type="checkbox" id="controllo" name="ricordami"> Ricordami
+                    </label>
+                    <a href="/User/recuperoPassword">Hai dimenticato la password?</a>
+                </div>
+
+                <button class="btn" type="submit">Accedi</button>
+
+                <div class="registrazione">
+                    <p>Non hai un account?
+                        <a href="/User/registrazione">Registrati</a>
+                    </p>
+                </div>
+            </form>
+        </div>
+    </main>
+
+<script src="/../JS/validazione.js"></script>
 </body>
 </html>
 

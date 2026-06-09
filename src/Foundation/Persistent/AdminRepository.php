@@ -41,16 +41,18 @@ class AdminRepository {
 
     /**
      * Materiali segnalati che recupera l'admin
+     * Restituisce tutti i dati necessari al template gestisciSegnalazione in un'unica query:
+     * dati dello studente, titolo del materiale e contenuto/tipo del file.
      * @param int $id_materiale
      * @return array Informazioni del materiale segnalato, restituito così in modo che la view sia semplificata
      */
     public function gestisciSegnalazioneMateriale(int $id_materiale): array {
     $qb = $this->em->createQueryBuilder();
-    $qb->select( 
+    $qb->select(
     'm.id as idMateriale',
     'm.titolo as titoloMateriale',
-    'm.file.mimeType as mimeTypeFile',
-    'm.file.contenuto as contenutoFile',
+    'm.file.contenutoFile as contenutoFile',
+    'm.file.mimeTypeFile as mimeTypeFile',
     's.nome as nomeStudente',
     's.cognome as cognomeStudente',
     's.username as usernameStudente',
@@ -59,9 +61,19 @@ class AdminRepository {
     )
         ->from(Materiale::class, 'm')
         ->join('m.studente', 's')
-        ->Where('m.idMateriale = :id_materiale')
+        ->where('m.id = :id_materiale')
         ->setParameter('id_materiale', $id_materiale);
     $result = $qb->getQuery()->getArrayResult();
+
+    // Il contenuto del file è di tipo BLOB: Doctrine lo idrata come resource (stream),
+    // quindi lo convertiamo in stringa binaria per restituire dati puliti alla view.
+    foreach ($result as &$riga) {
+        if (is_resource($riga['contenutoFile'])) {
+            $riga['contenutoFile'] = stream_get_contents($riga['contenutoFile']);
+        }
+    }
+    unset($riga);
+
     return $result;
     }
 

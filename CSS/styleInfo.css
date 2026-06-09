@@ -1,0 +1,126 @@
+/* =============================================
+   STUDYROOM — styleInfo.css
+   Usa le variabili e i font definiti in styleLayout.css
+   (coerente con lo stile della home)
+   ============================================= */
+
+/* Wrapper centrato come il <main> della home */
+main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem;
+}
+
+/* Card chiara — stessa estetica di .section-upload della home */
+.info-container {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 3rem 3.25rem;
+
+    background: var(--color-card);
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius-box);
+    box-shadow: var(--shadow-soft);
+}
+
+.info-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(1.8rem, 5vw, 2.8rem);
+    letter-spacing: -0.5px;
+    color: var(--color-primary);
+    margin-bottom: 1.5rem;
+}
+
+.info-subtitle {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(1.25rem, 3vw, 1.6rem);
+    color: var(--color-primary-dark);
+    margin-top: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.info-text {
+    font-family: var(--font-body);
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: var(--color-text);
+    margin-bottom: 1.1rem;
+}
+
+.info-text strong {
+    color: var(--color-text);
+    font-weight: 700;
+}
+
+.info-list {
+    margin: 1rem 0;
+    padding-left: 1.25rem;
+    font-family: var(--font-body);
+    color: var(--color-text);
+}
+
+.info-list li {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    margin-bottom: 0.5rem;
+}
+
+/* =============================================
+   FAQ
+   ============================================= */
+.faq-item {
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.faq-item:last-child {
+    border-bottom: none;
+}
+
+.faq-question {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(1.1rem, 2.5vw, 1.3rem);
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+}
+
+.faq-answer {
+    font-family: var(--font-body);
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--color-text-muted);
+}
+
+/* =============================================
+   RESPONSIVE
+   ============================================= */
+@media (max-width: 768px) {
+
+    main {
+        padding: 2rem 1.25rem;
+    }
+
+    .info-container {
+        padding: 2rem 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+
+    main {
+        padding: 1.5rem 1rem;
+    }
+
+    .info-container {
+        padding: 1.5rem 1.25rem;
+    }
+}

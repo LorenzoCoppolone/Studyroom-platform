@@ -1,7 +1,15 @@
-* {
+/* =============================================
+   STUDYROOM — styleEmailPages.css
+   Tema chiaro coerente con styleForm.css / home
+   ============================================= */
+
+*, *::before, *::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+body, input, button, a, p, h2, span, strong {
     font-family: 'Poppins', sans-serif;
 }
 
@@ -10,55 +18,63 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #2d1b69 0%, #3d2a8a 40%, #1e3a7a 100%);
+    padding: 2rem 1rem;
+    color: #1a1a2e;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    /* Sfondo radiale viola — identico a login/registrazione/home */
+    background: radial-gradient(
+        ellipse 75% 75% at top,
+        #ddd6fe 0%,
+        #a78bfa 45%,
+        #ffffff 100%
+    );
 }
 
-.logo-verifica {
-    position: absolute;
-    top: -189px;        /* quanto sporge fuori dalla card */
-    left: 50%;
-    transform: translateX(-50%);
-    width: 200px;
-    height: auto;
-    border-radius: 10px; /* opzionale, se vuoi angoli arrotondati */
-}
-
-.logo-conferma {
-    position: absolute;
-    top: -232px;        /* quanto sporge fuori dalla card */
-    left: 50%;
-    transform: translateX(-50%);
-    width: 200px;
-    height: auto;
-    border-radius: 10px; /* opzionale, se vuoi angoli arrotondati */
-}
-
+/* Wrapper in colonna: logo sopra, card sotto */
 .page-container {
-    width: 430px;
-    color: #fff;
-    padding: 40px 30px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.5);
-    backdrop-filter: blur(20px);
-}
-
-.card {
-    background: rgba(255, 255, 255, 0.08);
-    border: 0.5px solid rgba(255, 255, 255, 0.15);
-    border-radius: 16px;
-    padding: 2.5rem 2rem;
-    max-width: 420px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
     width: 100%;
-    text-align: center;
 }
 
+/* Logo testuale — identico a login/registrazione */
+.logo {
+    color: #6C4FD4;
+    font-size: 2rem;
+    text-align: center;
+    font-weight: 700;
+    letter-spacing: -1px;
+}
 
+.logo a {
+    text-decoration: none;
+    color: #6C4FD4;
+}
+
+/* Card — stessa estetica di .form-login-container */
+.card {
+    width: min(440px, calc(100% - 2rem));
+    background: #ffffff;
+    border: 1px solid #ddd8f5;
+    border-radius: 14px;
+    padding: 2.75rem 2.25rem;
+    text-align: center;
+    box-shadow: 0 20px 50px rgba(108, 79, 212, 0.25);
+
+    animation: appear 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Cerchio icona (verifica email) */
 .icon-circle {
     width: 72px;
     height: 72px;
     border-radius: 50%;
-    background: rgba(167, 139, 250, 0.2);
-    border: 1.5px solid rgba(167, 139, 250, 0.4);
+    background: #ede9fb;
+    border: 1.5px solid #c4b8ef;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -67,108 +83,106 @@ body {
 
 .icon-circle i {
     font-size: 32px;
-    color: #c4b5fd;
+    color: #6C4FD4;
 }
 
-
 .card h2 {
-    color: #ffffff;
-    font-size: 22px;
-    font-weight: 600;
+    color: #1a1a2e;
+    font-size: 26px;
+    font-weight: 700;
     margin-bottom: 0.75rem;
 }
 
 .card p {
-    color: rgba(255, 255, 255, 0.65);
+    color: #7a7a9d;
     font-size: 14px;
     line-height: 1.7;
     margin-bottom: 0.5rem;
 }
 
 .card p strong {
-    color: rgba(255, 255, 255, 0.85);
+    color: #1a1a2e;
 }
 
-
+/* Badge email */
 .email-badge {
     display: inline-block;
-    background: rgba(167, 139, 250, 0.15);
-    border: 0.5px solid rgba(167, 139, 250, 0.35);
-    color: #fff;
+    background: #f4f2fc;
+    border: 1px solid #ddd8f5;
+    color: #6C4FD4;
     border-radius: 8px;
     padding: 6px 14px;
     font-size: 13px;
-    font-weight: 500;
+    font-weight: 600;
     margin: 1rem 0;
 }
 
-
+/* Separatore */
 .divider {
     border: none;
-    border-top: 0.5px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid #ddd8f5;
     margin: 1.5rem 0;
 }
 
-
+/* Nota spam */
 .nota-spam {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
-    background: rgba(250, 206, 117, 0.08);
-    border: 0.5px solid rgba(250, 206, 117, 0.2);
+    background: rgba(251, 191, 36, 0.12);
+    border: 1px solid rgba(251, 191, 36, 0.35);
     border-radius: 8px;
     padding: 10px 14px;
     margin-bottom: 1.5rem;
 }
 
 .nota-spam i {
-    color: #fbbf24;
+    color: #d99e0b;
     font-size: 18px;
     flex-shrink: 0;
 }
 
 .nota-spam span {
-    color: rgba(255, 255, 255, 0.6);
+    color: #7a7a9d;
     font-size: 13px;
     text-align: left;
 }
 
 .nota-spam strong {
-    color: rgba(255, 255, 255, 0.85);
+    color: #1a1a2e;
 }
 
+/* Riga "invia di nuovo" */
 .resend-row {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 6px;
     font-size: 13px;
-    color: rgba(255, 255, 255, 0.5);
+    color: #7a7a9d;
 }
 
 .resend-btn {
     background: none;
     border: none;
-    color: #fff;
+    color: #6C4FD4;
     font-size: 13px;
     cursor: pointer;
     text-decoration: none;
     font-weight: 600;
 }
 
-.resend-btn:hover{
+.resend-btn:hover {
     text-decoration: underline;
 }
-
-
 
 /* Conferma registrazione */
 .check-circle {
     width: 80px;
     height: 80px;
     border-radius: 50%;
-    background: rgba(34, 197, 94, 0.15);
+    background: rgba(34, 197, 94, 0.12);
     border: 1.5px solid rgba(34, 197, 94, 0.4);
     display: flex;
     align-items: center;
@@ -178,23 +192,47 @@ body {
 
 .check-circle i {
     font-size: 38px;
-    color: #0def60;
+    color: #22c55e;
 }
 
+/* Bottone principale — stesso stile di .btn dei form */
 .btn-login {
     display: block;
     width: 100%;
-    padding: 12px;
-    background: #ffffff;
-    color: #180d0d;
+    height: 45px;
+    line-height: 45px;
+    background: #6C4FD4;
+    color: #ffffff;
     border: none;
-    border-radius: 50px;
-    font-size: 16px;
+    border-radius: 45px;
+    font-size: 17px;
     font-weight: 600;
+    letter-spacing: 1px;
     cursor: pointer;
     text-decoration: none;
-    transition: background 0.2s ease, transform 0.1s ease;
+    box-shadow: 0 4px 14px rgba(108, 79, 212, 0.30);
+    transition: background-color 0.15s ease, transform 0.1s ease;
 }
 
-.btn-login:hover { background: #e9e3ff; }
+.btn-login:hover { background: #4f38a8; }
 .btn-login:active { transform: scale(0.98); }
+
+/* Animazione in ingresso (come i form) */
+@keyframes appear {
+    from {
+        opacity: 0;
+        transform: scale(0.96) translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+@media (max-width: 480px) {
+    .logo { font-size: 1.5rem; }
+    .card {
+        padding: 2rem 1.5rem;
+    }
+    .card h2 { font-size: 22px; }
+}

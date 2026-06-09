@@ -4,7 +4,7 @@ namespace Model;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
-
+use Model\Studente;
 
 /**
  * Classe che rappresenta un file associato a un materiale.
@@ -96,4 +96,26 @@ class File{
         return $this->contenutoFile;
     }
 
+    public function getBase64(Studente $studente): ?string {
+      $img = $studente->getImmagineProfilo();
+$base64 = null;
+
+if ($img) {
+
+    $contenuto = $img->getContenutoFile();
+
+    // Caso: Doctrine restituisce uno stream
+    if (is_resource($contenuto)) {
+        rewind($contenuto); // fondamentale
+        $contenuto = stream_get_contents($contenuto);
+    }
+
+    // Caso: Doctrine restituisce già una stringa binaria
+    if (is_string($contenuto) && strlen($contenuto) > 0) {
+        $base64 = 'data:' . $img->getMimeTypeFile() . ';base64,' . base64_encode($contenuto);
+    }
+}
+
+return $base64;
+    }
 }

@@ -3,53 +3,128 @@
 namespace Controller;
 
 use Foundation\Persistent\PersistentManager;
-
-use UI\ViewSegnalazione;
-
-use Model\Segnalazione;
+use Foundation\Session;
 use Model\Studente;
 use Model\Materiale;
-use Model\Amministratore;
-use UI\viewModerazioneContenuti;
-use PDOException;
-use RuntimeException;
-use InvalidArgumentException;
+use UI\viewAdmin;
 
 class AdminController {
 
-    public function mostraSegnalazione() : void {
-        $view = new ViewSegnalazione();
-        $idMateriale = $view->getDatiSegnalazione();
-        $dati = $pm->gestisciSegnalazioneMaterialeAdmin($idMateriale);
-        $view->mostraSegnalazione($dati);
-    }
-
-
     /**
-     * Gestisce le segnalazioni accettate, rifiutate e ban dell'utente
+     * Verifica che l'utente sia un amministratore autenticato.
+     *
+     * Se la sessione non contiene 'admin', viene restituito un 404
+     * identico a quello del FrontController, così da non rivelare
+     * l'esistenza dell'area riservata.
+     *
      * @return void
      */
-    public function GestisciSegnalazione() : void {
-        $view = new ViewModerazioneContenuti();
+    private function verificaAccessoAdmin(): void {
+        $session = Session::getInstance(); 
+        $view = new viewAdmin();
+        
+        if ($session->getSessionElement('admin') === null) {
+            $view->mostra404();
+            exit;
+        }
+    }
+
+    /**
+     * Mostra la dashboard admin con la lista di tutti i materiali segnalati.
+     * URL: /Studyroom-platform/index.php/admin/dashboard
+     *
+     * @return void
+     */
+    public function dashboard(): void {
+        $this->verificaAccessoAdmin();
+        
+        $pm   = PersistentManager::getInstance();
+        $view = new viewAdmin();
+        
+        $segnalazioni = $pm->trovaSegnalazioniAdmin(0, 10);
+        
+        $view->mostraDashboardAdmin($segnalazioni);
+    }
+
+    /**
+     * Mostra i dettagli di un materiale segnalato per la gestione.
+     * URL: /Studyroom-platform/index.php/admin/gestisciSegnalazione/{id}
+     *
+     * @param int $id ID del materiale segnalato
+     * @return void
+     */
+    public function gestisciSegnalazione(int $id): void {
+        $this->verificaAccessoAdmin();
+        
+        $pm   = PersistentManager::getInstance();
+        $view = new viewAdmin();
+        
+        $dati = $pm->gestisciSegnalazioneMaterialeAdmin($id);
+        
+        $view->mostraGestisciSegnalazione($dati);
+    }
+
+    /**
+     * Esegue l'azione dell'admin:
+     * - accetta segnalazione (rimuove solo la segnalazione)
+     * - banna l'utente
+     * - elimina il materiale (e tutte le segnalazioni collegate)
+     *
+     * URL: /Studyroom-platform/index.php/admin/eseguiAzione (POST)
+     *
+     * Nota: per eliminare tutte le segnalazioni relative a un materiale
+     * si usa un metodo dedicato nel PersistentManager, evitando un loop
+     * findBy() + delete() che sarebbe meno efficiente.
+     *
+     * @return void
+     */
+    public function eseguiAzione(): void {
+        $this->verificaAccessoAdmin();
+        
+        $view   = new viewAdmin();
         $valore = $view->getDatiSegnalazione();
+        
         $idMaterialeSegnalato = $valore['idMaterialeSegnalato'];
+        $bottonePremuto       = $valore['bottonePremuto'];
+        $idUtente             = $valore['idUtente'];
+
         try {
             $pm = PersistentManager::getInstance();
-            if($valore['bottonePremuto'] === "accetta"){
+
+            // ACCETTA SEGNALAZIONE → elimina solo la segnalazione
+            if ($bottonePremuto === 'accetta') {
                 $pm->eliminaSegnalazioniAdmin($idMaterialeSegnalato);
-                $view->mostraSuccesso('Segnalazione accettata correttamente');
-            }elseif($valore['bottonePremuto'] === "banUtente"){
-                $utente = $pm->find(Utente::class, $idUtente);
-                $stato = $utente->setIsBanned(true);
-                $pm->update($utente);
-                $view->mostraSuccesso('Utente bannato correttamente');
-            }else{
-                $pm->delete($idMateriale);
+                $view->mostraSuccesso();
+
+            // BAN UTENTE
+            } elseif ($bottonePremuto === 'banUtente') {
+                $utente = $pm->find(Studente::class, $idUtente);
+                
+                if ($utente === null) {
+                    throw new \RuntimeException("Studente con ID $idUtente non trovato.");
+                }
+
+                $utente->setIsBanned(true);
+                $pm->update();
+                $view->mostraSuccesso();
+
+            // RIFIUTA SEGNALAZIONE → elimina materiale + segnalazioni
+            } else {
+                
+                $materiale = $pm->find(Materiale::class, $idMaterialeSegnalato);
+                
+                if ($materiale === null) {
+                    throw new \RuntimeException("Materiale con ID $idMaterialeSegnalato non trovato.");
+                }
+                
                 $pm->eliminaSegnalazioniAdmin($idMaterialeSegnalato);
-                $view->mostraSuccesso('Materiale rimosso correttamente');
+                $pm->delete($materiale);
+                
+                $view->mostraSuccesso();
             }
-        }catch (\Exception $e) {
+
+        } catch (\Exception $e) {
             $view->mostraErrore("Errore imprevisto: " . $e->getMessage());
-        }   
+        }
     }
 }

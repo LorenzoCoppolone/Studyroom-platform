@@ -7,6 +7,7 @@ use Foundation\Session;
 use UI\viewUser;
 use Model\Studente;
 use Model\Amministratore;
+use Model\File;
 use UI\viewAdmin;
 use PDOException;
 use Exception;
@@ -16,26 +17,45 @@ use RuntimeException;
 class UserController {
 
     public function __construct() {
-        // Costruttore vuoto, se necessario puoi aggiungere inizializzazioni qui
+        // Costruttore vuoto – previsto per eventuali inizializzazioni future
     }
 
+    public function recuperoPasswordAvvenuto() : void {
+        $view = new viewUser();
+        $view->mostraFormSuccesso("Recupero password avvenuto con successo!");
+    }
+    /**
+     * Mostra la form di login.
+     */
     public function login() : void {
         $view = new viewUser();
         $view->mostraFormLogin();
     }
 
-
+    /**
+     * Mostra la form di registrazione.
+     */
     public function registrazione() : void {
         $view = new viewUser();
         $view->mostraFormRegistrazione();
     }
+
+    /**
+     * Mostra la form per il recupero password.
+     */
+    public function recuperoPassword() : void {
+        $view = new viewUser();
+        $view->mostraFormRecuperoPassword();
+    }
     
     /**
-     * Funzione per gestire la registrazione di un nuovo studente,
-     *  con validazione dei dati inseriti, controllo dell'unicità dell'email, hashing della password
-     * e salvataggio dello studente nel database,
-     * e invio dell'email di verifica
-      * @return void
+     * Gestisce la registrazione di un nuovo studente:
+     * - validazione dati
+     * - controllo unicità email/username
+     * - hashing password
+     * - generazione token verifica email
+     * - salvataggio nel DB
+     * - invio email di conferma
      */
     public function effettuaRegistrazione(){
     try {
@@ -51,15 +71,16 @@ class UserController {
         }
         if (!empty($pm->findOneBy(Studente::class, ['email' => $d['email']]))) {
             throw new \Exception("Email già registrata.");
-        }elseif (!empty($pm->findOneBy(Studente::class, ['username' => $d['username']]))) {
+        }    
+        elseif (!empty($pm->findOneBy(Studente::class, ['username' => $d['username']]))) {
             throw new \Exception("Username già registrato.");
         }
         $passwordHash = password_hash($d['password'], PASSWORD_BCRYPT);
         $studente = new Studente( $d['nome'], $d['cognome'], $d['email'], $passwordHash, $d['username']);
         $token = bin2hex(random_bytes(32));
-        $studente->setToken($token);
+        $studente->setValidationToken($token);
         $scadenzaToken = (new \DateTime('now', new \DateTimeZone('Europe/Rome')))->add(new \DateInterval('PT10M')); // Token valido per 10 minuti
-        $studente->setValidazioneToken($scadenzaToken);
+        $studente->setValidationTokenTime($scadenzaToken);
         $pm->save($studente);
         $view->mostraVerificaEmail($studente->getEmail());
         ob_flush();
@@ -69,59 +90,48 @@ class UserController {
     } catch (\Exception $e) {
         $view->mostraFormErrore("Errore durante la registrazione: " . $e->getMessage());
     }
-    }
-
-
-
+}
 
     /**
-     * Funzione per gestire il login di uno studente,
-     *  con validazione dei dati inseriti,
-     *  controllo dell'esistenza dello studente,
-     *  verifica della password e gestione della sessione
-     * @return void
+     * Gestisce il login di studente o amministratore:
+     * - validazione input
+     * - verifica credenziali
+     * - controllo stato account
+     * - gestione sessione
      */
     public function effettuaLogin() {
         try {
-            $base64 = null; // Inizializza la variabile $base64 ovvero l'immagine di default o null se non c'è un'immagine di profilo
             $session = Session::getInstance();
             $view = new viewUser();
-            $datiLogin = $view->getDatiLogin();
             $pm = PersistentManager::getInstance();
+            $datiLogin = $view->getDatiLogin();
+            $this->rememberMe($datiLogin['email'], $datiLogin['remember']);
             if (empty($datiLogin['email'])) throw new \Exception("L'email è obbligatoria.");
             if (empty($datiLogin['password'])) throw new \Exception("La password è obbligatoria.");
             $studente = $pm->findOneBy(Studente::class, ['email' => $datiLogin['email'] ]);
             $admin = $pm->findOneBy(Amministratore::class, ['email' => $datiLogin['email']]);
             if ($studente === null && $admin === null) {
-                $view->mostraFormErrore("L'email o la password sono errate"); // Mostra di nuovo la form di login
-                exit; // Termina l'esecuzione della funzione
+                throw new \Exception("Credenziali non corrette."); // Lancia un'eccezione per indicare che le credenziali non sono corrette
             }
+            // login Admin
             if($admin !== null && password_verify($datiLogin['password'], $admin->getPassword())){
                 $session->setSessionElement('admin', $admin->getId());
                 $viewAdmin = new viewAdmin();
                 $viewAdmin->mostraDashboardAdmin($pm->trovaSegnalazioniAdmin(0,10));
-                exit;
             }
+            // Controlli studente
             if(!$studente->getIsVerified()) {
-                $view->mostraFormErrore("L'email non è stata verificata, controlla la tua email o riprova a registrarti"); // Mostra di nuovo la form di login
-                exit;
-            }elseif($studente->getIsBanned()) {
-                $view->mostraFormErrore("Il tuo account è stato bannato, contatta l'assistenza per maggiori informazioni"); // Mostra di nuovo la form di login
-                exit;
+                throw new \Exception("Devi verificare la tua email prima di accedere."); // Lancia un'ecezione per indicare che l'email non è verificata
+            }
+            elseif($studente->getIsBanned()) {
+                throw new \Exception("Il tuo account è stato sospeso, contatta l'amministratore per maggiori informazioni."); // Lancia un'ecezione per indicare che l'account è sospeso
             }
             if (!password_verify($datiLogin['password'], $studente->getPassword())) {
                 throw new \Exception("Credenziali non corrette."); // Lancia un'ecezione per indicare che le credenziali non sono corrette
-                exit;
-            }else {
+            }
+            else {
                 $session->setSessionElement('studente', $studente->getId());
-                $file = $studente->getImmagineProfilo();
-            }
-            if ($file && $file->getContenutoFile() !== null) {
-                $contenuto = $file->getContenutoFile();
-            if (is_resource($contenuto)) {
-                $contenuto = stream_get_contents($contenuto);
-                $base64 = 'data:' . $file->getMimeTypeFile() . ';base64,' . base64_encode($contenuto);
-            }
+                $base64 = $studente->getImmagineProfilo() ? $studente->getImmagineProfilo()->getBase64($studente) : null;
             }
             $view->mostraHome($studente->getUsername(), $base64);
         }        
@@ -132,85 +142,101 @@ class UserController {
         }
     }
 
-    public function logoutUtente() : void {
+    /**
+     * Esegue il logout dell'utente e distrugge la sessione.
+     */
+    public function logout() : void {
         $session = Session::getInstance();
-        $session->unsetSessionElement();
+        $idStudente = $session->getSessionElement('studente');
+        if ($idStudente !== null){
+            $pm = PersistentManager::getInstance();
+            $studente = $pm->find(Studente::class, $idStudente);
+            if ($studente !== null && $studente->getRememberToken() !== null) {
+                $studente->setRememberToken(null);
+                $studente->setRememberTokenTime(null);
+                $pm->update($studente);
+                setcookie('remember_me', '', time() - 3600, "/", "", true, true); // Rimuove il cookie
+            }
+        }
+         elseif ($session->getSessionElement('admin') !== null) {
+            $session->unsetSessionElement('admin');
+            $session->destroySession();
+        }
+        $session->unsetSessionElement('studente');
         $session->destroySession(); // Distrugge la sessione, effettivamente facendo il logout
         $view = new viewUser();
-        $view->mostraHome(); // Dopo il logout, mostra la home page non loggata
+        $view->mostraHome(null, null); // Dopo il logout, mostra la home page non loggata
     }
     
     /**
-     * Funzione per gestire la verifica dell'email tramite token 
-     * @return void
+     * Verifica l'email tramite token:
+     * - controllo validità token
+     * - controllo scadenza
+     * - attivazione account
      */
     public function verificaEmail(string $token) : void {
-
         try {
             $view = new viewUser();
             $pm = PersistentManager::getInstance();
-            $studente = $pm->findOneBy(Studente::class, [
-                'token' => $token
-            ]); // Cerco lo studente nel DB per token
-
+            $studente = $pm->findOneBy(Studente::class, ['validationToken' => $token]); // Cerco lo studente nel DB per token
             if ($studente === null) {
                 $view->mostraFormTokenNonValido(); // Mostra la form che informa l'utente che il token non è valido
                 return; // Termina l'esecuzione della funzione
             }
             $now = new \DateTime('now', new \DateTimeZone('Europe/Rome')); // Ottieni la data e ora attuale
-
-            if ($now > $studente->getValidazioneToken() || $studente->getToken() === null) {
+            if ($now > $studente->getValidationTokenTime() || $studente->getValidationTokenTime() === null) {
                 $pm->delete($studente); // Elimina lo studente dal database se il token è scaduto
                 $view->mostraFormTokenScaduto(); // Mostra la form che informa l'utente che il token è scaduto
                 return; // Termina l'esecuzione della funzione
             }
-
-            $studente->setToken(null); // Rimuovi il token dallo studente
-            $studente->setValidazioneToken(null); // Rimuovi la scadenza del token
+            $studente->setValidationToken(null); // Rimuovi il token dallo studente
+            $studente->setValidationTokenTime(null); // Rimuovi la scadenza del token
             $studente->setIsVerified(true); // Imposta l'email come verificata
             $pm->update($studente); // Salva le modifiche al database
-            $view->mostraConvalidaEmail(); // Mostra la form di conferma che l'email è stata verificata con successo
-
         } catch (PDOException $e) {
            $view->mostraFormErorre("Errore durante la verifica dell'email: " . $e->getMessage());
-        
-        } catch (Exception $e) {
-            $view->mostraFormErorre("Errore durante la verifica dell'email: " . $e->getMessage());
         }
     }
-
+ 
     public function cercaRecensioniUtente() : void {
         $view = new viewUser();
+        $pm = PersistentManager::getInstance();
+
         $page = $view->getDatiPaginazione(); // Ottieni la pagina corrente
         $page = max(1, $page); // Assicurati che la pagina sia almeno 1
         $limit = 10; // Numero di elementi per pagina
         $offset = $this->paginazione($page, $limit); // Calcola l'offset per la query
+        
         $session = Session::getInstance(); // Ottieni l'istanza della sessione
         $idStudenteLoggato = $session->getSessionElement('studente');
-        $pm = PersistentManager::getInstance();
+        
         $recensioni = $pm->trovaRecensioniPerUtente($idStudenteLoggato, $offset, $limit);
         $numeroRecensioni = $pm->count(Recensione::class, ['Studente' => $idStudenteLoggato]);
         $pagineTotali = ceil($numeroRecensioni / $limit);
+        
         $view->mostraRecensioniUtente($recensioni, $pagineTotali, $page);
     }
 
     /**
-     * Funzione per mostrare il profilo dell'utente, 
-     * con le sue recensioni, preferiti, download e materiale caricato, 
-     * con paginazione
+     * Mostra il profilo dello studente loggato.
      */
     public function profiloStudente() : void {
         try{
         $view = new viewUser();
         $session = Session::getInstance(); // Ottieni l'istanza della sessione
-        $idStudenteLoggato = $session->getSessionElement('studente');
         $pm = PersistentManager::getInstance();
-        $studente = $pm->findOneById(Studente::class, $idStudenteLoggato);
-        $view->mostraModificaProfilo($studente->getNome(), 
-        $studente->getCognome(), 
-        $studente->getEmail(), 
-        $studente->getUsername(), 
-        $studente->getImmagineProfilo()?? null);
+        
+        $idStudenteLoggato = $session->getSessionElement('studente');  
+        $studente = $pm->find(Studente::class, $idStudenteLoggato); // Trova lo studente loggato
+        
+        $view->mostraProfiloStudente([
+            'nome' => $studente->getNome(),
+            'cognome' => $studente->getCognome(),
+            'email' => $studente->getEmail(),
+            'username' => $studente->getUsername(),
+            'foto' => $studente->getImmagineProfilo()->getBase64($studente)
+        ]); // Mostra il profilo dello studente con i suoi dati,
+        
         } catch (PDOException $e) {
             $view->mostraFormErrore("Errore durante la visualizzazione del profilo: " . $e->getMessage());
         } catch (Exception $e) {
@@ -218,55 +244,283 @@ class UserController {
         }
     }
 
+    /**
+     * Mostra la form per modificare il profilo dello studente.
+     */
     public function modificaProfiloStudente() : void {
+       try{
         $view = new viewUser();
-        $modifiche = $view->getDatiModifiche(); // Ottieni i dati delle modifiche da apportare al profilo, se presenti
-         try {
-            $pm = PersistentManager::getInstance();
+        $session = Session::getInstance(); // Ottieni l'istanza della sessione
+        $pm = PersistentManager::getInstance();
+        
+        $idStudenteLoggato = $session->getSessionElement('studente');
+        $studente = $pm->find(Studente::class, $idStudenteLoggato); // Trova lo studente loggato
+        
+        $view->mostraModificaProfilo([
+            "nome" => $studente->getNome(),
+            "cognome" => $studente->getCognome(),
+            "username" => $studente->getUsername(),
+            "foto" => $studente->getImmagineProfilo()->getBase64($studente)
+        ]);
+
+        } catch (Exception $e) {
+            $view->mostraFormErrore("Errore durante la modifica del profilo: " . $e->getMessage());
+        } catch (PDOException $e) {
+            $view->mostraFormErrore("Errore durante la modifica del profilo: " . $e->getMessage());
+        }
+    }
+
+    /**
+     * Aggiorna i dati del profilo studente:
+     * - nome, cognome, username
+     * - immagine profilo (se caricata)
+     */
+    public function aggiornaProfiloStudente() : void {
+        $view = new viewUser();
+        
+        try {
             $session = Session::getInstance();
-            $idStudenteLoggato = $session->getSessionElement('studente');
-            $studente = $pm->findOneById(Studente::class, $idStudenteLoggato);
-            if ($studente === null) {
-                $view->mostraFormErrore("Utente non trovato");
+            $pm = PersistentManager::getInstance();
+
+            $id = $session->getSessionElement('studente');
+
+            if ($id === null) {
+                $view->mostraFormErrore("Devi effettuare l'accesso per modificare il profilo.");
                 return;
             }
-            $studente->setNome($modifiche['nome']?? $studente->getNome());
-            $studente->setCognome($modifiche['cognome']?? $studente->getCognome());
-            $studente->setEmail($modifiche['email']?? $studente->getEmail());
-            $studente->setUsername($modifiche['username']?? $studente->getUsername());
-            $studente->setPassword($modifiche['password']?? $studente->getPassword());
-            $immagine = new File($modifiche['immagine'][0], $modifiche['immagine'][1], $modifiche['immagine'][2], $modifiche['immagine'][3], $modifiche['immagine'][4]);
-            $studente->setImmagineProfilo($immagine ?? $studente->getImmagineProfilo());
+            
+            $studente = $pm->find(Studente::class, $id);
+            
+            if ($studente === null) {
+                $view->mostraFormErrore("Utente non trovato.");
+                exit;
+            }
+            
+            $dati = $view->getDatiModificaProfilo();
+            
+            // Aggiorna i campi testuali solo se valorizzati, altrimenti mantieni quelli attuali
+            if (!empty($dati['nome']))     { $studente->setNome($dati['nome']); }
+            if (!empty($dati['cognome']))  { $studente->setCognome($dati['cognome']); }
+            if (!empty($dati['username'])) { $studente->setUsername($dati['username']); }
+            
+            // Aggiorna la foto profilo solo se è stato caricato un nuovo file senza errori
+            $immagine = $dati['immagine'];
+            
+            if (!empty($immagine[1]) && (int)$immagine[2] === UPLOAD_ERR_OK) {
+                $contenuto   = file_get_contents($immagine[1]);
+                $dimensione  = (float)($immagine[3] / (1024 * 1024)); // dimensione in MB
+                $mimeType    = $immagine[4];
+                
+                $studente->setImmagineProfilo(new File($contenuto, $mimeType, $dimensione));
+            }
+            
             $pm->update($studente);
-            $view->mostraFormSuccessoProfilo();
-        } catch (Exception $e) {
-            $view->mostraFormErrore("Errore durante la modifica del profilo: " . $e->getMessage());
+            
+            $view->mostraFormSuccesso("Profilo aggiornato con successo.");
+        
         } catch (PDOException $e) {
-            $view->mostraFormErrore("Errore durante la modifica del profilo: " . $e->getMessage());
+            $view->mostraFormErrore("Errore durante l'aggiornamento del profilo: " . $e->getMessage());
+        } catch (Exception $e) {
+            $view->mostraFormErrore("Errore durante l'aggiornamento del profilo: " . $e->getMessage());
         }
     }
+    
     /**
-     * Funzione per inviare l'email di verifica al momento della registrazione, con il token di conferma email
-     * @param studente $studente, 
-     * @param string $token
-     * @return void
+     * Invia email di verifica registrazione.
      */
-    public function inviaEmailVerifica(studente $studente, string $token) {
-       
+    public function inviaEmailVerifica(studente $studente, string $token): void {
         try {
             require __DIR__ . '/../../config/mailer-bootstrap.php';
-            $studenteEmail = $studente->getEmail();
-            $mail->addAddress($studenteEmail); // Aggiungi il destinatario
+            $mail->addAddress ($studente->getEmail());
             $mail->Subject = 'Conferma la tua registrazione a StudyRoom';
             $link = "https://Studyroom-platform.test/User/verificaEmail/" . $token;
-
-            $mail->Body = "Ciao {$studente->getNome()},\n\n" .
+            $mail->Body =
+              "Ciao {$studente->getNome()},\n\n" .
               "Per confermare la tua registrazione a StudyRoom, clicca sul link seguente:\n\n" .
               $link . "\n\n" .
               "Il link sarà valido per 10 minuti.\n\nGrazie!";
-            $mail->send();
+              $mail->send();
         } catch (Exception $e) {
             echo "Errore nell'invio dell'email: {$mail->ErrorInfo}";
         }
+    }
+
+    /**
+     * Gestisce la richiesta di recupero password:
+     * - verifica email
+     * - genera token
+     * - invia email con link di reset
+     */
+    public function effettuaRecuperoPassword(): void { 
+        try {
+            $view = new viewUser();
+            $pm = PersistentManager::getInstance();
+            $email = $view->getEmailRecuperoPassword();
+            if (empty($email)) {
+                throw new Exception("Inserisci un indirizzo email.");
+            }
+            $studente = $pm->findOneBy(
+                Studente::class,
+            [   'email' => $email]
+            );
+            if ($studente === null) {
+               throw new Exception("Nessun account trovato con questa email.");
+            }
+            $token = bin2hex(random_bytes(32));
+            $studente->setValidationToken($token);
+            $scadenzaToken = (new \DateTime('now',new \DateTimeZone('Europe/Rome')))->add(new \DateInterval('PT10M'));
+            $studente->setValidationTokenTime($scadenzaToken);
+            $pm->update($studente);
+            $view->mostraVerificaEmail($email);
+            ob_flush();
+            flush();
+            $this->inviaEmailRecuperoPassword($studente, $token);
+
+        } catch (Exception $e) {
+            $view = new viewUser();
+            $view->mostraFormErrore("Errore durante il recupero password: " . $e->getMessage());
+        }
+    }
+
+    /**
+     * Invia email con link per reimpostare la password.
+     */
+    public function inviaEmailRecuperoPassword(Studente $studente, string $token): void {
+        try {
+            $view = new viewUser();
+            require __DIR__ . '/../../config/mailer-bootstrap.php';
+            $mail->addAddress($studente ? $studente->getEmail() : $view->getEmailRecuperoPassword());
+            $mail->Subject ='Recupero password StudyRoom';
+            $link ="https://Studyroom-platform.test/User/reimpostaPassword/" . $token;
+            $nome = $studente ? $studente->getNome() : 'Utente';
+            $mail->Body =
+                "Ciao {$nome},\n\n" .
+                "Hai richiesto il recupero della password.\n\n" .
+                "Clicca sul seguente link:\n\n" .
+                $link .
+                "\n\n" .
+                "Il link è valido per 10 minuti.\n\n" .
+                "Se non hai richiesto tu il recupero password, ignora questa email.\n\n" .
+                "Grazie!";
+            $mail->send();
+        } catch (Exception $e) {
+            echo "Errore nell'invio email: " . $mail->ErrorInfo;
+        }
+    }
+
+    /**
+     * Mostra la form per impostare una nuova password tramite token.
+     */
+    public function reimpostaPassword(string $token): void {
+        try {
+            $view = new viewUser();
+            $pm = PersistentManager::getInstance();
+            $studente = $pm->findOneBy(Studente::class,['validationToken' => $token]);
+            if ($studente === null) {
+                throw new Exception("Link di recupero non valido.");
+            }
+            $now = new \DateTime('now', new \DateTimeZone('Europe/Rome'));
+            if ($studente->getValidationTokenTime() === null || $now > $studente->getValidationTokenTime()) {
+                throw new Exception("Il link di recupero è scaduto.");
+            }   
+            $view->mostraFormReimpostaPassword($token);
+        }catch (Exception $e) {
+            $view->mostraFormErrore("Errore: " . $e->getMessage());
+         }
+    }
+
+    /**
+     * Salva la nuova password:
+     * - validazione input
+     * - verifica token
+     * - aggiornamento password
+     * - invalidazione token
+     */
+    public function salvaNuovaPassword(): void{
+    $view = new viewUser();
+        try {
+            $pm = PersistentManager::getInstance();
+            $d = $view->getDatiNuovaPassword();
+            $token   = $d['token'];
+            $pass    = $d['password'];
+            $confirm = $d['confirm'];
+            if (empty($token)) {
+                throw new Exception("Token mancante.");
+            }
+            if (empty($pass) || empty($confirm)) {
+                throw new Exception("Compila tutti i campi.");
+            }
+            if ($pass !== $confirm) {
+                throw new Exception("Le password non coincidono.");
+            }
+            if (strlen($pass) < 8) {
+                throw new Exception("La password deve contenere almeno 8 caratteri.");
+            }
+            $studente = $pm->findOneBy(Studente::class,['validationToken' => $token]);
+            if ($studente === null) {
+                throw new Exception("Link non valido.");
+            }
+            $now = new \DateTime('now', new \DateTimeZone('Europe/Rome'));
+            if ($studente->getValidationTokenTime() === null || $now > $studente->getValidationTokenTime()) {
+                throw new Exception("Il link è scaduto.");
+            }
+            $passwordHash = password_hash($pass, PASSWORD_BCRYPT);
+            $studente->setPassword($passwordHash);
+            $studente->setValidationToken(null);
+            $studente->setValidationTokenTime(null);
+            $pm->update($studente);
+            $view->mostraFormSuccesso("Password reimpostata con successo.");
+        } catch (Exception $e) {
+            $view->mostraFormErrore("Errore: " . $e->getMessage());
+        }
+    }
+
+    private function rememberMe(string $email, ?bool $remember): void {
+        if($remember !== true) {
+            return; // L'utente non ha selezionato "Remember Me", quindi non facciamo nulla
+        }
+        $pm = PersistentManager::getInstance();
+        $studente = $pm->findOneBy(Studente::class, ['email' => $email]);
+        if ($studente === null) {
+            return;
+        }
+        $token = bin2hex(random_bytes(32));
+        setcookie('remember_me', $token, time() + (60 * 60 * 24 * 30), "/", "", true, true); // Cookie valido per 30 giorni
+        $hashToken = hash('sha256', $token);
+        $studente->setRememberToken($hashToken);
+        $studente->setRememberTokenTime((new \DateTime('now', new \DateTimeZone('Europe/Rome')))->modify('+30 days'));// Scadenza token in linea con il cookie
+        $pm->update($studente);
+    }
+    public function emailVerifica() : void {
+         try {
+            $view = new viewUser();
+            $email = $view->getEmailRecuperoPassword();
+            $pm = PersistentManager::getInstance();
+            $studente = $pm->findOneBy(Studente::class, ['email' => $email]);
+            require __DIR__ . '/../../config/mailer-bootstrap.php';
+            $mail->addAddress($studente ? $studente->getEmail() : $view->getEmailRecuperoPassword());
+            $pm = PersistentManager::getInstance();
+            $studente = $pm->findOneBy(Studente::class, ['email' => $email]);
+            $token = $studente->getValidationToken();
+            $mail->Subject ='Recupero password StudyRoom';
+            $link ="https://Studyroom-platform.test/User/reimpostaPassword/" . $token;
+            $nome = $studente ? $studente->getNome() : 'Utente';
+            $mail->Body =
+                "Ciao {$nome},\n\n" .
+                "Hai richiesto il recupero della password.\n\n" .
+                "Clicca sul seguente link:\n\n" .
+                $link .
+                "\n\n" .
+                "Il link è valido per 10 minuti.\n\n" .
+                "Se non hai richiesto tu il recupero password, ignora questa email.\n\n" .
+                "Grazie!";
+            $view->mostraVerificaEmail($email);
+            ob_flush();
+            flush();
+            $mail->send();
+        } catch (Exception $e) {
+            echo "Errore nell'invio email: " . $mail->ErrorInfo;
+        }
+       
     }
 }

@@ -9,9 +9,9 @@ use Model\Download;
 use Model\Recensione;
 
 class MaterialeRepository {
-    private EntityManagerInterface $entityManager;
+    private EntityManagerInterface $em;
     public function __construct(EntityManagerInterface $entityManager) {
-        $this->entityManager = $entityManager;
+        $this->em = $entityManager;
     }
 
     /**
@@ -90,6 +90,4 @@ class MaterialeRepository {
         $result = $qb->getQuery()->getArrayResult();
         return $result;
     }
-
-    
 }

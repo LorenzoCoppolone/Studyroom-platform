@@ -1,24 +1,46 @@
-.profile-container {
-    display: flex;
-    gap: 4rem;
-    padding: 4rem 6rem;
+/* =============================================
+   STUDYROOM — styleProfiloUtente.css
+   Card unica centrata, coerente con la home
+   (usa le variabili/font definiti in styleLayout.css)
+   ============================================= */
+
+main {
+    flex: 1;
+    width: 100%;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem;
 }
 
-.profile-left {
-    width: 700px;
-    background: white;
-    padding: 2rem;
-    border-radius: 16px;
+/* Card contenitore — stessa estetica delle card della home */
+.profile-card {
+    background: var(--color-card);
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius-box);
     box-shadow: var(--shadow-soft);
+    padding: 2.5rem;
+}
+
+/* =============================================
+   HEADER — foto + dati + Modifica
+   ============================================= */
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 1.75rem;
 }
 
 .profile-photo {
-    width: 140px;
-    height: 140px;
+    flex: 0 0 120px;
+    width: 120px;
+    height: 120px;
     border-radius: 50%;
     overflow: hidden;
-    margin: 0 auto 1rem auto;
     border: 3px solid var(--color-primary);
+    background: var(--color-primary-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .profile-photo img {
@@ -27,60 +49,188 @@
     object-fit: cover;
 }
 
-.change-photo {
-    text-align: center;
-    margin-top: 0.5rem;
-    font-size: 1.3rem;
+.profile-photo i {
+    font-size: 4rem;
     color: var(--color-primary);
-    cursor: pointer;
 }
 
-.profile-info {
-    margin-top: 2rem;
-    font-size: 2rem;
+.profile-identity {
+    flex: 1;
+    min-width: 0;
 }
 
-.profile-info p {
-    margin-bottom: 0.8rem;
+.profile-name {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: var(--color-primary);
+    margin-bottom: 0.6rem;
 }
 
-.btn-modifica,
-.btn-logout {
-    display: block;
-    width: 100%;
+.profile-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    color: var(--color-text-muted);
+    margin-bottom: 0.3rem;
+    word-break: break-word;
+}
+
+.profile-meta i {
+    width: 16px;
     text-align: center;
-    padding: 0.8rem;
-    margin-top: 1.5rem;
-    border-radius: 10px;
-    font-weight: bold;
-    font-size: 2rem;
+    color: var(--color-primary);
+}
+
+/* =============================================
+   BOTTONI — base condivisa
+   ============================================= */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: var(--radius-pill);
+    padding: 0.6rem 1.4rem;
+    cursor: pointer;
+
+    transition: background-color 0.15s ease, color 0.15s ease,
+                border-color 0.15s ease, transform 0.1s ease;
 }
 
 .btn-modifica {
+    margin-top: 0.9rem;
+}
+
+.btn-primary {
     background: var(--color-primary);
-    color: white;
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background: var(--color-primary-dark);
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background: var(--color-primary-light);
+    color: var(--color-primary);
+    border: 1.5px solid var(--color-border);
+}
+
+.btn-secondary:hover {
+    background: var(--color-primary);
+    color: #fff;
+    border-color: var(--color-primary);
+    transform: translateY(-2px);
 }
 
 .btn-logout {
-    background: #d9534f;
-    color: white;
+    background: var(--color-accent);
+    color: #fff;
 }
 
-.profile-right {
-    flex: 1;
+.btn-logout:hover {
+    background: #e85555;
+    transform: translateY(-2px);
+}
+
+/* =============================================
+   DIVISORE
+   ============================================= */
+.profile-divider {
+    border: none;
+    border-top: 1px solid var(--color-border);
+    margin: 1.75rem 0;
+}
+
+/* =============================================
+   SEZIONI — griglia di link compatti
+   ============================================= */
+.profile-sections {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.section-link {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 1rem 1.25rem;
+
+    background: var(--color-card);
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius-box);
+    box-shadow: var(--shadow-soft);
+
+    font-family: var(--font-body);
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--color-primary);
+
+    transition: background-color 0.15s ease, color 0.15s ease,
+                border-color 0.15s ease, transform 0.15s ease;
+}
+
+.section-link i {
+    font-size: 1.15rem;
+}
+
+.section-link:hover {
+    background: var(--color-primary);
+    color: #fff;
+    border-color: var(--color-primary);
+    transform: translateY(-2px);
+}
+
+/* =============================================
+   AZIONI ACCOUNT — in fondo, a tutta larghezza
+   ============================================= */
+.profile-account-actions {
     display: flex;
     flex-direction: column;
-    font-size: 2.2rem;
-    gap: 6.5rem;
+    gap: 0.75rem;
 }
 
-.profile-section-btn {
-    background: var(--color-primary);
-    color: white;
-    padding: 1.5rem;
-    border-radius: 16px;
-    font-size: 2rem;
-    text-align: center;
-    font-weight: bold;
-    box-shadow: var(--shadow-soft);
+.profile-account-actions .btn {
+    width: 100%;
+}
+
+/* =============================================
+   RESPONSIVE
+   ============================================= */
+@media (max-width: 640px) {
+
+    .profile-card {
+        padding: 1.75rem 1.5rem;
+    }
+
+    .profile-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+
+    .profile-meta {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+
+    main {
+        padding: 1.5rem 1rem;
+    }
+
+    .profile-sections {
+        grid-template-columns: 1fr;
+    }
 }

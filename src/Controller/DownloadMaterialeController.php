@@ -11,54 +11,58 @@ use InvalidArgumentException;
 use Model\Download;
 use Model\Materiale;
 use Model\Studente;
+
 /**
  * Gestisce il download di un materiale 
  */
 class DowloadMaterialeController {
 
     /**
-     * Esegue il download di un materiale
+     * Esegue il download di un materiale.
+     *
      * @return void
+     * @throws InvalidArgumentException Se l'utente non è loggato.
+     * @throws RuntimeException Se si verificano errori durante il processo.
      */
     public function eseguiDownload() : void {
 
-        // Istanzio la view
         $view = new viewDownloadMateriale();
 
-        // Ottengo l'id del materiale 
+        // ID materiale richiesto
         $idMateriale = $view->getIdMateriale();
 
-        // Recupero l'id utente dalla Session
+        // ID utente loggato
         $idUtente = Session::getInstance()->getIdUtenteLoggato();
 
-        // Validazione
+        // Validazione utente
         if (empty($utente)) {
             throw new InvalidArgumentException("Utente non loggato!");
         }
 
-        // Logica download
         try {
             $pm = PersistentManager::getInstance();
 
-            // Controlo se l'utente ha gia effetuato il download di quel materiale
+            // Controllo se l'utente ha già scaricato questo materiale
             $risultati = $pm->findBy(Download::class, [
                 'studente'  => $idUtente,
                 'materiale' => $idMateriale
             ]);
+
             $downloadEsistente = $risultati[0] ?? null;
 
+            // Se è la prima volta, registro il download
             if ($downloadEsistente === null) {
-                // Prima volta: creo il record 
+
                 $materiale = $pm->find(Materiale::class, $idMateriale);
                 $studente = $pm->find(Studente::class, $idUtente);
 
-                // Creo il nuovo oggetto 
                 $nuovoDownload = new Download($materiale, $studente);
 
-                // Salvo l'oggetto nel DB
                 $pm->save($nuovoDownload);
             }
+
             $view->mostraFormSuccesso("Download effettuato con successo!");
+        
         } catch(PDOException $e) {
             throw new RuntimeException("Errore durante il download: " . $e->getMessage());
         } catch (\Exception $e) {

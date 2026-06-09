@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.8.0, created on 2026-05-27 21:43:47
+/* Smarty version 5.8.0, created on 2026-06-06 17:09:40
   from 'file:error.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.8.0',
-  'unifunc' => 'content_6a176593234863_57864365',
+  'unifunc' => 'content_6a2454540447b5_19451990',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '521ef1275f667d143ba653ac44fc20a5bdbbed14' => 
     array (
       0 => 'error.tpl',
-      1 => 1779917875,
+      1 => 1780759473,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6a176593234863_57864365 (\Smarty\Template $_smarty_tpl) {
+function content_6a2454540447b5_19451990 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\studyroom-platform\\templates';
 ?><!DOCTYPE html>
 <html lang="it">
@@ -28,32 +28,36 @@ $_smarty_current_dir = 'C:\\laragon\\www\\studyroom-platform\\templates';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Errore - StudyRoom</title>
+
     <link rel="stylesheet" href="/../CSS/styleResult.css">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 
 <body>
 
+    <!-- LOGO IN ALTO CENTRATO -->
     <header class="result-header">
-        <h1 class="logo">StudyRoom</h1>
+        <a href="/Home/dashboard" class="logo">StudyRoom</a>
     </header>
 
-    <main class="result-container">
+    <!-- CONTENITORE CENTRALE -->
+    <main>
+        <div class="result-container">
 
-        <div class="icon error">
-            <i class="fa-solid fa-circle-xmark"></i>
+            <div class="icon error">
+                <i class="fa-solid fa-circle-xmark"></i>
+            </div>
+
+            <h2 class="result-title">
+                <?php echo $_smarty_tpl->getValue('errore');?>
+
+            </h2>
+
+            <div class="result-buttons">
+                <a href="/Home/dashboard" class="btn-home">Torna alla home</a>
+            </div>
+
         </div>
-
-        <h2 class="result-title">
-            <?php echo $_smarty_tpl->getValue('errore');?>
- 
-        </h2>
-
-        <div class="result-buttons">
-            <a href="/Home/dashboard" class="btn-home">Torna alla home</a>
-        </div>
-
     </main>
 
 </body>

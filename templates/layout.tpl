@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="/../img/studyroom_favicon.ico">
 
     <title>{block name="title"}StudyRoom{/block}</title>
 
@@ -25,7 +26,7 @@
     <!-- NAVBAR -->
     <header class="navbar">
 
-        <a href="" class="logo">StudyRoom</a>
+        <a href="/Home/dashboard" class="logo">StudyRoom</a>
 
         <form class="navbar-search" method="GET" action="/RicercaMateriale/cerca">
             <input type="text" name="titolo" placeholder="Cerca..." maxlength="100" required>
@@ -37,32 +38,28 @@
 
         <nav class="navbar-links">
 
-            <a href="/RicercaMateriali/popolari" class="nav-link nav-esami">
+            <a href="/RicercaMateriale/popolari" class="nav-link nav-esami">
                 Prepara i tuoi esami
             </a>
 
             <div class="nav-auth">
 
-                {if $utente}
+                {if $studente}
 
                     <!-- FOTO PROFILO -->
-                    <div class="nav-user-avatar">
-                    {if isset($foto) && $foto != ''}
-                        <img src="{$foto}" alt="Foto profilo">
-                    {else}
-                        <img src="/assets/img/default-profile.png" alt="Profilo di default">
-                    {/if}
-                    </div>
-
-                    <!-- NOME E COGNOME -->
-                    <span class="nav-user-name">
-                        {$utente}
-                    </span>
-
-                    <!-- LOGOUT -->
-                    <a href="/User/logout" class="nav-link">
-                        Esci
+                    <a href="/User/profiloStudente" class="nav-user-avatar">
+                        {if $base64}
+                            <img src="{$base64}" alt="Foto profilo">
+                        {else}
+                            <i class="fa fa-circle-user"></i>
+                        {/if}
                     </a>
+
+                    <!-- USERNAME -->
+                    <a href="/User/profiloStudente" class="nav-user-name">{$studente}</a>
+
+
+                    
 
                 {else}
 
@@ -108,15 +105,13 @@
 
         <div class="footer-center">
 
-            <a href="" class="footer-brand">
-                StudyRoom
-            </a>
+            <a href="/Home/dashboard" class="footer-brand">StudyRoom</a>
 
             <nav class="footer-links">
-                <a href="chi-siamo.php">Chi siamo</a>
-                <a href="supporto.php">Supporto</a>
-                <a href="faq.php">FAQ</a>
-                <a href="termini.php">Termini di utilizzo</a>
+                <a href="/Info/chiSiamo">Chi siamo</a>
+                <a href="/Info/supporto">Supporto</a>
+                <a href="/Info/faq">FAQ</a>
+                <a href="/Info/termini">Termini di utilizzo</a>
             </nav>
 
         </div>

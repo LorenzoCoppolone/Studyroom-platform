@@ -37,7 +37,7 @@
 
             <a href="/CaricaMateriale/carica" class="upload-box">
                 <i class="fa fa-cloud-arrow-up upload-icon"></i>
-                <p class="upload-label"><strong>Trascina qui il tuo file o clicca</strong></p>
+                <p class="upload-label"><strong>Carica File</strong></p>
                 <p class="upload-hint">(Appunti, Esami passati, esercizi, ecc)</p>
             </a>
 

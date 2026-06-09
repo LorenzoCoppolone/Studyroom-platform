@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.8.0, created on 2026-05-26 17:03:11
+/* Smarty version 5.8.0, created on 2026-06-05 17:28:02
   from 'file:Error.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.8.0',
-  'unifunc' => 'content_6a15d24f6b9309_26765604',
+  'unifunc' => 'content_6a230722e30478_09180960',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'db4ed7c91f1b91a2f79a7f3a0d7bfc51b367b584' => 
     array (
       0 => 'Error.tpl',
-      1 => 1779814987,
+      1 => 1780668032,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6a15d24f6b9309_26765604 (\Smarty\Template $_smarty_tpl) {
+function content_6a230722e30478_09180960 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\Studyroom-platform\\templates';
 ?><!DOCTYPE html>
 <html lang="it">
@@ -28,7 +28,7 @@ $_smarty_current_dir = 'C:\\laragon\\www\\Studyroom-platform\\templates';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Errore - StudyRoom</title>
-    <link rel="stylesheet" href="./CSS/styleResult.css">
+    <link rel="stylesheet" href="/../CSS/styleResult.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
@@ -36,7 +36,7 @@ $_smarty_current_dir = 'C:\\laragon\\www\\Studyroom-platform\\templates';
 <body>
 
     <header class="result-header">
-        <h1 class="logo">StudyRoom</h1>
+        <a href="/Home/dashboard" class="logo">StudyRoom</a>
     </header>
 
     <main class="result-container">
@@ -46,14 +46,12 @@ $_smarty_current_dir = 'C:\\laragon\\www\\Studyroom-platform\\templates';
         </div>
 
         <h2 class="result-title">
-            <?php echo '<?'; ?>
-= htmlspecialchars($error ?? "Si è verificato un errore imprevisto.") <?php echo '?>'; ?>
-
+            <?php echo $_smarty_tpl->getValue('errore');?>
+ 
         </h2>
 
         <div class="result-buttons">
-            <a href="home.html" class="btn-home">Torna alla home</a>
-            <a href="carica.html" class="btn-retry">Riprova</a>
+            <a href="/Home/dashboard" class="btn-home">Torna alla home</a>
         </div>
 
     </main>

@@ -13,13 +13,14 @@ class PersistentManager {
     private AdminRepository $adminRepository;
     private MaterialeRepository $materialeRepository;
     private UtenteRepository $utenteRepository;
-
+    private InsegnamentoRepository $insegnamentoRepository;
     // Costruttore privato (Singleton)
     private function __construct(EntityManagerInterface $entityManager) {
         $this->em = $entityManager;
         $this->adminRepository = new AdminRepository($entityManager);
         $this->materialeRepository = new MaterialeRepository($entityManager);
         $this->utenteRepository = new UtenteRepository($entityManager);
+        $this->insegnamentoRepository = new InsegnamentoRepository($entityManager);
     }
 
     // Ottieni l'istanza unica
@@ -64,7 +65,7 @@ class PersistentManager {
      * @param id ID dell'oggetto da cercare
      * @return object|null Restituisce l'oggetto trovato nel DB
      */
-    public function find(string $class, int $id): ?object {
+    public function find(string $class, $id): ?object {
         return $this->em->find($class, $id);
     }
 
@@ -101,6 +102,17 @@ class PersistentManager {
     public function findOneBy(string $class, array $criteria): ?object {
         return $this->em->getRepository($class)->findOneBy($criteria);
     }
+
+    public function countAll(string $class, array $criteria = []): int {
+    $qb = $this->em->createQueryBuilder();
+    $qb->select('COUNT(e)')
+       ->from($class, 'e');
+    foreach ($criteria as $field => $value) {
+        $qb->andWhere("e.$field LIKE :$field")->setParameter($field, $value);
+    }
+    return (int) $qb->getQuery()->getSingleScalarResult();
+}
+
 
     // Query custom
 
@@ -148,5 +160,13 @@ class PersistentManager {
 
     public function eliminaSegnalazioniAdmin(int $id_materiale): void {
         $this->adminRepository->eliminaSegnalazioni($id_materiale);
+    }
+
+    public function trovaInsegnamenti(): array {
+        return $this->insegnamentoRepository->trovaInsegnamenti();
+    }
+
+    public function trovaCorsiDiLaurea(): array {
+        return $this->insegnamentoRepository->trovaCorsiDiLaurea();
     }
 }
