@@ -1,11 +1,11 @@
 <?php
-/* Smarty version 5.8.0, created on 2026-06-09 12:35:35
+/* Smarty version 5.8.0, created on 2026-06-09 15:18:47
   from 'file:modificaProfilo.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.8.0',
-  'unifunc' => 'content_6a28089745d3c1_55049727',
+  'unifunc' => 'content_6a282ed79d2546_48643588',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
@@ -20,30 +20,30 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6a28089745d3c1_55049727 (\Smarty\Template $_smarty_tpl) {
+function content_6a282ed79d2546_48643588 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\studyroom-platform\\templates';
 $_smarty_tpl->getInheritance()->init($_smarty_tpl, true);
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_21059658626a28089743d949_11947772', "title");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_2242352166a282ed79aa7f2_97197667', "title");
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_20816137716a2808974445c7_98584570', "pageCSS");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_12103039326a282ed79b3bd3_20962585', "pageCSS");
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_3425245506a280897445799_44997706', "content");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_13546002936a282ed79b4e94_19904393', "content");
 ?>
 
 <?php $_smarty_tpl->getInheritance()->endChild($_smarty_tpl, "layout.tpl", $_smarty_current_dir);
 }
 /* {block "title"} */
-class Block_21059658626a28089743d949_11947772 extends \Smarty\Runtime\Block
+class Block_2242352166a282ed79aa7f2_97197667 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\studyroom-platform\\templates';
@@ -53,7 +53,7 @@ Modifica Profilo - StudyRoom<?php
 }
 /* {/block "title"} */
 /* {block "pageCSS"} */
-class Block_20816137716a2808974445c7_98584570 extends \Smarty\Runtime\Block
+class Block_12103039326a282ed79b3bd3_20962585 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\studyroom-platform\\templates';
@@ -65,7 +65,7 @@ $_smarty_current_dir = 'C:\\laragon\\www\\studyroom-platform\\templates';
 }
 /* {/block "pageCSS"} */
 /* {block "content"} */
-class Block_3425245506a280897445799_44997706 extends \Smarty\Runtime\Block
+class Block_13546002936a282ed79b4e94_19904393 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\studyroom-platform\\templates';

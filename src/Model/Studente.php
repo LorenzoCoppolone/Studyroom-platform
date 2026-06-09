@@ -22,11 +22,6 @@ class Studente extends Utente {
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTime $validationTokenTime; //data di scadenza del token
 
-    #[ORM\Column(type: Types::STRING, nullable: true)]
-    private ?string $resetToken = null; //token dedicato al recupero password (separato dalla verifica email)
-
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTime $resetTokenTime = null; //data di scadenza del token di recupero password
 
     #[ORM\Column(type: Types::STRING, nullable: true)]
     private ?string $rememberMeToken; //stringa generata per l'autenticazione dell'utente via cookie
@@ -269,41 +264,9 @@ class Studente extends Utente {
     }
 
     /**
-     * Imposta il token di recupero password dello studente.
-     * @param string|null $token Token di recupero password.
-     */
-    public function setResetToken(?string $token): void {
-        $this->resetToken = $token;
-    }
-
-    /**
-     * Ottiene il token di recupero password dello studente.
-     * @return string|null Token di recupero password.
-     */
-    public function getResetToken(): ?string {
-        return $this->resetToken;
-    }
-
-    /**
-     * Imposta la data di scadenza del token di recupero password.
-     * @param \DateTime|null $scadenza Data di scadenza del token di recupero.
-     */
-    public function setResetTokenTime(?\DateTime $scadenza): void {
-        $this->resetTokenTime = $scadenza;
-    }
-
-    /**
-     * Ottiene la data di scadenza del token di recupero password.
-     * @return \DateTime|null Data di scadenza del token di recupero.
-     */
-    public function getResetTokenTime(): ?\DateTime {
-        return $this->resetTokenTime;
-    }
-
-        /**
-        * Imposta l'immagine del profilo dello studente.
-        * @param File $immagineProfilo Immagine del profilo.
-        */
+    * Imposta l'immagine del profilo dello studente.
+    * @param File $immagineProfilo Immagine del profilo.
+    */
     public function setImmagineProfilo(?File $immagineProfilo): void {
         $this->immagineProfilo = $immagineProfilo;
     }

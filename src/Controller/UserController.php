@@ -200,6 +200,7 @@ class UserController {
             $studente->setValidationTokenTime(null); // Rimuovi la scadenza del token
             $studente->setIsVerified(true); // Imposta l'email come verificata
             $pm->update($studente); // Salva le modifiche al database
+            $view->mostraHome($studente->getUsername(), null);
         } catch (PDOException $e) {
            $view->mostraFormErorre("Errore durante la verifica dell'email: " . $e->getMessage());
         }
@@ -374,14 +375,14 @@ class UserController {
                throw new Exception("Nessun account trovato con questa email.");
             }
             $token = bin2hex(random_bytes(32));
-            $studente->setResetToken($token);
+            $studente->setValidationToken($token);
             $scadenzaToken = (new \DateTime('now',new \DateTimeZone('Europe/Rome')))->add(new \DateInterval('PT10M'));
-            $studente->setResetTokenTime($scadenzaToken);
-            $pm->update();
-            // Invio l'email PRIMA di confermare all'utente: se fallisce
-            // l'eccezione viene propagata e l'utente vede un errore reale.
-            $this->inviaEmailRecuperoPassword($studente, $token);
+            $studente->setValidationTokenTime($scadenzaToken);
+            $pm->update($studente);
             $view->mostraVerificaEmail($email);
+            ob_flush();
+            flush();
+            $this->inviaEmailRecuperoPassword($studente, $token);
         } catch (Exception $e) {
             $view->mostraFormErrore("Errore durante il recupero password: " . $e->getMessage());
         }
@@ -419,12 +420,12 @@ class UserController {
         try {
             $view = new viewUser();
             $pm = PersistentManager::getInstance();
-            $studente = $pm->findOneBy(Studente::class,['resetToken' => $token]);
+            $studente = $pm->findOneBy(Studente::class,['validationToken' => $token]);
             if ($studente === null) {
                 throw new Exception("Link di recupero non valido.");
             }
             $now = new \DateTime('now', new \DateTimeZone('Europe/Rome'));
-            if ($studente->getResetTokenTime() === null || $now > $studente->getResetTokenTime()) {
+            if ($studente->getValidationTokenTime() === null || $now > $studente->getValidationTokenTime()) {
                 throw new Exception("Il link di recupero è scaduto.");
             }
             $view->mostraFormReimpostaPassword($token);
@@ -460,18 +461,18 @@ class UserController {
             if (strlen($pass) < 8) {
                 throw new Exception("La password deve contenere almeno 8 caratteri.");
             }
-            $studente = $pm->findOneBy(Studente::class,['resetToken' => $token]);
+            $studente = $pm->findOneBy(Studente::class,['validationToken' => $token]);
             if ($studente === null) {
                 throw new Exception("Link non valido.");
             }
             $now = new \DateTime('now', new \DateTimeZone('Europe/Rome'));
-            if ($studente->getResetTokenTime() === null || $now > $studente->getResetTokenTime()) {
+            if ($studente->getValidationTokenTime() === null || $now > $studente->getValidationTokenTime()) {
                 throw new Exception("Il link è scaduto.");
             }
             $passwordHash = password_hash($pass, PASSWORD_BCRYPT);
             $studente->setPassword($passwordHash);
-            $studente->setResetToken(null);
-            $studente->setResetTokenTime(null);
+            $studente->setValidationToken(null);
+            $studente->setValidationTokenTime(null);
             $pm->update();
             $view->mostraFormSuccesso("Password reimpostata con successo.");
         } catch (Exception $e) {
