@@ -202,6 +202,7 @@ class UserController {
             $studente->setValidationTokenTime(null); // Rimuovi la scadenza del token
             $studente->setIsVerified(true); // Imposta l'email come verificata
             $pm->update($studente); // Salva le modifiche al database
+            $view->mostraHome($studente->getUsername(), null);
         } catch (PDOException $e) {
            $view->mostraFormErorre("Errore durante la verifica dell'email: " . $e->getMessage());
         }
