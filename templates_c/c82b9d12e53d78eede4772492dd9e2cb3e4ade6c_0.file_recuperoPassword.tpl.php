@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.8.0, created on 2026-06-06 17:09:45
+/* Smarty version 5.8.0, created on 2026-06-09 11:57:52
   from 'file:recuperoPassword.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.8.0',
-  'unifunc' => 'content_6a24545994c8c0_66146455',
+  'unifunc' => 'content_6a27ffc0b69f32_77835625',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'c82b9d12e53d78eede4772492dd9e2cb3e4ade6c' => 
     array (
       0 => 'recuperoPassword.tpl',
-      1 => 1780753524,
+      1 => 1780989839,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6a24545994c8c0_66146455 (\Smarty\Template $_smarty_tpl) {
+function content_6a27ffc0b69f32_77835625 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\studyroom-platform\\templates';
 ?><!DOCTYPE html>
 <html lang="it">

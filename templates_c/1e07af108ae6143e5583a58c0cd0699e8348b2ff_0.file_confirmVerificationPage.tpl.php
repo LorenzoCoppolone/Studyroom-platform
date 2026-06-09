@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.8.0, created on 2026-06-06 13:31:32
+/* Smarty version 5.8.0, created on 2026-06-09 12:46:41
   from 'file:confirmVerificationPage.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.8.0',
-  'unifunc' => 'content_6a2421346efe11_48267877',
+  'unifunc' => 'content_6a280b31475da9_62771823',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '1e07af108ae6143e5583a58c0cd0699e8348b2ff' => 
     array (
       0 => 'confirmVerificationPage.tpl',
-      1 => 1780737923,
+      1 => 1780989839,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6a2421346efe11_48267877 (\Smarty\Template $_smarty_tpl) {
+function content_6a280b31475da9_62771823 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\studyroom-platform\\templates';
 ?><!DOCTYPE html>
 <html lang="it">
@@ -40,7 +40,7 @@ $_smarty_current_dir = 'C:\\laragon\\www\\studyroom-platform\\templates';
 <body>
     <div class="page-container">
         <div class="logo">
-            <a href="/Home/index">
+            <a href="/Home/dashboard">
                 <p>StudyRoom</p>
             </a>
         </div>

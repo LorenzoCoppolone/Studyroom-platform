@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.8.0, created on 2026-06-06 17:10:00
+/* Smarty version 5.8.0, created on 2026-06-09 11:33:01
   from 'file:reimpostaPassword.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.8.0',
-  'unifunc' => 'content_6a24546876eaf7_31664186',
+  'unifunc' => 'content_6a27f9ed42f832_64489588',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'ea18f8beed5517290189a89d142d764e08ba9970' => 
     array (
       0 => 'reimpostaPassword.tpl',
-      1 => 1780753937,
+      1 => 1780989839,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6a24546876eaf7_31664186 (\Smarty\Template $_smarty_tpl) {
+function content_6a27f9ed42f832_64489588 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\studyroom-platform\\templates';
 ?><!DOCTYPE html>
 <html lang="it">

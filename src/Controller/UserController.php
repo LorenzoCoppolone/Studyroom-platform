@@ -63,6 +63,17 @@ class UserController {
         $view = new viewUser();
         $pm = PersistentManager::getInstance();
         $d = $view->getDatiRegistrazione();
+        $studenteRegistrato = $pm->findoneby(Studente::class, ['email' => $d['email']]);
+        if($studenteRegistrato !== null && $studenteRegistrato->getIsVerified() === false){
+            $token = bin2hex(random_bytes(32));
+            $studenteRegistrato->setValidationToken($token);
+            $studenteRegistrato->setValidationTokenTime((new \DateTime('now', new \DateTimeZone('Europe/Rome')))->add(new \DateInterval('PT10M')));
+            $pm->update($studenteRegistrato);
+            $view->mostraVerificaEmail($studenteRegistrato->getEmail());
+            ob_flush();
+            flush();
+            $this->inviaEmailVerifica($studenteRegistrato, $token);
+        }
         if (empty($d['nome']) || empty($d['cognome']) || empty($d['username']) || empty($d['email']) || empty($d['password'])) {
             throw new \Exception("Tutti i campi sono obbligatori.");
         }
@@ -180,14 +191,12 @@ class UserController {
             $pm = PersistentManager::getInstance();
             $studente = $pm->findOneBy(Studente::class, ['validationToken' => $token]); // Cerco lo studente nel DB per token
             if ($studente === null) {
-                $view->mostraFormTokenNonValido(); // Mostra la form che informa l'utente che il token non è valido
-                return; // Termina l'esecuzione della funzione
+               throw new \Exception("Link di verifica non valido.");
             }
             $now = new \DateTime('now', new \DateTimeZone('Europe/Rome')); // Ottieni la data e ora attuale
             if ($now > $studente->getValidationTokenTime() || $studente->getValidationTokenTime() === null) {
                 $pm->delete($studente); // Elimina lo studente dal database se il token è scaduto
-                $view->mostraFormTokenScaduto(); // Mostra la form che informa l'utente che il token è scaduto
-                return; // Termina l'esecuzione della funzione
+                throw new \Exception("Link di verifica scaduto.");
             }
             $studente->setValidationToken(null); // Rimuovi il token dallo studente
             $studente->setValidationTokenTime(null); // Rimuovi la scadenza del token

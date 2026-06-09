@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.8.0, created on 2026-06-05 23:51:34
+/* Smarty version 5.8.0, created on 2026-06-09 12:39:00
   from 'file:materialeCaricato.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.8.0',
-  'unifunc' => 'content_6a236106eb92c9_13681311',
+  'unifunc' => 'content_6a280964a5eed6_07330479',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '36ecc8d657611e9ed5d402dd678e3124296854e1' => 
     array (
       0 => 'materialeCaricato.tpl',
-      1 => 1780592741,
+      1 => 1780989839,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6a236106eb92c9_13681311 (\Smarty\Template $_smarty_tpl) {
+function content_6a280964a5eed6_07330479 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\studyroom-platform\\templates';
 ?><!DOCTYPE html>
 <html lang="it">
