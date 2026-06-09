@@ -19,8 +19,8 @@
 
     <!-- TIPO DOCUMENTO -->
     <div class="type-selector">
-        <button type="button" id="btnAppunto" class="type-btn {if $tipo != 'esame'}active{/if}"><i class="fa fa-pen-to-square"></i> Appunto</button>
-        <button type="button" id="btnEsame" class="type-btn {if $tipo == 'esame'}active{/if}"><i class="fa fa-graduation-cap"></i> Esame</button>
+        <button type="button" id="btnAppunto" class="type-btn {if ($tipo|default:'appunto') != 'esame'}active{/if}"><i class="fa fa-pen-to-square"></i> Appunto</button>
+        <button type="button" id="btnEsame" class="type-btn {if ($tipo|default:'appunto') == 'esame'}active{/if}"><i class="fa fa-graduation-cap"></i> Esame</button>
     </div>
 
     <!-- FORM PRINCIPALE -->
@@ -95,7 +95,7 @@
         <!-- TAG (solo Appunto) -->
         <div class="form-group" id="tagGroup">
             <label for="tagSelect">Tag</label>
-            <select name="tag" id="tagSelect" {if $tipo == 'esame'}disabled{/if}>
+            <select name="tag" id="tagSelect" {if ($tipo|default:'appunto') == 'esame'}disabled{/if}>
                 <option value="">Seleziona tipo</option>
                 <option value="Riassunto">Riassunto</option>
                 <option value="Note">Note</option>

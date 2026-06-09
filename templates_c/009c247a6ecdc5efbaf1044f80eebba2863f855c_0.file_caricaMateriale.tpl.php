@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.8.0, created on 2026-06-09 17:16:10
+/* Smarty version 5.8.0, created on 2026-06-09 17:37:57
   from 'file:caricaMateriale.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.8.0',
-  'unifunc' => 'content_6a282e3a50bf70_22193595',
+  'unifunc' => 'content_6a283355cf4552_68434612',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '009c247a6ecdc5efbaf1044f80eebba2863f855c' => 
     array (
       0 => 'caricaMateriale.tpl',
-      1 => 1780930178,
+      1 => 1781019030,
       2 => 'file',
     ),
   ),
@@ -20,30 +20,30 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6a282e3a50bf70_22193595 (\Smarty\Template $_smarty_tpl) {
+function content_6a283355cf4552_68434612 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\Studyroom-platform\\templates';
 $_smarty_tpl->getInheritance()->init($_smarty_tpl, true);
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1849052676a282e3a4bd976_96609118', "title");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_9318267276a283355ca6541_80475364', "title");
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_1239943686a282e3a4c9240_65101633', "pageCSS");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_3356675656a283355caff75_86906845', "pageCSS");
 ?>
 
 
 <?php 
-$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_17167594596a282e3a4ca420_74986739', "content");
+$_smarty_tpl->getInheritance()->instanceBlock($_smarty_tpl, 'Block_13982592796a283355cb10b7_77857434', "content");
 ?>
 
 <?php $_smarty_tpl->getInheritance()->endChild($_smarty_tpl, "layout.tpl", $_smarty_current_dir);
 }
 /* {block "title"} */
-class Block_1849052676a282e3a4bd976_96609118 extends \Smarty\Runtime\Block
+class Block_9318267276a283355ca6541_80475364 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\Studyroom-platform\\templates';
@@ -53,7 +53,7 @@ Carica Materiale - StudyRoom<?php
 }
 /* {/block "title"} */
 /* {block "pageCSS"} */
-class Block_1239943686a282e3a4c9240_65101633 extends \Smarty\Runtime\Block
+class Block_3356675656a283355caff75_86906845 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\Studyroom-platform\\templates';
@@ -65,7 +65,7 @@ $_smarty_current_dir = 'C:\\laragon\\www\\Studyroom-platform\\templates';
 }
 /* {/block "pageCSS"} */
 /* {block "content"} */
-class Block_17167594596a282e3a4ca420_74986739 extends \Smarty\Runtime\Block
+class Block_13982592796a283355cb10b7_77857434 extends \Smarty\Runtime\Block
 {
 public function callBlock(\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'C:\\laragon\\www\\Studyroom-platform\\templates';
@@ -83,8 +83,8 @@ $_smarty_current_dir = 'C:\\laragon\\www\\Studyroom-platform\\templates';
 
     <!-- TIPO DOCUMENTO -->
     <div class="type-selector">
-        <button type="button" id="btnAppunto" class="type-btn <?php if ($_smarty_tpl->getValue('tipo') != 'esame') {?>active<?php }?>"><i class="fa fa-pen-to-square"></i> Appunto</button>
-        <button type="button" id="btnEsame" class="type-btn <?php if ($_smarty_tpl->getValue('tipo') == 'esame') {?>active<?php }?>"><i class="fa fa-graduation-cap"></i> Esame</button>
+        <button type="button" id="btnAppunto" class="type-btn <?php if (((($tmp = $_smarty_tpl->getValue('tipo') ?? null)===null||$tmp==='' ? 'appunto' ?? null : $tmp)) != 'esame') {?>active<?php }?>"><i class="fa fa-pen-to-square"></i> Appunto</button>
+        <button type="button" id="btnEsame" class="type-btn <?php if (((($tmp = $_smarty_tpl->getValue('tipo') ?? null)===null||$tmp==='' ? 'appunto' ?? null : $tmp)) == 'esame') {?>active<?php }?>"><i class="fa fa-graduation-cap"></i> Esame</button>
     </div>
 
     <!-- FORM PRINCIPALE -->
@@ -190,7 +190,7 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
         <!-- TAG (solo Appunto) -->
         <div class="form-group" id="tagGroup">
             <label for="tagSelect">Tag</label>
-            <select name="tag" id="tagSelect" <?php if ($_smarty_tpl->getValue('tipo') == 'esame') {?>disabled<?php }?>>
+            <select name="tag" id="tagSelect" <?php if (((($tmp = $_smarty_tpl->getValue('tipo') ?? null)===null||$tmp==='' ? 'appunto' ?? null : $tmp)) == 'esame') {?>disabled<?php }?>>
                 <option value="">Seleziona tipo</option>
                 <option value="Riassunto">Riassunto</option>
                 <option value="Note">Note</option>

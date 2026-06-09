@@ -146,11 +146,11 @@
                             <rect x="4" y="4" width="72" height="88" rx="6" ry="6"
                                   stroke="#1a1a2e" stroke-width="4" fill="white"/>
                             <path d="M52 4 L76 28" stroke="#1a1a2e" stroke-width="4"/>
-                            <path d="M52 4 L52 28 L76 28" fill="#e8e0ff" stroke="#1a1a2e" stroke-width="4"
+                            <path d="M52 4 L52 28 L76 28" fill="#ede9fb" stroke="#1a1a2e" stroke-width="4"
                                   stroke-linejoin="round"/>
-                            <line x1="14" y1="44" x2="66" y2="44" stroke="#6c63ff" stroke-width="3.5" stroke-linecap="round"/>
-                            <line x1="14" y1="56" x2="66" y2="56" stroke="#6c63ff" stroke-width="3.5" stroke-linecap="round"/>
-                            <line x1="14" y1="68" x2="50" y2="68" stroke="#6c63ff" stroke-width="3.5" stroke-linecap="round"/>
+                            <line x1="14" y1="44" x2="66" y2="44" stroke="#6C4FD4" stroke-width="3.5" stroke-linecap="round"/>
+                            <line x1="14" y1="56" x2="66" y2="56" stroke="#6C4FD4" stroke-width="3.5" stroke-linecap="round"/>
+                            <line x1="14" y1="68" x2="50" y2="68" stroke="#6C4FD4" stroke-width="3.5" stroke-linecap="round"/>
                         </svg>
                     </div>
 
