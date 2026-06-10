@@ -111,21 +111,21 @@
                 </div>
 
                 <!-- Tag -->
-                <div class="filter-pill {if $filtri.tag}filter-pill--active{/if}">
+                <div class="filter-pill {if $filtri.tag|default:''}filter-pill--active{/if}">
                     <select name="tag" class="filter-pill__select">
                         <option value="">Tag</option>
-                        <option value="Riassunto" {if $filtri.tag == 'Riassunto'}selected{/if}>Riassunto</option>
-                        <option value="Note"      {if $filtri.tag == 'Note'}selected{/if}>Note</option>
-                        <option value="Esercizi"  {if $filtri.tag == 'Esercizi'}selected{/if}>Esercizi</option>
+                        <option value="RIASSUNTO" {if ($filtri.tag|default:'') == 'RIASSUNTO'}selected{/if}>Riassunto</option>
+                        <option value="NOTE"      {if ($filtri.tag|default:'') == 'NOTE'}selected{/if}>Note</option>
+                        <option value="ESERCIZI"  {if ($filtri.tag|default:'') == 'ESERCIZI'}selected{/if}>Esercizi</option>
                     </select>
                 </div>
 
                 <!-- Tipologia -->
-                <div class="filter-pill {if $filtri.tipologia}filter-pill--active{/if}">
+                <div class="filter-pill {if $filtri.tipologia|default:''}filter-pill--active{/if}">
                     <select name="tipologia" class="filter-pill__select">
                         <option value="">Tipologia</option>
-                        <option value="appunto" {if $filtri.tipologia == 'appunto'}selected{/if}>Appunto</option>
-                        <option value="esame"   {if $filtri.tipologia == 'esame'}selected{/if}>Esame</option>
+                        <option value="appunto" {if ($filtri.tipologia|default:'') == 'appunto'}selected{/if}>Appunto</option>
+                        <option value="esame"   {if ($filtri.tipologia|default:'') == 'esame'}selected{/if}>Esame</option>
                     </select>
                 </div>
 
