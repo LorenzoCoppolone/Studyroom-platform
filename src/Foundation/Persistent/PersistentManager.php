@@ -103,15 +103,51 @@ class PersistentManager {
         return $this->em->getRepository($class)->findOneBy($criteria);
     }
 
-    public function countAll(string $class, array $criteria = []): int {
+ public function countAll(string $class, array $criteria = []): int {
     $qb = $this->em->createQueryBuilder();
     $qb->select('COUNT(e)')
        ->from($class, 'e');
+    // TIPOLGIA (Appunto / Esame)
+    if (isset($criteria['tipologia'])) {
+        $tipo = strtolower($criteria['tipologia']);
+        if ($tipo === 'appunto') {
+            $qb->andWhere('e INSTANCE OF Model\Appunto');
+        } elseif ($tipo === 'esame') {
+            $qb->andWhere('e INSTANCE OF Model\Esame');
+        }
+        unset($criteria['tipologia']);
+    }
+    // INSEGNAMENTO (ManyToOne) → confronto esatto
+    if (isset($criteria['insegnamento'])) {
+        $qb->join('e.insegnamento', 'i');
+        $qb->andWhere('i.nomeInsegnamento = :insegnamento')
+           ->setParameter('insegnamento', $criteria['insegnamento']);
+        unset($criteria['insegnamento']);
+    }
+    // CORSO DI LAUREA (JOIN annidato) → confronto esatto
+    if (isset($criteria['corso'])) {
+        $qb->join('e.insegnamento', 'i2');
+        $qb->join('i2.corsoDiLaurea', 'c');
+        $qb->andWhere('c.nomeCorso = :corso')
+           ->setParameter('corso', $criteria['corso']);
+        unset($criteria['corso']);
+    }
+    // CAMPI REALI dell'entità (LIKE)
+    $realFields = array_map(
+        fn($prop) => $prop->getName(),
+        (new \ReflectionClass($class))->getProperties()
+    );
     foreach ($criteria as $field => $value) {
-        $qb->andWhere("e.$field LIKE :$field")->setParameter($field, $value);
+        if (!in_array($field, $realFields, true)) {
+            continue; // ignora alias come corso_di_laurea
+        }
+        $qb->andWhere("e.$field LIKE :$field")
+           ->setParameter($field, $value);
     }
     return (int) $qb->getQuery()->getSingleScalarResult();
 }
+
+
 
 
     // Query custom
@@ -120,11 +156,11 @@ class PersistentManager {
         string $titolo,
         int $offset,
         int $limit,
-        string $insegnamento = "",
-        string $tipologia = "",   // "appunto", "esame"
-        string $corso = "",
-        string $tag = "",
-        string $criterio = "",
+        ?string $insegnamento = "",
+        ?string $tipologia = "",   // "appunto", "esame"
+        ?string $corso = "",
+        ?string $tag = "",
+        ?string $criterio = "",
     ): array {
         return $this->materialeRepository->cerca(
             $titolo, 

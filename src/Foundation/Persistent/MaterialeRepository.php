@@ -32,11 +32,11 @@ class MaterialeRepository {
         string $titolo,
         int $offset,
         int $limit,
-        string $insegnamento = "",
-        string $tipologia = "",   // "appunto", "esame"
-        string $corso = "",
-        string $tag = "",
-        string $criterio = "",
+        ?string $insegnamento = "",
+        ?string $tipologia = "",   // "appunto", "esame"
+        ?string $corso = "",
+        ?string $tag = "",
+        ?string $criterio = "",
     ): array {
         $qb = $this->em->createQueryBuilder();
         $qb->select(
@@ -54,7 +54,7 @@ class MaterialeRepository {
             WHEN m INSTANCE OF Model\\Appunto THEN 'APPUNTO'
             WHEN m INSTANCE OF Model\\Esame THEN 'ESAME'
             ELSE 'ALTRO'
-        END AS tipologia"
+        END AS HIDDEN tipologia"
         )
             ->from(Materiale::class, 'm')
             ->leftjoin('m.downloads', 'd')
