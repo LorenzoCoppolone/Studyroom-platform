@@ -35,7 +35,7 @@ class File{
      */
     
     public function __construct(
-        string $contenutoFile,
+        mixed $contenutoFile,
         string $mimeTypeFile, 
         float $dimensioneFile
         ) {
@@ -120,28 +120,25 @@ return $base64;
     }
 
     public function fileToBase64(): ?string
-{
-    if (!$file) {
-        return null;
-    }
+    {
 
-    $contenuto = $this->getContenutoFile();
+        $contenuto = $this->getContenutoFile();
 
-    if (!$contenuto) {
-        return null;
-    }
+        if (!$contenuto) {
+            return null;
+        }
 
     // Caso 1: Doctrine restituisce uno stream (tipico dei BLOB)
-    if (is_resource($contenuto)) {
-        rewind($contenuto); // fondamentale
-        $contenuto = stream_get_contents($contenuto);
-    }
+        if (is_resource($contenuto)) {
+            rewind($contenuto); // fondamentale
+            $contenuto = stream_get_contents($contenuto);
+        }
 
     // Caso 2: Doctrine restituisce già una stringa binaria
-    if (is_string($contenuto) && strlen($contenuto) > 0) {
-        return 'data:' . $this->getMimeTypeFile() . ';base64,' . base64_encode($contenuto);
+        if (is_string($contenuto) && strlen($contenuto) > 0) {
+            return 'data:' . $this->getMimeTypeFile() . ';base64,' . base64_encode($contenuto);
+        }
+        return null;
     }
-    return null;
-}
 
 }

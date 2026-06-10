@@ -10,6 +10,9 @@ use Model\Materiale;
 use Model\Preferito;
 use Model\Download;
 use Model\Studente;
+use Model\Recensione;
+use Model\Segnalazione;
+use Model\File;
 use PDOException;
 use RuntimeException;
 use InvalidArgumentException;
@@ -76,10 +79,16 @@ class RicercaMaterialeController
 
     public function dettagli(int $id_materiale): void {
         try {
+
+            
             $view = new ViewRicercaMateriale();
             $pm = PersistentManager::getInstance();
             $materiale = $pm->trovaMateriale($id_materiale);
-            $file = new File($materiale['contenutoFile'], $materiale['mimeTypeFile'], $materiale['dimensioneFile']);
+            if(is_resource($materiale['contenutoFile'])) {
+                rewind($materiale['contenutoFile']);
+                $contenuto = stream_get_contents($materiale['contenutoFile']);
+            }
+            $file = new File($contenuto, $materiale['mimeTypeFile'], $materiale['dimensioneFile']);
             $base64 = $file->fileToBase64();
             $session = Session::getInstance();
             $id = $session->getSessionElement('studente');

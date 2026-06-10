@@ -225,7 +225,7 @@ public function countAll(string $class, array $criteria = []): int {
         return $this->insegnamentoRepository->trovaCorsiDiLaurea();
     }
 
-    public function trovaMateriale(): array {
-        return $this->materialeRepository->dettagliMateriale();
+    public function trovaMateriale(int $id): array {
+        return $this->materialeRepository->dettagliMateriale($id);
     }
 }

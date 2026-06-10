@@ -101,9 +101,9 @@ class MaterialeRepository {
             'COUNT(DISTINCT d.id) as numeroDownload',
             'COUNT(DISTINCT r.id) as numeroRecensioni',
             'AVG(r.voto) as mediaValutazione',
-            'm.file.contenuto as contenutoFile',
-            'm.file.mimeType as mimeTypeFile',
-            'm.file.size as dimensioneFile'
+            'm.file.contenutoFile as contenutoFile',
+            'm.file.mimeTypeFile as mimeTypeFile',
+            'm.file.dimensioneFile as dimensioneFile'
         )
             ->addSelect(
         "CASE
@@ -120,7 +120,7 @@ class MaterialeRepository {
             ->leftjoin('m.recensioni', 'r')
             ->where('m.id = :idMateriale')
             ->setParameter('idMateriale', $idMateriale);
-        $result = $qb->getQuery()->getArrayResult();
+        $result = $qb->getQuery()->getOneOrNullResult();
         return $result;
     }
 }

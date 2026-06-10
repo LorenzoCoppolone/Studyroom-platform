@@ -203,7 +203,7 @@
                                 <span>{$mat.numeroDownload|default:0|escape:'html'}</span>
                             </div>
 
-                            <a href ="/RicercaMateriale/dettagli/{$materiale.idMateriale|escape }" class="card__download-form">
+                            <a href="/RicercaMateriale/dettagli/{$mat.idMateriale|escape }" class="card__download-form">
                                 Apri
                             </a>
                         </div>
