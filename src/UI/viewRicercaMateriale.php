@@ -4,8 +4,6 @@ namespace UI;
 
 Use Smarty\Smarty;
 Use config\StartSmarty;
-Use Foundation\Session;
-
 class viewRicercaMateriale {
 
     /** @var Smarty Istanza Smarty per la gestione dei template */
@@ -61,13 +59,6 @@ class viewRicercaMateriale {
      * @return void
      */
     public function mostraMateriali(array $materiali, int $page, int $totPage, ?string $username, ?string $base64, array $corsiDiLaurea, array $insegnamenti, array $filtri) : void {
-        // URL di base per i link di paginazione: mantiene la query e i filtri presenti
-        // nell'URL corrente, rimuovendo solo il parametro "page".
-        $path = strtok($_SERVER['REQUEST_URI'] ?? '/RicercaMateriale/cerca', '?');
-        $parametri = $_GET;
-        unset($parametri['page']);
-        $urlBasePagina = $path . '?' . http_build_query($parametri);
-
         $this->smarty->assign("materiali", $materiali);
         $this->smarty->assign("paginaCorrente", $page);
         $this->smarty->assign("totalePagine", $totPage);
@@ -76,10 +67,6 @@ class viewRicercaMateriale {
         $this->smarty->assign("corsiDiLaurea", $corsiDiLaurea);
         $this->smarty->assign("insegnamenti", $insegnamenti);
         $this->smarty->assign("filtri", $filtri);
-        $this->smarty->assign("queryCorrente", Session::getSessionElement('ricerca_titolo') ?? '');
-        $this->smarty->assign("ordinamento", $filtri['criterio_ordinamento'] ?? '');
-        $this->smarty->assign("urlBasePagina", $urlBasePagina);
-
         $this->smarty->display("ricercaMateriale.tpl");
     }
 
