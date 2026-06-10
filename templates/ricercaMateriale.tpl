@@ -8,6 +8,27 @@
 
 {block name="content"}
 
+{* ─────────────────────────────────────────────────────────────
+   Variabili derivate dai dati che view/controller forniscono.
+   La view assegna: materiali, paginaCorrente, totalePagine,
+   corsiDiLaurea, insegnamenti, filtri (+ studente/base64 per la navbar).
+   Qui ricaviamo i valori che il markup usa ma che non arrivano
+   direttamente assegnati.
+   ───────────────────────────────────────────────────────────── *}
+
+{* Titolo cercato: il controller lo salva in sessione (ricerca_titolo);
+   in fallback usiamo l'eventuale titolo presente nei filtri. *}
+{assign var="queryCorrente" value=$smarty.session.ricerca_titolo|default:$filtri.titolo|default:''}
+
+{* Criterio di ordinamento attivo (salvato tra i filtri di ricerca). *}
+{assign var="ordinamento" value=$filtri.criterio_ordinamento|default:''}
+
+{* URL base per la paginazione: stessa rotta corrente, senza il
+   parametro page, con titolo e filtri attivi riportati come query
+   string (gli stessi nomi GET letti dai controller). I link
+   aggiungono poi "&page=N". *}
+{capture assign="urlBasePagina"}{$smarty.server.REQUEST_URI|regex_replace:'/\?.*$/':''}?titolo={$queryCorrente|escape:'url'}{if $filtri.corso_di_laurea}&corsoDiLaurea={$filtri.corso_di_laurea|escape:'url'}{/if}{if $filtri.insegnamento}&insegnamento={$filtri.insegnamento|escape:'url'}{/if}{if $filtri.tag}&tag={$filtri.tag|escape:'url'}{/if}{if $filtri.tipologia}&tipologia={$filtri.tipologia|escape:'url'}{/if}{if $ordinamento}&criterio={$ordinamento|escape:'url'}{/if}{/capture}
+
 <!-- ===================== HERO SEARCH ===================== -->
 <section class="hero-search">
     <form class="hero-search__form" action="/RicercaMateriale/cerca" method="GET">

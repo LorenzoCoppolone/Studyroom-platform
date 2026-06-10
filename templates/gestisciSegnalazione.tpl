@@ -19,7 +19,7 @@
 
 <main>
 
-    <a href="/Admin/dashboard" class="back-link">← Torna alla dashboard</a>
+<a href="/Admin/dashboard" class="back-link"><i class="fa fa-arrow-left"></i> Torna alla home</a>
 
     <h1 class="page-title">Gestisci Segnalazione</h1>
 

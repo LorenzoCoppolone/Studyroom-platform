@@ -12,6 +12,23 @@ main {
     padding: 3rem 1.5rem;
 }
 
+/* Link torna alla home — fuori dalla card */
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--color-text-muted, #6b7280);
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-decoration: none;
+    margin-bottom: 1.25rem;
+    transition: color 0.15s ease;
+}
+
+.back-link:hover {
+    color: var(--color-primary);
+}
+
 /* Card contenitore — stessa estetica delle card della home */
 .profile-card {
     background: var(--color-card);

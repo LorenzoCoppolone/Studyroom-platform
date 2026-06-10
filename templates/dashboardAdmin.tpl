@@ -11,7 +11,7 @@
 <body>
 
 <header>
-    <span class="logo">StudyRoom</span>
+    <a href=/Home/dashboard class="logo">StudyRoom</a>
     <span class="header-badge">Admin</span>
 </header>
 

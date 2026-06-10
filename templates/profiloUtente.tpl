@@ -8,6 +8,8 @@
 
 {block name="content"}
 
+<a href="/Home/dashboard" class="back-link"><i class="fa fa-arrow-left"></i> Torna alla home</a>
+
 <section class="profile-card">
 
     <!-- HEADER: foto + dati + Modifica -->
