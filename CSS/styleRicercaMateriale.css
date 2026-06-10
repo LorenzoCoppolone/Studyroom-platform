@@ -191,6 +191,119 @@
 }
 
 /* =============================================
+   COMBOBOX CORSO / INSEGNAMENTO
+   (autocompletamento, stesso markup della pagina
+    di caricamento — JS in JS/upload.js)
+   ============================================= */
+.filter-combo {
+    flex: 0 1 220px;
+    min-width: 170px;
+}
+
+.combo {
+    position: relative;
+}
+
+/* Icona lente dentro al campo */
+.combo-icon {
+    position: absolute;
+    top: 50%;
+    left: 1rem;
+    transform: translateY(-50%);
+    color: var(--color-primary);
+    font-size: 0.85rem;
+    pointer-events: none;
+}
+
+/* Campo di testo (coerente con le pill filtro) */
+.combo-input {
+    width: 100%;
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius-pill);
+    background: var(--color-card);
+    padding: 0.5rem 1.1rem 0.5rem 2.5rem;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    outline: none;
+    box-shadow: 0 2px 8px rgba(108, 79, 212, 0.06);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.combo-input::placeholder {
+    color: var(--color-text-muted);
+    font-weight: 600;
+}
+
+.combo-input:hover {
+    border-color: var(--color-primary);
+}
+
+.combo-input:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px var(--color-primary-light);
+}
+
+.combo-input:disabled {
+    background: var(--color-primary-light);
+    color: var(--color-text-muted);
+    cursor: not-allowed;
+    opacity: 0.8;
+    box-shadow: none;
+}
+
+/* Lista dei suggerimenti */
+.combo-list {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    right: 0;
+    z-index: 30;
+
+    list-style: none;
+    margin: 0;
+    padding: 0.35rem;
+
+    max-height: 240px;
+    overflow-y: auto;
+
+    background: var(--color-card);
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius-box);
+    box-shadow: var(--shadow-soft);
+
+    display: none;
+}
+
+.combo-list.open {
+    display: block;
+}
+
+.combo-item {
+    padding: 0.55rem 0.8rem;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: var(--color-text);
+    white-space: normal;
+    transition: background-color 0.12s ease, color 0.12s ease;
+}
+
+.combo-item:hover,
+.combo-item.active {
+    background: var(--color-primary-light);
+    color: var(--color-primary);
+}
+
+.combo-empty {
+    padding: 0.55rem 0.8rem;
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    text-align: center;
+}
+
+/* =============================================
    ORDINA PER
    ============================================= */
 .sort-bar {

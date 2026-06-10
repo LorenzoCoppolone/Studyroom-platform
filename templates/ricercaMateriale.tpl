@@ -27,7 +27,7 @@
    parametro page, con titolo e filtri attivi riportati come query
    string (gli stessi nomi GET letti dai controller). I link
    aggiungono poi "&page=N". *}
-{capture assign="urlBasePagina"}{$smarty.server.REQUEST_URI|regex_replace:'/\?.*$/':''}?titolo={$queryCorrente|escape:'url'}{if $filtri.corso_di_laurea}&corsoDiLaurea={$filtri.corso_di_laurea|escape:'url'}{/if}{if $filtri.insegnamento}&insegnamento={$filtri.insegnamento|escape:'url'}{/if}{if $filtri.tag}&tag={$filtri.tag|escape:'url'}{/if}{if $filtri.tipologia}&tipologia={$filtri.tipologia|escape:'url'}{/if}{if $ordinamento}&criterio={$ordinamento|escape:'url'}{/if}{/capture}
+{capture assign="urlBasePagina"}{$smarty.server.REQUEST_URI|regex_replace:'/\?.*$/':''}?titolo={$queryCorrente|escape:'url'}&corsoDiLaurea={$filtri.corso_di_laurea|default:''|escape:'url'}&insegnamento={$filtri.insegnamento|default:''|escape:'url'}&tag={$filtri.tag|default:''|escape:'url'}&tipologia={$filtri.tipologia|default:''|escape:'url'}&criterio={$ordinamento|escape:'url'}{/capture}
 
 <!-- ===================== HERO SEARCH ===================== -->
 <section class="hero-search">
@@ -64,39 +64,50 @@
 
             <div class="filters-bar__pills">
 
+                {* Corso di Laurea e Insegnamento: combobox con
+                   autocompletamento, stesso meccanismo del caricamento
+                   (JS/upload.js). L'insegnamento resta bloccato finché
+                   non si sceglie un corso e mostra solo le voci di
+                   quel corso. Il valore inviato è il NOME (la query
+                   filtra per nomeCorso / nomeInsegnamento). *}
+
                 <!-- Corso di Laurea -->
-                <div class="filter-pill {if $filtri.corso_di_laurea}filter-pill--active{/if}">
-                    <select name="corsoDiLaurea" id="select-corso" class="filter-pill__select">
-                        <option value="">Corso di Laurea</option>
+                <div class="combo filter-combo" id="cdlCombo">
+                    <i class="fa fa-magnifying-glass combo-icon"></i>
+                    <input type="text" id="cdlInput" class="combo-input" autocomplete="off"
+                           placeholder="Corso di Laurea"
+                           value="{$filtri.corso_di_laurea|default:''|escape:'html'}">
+                    <input type="hidden" name="corsoDiLaurea" id="cdlValue"
+                           value="{$filtri.corso_di_laurea|default:''|escape:'html'}">
+                    <ul class="combo-list" id="cdlList" role="listbox">
                         {foreach $corsiDiLaurea as $corso}
-                            <option value="{$corso.nome|escape:'html'}"
-                                    data-codice="{$corso.id|escape:'html'}"
-                                    {if $filtri.corso_di_laurea == $corso.nome}selected{/if}>
-                                {$corso.nome|escape:'html'}
-                            </option>
+                            <li class="combo-item" role="option"
+                                data-value="{$corso.nome|escape:'html'}"
+                                data-label="{$corso.nome|escape:'html'}">{$corso.nome}</li>
                         {/foreach}
-                    </select>
+                        <li class="combo-empty" hidden>Nessun corso trovato</li>
+                    </ul>
                 </div>
 
-                <!-- Insegnamento -->
-                <div class="filter-pill
-                    {if $filtri.insegnamento}filter-pill--active{/if}
-                    {if !$filtri.corso_di_laurea}filter-pill--disabled{/if}">
-
-                    <select id="select-insegnamento"
-                            name="insegnamento"
-                            class="filter-pill__select"
-                            {if !$filtri.corso_di_laurea}disabled{/if}>
-                        <option value="">Insegnamento</option>
-
+                <!-- Insegnamento (bloccato finché non si sceglie il corso) -->
+                <div class="combo filter-combo" id="insCombo">
+                    <i class="fa fa-magnifying-glass combo-icon"></i>
+                    <input type="text" id="insInput" class="combo-input" autocomplete="off"
+                           placeholder="Seleziona prima un corso"
+                           data-placeholder-locked="Seleziona prima un corso"
+                           data-placeholder-ready="Scrivi l'insegnamento…"
+                           value="{$filtri.insegnamento|default:''|escape:'html'}" disabled>
+                    <input type="hidden" name="insegnamento" id="insValue"
+                           value="{$filtri.insegnamento|default:''|escape:'html'}">
+                    <ul class="combo-list" id="insList" role="listbox">
                         {foreach $insegnamenti as $ins}
-                            <option value="{$ins.nome|escape:'html'}"
-                                    data-corso="{$ins.codiceCorso|escape:'html'}"
-                                    {if $filtri.insegnamento == $ins.nome}selected{/if}>
-                                {$ins.nome|escape:'html'}
-                            </option>
+                            <li class="combo-item" role="option"
+                                data-value="{$ins.nome|escape:'html'}"
+                                data-cdl="{$ins.nomeCorso|escape:'html'}"
+                                data-label="{$ins.nome|escape:'html'}">{$ins.nome}</li>
                         {/foreach}
-                    </select>
+                        <li class="combo-empty" hidden>Nessun insegnamento trovato</li>
+                    </ul>
                 </div>
 
                 <!-- Tag -->
@@ -137,8 +148,7 @@
                 Ordina per
             </span>
 
-            <select name="criterio" form="filter-form" class="sort-bar__select"
-                    onchange="document.getElementById('filter-form').submit();">
+            <select name="criterio" form="filter-form" class="sort-bar__select">
                 <option value=""            {if $ordinamento == ''}selected{/if}>Rilevanza</option>
                 <option value="download"    {if $ordinamento == 'download'}selected{/if}>Più scaricati</option>
                 <option value="valutazione" {if $ordinamento == 'valutazione'}selected{/if}>Valutazione</option>
@@ -316,40 +326,8 @@
 <!-- ===================== /PAGINAZIONE ===================== -->
 
 
-{* Filtro a cascata: mostra solo gli insegnamenti del corso selezionato *}
-<script>
-(function () {
-    var selectCorso = document.getElementById('select-corso');
-    var selectIns   = document.getElementById('select-insegnamento');
-    if (!selectCorso || !selectIns) return;
-
-    var pillIns = selectIns.closest('.filter-pill');
-
-    function aggiornaInsegnamenti() {
-        var opt = selectCorso.options[selectCorso.selectedIndex];
-        var codiceCorso = opt ? opt.getAttribute('data-codice') : '';
-        var corsoSelezionato = selectCorso.value !== '';
-
-        // Abilita/disabilita la pill insegnamento in base al corso scelto
-        selectIns.disabled = !corsoSelezionato;
-        if (pillIns) {
-            pillIns.classList.toggle('filter-pill--disabled', !corsoSelezionato);
-        }
-
-        // Mostra solo gli insegnamenti del corso selezionato
-        Array.prototype.forEach.call(selectIns.options, function (o) {
-            if (o.value === '') return; // opzione placeholder sempre visibile
-            var match = o.getAttribute('data-corso') === codiceCorso;
-            o.hidden = !match;
-            if (!match && o.selected) {
-                selectIns.value = '';
-            }
-        });
-    }
-
-    selectCorso.addEventListener('change', aggiornaInsegnamenti);
-    aggiornaInsegnamenti();
-})();
-</script>
+{* Combobox corso/insegnamento con blocco a cascata: stesso script
+   della pagina di caricamento materiale. *}
+<script src="/../JS/upload.js"></script>
 
 {/block}

@@ -43,11 +43,11 @@ class viewRicercaMateriale {
         return [
             // prelievo in $_GET dei valori associati alle chiavi sotto elencate
             'titolo' => $_GET['titolo'] ?? '',
-            'insegnamento' => $_GET['insegnamento'],
-            'tipologia' => $_GET['tipologia'],
-            'corso_di_laurea' => $_GET['corsoDiLaurea'],
-            'tag' => $_GET['tag'],
-            'criterio_ordinamento' => $_GET['criterio']
+            'insegnamento' => $_GET['insegnamento'] ?? '',
+            'tipologia' => $_GET['tipologia'] ?? '',
+            'corso_di_laurea' => $_GET['corsoDiLaurea'] ?? '',
+            'tag' => $_GET['tag'] ?? '',
+            'criterio_ordinamento' => $_GET['criterio'] ?? ''
         ];
     }
 

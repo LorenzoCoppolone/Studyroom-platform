@@ -221,12 +221,15 @@ document.addEventListener("DOMContentLoaded", () => {
         if (form) {
             form.addEventListener("submit", (e) => {
                 let ok = true;
-                if (!corso.hidden.value) {
+                // I campi sono obbligatori solo dove l'input è marcato required
+                // (upload). Sulla ricerca corso/insegnamento sono filtri opzionali
+                // e il submit non deve essere bloccato.
+                if (corso.input.required && !corso.hidden.value) {
                     corso.input.classList.add("input-error");
                     corso.input.focus();
                     ok = false;
                 }
-                if (ok && !insegnamento.hidden.value) {
+                if (ok && insegnamento.input.required && !insegnamento.hidden.value) {
                     insegnamento.input.classList.add("input-error");
                     insegnamento.input.focus();
                     ok = false;
