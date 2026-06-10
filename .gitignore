@@ -20,7 +20,7 @@ files/
 /vendor/
 /docs/
 /templates_c/
-
+/cache/
 
 # Backup o file temporanei
 *.bak

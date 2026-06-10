@@ -54,7 +54,7 @@ class MaterialeRepository {
             WHEN m INSTANCE OF Model\\Appunto THEN 'APPUNTO'
             WHEN m INSTANCE OF Model\\Esame THEN 'ESAME'
             ELSE 'ALTRO'
-        END AS HIDDEN tipologia"
+        END AS tipologia"
         )
             ->from(Materiale::class, 'm')
             ->leftjoin('m.downloads', 'd')

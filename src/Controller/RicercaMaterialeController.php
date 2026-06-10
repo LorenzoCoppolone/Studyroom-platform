@@ -64,7 +64,6 @@ class RicercaMaterialeController
             if($id !== null) {
                 $studente = $pm->find(Studente::class, $id);
                 $view->mostraMateriali($materiali, $page, $arrayPaginazione['totPage'], $studente->getUsername(), $studente->getImmagineProfilo()->getBase64($studente), $corsiDiLaurea, $insegnamenti, $filtri);
-            
             } else {
                 $view->mostraMateriali($materiali, $page, $arrayPaginazione['totPage'], null, null, $corsiDiLaurea, $insegnamenti, $filtri);
             }
