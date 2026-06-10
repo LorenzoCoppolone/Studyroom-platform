@@ -70,14 +70,11 @@ class MaterialeRepository {
         }
         if (strtolower($tipologia) === "appunto") {
             $qb->andWhere('m INSTANCE OF Model\Appunto');
-        } elseif (strtolower($tipologia) === "esame") {
+        }elseif (strtolower($tipologia) === "esame") {
             $qb->andWhere('m INSTANCE OF Model\Esame');
         }
         if (!empty($corso)) {
             $qb->andWhere('c.nomeCorso = :corso')->setParameter('corso', $corso);
-        }
-        if (!empty($tag)) {
-            $qb->andWhere('m.tag = :tag')->setParameter('tag', $tag);
         }
         $qb->groupBy('m.id');
         if (!empty($criterio) && strtolower($criterio) === 'download') {
@@ -87,6 +84,42 @@ class MaterialeRepository {
         }
         $qb->setFirstResult($offset)
         ->setMaxResults($limit);
+        $result = $qb->getQuery()->getArrayResult();
+        return $result;
+    }
+
+    public function dettagliMateriale(
+        int $idMateriale
+    ): array {
+        $qb = $this->em->createQueryBuilder();
+        $qb->select(
+            'm.id as idMateriale',
+            'm.titolo as titoloMateriale',
+            'i.nomeInsegnamento as insegnamento',
+            'c.nomeCorso as corso_di_Laurea',
+            's.username as nome_studente',
+            'COUNT(DISTINCT d.id) as numeroDownload',
+            'COUNT(DISTINCT r.id) as numeroRecensioni',
+            'AVG(r.voto) as mediaValutazione',
+            'm.file.contenuto as contenutoFile',
+            'm.file.mimeType as mimeTypeFile',
+            'm.file.size as dimensioneFile'
+        )
+            ->addSelect(
+        "CASE
+            WHEN m INSTANCE OF Model\\Appunto THEN 'APPUNTO'
+            WHEN m INSTANCE OF Model\\Esame THEN 'ESAME'
+            ELSE 'ALTRO'
+        END AS tipologia"
+        )
+            ->from(Materiale::class, 'm')
+            ->leftjoin('m.downloads', 'd')
+            ->join('m.studente', 's')
+            ->join('m.insegnamento', 'i')
+            ->join('i.corsoDiLaurea', 'c')
+            ->leftjoin('m.recensioni', 'r')
+            ->where('m.id = :idMateriale')
+            ->setParameter('idMateriale', $idMateriale);
         $result = $qb->getQuery()->getArrayResult();
         return $result;
     }

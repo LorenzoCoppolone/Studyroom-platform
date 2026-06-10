@@ -103,11 +103,13 @@ class PersistentManager {
         return $this->em->getRepository($class)->findOneBy($criteria);
     }
 
- public function countAll(string $class, array $criteria = []): int {
+public function countAll(string $class, array $criteria = []): int {
     $qb = $this->em->createQueryBuilder();
     $qb->select('COUNT(e)')
        ->from($class, 'e');
-    // TIPOLGIA (Appunto / Esame)
+    /*
+     * 1) TIPOLGIA (Appunto / Esame)
+     */
     if (isset($criteria['tipologia'])) {
         $tipo = strtolower($criteria['tipologia']);
         if ($tipo === 'appunto') {
@@ -117,14 +119,18 @@ class PersistentManager {
         }
         unset($criteria['tipologia']);
     }
-    // INSEGNAMENTO (ManyToOne) → confronto esatto
+    /*
+     * 2) INSEGNAMENTO (ManyToOne) → confronto esatto
+     */
     if (isset($criteria['insegnamento'])) {
         $qb->join('e.insegnamento', 'i');
         $qb->andWhere('i.nomeInsegnamento = :insegnamento')
            ->setParameter('insegnamento', $criteria['insegnamento']);
         unset($criteria['insegnamento']);
     }
-    // CORSO DI LAUREA (JOIN annidato) → confronto esatto
+    /*
+     * 3) CORSO DI LAUREA (JOIN annidato) → confronto esatto
+     */
     if (isset($criteria['corso'])) {
         $qb->join('e.insegnamento', 'i2');
         $qb->join('i2.corsoDiLaurea', 'c');
@@ -132,20 +138,33 @@ class PersistentManager {
            ->setParameter('corso', $criteria['corso']);
         unset($criteria['corso']);
     }
-    // CAMPI REALI dell'entità (LIKE)
+    /*
+     * 4) CAMPI RELAZIONALI DA ESCLUDERE DAL LIKE
+     */
+    $relationalFields = ['insegnamento', 'corso', 'corsoDiLaurea'];
+    /*
+     * 5) CAMPI REALI dell'entità (solo quelli semplici)
+     */
     $realFields = array_map(
         fn($prop) => $prop->getName(),
         (new \ReflectionClass($class))->getProperties()
     );
     foreach ($criteria as $field => $value) {
-        if (!in_array($field, $realFields, true)) {
-            continue; // ignora alias come corso_di_laurea
+        // ignora campi relazionali
+        if (in_array($field, $relationalFields, true)) {
+            continue;
         }
+        // ignora alias o campi inesistenti
+        if (!in_array($field, $realFields, true)) {
+            continue;
+        }
+        // LIKE solo sui campi semplici
         $qb->andWhere("e.$field LIKE :$field")
            ->setParameter($field, $value);
     }
     return (int) $qb->getQuery()->getSingleScalarResult();
 }
+
 
 
 
@@ -204,5 +223,9 @@ class PersistentManager {
 
     public function trovaCorsiDiLaurea(): array {
         return $this->insegnamentoRepository->trovaCorsiDiLaurea();
+    }
+
+    public function trovaMateriale(): array {
+        return $this->materialeRepository->dettagliMateriale();
     }
 }

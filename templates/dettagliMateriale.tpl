@@ -26,7 +26,7 @@
      $materiale.numeroRecensioni  numero recensioni ricevute
      $materiale.numeroDownload    numero download
      $materiale.nome_studente     username di chi ha caricato il materiale
-     $materiale.fileSrc           data URI completo del PDF
+     $base64Materiale           data URI completo del PDF
                                   (es. "data:application/pdf;base64,....")
    ───────────────────────────────────────────────────────────── *}
 
@@ -42,9 +42,9 @@
 
         <!-- ===================== CONTENUTO PDF ===================== -->
         <div class="materiale-viewer">
-            {if $materiale.fileSrc}
+            {if $base64Materiale}
                 <iframe class="materiale-viewer__frame"
-                        src="{$materiale.fileSrc}"
+                        src="{$base64Materiale}"
                         title="Contenuto del materiale"></iframe>
             {else}
                 <div class="materiale-viewer__empty">

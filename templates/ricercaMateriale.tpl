@@ -110,16 +110,6 @@
                     </ul>
                 </div>
 
-                <!-- Tag -->
-                <div class="filter-pill {if $filtri.tag|default:''}filter-pill--active{/if}">
-                    <select name="tag" class="filter-pill__select">
-                        <option value="">Tag</option>
-                        <option value="RIASSUNTO" {if ($filtri.tag|default:'') == 'RIASSUNTO'}selected{/if}>Riassunto</option>
-                        <option value="NOTE"      {if ($filtri.tag|default:'') == 'NOTE'}selected{/if}>Note</option>
-                        <option value="ESERCIZI"  {if ($filtri.tag|default:'') == 'ESERCIZI'}selected{/if}>Esercizi</option>
-                    </select>
-                </div>
-
                 <!-- Tipologia -->
                 <div class="filter-pill {if $filtri.tipologia|default:''}filter-pill--active{/if}">
                     <select name="tipologia" class="filter-pill__select">
@@ -213,10 +203,9 @@
                                 <span>{$mat.numeroDownload|default:0|escape:'html'}</span>
                             </div>
 
-                            <form class="card__download-form" action="/dowloadMateriale/eseguiDownload" method="POST">
-                                <input type="hidden" name="idMateriale" value="{$mat.idMateriale|escape:'html'}">
-                                <button type="submit" class="card__download-btn">Scarica</button>
-                            </form>
+                            <a href ="/RicercaMateriale/dettagli/{$materiale.idMateriale|escape }" class="card__download-form">
+                                Apri
+                            </a>
                         </div>
                     </div>
 
