@@ -106,12 +106,18 @@
             <div class="materiale-actions">
 
                 <!-- Scarica -->
-                <form action="/DowloadMateriale/eseguiDownload" method="POST">
-                    <input type="hidden" name="idMateriale" value="{$materiale.idMateriale|escape:'html'}">
-                    <button type="submit" class="btn-azione btn-azione--primary">
-                        <i class="fa fa-download"></i> Scarica
-                    </button>
-                </form>
+                <a id="downloadLink"
+                    href="/DownloadMateriale/eseguiDownload/{$materiale.idMateriale|escape:'html'}"
+                    style="display:none;">
+                </a>
+
+                <button type="button" class="btn-azione btn-azione--primary" onclick="scaricaMateriale()">
+                    <i class="fa fa-download"></i> Scarica
+                </button>
+
+
+
+
 
                 <!-- Preferiti -->
                 <form action="/GestionePreferiti/gestionePreferitoController" method="POST">
@@ -180,5 +186,7 @@
     </div>
 
 </section>
+
+<script src="/../js/downloadMateriale.js"></script>
 
 {/block}

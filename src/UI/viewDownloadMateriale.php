@@ -25,15 +25,48 @@ class viewDownloadMateriale {
         return $_POST['idMateriale'] ?? null;
     }
 
-    /**
-     * Serve il file richiesto dall'utente.
-     *
-     * @param mixed $file Oggetto o array contenente i dati del file
-     * @return void
-     */
-    public function serviFile($file) : void {
-        // Implementazione futura: headers + echo contenuto
+/**
+ * View: effettua il download del materiale salvato nel DB (BLOB),
+ * senza nome originale.
+ * @param string $mimeType
+ * @param int    $dimensione
+ * @param string $contenuto  Contenuto binario del file (BLOB)
+ * @param int    $idMateriale  (opzionale) per generare un nome coerente
+ * @return void
+ */
+    public function effettuaDownload(string $mimeType, int $dimensione, string $contenuto, int $idMateriale): void {
+    // Mappa MIME → estensione
+    $estensioni = [
+        'application/pdf' => 'pdf',
+        'image/jpeg'      => 'jpg',
+        'image/png'       => 'png',
+        'text/plain'      => 'txt',
+        'application/zip' => 'zip',
+    ];
+
+    // Estensione dedotta
+    $ext = $estensioni[$mimeType] ?? 'bin';
+
+    // Nome file generato
+    $nomeFile = "materiale_" . $idMateriale . "." . $ext;
+
+    // Headers per forzare il download
+    header('Content-Description: File Transfer');
+    header('Content-Type: ' . $mimeType);
+    header('Content-Disposition: attachment; filename="' . $nomeFile . '"');
+    header('Content-Length: ' . $dimensione);
+    header('Cache-Control: no-cache, must-revalidate');
+    header('Pragma: public');
+
+    if (ob_get_length()) {
+        ob_end_clean();
     }
+
+    echo $contenuto;
+    exit;
+    }
+
+
 
     /**
      * Mostra il popup per il download del materiale

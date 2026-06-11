@@ -11,14 +11,10 @@ use Doctrine\DBAL\Types\Types;
             name: "unique_download",
             columns: ["Materiale_id", "Studente_id"])]
  )]
-
-
 class Download {
     
     #[ORM\Id]
-
     #[ORM\GeneratedValue]
-
     #[ORM\Column(type: Types::INTEGER)]
     private int $id;
     
