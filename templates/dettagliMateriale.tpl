@@ -34,17 +34,13 @@
 
 <section class="materiale-page">
 
-    <a href="/RicercaMateriale/popolari" class="back-link">
-        <i class="fa fa-arrow-left"></i> Torna ai materiali
-    </a>
-
     <div class="materiale-layout">
 
         <!-- ===================== CONTENUTO PDF ===================== -->
         <div class="materiale-viewer">
             {if $base64Materiale}
                 <iframe class="materiale-viewer__frame"
-                        src="{$base64Materiale}"
+                        src="/RicercaMateriale/pdf/{$materiale.idMateriale|escape:'url'}"
                         title="Contenuto del materiale"></iframe>
             {else}
                 <div class="materiale-viewer__empty">

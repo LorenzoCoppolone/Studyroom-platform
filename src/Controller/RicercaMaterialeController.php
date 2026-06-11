@@ -102,6 +102,32 @@ class RicercaMaterialeController
     }
 
     /**
+     * Restituisce il contenuto binario del PDF di un materiale, servito inline.
+     * Usato come sorgente dell'iframe nella pagina di dettaglio: evita di inlineare
+     * il PDF in base64 nell'HTML (i data: URI grandi non vengono renderizzati dai browser).
+     *
+     * @param int $id_materiale
+     * @return void
+     */
+    public function pdf(int $id_materiale): void {
+        try {
+            $view = new ViewRicercaMateriale();
+            $pm = PersistentManager::getInstance();
+            $materiale = $pm->trovaMateriale($id_materiale);
+            $contenuto = $materiale['contenutoFile'] ?? null;
+            if (is_resource($contenuto)) {
+                rewind($contenuto);
+                $contenuto = stream_get_contents($contenuto);
+            }
+            $view->mostraPdf($contenuto, $materiale['mimeTypeFile'] ?? null, $id_materiale);
+        } catch (PDOException $e) {
+            $view->mostraFormErrore("Errore DB durante il recupero del PDF: " . $e->getMessage());
+        } catch (\Exception $e) {
+            $view->mostraFormErrore("Errore imprevisto: " . $e->getMessage());
+        }
+    }
+
+    /**
      * Mostra i materiali più popolari.
      *
      * @throws RuntimeException Se si verifica un errore DB.

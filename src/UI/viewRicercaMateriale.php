@@ -86,12 +86,31 @@ class viewRicercaMateriale {
     }
 
     public function mostraDettagliMateriale(array $materiale, string $base64Materiale, ?string $username, ?string $base64Studente) : void {
-        header('Content-Type: ' . ($materiale['mimeTypeFile'] ?: 'application/pdf'));
-        header('Content-Disposition: inline; filename="materiale-' . $materiale['id'] . '.pdf"');
         $this->smarty->assign('materiale', $materiale);
         $this->smarty->assign('base64Materiale', $base64Materiale);
         $this->smarty->assign('studente', $username);
         $this->smarty->assign('base64', $base64Studente);
         $this->smarty->display('dettagliMateriale.tpl');
+    }
+
+    /**
+     * Invia al browser il contenuto binario di un PDF, servito inline.
+     * Emette qui gli header HTTP e l'output (responsabilità della view).
+     *
+     * @param string|null $contenuto Contenuto binario del file
+     * @param string|null $mimeType  Tipo MIME del file
+     * @param int $id ID del materiale (usato nel filename)
+     * @return void
+     */
+    public function mostraPdf(?string $contenuto, ?string $mimeType, int $id) : void {
+        if (empty($contenuto)) {
+            header('HTTP/1.1 404 Not Found');
+            exit;
+        }
+        header('Content-Type: ' . ($mimeType ?: 'application/pdf'));
+        header('Content-Disposition: inline; filename="materiale-' . $id . '.pdf"');
+        header('Content-Length: ' . strlen($contenuto));
+        echo $contenuto;
+        exit;
     }
 }
