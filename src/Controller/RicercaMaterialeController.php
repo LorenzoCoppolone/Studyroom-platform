@@ -139,7 +139,7 @@ class RicercaMaterialeController
             $page = $view->getPage() ?? 1;
             $arrayPaginazione = $this->paginazione(Materiale::class, $page);
             $pm        = PersistentManager::getInstance();
-            $materiali = $pm->getMaterialiPopolari($arrayPaginazione['offset'], $arrayPaginazione['limit']);
+            $materiali = $pm->trovaMaterialiPopolari($arrayPaginazione['offset'], $arrayPaginazione['limit']);
             $session = Session::getInstance();
             $session->setSessionElement('ricerca_titolo', '');
             $id = $session->getSessionElement('studente');

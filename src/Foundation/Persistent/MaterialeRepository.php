@@ -123,4 +123,27 @@ class MaterialeRepository {
         $result = $qb->getQuery()->getOneOrNullResult();
         return $result;
     }
+
+
+    public function trovaMaterialiPopolari(int $offset = 0, int $limit = 10): array
+    {
+        $dql = "
+            SELECT m, 
+                COUNT(p.id) AS numPreferiti, 
+                COUNT(d.id) AS numDownload
+            FROM Model\Materiale m
+            LEFT JOIN m.preferiti p
+            LEFT JOIN m.downloads d
+            GROUP BY m.id
+            ORDER BY numPreferiti DESC, numDownload DESC
+        ";
+
+        $query = $this->em->createQuery($dql)
+
+            ->setFirstResult($offset)
+            ->setMaxResults($limit);
+
+        return $query->getResult();
+    }
+
 }
