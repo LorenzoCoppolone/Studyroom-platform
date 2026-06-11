@@ -137,29 +137,43 @@ class UtenteRepository{
         int $id_studente, 
         int $offset, 
         int $limit
-        ): array {
+    ): array {
 
         $qb = $this->em->createQueryBuilder();
-        $qb->select( 
-        'm.id as idMateriale',
-        'm.titolo as titoloMateriale',
-        'COUNT(DISTINCT d.id) as numeroDownload',
-        'COUNT(DISTINCT r.id) as numeroRecensioni',
-        'AVG(r.voto) as mediaValutazione'
-        )
-            ->from(Materiale::class, 'm')
-            ->leftjoin('m.downloads', 'd')
-            ->leftjoin('m.recensioni', 'r')
-            ->where('m.studente = :id_studente')
-            ->orderBy('numeroDownload', 'DESC')
-            ->addOrderBy('numeroRecensioni', 'DESC')
-            ->setParameter('id_studente', $id_studente);
-            $qb->groupBy('m.id');
-            $qb->setFirstResult($offset)
-               ->setMaxResults($limit);
 
-        $result = $qb->getQuery()->getArrayResult();
-        return $result;
+        $qb->select(
+            'm.id AS idMateriale',
+            'm.titolo AS titoloMateriale',
+            'i.nomeInsegnamento AS insegnamento',
+            'c.nomeCorso AS corso_di_Laurea',
+            's.username AS nome_studente',
+            'COUNT(DISTINCT d.id) AS numeroDownload',
+            'COUNT(DISTINCT r.id) AS numeroRecensioni',
+            'AVG(r.voto) AS mediaValutazione'
+        )
+        ->addSelect("
+            CASE
+                WHEN m INSTANCE OF Model\\Appunto THEN 'APPUNTO'
+                WHEN m INSTANCE OF Model\\Esame THEN 'ESAME'
+                ELSE 'ALTRO'
+            END AS tipologia
+        ")
+        ->from(Materiale::class, 'm')
+        ->join('m.studente', 's')
+        ->join('m.insegnamento', 'i')
+        ->join('i.corsoDiLaurea', 'c')
+        ->leftJoin('m.downloads', 'd')
+        ->leftJoin('m.recensioni', 'r')
+        ->where('s.id = :id_studente')
+        ->setParameter('id_studente', $id_studente)
+        ->groupBy('m.id')
+        ->orderBy('numeroDownload', 'DESC')
+        ->addOrderBy('numeroRecensioni', 'DESC')
+        ->setFirstResult($offset)
+        ->setMaxResults($limit);
+
+        return $qb->getQuery()->getArrayResult();
     }
+
 
 }
