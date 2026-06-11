@@ -42,10 +42,7 @@
             required
         >
         <button type="submit" class="hero-search__btn" aria-label="Avvia ricerca">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                 stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-            </svg>
+            <i class="fa fa-magnifying-glass"></i>
         </button>
     </form>
 </section>
@@ -54,15 +51,16 @@
 
 <!-- ===================== FILTRI ===================== -->
 <section class="filters-bar">
-    <div class="filters-bar__inner">
 
-        <form id="filter-form" action="/RicercaMateriale/filtra" method="GET">
+    <form id="filter-form" class="filters-panel" action="/RicercaMateriale/filtra" method="GET">
 
-            {* Mantiene la query corrente nell'URL (utile per la paginazione) *}
-            <input type="hidden" name="titolo" value="{$queryCorrente|escape:'html'}">
-            <input type="hidden" name="page" value="1">
+        {* Mantiene la query corrente nell'URL (utile per la paginazione) *}
+        <input type="hidden" name="titolo" value="{$queryCorrente|escape:'html'}">
+        <input type="hidden" name="page" value="1">
 
-            <div class="filters-bar__pills">
+       
+
+        <div class="filters-bar__pills">
 
                 {* Corso di Laurea e Insegnamento: combobox con
                    autocompletamento, stesso meccanismo del caricamento
@@ -119,33 +117,22 @@
                     </select>
                 </div>
 
+                <!-- Ordinamento (pill come gli altri filtri) -->
+                <div class="filter-pill {if $ordinamento|default:''}filter-pill--active{/if}">
+                    <select name="criterio" class="filter-pill__select">
+                        <option value=""            {if $ordinamento == ''}selected{/if}>Ordina per…</option>
+                        <option value="download"    {if $ordinamento == 'download'}selected{/if}>Più scaricati</option>
+                        <option value="valutazione" {if $ordinamento == 'valutazione'}selected{/if}>Valutazione</option>
+                    </select>
+                </div>
+
             </div>
 
             <button type="submit" class="btn-applica-filtri">
                 Applica filtri
             </button>
 
-        </form>
-
-        <!-- Ordina per -->
-        <div class="sort-bar">
-            <span class="sort-bar__label">
-                <svg class="sort-bar__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                     fill="none" stroke="currentColor" stroke-width="2.2"
-                     stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="12" y1="5" x2="12" y2="19"/><polyline points="5 12 12 5 19 12"/>
-                </svg>
-                Ordina per
-            </span>
-
-            <select name="criterio" form="filter-form" class="sort-bar__select">
-                <option value=""            {if $ordinamento == ''}selected{/if}>Rilevanza</option>
-                <option value="download"    {if $ordinamento == 'download'}selected{/if}>Più scaricati</option>
-                <option value="valutazione" {if $ordinamento == 'valutazione'}selected{/if}>Valutazione</option>
-            </select>
-        </div>
-
-    </div>
+    </form>
 </section>
 <!-- ===================== /FILTRI ===================== -->
 
@@ -160,7 +147,7 @@
 
                 {assign var="stelle" value=$mat.mediaValutazione|default:0|round}
 
-                <article class="card">
+                <a href="/RicercaMateriale/dettagli/{$mat.idMateriale|escape}" class="card">
 
                     <div class="card__icon" aria-hidden="true">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 96" fill="none">
@@ -202,14 +189,10 @@
                                 </svg>
                                 <span>{$mat.numeroDownload|default:0|escape:'html'}</span>
                             </div>
-
-                            <a href="/RicercaMateriale/dettagli/{$mat.idMateriale|escape }" class="card__download-form">
-                                Apri
-                            </a>
                         </div>
                     </div>
 
-                </article>
+                </a>
 
             {/foreach}
 
@@ -312,11 +295,6 @@
 
 </nav>
 {/if}
-<!-- ===================== /PAGINAZIONE ===================== -->
-
-
-{* Combobox corso/insegnamento con blocco a cascata: stesso script
-   della pagina di caricamento materiale. *}
 <script src="/../JS/upload.js"></script>
 
 {/block}

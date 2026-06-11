@@ -86,6 +86,8 @@ class viewRicercaMateriale {
     }
 
     public function mostraDettagliMateriale(array $materiale, string $base64Materiale, ?string $username, ?string $base64Studente) : void {
+        header('Content-Type: ' . ($materiale['mimeTypeFile'] ?: 'application/pdf'));
+        header('Content-Disposition: inline; filename="materiale-' . $materiale['id'] . '.pdf"');
         $this->smarty->assign('materiale', $materiale);
         $this->smarty->assign('base64Materiale', $base64Materiale);
         $this->smarty->assign('studente', $username);
