@@ -300,10 +300,12 @@ class viewUser {
      * @param array $recensioni
      * @return void
      */
-    public function mostraRecensioniUtente(array $recensioni, int $totPage, int $page): void {
+    public function mostraRecensioniUtente(array $recensioni, int $totPage, int $page, ?string $username = null, ?string $base64 = null): void {
         $this->smarty->assign('recensioni', $recensioni);
         $this->smarty->assign('totPage', $totPage);
         $this->smarty->assign('page', $page);
+        $this->smarty->assign('studente', $username);
+        $this->smarty->assign('base64', $base64);
         $this->smarty->display('recensioniUtente.tpl');
     }
 

@@ -94,6 +94,7 @@ class UserController {
         flush();
         $this->inviaEmailVerifica($studente, $token);
         $session->setSessionElement('studente', $studente->getId());
+    
     } catch (\Exception $e) {
         $view->mostraFormErrore("Errore durante la registrazione: " . $e->getMessage());
     }
@@ -200,9 +201,9 @@ class UserController {
             $studente->setValidationTokenTime(null); // Rimuovi la scadenza del token
             $studente->setIsVerified(true); // Imposta l'email come verificata
             $pm->update($studente); // Salva le modifiche al database
-            $view->mostraHome($studente->getUsername(), null);
+            $view->mostraConvalidaEmail($studente->getUsername(), null);
         } catch (PDOException $e) {
-           $view->mostraFormErorre("Errore durante la verifica dell'email: " . $e->getMessage());
+           $view->mostraFormErrore("Errore durante la verifica dell'email: " . $e->getMessage());
         }
     }
  
@@ -223,14 +224,18 @@ class UserController {
         
         $session = Session::getInstance(); // Ottieni l'istanza della sessione
         $idStudenteLoggato = $session->getSessionElement('studente');
-        
+
+        $studente = $pm->find(Studente::class, $idStudenteLoggato); // Serve per la navbar (username + foto)
+        $username = $studente?->getUsername();
+        $base64 = $studente?->getImmagineProfilo()?->getBase64($studente);
+
         $recensioni = $pm->trovaRecensioniPerUtente($idStudenteLoggato, $offset, $limit);
         $numeroRecensioni = $pm->countAll(\Model\Recensione::class, ['Studente' => $idStudenteLoggato]);
 
         // $numeroRecensioni = $pm->count(Recensione::class, ['Studente' => $idStudenteLoggato]);
         $pagineTotali = ceil($numeroRecensioni / $limit);
-        
-        $view->mostraRecensioniUtente($recensioni, $pagineTotali, $page);
+
+        $view->mostraRecensioniUtente($recensioni, $pagineTotali, $page, $username, $base64);
     }
 
     /**
