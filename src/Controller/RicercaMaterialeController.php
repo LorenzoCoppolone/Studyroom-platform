@@ -87,7 +87,16 @@ class RicercaMaterialeController
             // Il PDF non viene più inlineato qui: è servito a parte dall'endpoint pdf().
             $session = Session::getInstance();
             $id = $session->getSessionElement('studente');
-            $studente = $pm->find(Studente::class, $id);
+            if ($id !== null) {
+                 $studente = $pm->find(Studente::class, $id);
+                 $username = $studente->getUsername();
+                 $immagineProfilo = $studente->getImmagineProfilo()->getBase64($studente);
+            }
+            else {
+                    $username = null;
+                    $immagineProfilo = null;
+                 }
+            
             // Verifico se il materiale è già tra i preferiti dell'utente loggato.
             $preferito = false;
             if ($id !== null) {
@@ -96,7 +105,7 @@ class RicercaMaterialeController
                     'materiale' => $id_materiale
                 ]) !== null;
             }
-            $view->mostraDettagliMateriale($materiale, $studente->getUsername(), $studente->getImmagineProfilo()->getBase64($studente), $preferito);
+            $view->mostraDettagliMateriale($materiale, $username, $immagineProfilo, $preferito);
         }catch (PDOException $e) {
             $view->mostraFormErrore("Errore DB durante la ricerca: " . $e->getMessage());
         }catch (\Exception $e) {
