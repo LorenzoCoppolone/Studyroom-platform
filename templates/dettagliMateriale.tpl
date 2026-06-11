@@ -40,7 +40,7 @@
         <div class="materiale-viewer">
             {if $materiale}
                 <iframe class="materiale-viewer__frame"
-                        src="/RicercaMateriale/pdf/{$materiale.idMateriale|escape:'url'}"
+                        src="/RicercaMateriale/pdf/{$materiale.idMateriale|escape:'url'}#toolbar=0&navpanes=0&scrollbar=0"
                         title="Contenuto del materiale"></iframe>
             {else}
                 <div class="materiale-viewer__empty">
