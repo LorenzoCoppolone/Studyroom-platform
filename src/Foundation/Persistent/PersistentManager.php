@@ -191,6 +191,16 @@ public function countAll(string $class, array $criteria = []): int {
             $tag, 
             $criterio);
     }
+
+    public function trovaMaterialiPopolari(
+        int $offset,
+        int $limit
+    ): array {
+        return $this->materialeRepository->trovaMaterialiPopolari(
+            $offset,
+            $limit
+        );
+    }
     public function trovaPreferitiPerUtente(int $id_studente, int $offset, int $limit): array {
         return $this->utenteRepository->trovaPreferiti($id_studente, $offset, $limit);
     }
