@@ -208,7 +208,7 @@ class RicercaMaterialeController
     public function preferiti() : void {
         try{
             $view = new ViewRicercaMateriale();
-            $page = $view->getDatiPaginazione(); 
+            $page = $view->getPage() ?? 1; 
         
             $arrayPaginazione = $this->paginazione(Preferito::class, $page); 
         
@@ -242,19 +242,33 @@ class RicercaMaterialeController
     public function download() : void {
         try{
             $view = new ViewRicercaMateriale();
-            $page = $view->getPage(); // Ottieni la pagina corrente
+            $page = $view->getPage() ?? 1; // Ottieni la pagina corrente
         
             $arrayPaginazione = $this->paginazione(Download::class, $page); 
+            
             $session = Session::getInstance();
             $idStudenteLoggato = $session->getSessionElement('studente');
+            
             $pm = PersistentManager::getInstance();
             $studente = $pm->find(Studente::class, $idStudenteLoggato);
+            
             $corsiDiLaurea = $pm->trovaCorsiDiLaurea();
             $insegnamenti = $pm->trovaInsegnamenti();
             $filtri = $session->getSessionElement('ricerca_filtri') ?? [];
+            
             $download = $pm->trovaDownloadPerUtente($idStudenteLoggato, $arrayPaginazione['offset'], $arrayPaginazione['limit']);
         
-            $view->mostraMateriali($download, $arrayPaginazione['totPage'], $page, $studente->getUsername(), $studente->getImmagineProfilo()->getBase64($studente), $corsiDiLaurea, $insegnamenti, $page);
+            $view->mostraMateriali(
+                $download,
+                $page,
+                $arrayPaginazione['totPage'],
+                $studente->getUsername(),
+                $studente->getImmagineProfilo()->getBase64($studente),
+                $corsiDiLaurea,
+                $insegnamenti,
+                $filtri
+            );
+
         
         } catch (PDOException $e) {
             $view->mostraFormErrore("Errore durante la ricerca: " . $e->getMessage());
@@ -273,7 +287,7 @@ class RicercaMaterialeController
     public function popolariUtente() : void {
         try{
             $view = new ViewRicercaMateriale();
-            $page = $view->getDatiPaginazione(); // Ottieni la pagina corrente
+            $page = $view->getPage() ?? 1; // Ottieni la pagina corrente
         
             $arrayPaginazione = $this->paginazione(Materiale::class, $page); // Calcola l'offset per la query
         

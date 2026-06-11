@@ -210,16 +210,24 @@ class UserController {
         $view = new viewUser();
         $pm = PersistentManager::getInstance();
 
-        $page = $view->getDatiPaginazione(); // Ottieni la pagina corrente
-        $page = max(1, $page); // Assicurati che la pagina sia almeno 1
-        $limit = 10; // Numero di elementi per pagina
-        $offset = $this->paginazione($page, $limit); // Calcola l'offset per la query
+        $page = $view->getDatiPaginazione() ?? 1; // Ottieni la pagina corrente
+
+        $arrayPaginazione = $this->paginazione(\Model\Recensione::class, $page);
+
+        $offset = $arrayPaginazione['offset'];
+        $limit  = $arrayPaginazione['limit'];
+        $totPage = $arrayPaginazione['totPage'];
+        // $page = max(1, $page); // Assicurati che la pagina sia almeno 1
+        //$limit = 10; // Numero di elementi per pagina
+        //$offset = $this->paginazione($page, $limit); // Calcola l'offset per la query
         
         $session = Session::getInstance(); // Ottieni l'istanza della sessione
         $idStudenteLoggato = $session->getSessionElement('studente');
         
         $recensioni = $pm->trovaRecensioniPerUtente($idStudenteLoggato, $offset, $limit);
-        $numeroRecensioni = $pm->count(Recensione::class, ['Studente' => $idStudenteLoggato]);
+        $numeroRecensioni = $pm->countAll(\Model\Recensione::class, ['Studente' => $idStudenteLoggato]);
+
+        // $numeroRecensioni = $pm->count(Recensione::class, ['Studente' => $idStudenteLoggato]);
         $pagineTotali = ceil($numeroRecensioni / $limit);
         
         $view->mostraRecensioniUtente($recensioni, $pagineTotali, $page);
@@ -496,4 +504,20 @@ class UserController {
         $studente->setRememberTokenTime((new \DateTime('now', new \DateTimeZone('Europe/Rome')))->modify('+30 days'));// Scadenza token in linea con il cookie
         $pm->update($studente);
     }
+
+    private function paginazione(string $class, int $page): array {
+        $page = max(1, $page);
+        $limit = 10;
+        $offset = ($page - 1) * $limit;
+
+        $pm = PersistentManager::getInstance();
+        $totale = $pm->countAll($class);
+
+        return [
+            'offset' => $offset,
+            'limit' => $limit,
+            'totPage' => ceil($totale / $limit)
+        ];
+    }
+
 }
