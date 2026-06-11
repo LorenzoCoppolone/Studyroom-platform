@@ -31,7 +31,7 @@ class recensioneMaterialeController {
         $idMateriale = $view->getIdMateriale();
         $voto        = (float) $view->getVoto();
         $commento    = $view->getCommento();
-        $idUtente = Session::getInstance()->getIdUtenteLoggato();
+        $idUtente = Session::getInstance()->getSessionElement('studente');
         
         // Validazione utente
         if (empty($idUtente)) {
@@ -46,7 +46,7 @@ class recensioneMaterialeController {
         }
         
         try {
-            $pm = PersistentManager::getIstance();
+            $pm = PersistentManager::getInstance();
 
             // Controllo se esiste già una recensione dello stesso studente
             $risultati = $pm->findBy(Recensione::class, [
@@ -61,11 +61,11 @@ class recensioneMaterialeController {
                 $materiale = $pm->find(Materiale::class, $idMateriale);
                 $studente = $pm->find(Studente::class, $idUtente);
 
-                $nuovaRecensione = new Recensione(0, $voto, $commento, $studente, $materiale);
+                $nuovaRecensione = new Recensione($voto, $commento, $studente, $materiale);
 
                 $pm->save($nuovaRecensione);
 
-                $view->mostraPopUpRecensione();
+                $view->mostraPopUpConfermaRecensione();
             }
 
         } catch(PDOExcception $e) {

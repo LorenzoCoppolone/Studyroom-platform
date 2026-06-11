@@ -31,10 +31,10 @@ class GestionePreferitiController {
         $view = new ViewPreferiti(); 
         
         // ID materiale selezionato
-        $idMateriale = $view->getIdmateriale();
+        $idMateriale = $view->getIdMateriale();
         
         // ID utente loggato
-        $idUtente = Session::getInstance()->getIdUtenteLoggato();
+        $idUtente = Session::getInstance()->getSessionElement('studente');
         
         // Validazione
         if (empty($idUtente)) {
@@ -58,7 +58,9 @@ class GestionePreferitiController {
                 
                 $pm->delete($preferito);
                 
-                $view->mostraFormSuccesso("Materiale rimosso dai preferiti!");
+                $view->mostraPopUpRimosso();
+
+
             
             } else {
                 
@@ -68,7 +70,8 @@ class GestionePreferitiController {
                 
                 $pm->save($nuovoPreferito);
                 
-                $view->mostraFormSuccesso("Materiale aggiunto ai preferiti!");
+                $view->mostraPopUpAggiunto();
+
             }
         
         } catch(PDOException $e) {

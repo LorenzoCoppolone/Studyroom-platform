@@ -110,7 +110,7 @@
             <div class="materiale-actions">
 
                 <!-- Scarica -->
-                <form action="/dowloadMateriale/eseguiDownload" method="POST">
+                <form action="/DowloadMateriale/eseguiDownload" method="POST">
                     <input type="hidden" name="idMateriale" value="{$materiale.idMateriale|escape:'html'}">
                     <button type="submit" class="btn-azione btn-azione--primary">
                         <i class="fa fa-download"></i> Scarica
@@ -118,7 +118,7 @@
                 </form>
 
                 <!-- Preferiti -->
-                <form action="/gestionePreferiti/gestionePreferitoController" method="POST">
+                <form action="/GestionePreferiti/gestionePreferitoController" method="POST">
                     <input type="hidden" name="idMateriale" value="{$materiale.idMateriale|escape:'html'}">
                     <button type="submit" class="btn-azione {if $preferito}btn-azione--active{/if}">
                         {if $preferito}

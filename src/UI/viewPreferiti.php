@@ -30,18 +30,27 @@ class ViewPreferiti {
      * Mostra il pop-up che conferma l'aggiunta del materiale ai preferiti.
      *
      * @return void
-     */
+    */
     public function mostraPopUpAggiunto() : void {
-        // Implementazione futura: template popup aggiunta
+        $this->smarty->assign('messaggio', "Materiale aggiunto ai preferiti!");
+        $this->smarty->assign('tipo', "successo");
+        $this->smarty->display('popupPreferiti.tpl');
     }
+    
 
     /**
      * Mostra il pop-up che conferma la rimozione del materiale dai preferiti.
      *
      * @return void
-     */
+    */
+     
     public function mostraPopUpRimosso() : void {
-        // Implementazione futura: template popup rimozione
+       $this->smarty->assign('messaggio', "Materiale rimosso dai preferiti!");
+        $this->smarty->assign('tipo', "erroreo");
+      $this->smarty->display('popupPreferiti.tpl');
     }
+
+
+
 }
    

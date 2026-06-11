@@ -4,7 +4,7 @@ namespace Controller;
 
 use Foundation\Persistent\PersistentManager;
 use Foundation\Session;
-use UI\ViewSegnalazione;
+use UI\ViewSegnalazioni;
 use Model\Segnalazione;
 use Model\Studente;
 use Model\Materiale;
@@ -33,7 +33,7 @@ class SegnalazioneContenutiController {
         $view = new ViewSegnalazioni();
         $idMateriale = $view->getIdMateriale();
         $motivo      = $view->getMotivo();
-        $idUtente = Session::getInstance()->getIdUtenteLoggato();
+        $idUtente = Session::getInstance()->getSessionElement('studente');
         
         if(empty($idUtente)) {
             throw new InvalidArgumentException("Utente non loggato");
@@ -48,7 +48,7 @@ class SegnalazioneContenutiController {
             
             $studente = $pm->find(Studente::class,$idUtente);
             
-            if($studente->getIsBanned() === true || $studente->getIsVerificato() === false) {
+            if($studente->getIsBanned() === true || $studente->getIsVerified() === false) {
                 throw new RuntimeException("Utente non verificato");
             }
             
