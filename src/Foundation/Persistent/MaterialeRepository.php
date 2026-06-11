@@ -127,23 +127,42 @@ class MaterialeRepository {
 
     public function trovaMaterialiPopolari(int $offset = 0, int $limit = 10): array
     {
-        $dql = "
-            SELECT m, 
-                COUNT(p.id) AS numPreferiti, 
-                COUNT(d.id) AS numDownload
-            FROM Model\Materiale m
-            LEFT JOIN m.preferiti p
-            LEFT JOIN m.downloads d
-            GROUP BY m.id
-            ORDER BY numPreferiti DESC, numDownload DESC
-        ";
+        $qb = $this->em->createQueryBuilder();
 
-        $query = $this->em->createQuery($dql)
+        $qb->select(
+            'm.id AS idMateriale',
+            'm.titolo AS titoloMateriale',
+            'i.nomeInsegnamento AS insegnamento',
+            'c.nomeCorso AS corso_di_Laurea',
+            's.username AS nome_studente',
+            'COUNT(DISTINCT d.id) AS numeroDownload',
+            'COUNT(DISTINCT r.id) AS numeroRecensioni',
+            'AVG(r.voto) AS mediaValutazione',
+            'COUNT(DISTINCT p.id) AS numeroPreferiti'
+        )
+        ->addSelect("
+            CASE
+                WHEN m INSTANCE OF Model\\Appunto THEN 'APPUNTO'
+                WHEN m INSTANCE OF Model\\Esame THEN 'ESAME'
+                ELSE 'ALTRO'
+            END AS tipologia
+        ")
+        ->from(Materiale::class, 'm')
+        ->leftJoin('m.preferiti', 'p')
+        ->leftJoin('m.downloads', 'd')
+        ->leftJoin('m.recensioni', 'r')
+        ->join('m.studente', 's')
+        ->join('m.insegnamento', 'i')
+        ->join('i.corsoDiLaurea', 'c')
+        ->groupBy('m.id')
+        ->orderBy('numeroPreferiti', 'DESC')
+        ->addOrderBy('numeroDownload', 'DESC')
+        ->setFirstResult($offset)
+        ->setMaxResults($limit);
 
-            ->setFirstResult($offset)
-            ->setMaxResults($limit);
-
-        return $query->getResult();
+        return $qb->getQuery()->getArrayResult();
     }
+
+
 
 }
