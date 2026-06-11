@@ -18,27 +18,30 @@
     justify-content: center;
 }
 
+/* Stessa identità visiva della barra di ricerca della home
+   (.search-box / .btn-search-main in styleHome.css). */
 .hero-search__form {
     display: flex;
     align-items: center;
     width: 100%;
-    max-width: 560px;
-    height: 52px;
+    max-width: 700px;
     border: 2px solid var(--color-primary);
     border-radius: var(--radius-pill);
     overflow: hidden;
     background: var(--color-card);
     box-shadow: var(--shadow-soft);
-    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
 }
 
 .hero-search__form:hover {
     border-color: var(--color-primary-dark);
+    box-shadow: 0 8px 28px rgba(108, 79, 212, 0.20);
+    transform: translateY(-2px);
 }
 
 .hero-search__form:focus-within {
     border-color: var(--color-primary-dark);
-    box-shadow: 0 0 0 4px var(--color-primary-light);
+    box-shadow: 0 0 0 4px var(--color-primary-light), var(--shadow-soft);
 }
 
 .hero-search__input {
@@ -46,7 +49,7 @@
     min-width: 0;
     border: none;
     outline: none;
-    padding: 0 1.5rem;
+    padding: 0.8rem 1.25rem;
     font-family: var(--font-body);
     font-size: 1rem;
     color: var(--color-text);
@@ -58,25 +61,22 @@
 }
 
 .hero-search__btn {
-    height: 100%;
     border: none;
-    background: var(--color-primary);
-    color: #fff;
-    padding: 0 1.3rem;
+    border-left: 2px solid var(--color-primary);
+    background: var(--color-primary-light);
+    color: var(--color-primary);
+    padding: 0.8rem 1.4rem;
+    font-size: 1.1rem;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background-color 0.15s ease;
+    transition: background-color 0.15s ease, color 0.15s ease;
 }
 
 .hero-search__btn:hover {
-    background: var(--color-primary-dark);
-}
-
-.hero-search__btn svg {
-    width: 20px;
-    height: 20px;
+    background: var(--color-primary);
+    color: #fff;
 }
 
 /* =============================================
@@ -86,12 +86,30 @@
     padding: 1.75rem 1.5rem 0;
 }
 
-.filters-bar__inner {
+/* Pannello unico: corso, insegnamento, tipologia e ordinamento
+   raccolti in un'unica card con il bottone "Applica filtri" in fondo,
+   cos da rendere chiaro che i filtri si applicano solo cliccandolo. */
+.filters-panel {
     max-width: 1100px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
     gap: 1rem;
+
+    background: var(--color-card);
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius-box);
+    box-shadow: var(--shadow-soft);
+    padding: 1.5rem 1.6rem;
+}
+
+/* Testo guida sopra ai filtri */
+.filters-bar__hint {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
 }
 
 .filters-bar__pills {
@@ -164,9 +182,9 @@
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%237a7a9d' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
 }
 
-/* Bottone "Applica filtri" — azione primaria */
+/* Bottone "Applica filtri" — azione primaria, in fondo al pannello */
 .btn-applica-filtri {
-    align-self: flex-start;
+    align-self: flex-end;
     border: none;
     background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
     color: #fff;
@@ -304,53 +322,6 @@
 }
 
 /* =============================================
-   ORDINA PER
-   ============================================= */
-.sort-bar {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-}
-
-.sort-bar__label {
-    display: flex;
-    align-items: center;
-    gap: 0.35rem;
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--color-text);
-}
-
-.sort-bar__icon {
-    width: 16px;
-    height: 16px;
-    color: var(--color-primary);
-}
-
-.sort-bar__select {
-    border: 1.5px solid var(--color-border);
-    border-radius: var(--radius-pill);
-    background: var(--color-card);
-    padding: 0.4rem 2rem 0.4rem 0.9rem;
-    font-family: var(--font-body);
-    font-size: 0.875rem;
-    color: var(--color-text);
-    cursor: pointer;
-    outline: none;
-    appearance: none;
-    -webkit-appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236C4FD4' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 0.65rem center;
-    transition: border-color 0.15s ease, box-shadow 0.15s ease;
-}
-
-.sort-bar__select:focus {
-    border-color: var(--color-primary);
-    box-shadow: 0 0 0 3px var(--color-primary-light);
-}
-
-/* =============================================
    GRIGLIA RISULTATI
    ============================================= */
 .results-section {
@@ -368,6 +339,7 @@
 /* =============================================
    CARD MATERIALE
    ============================================= */
+/* L'intera card è un link al dettaglio del materiale */
 .card {
     display: flex;
     align-items: flex-start;
@@ -377,6 +349,9 @@
     border-radius: var(--radius-box);
     background: var(--color-card);
     box-shadow: var(--shadow-soft);
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
     transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
 }
 
@@ -481,33 +456,6 @@
     justify-content: space-between;
     gap: 0.75rem;
     margin-top: 0.55rem;
-}
-
-.card__download-form {
-    margin: 0;
-}
-
-.card__download-btn {
-    border: none;
-    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
-    color: #fff;
-    font-family: var(--font-body);
-    font-size: 0.8rem;
-    font-weight: 600;
-    padding: 0.45rem 1.1rem;
-    border-radius: var(--radius-pill);
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(108, 79, 212, 0.25);
-    transition: transform 0.12s ease, box-shadow 0.15s ease, filter 0.15s ease;
-}
-
-.card__download-btn:hover {
-    filter: brightness(1.05);
-    box-shadow: 0 6px 16px rgba(108, 79, 212, 0.35);
-}
-
-.card__download-btn:active {
-    transform: scale(0.96);
 }
 
 /* =============================================
