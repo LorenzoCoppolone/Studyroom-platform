@@ -85,7 +85,7 @@ class viewRicercaMateriale {
         return isset($_GET['page']) ? (int)$_GET['page']: null;
     }
 
-    public function mostraDettagliMateriale(array $materiale, string $base64Materiale, ?string $username, ?string $base64Studente) : void {
+    public function mostraDettagliMateriale(array $materiale, ?string $username, ?string $base64Studente) : void {
         $this->smarty->assign('materiale', $materiale);
         $this->smarty->assign('studente', $username);
         $this->smarty->assign('base64', $base64Studente);

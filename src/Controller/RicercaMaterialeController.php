@@ -78,22 +78,16 @@ class RicercaMaterialeController
     }
 
     public function dettagli(int $id_materiale): void {
+            $view = new ViewRicercaMateriale();
         try {
 
-            
-            $view = new ViewRicercaMateriale();
             $pm = PersistentManager::getInstance();
             $materiale = $pm->trovaMateriale($id_materiale);
-            if(is_resource($materiale['contenutoFile'])) {
-                rewind($materiale['contenutoFile']);
-                $contenuto = stream_get_contents($materiale['contenutoFile']);
-            }
-            $file = new File($contenuto, $materiale['mimeTypeFile'], $materiale['dimensioneFile']);
-            $base64 = $file->fileToBase64();
+            // Il PDF non viene più inlineato qui: è servito a parte dall'endpoint pdf().
             $session = Session::getInstance();
             $id = $session->getSessionElement('studente');
             $studente = $pm->find(Studente::class, $id);
-            $view->mostraDettagliMateriale($materiale, $base64, $studente->getUsername(), $studente->getImmagineProfilo()->getBase64($studente));
+            $view->mostraDettagliMateriale($materiale, $studente->getUsername(), $studente->getImmagineProfilo()->getBase64($studente));
         }catch (PDOException $e) {
             $view->mostraFormErrore("Errore DB durante la ricerca: " . $e->getMessage());
         }catch (\Exception $e) {
