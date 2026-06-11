@@ -88,7 +88,15 @@ class RicercaMaterialeController
             $session = Session::getInstance();
             $id = $session->getSessionElement('studente');
             $studente = $pm->find(Studente::class, $id);
-            $view->mostraDettagliMateriale($materiale, $studente->getUsername(), $studente->getImmagineProfilo()->getBase64($studente));
+            // Verifico se il materiale è già tra i preferiti dell'utente loggato.
+            $preferito = false;
+            if ($id !== null) {
+                $preferito = $pm->findOneBy(Preferito::class, [
+                    'studente'  => $id,
+                    'materiale' => $id_materiale
+                ]) !== null;
+            }
+            $view->mostraDettagliMateriale($materiale, $studente->getUsername(), $studente->getImmagineProfilo()->getBase64($studente), $preferito);
         }catch (PDOException $e) {
             $view->mostraFormErrore("Errore DB durante la ricerca: " . $e->getMessage());
         }catch (\Exception $e) {

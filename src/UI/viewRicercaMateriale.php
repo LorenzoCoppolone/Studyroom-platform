@@ -85,10 +85,11 @@ class viewRicercaMateriale {
         return isset($_GET['page']) ? (int)$_GET['page']: null;
     }
 
-    public function mostraDettagliMateriale(array $materiale, ?string $username, ?string $base64Studente) : void {
+    public function mostraDettagliMateriale(array $materiale, ?string $username, ?string $base64Studente, bool $preferito = false) : void {
         $this->smarty->assign('materiale', $materiale);
         $this->smarty->assign('studente', $username);
         $this->smarty->assign('base64', $base64Studente);
+        $this->smarty->assign('preferito', $preferito);
         $this->smarty->display('dettagliMateriale.tpl');
     }
 
