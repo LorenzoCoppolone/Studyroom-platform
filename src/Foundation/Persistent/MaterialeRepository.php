@@ -138,7 +138,6 @@ class MaterialeRepository {
             'COUNT(DISTINCT d.id) AS numeroDownload',
             'COUNT(DISTINCT r.id) AS numeroRecensioni',
             'AVG(r.voto) AS mediaValutazione',
-            'COUNT(DISTINCT p.id) AS numeroPreferiti'
         )
         ->addSelect("
             CASE
@@ -148,14 +147,13 @@ class MaterialeRepository {
             END AS tipologia
         ")
         ->from(Materiale::class, 'm')
-        ->leftJoin('m.preferiti', 'p')
         ->leftJoin('m.downloads', 'd')
         ->leftJoin('m.recensioni', 'r')
         ->join('m.studente', 's')
         ->join('m.insegnamento', 'i')
         ->join('i.corsoDiLaurea', 'c')
         ->groupBy('m.id')
-        ->orderBy('numeroPreferiti', 'DESC')
+        ->orderBy('numeroRecensioni', 'DESC')
         ->addOrderBy('numeroDownload', 'DESC')
         ->setFirstResult($offset)
         ->setMaxResults($limit);
