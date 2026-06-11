@@ -38,7 +38,7 @@
 
         <!-- ===================== CONTENUTO PDF ===================== -->
         <div class="materiale-viewer">
-            {if $base64Materiale}
+            {if $materiale}
                 <iframe class="materiale-viewer__frame"
                         src="/RicercaMateriale/pdf/{$materiale.idMateriale|escape:'url'}"
                         title="Contenuto del materiale"></iframe>
