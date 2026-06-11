@@ -41,8 +41,9 @@ class RicercaMaterialeController
      * @return void
      */
     public function cerca(): void {
+        $view = new ViewRicercaMateriale();
         try {
-            $view = new ViewRicercaMateriale();
+            
             $titolo = trim($view->getTitolo());
             $page = $view->getPage() ?? 1; // Ottieni la pagina corrente, default 1 se non specificata
             if ($titolo === '') {
@@ -104,8 +105,9 @@ class RicercaMaterialeController
      * @return void
      */
     public function pdf(int $id_materiale): void {
+        $view = new ViewRicercaMateriale();
         try {
-            $view = new ViewRicercaMateriale();
+
             $pm = PersistentManager::getInstance();
             $materiale = $pm->trovaMateriale($id_materiale);
             $contenuto = $materiale['contenutoFile'] ?? null;
@@ -128,8 +130,9 @@ class RicercaMaterialeController
      * @return void
      */
     public function popolari(): void{
+        $view = new ViewRicercaMateriale();
         try {
-            $view = new ViewRicercaMateriale();
+            
             $page = $view->getPage() ?? 1;
             $arrayPaginazione = $this->paginazione(Materiale::class, $page);
             $pm        = PersistentManager::getInstance();
@@ -163,8 +166,9 @@ class RicercaMaterialeController
      * @return void
      */
     public function filtra(): void {
+        $view = new ViewRicercaMateriale();
         try {
-            $view = new ViewRicercaMateriale();
+            
             $session = Session::getInstance();
             $titolo = $session->getSessionElement('ricerca_titolo') ?? '';
             $nuoviFiltri = $view->getDatiFiltro(); // Filtri inviati dalla UI
@@ -226,8 +230,9 @@ class RicercaMaterialeController
      * @return void
      */
     public function preferiti() : void {
+        $view = new ViewRicercaMateriale();
         try{
-            $view = new ViewRicercaMateriale();
+            
             $page = $view->getPage() ?? 1; 
         
             $arrayPaginazione = $this->paginazione(Preferito::class, $page); 
@@ -260,8 +265,8 @@ class RicercaMaterialeController
      * @return void
      */
     public function download() : void {
+        $view = new ViewRicercaMateriale();
         try{
-            $view = new ViewRicercaMateriale();
             $page = $view->getPage() ?? 1; // Ottieni la pagina corrente
         
             $arrayPaginazione = $this->paginazione(Download::class, $page); 
@@ -305,8 +310,9 @@ class RicercaMaterialeController
      * @return void
      */
     public function popolariUtente() : void {
+        $view = new ViewRicercaMateriale();
         try{
-            $view = new ViewRicercaMateriale();
+            
             $page = $view->getPage() ?? 1; // Ottieni la pagina corrente
         
             $arrayPaginazione = $this->paginazione(Materiale::class, $page); // Calcola l'offset per la query
