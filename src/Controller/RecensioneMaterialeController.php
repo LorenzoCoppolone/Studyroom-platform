@@ -28,24 +28,21 @@ class recensioneMaterialeController {
     public function inserisciRecensione() : void {
         
         $view = new ViewRecensioneMateriale();
+        try {
         $idMateriale = $view->getIdMateriale();
         $voto        = (float) $view->getVoto();
         $commento    = $view->getCommento();
         $idUtente = Session::getInstance()->getSessionElement('studente');
-        
         // Validazione utente
         if (empty($idUtente)) {
-            $view->mostraFormErrore('Utente non loggato!');
-            return;
+            throw new InvalidArgumentException("Utente non loggato.");
         }
 
         // Validazione commento
         if (strlen($commento) > 255) {
-            $view->mostraFormErrore('Il commento non può superare i 255 caratteri!');
-            return;
+            throw new InvalidArgumentException("Il commento non puo' superare i 255 caratteri.");
         }
         
-        try {
             $pm = PersistentManager::getInstance();
 
             // Controllo se esiste già una recensione dello stesso studente
