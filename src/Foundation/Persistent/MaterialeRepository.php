@@ -153,7 +153,8 @@ class MaterialeRepository {
         ->join('m.insegnamento', 'i')
         ->join('i.corsoDiLaurea', 'c')
         ->groupBy('m.id')
-        ->orderBy('numeroRecensioni', 'DESC')
+        ->OrderBy('mediaValutazione', 'DESC')
+        ->addOrderBy('numeroRecensioni', 'DESC')
         ->addOrderBy('numeroDownload', 'DESC')
         ->setFirstResult($offset)
         ->setMaxResults($limit);

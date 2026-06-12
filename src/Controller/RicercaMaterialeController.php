@@ -78,7 +78,7 @@ class RicercaMaterialeController
         }
     }
 
-    public function dettagli(int $id_materiale): void {
+    public function dettagli(?int $id_materiale = 0): void {
             $view = new ViewRicercaMateriale();
         try {
 
@@ -121,7 +121,7 @@ class RicercaMaterialeController
      * @param int $id_materiale
      * @return void
      */
-    public function pdf(int $id_materiale): void {
+    public function pdf(?int $id_materiale = 0): void {
         $view = new ViewRicercaMateriale();
         try {
 
