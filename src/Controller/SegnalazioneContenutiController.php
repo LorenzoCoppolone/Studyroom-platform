@@ -31,34 +31,27 @@ class SegnalazioneContenutiController {
     public function inserisciSegnalazione() : void {
         
         $view = new ViewSegnalazioni();
-        $idMateriale = $view->getIdMateriale();
-        $motivo      = $view->getMotivo();
-        $idUtente = Session::getInstance()->getSessionElement('studente');
-        
-        if(empty($idUtente)) {
-            throw new InvalidArgumentException("Utente non loggato");
-        } 
-        
-        if (strlen($motivo) > 255) {
-            throw new InvalidArgumentException("Il motivo della segnalazione non può superare i 255 caratteri.");
-        }
-        
         try {
+            $idMateriale = $view->getIdMateriale();
+            $motivo      = $view->getMotivo();
+            $session     = Session::getInstance();
+            $idUtente    = $session->getSessionElement('studente');
+            if(empty($idUtente)) {
+                throw new InvalidArgumentException("Utente non loggato");
+            } 
+            if (strlen($motivo) > 255) {
+                throw new InvalidArgumentException("Il motivo della segnalazione non può superare i 255 caratteri.");
+            }
             $pm = PersistentManager::getInstance();
-            
             $studente = $pm->find(Studente::class,$idUtente);
-            
             if($studente->getIsBanned() === true || $studente->getIsVerified() === false) {
                 throw new RuntimeException("Utente non verificato");
             }
-            
             $risultati = $pm->findBy(Segnalazione::class, [
                 'studente'  => $idUtente,
                 'materiale' => $idMateriale
             ]);
-            
             $segnalazioneEsistente = $risultati[0] ?? null;
-            
             if($segnalazioneEsistente === null) {
                 $materiale = $pm->find(Materiale::class,$idMateriale);
                 $studente = $pm->find(Studente::class,$idUtente);
@@ -66,15 +59,13 @@ class SegnalazioneContenutiController {
                 $segnalazione = new Segnalazione($motivo, $studente, $materiale, $admin);
                 $pm->save($segnalazione);
                 $view->mostraConfermaSegnalazione();
-            
             } else {
                 throw new RuntimeException("Hai già segnalato questo materiale");
             }
-        
         } catch (PDOException $e) {
             $view->mostraErrore("Errore durante l'inserimento della segnalazione");
         } catch (\Exception $e) {
-            $view->mostraFormErrore("Errore durante l'inserimento della segnalazione" . $e->getMessage());
+            $view->mostraFormErrore("Errore durante l'inserimento della segnalazione: " . $e->getMessage());
         }
     }
 }

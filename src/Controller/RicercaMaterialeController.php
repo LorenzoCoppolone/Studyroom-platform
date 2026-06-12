@@ -156,13 +156,16 @@ class RicercaMaterialeController
     public function popolari(): void{
         $view = new ViewRicercaMateriale();
         try {
+            $studente = null;
             $page = $view->getPage() ?? 1;
             $arrayPaginazione = $this->paginazione(Materiale::class, $page);
             $pm        = PersistentManager::getInstance();
             $materiali = $pm->trovaMaterialiPopolari($arrayPaginazione['offset'], $arrayPaginazione['limit']);
             $session = Session::getInstance();
             $id = $session->getSessionElement('studente');
-            $studente = $pm->find(Studente::class, $id);
+            if(isset($id)){
+                $studente = $pm->find(Studente::class, $id);
+            }
             $corsiDiLaurea = $pm->trovaCorsiDiLaurea();
             $insegnamenti = $pm->trovaInsegnamenti();
             $filtri = $view->getDatiFiltro();            

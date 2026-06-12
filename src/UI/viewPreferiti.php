@@ -52,7 +52,7 @@ class ViewPreferiti {
 
     public function mostraFormErrore(string $errore) : void {
         $this->smarty->assign('errore', $errore);
-        $this->smarty->display('error.tpl'); 
+        $this->smarty->display('feedback/error.tpl'); 
         
     }
 }

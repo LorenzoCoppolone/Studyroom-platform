@@ -76,6 +76,6 @@ class ViewSegnalazioni {
      */
     public function mostraFormErrore(string $messaggio): void {
         $this->smarty->assign('errore', $messaggio);
-        $this->smarty->fetch('error.tpl');
+        $this->smarty->display('feedback/error.tpl');
     }
 }
