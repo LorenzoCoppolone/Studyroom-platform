@@ -216,7 +216,7 @@
 
 
 <!-- ===================== PAGINAZIONE ===================== -->
-{if $totalePagine > 1}
+{if $totalePagine >= 1}
 <nav class="pagination" aria-label="Navigazione pagine">
 
     {* Freccia precedente *}
