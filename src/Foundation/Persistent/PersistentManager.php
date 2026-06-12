@@ -107,6 +107,55 @@ public function countAll(string $class, array $criteria = []): int {
     $qb = $this->em->createQueryBuilder();
     $qb->select('COUNT(e)')
        ->from($class, 'e');
+
+    if($class === Download::class){
+        if(isset($criteria['materiale'])){
+            $qb->join('e.materiale', 'm');
+            $qb->andWhere('m.id = :idMateriale')
+               ->setParameter('idMateriale', $criteria['materiale']);
+            unset($criteria['materiale']);
+        }
+
+        if(isset($criteria['utente'])){
+            $qb->join('e.utente', 'u');
+            $qb->andWhere('u.id = :idUtente')
+               ->setParameter('idUtente', $criteria['utente']);
+            unset($criteria['utente']);
+        }
+    }
+
+    if($class === Preferito::class){
+        if(isset($criteria['materiale'])){
+            $qb->join('e.materiale', 'm');
+            $qb->andWhere('m.id = :idMateriale')
+               ->setParameter('idMateriale', $criteria['materiale']);
+            unset($criteria['materiale']);
+        }
+
+        if(isset($criteria['utente'])){
+            $qb->join('e.utente', 'u');
+            $qb->andWhere('u.id = :idUtente')
+               ->setParameter('idUtente', $criteria['utente']);
+            unset($criteria['utente']);
+        }
+    }
+    
+    if($class === Recensione::class){
+        if(isset($criteria['materiale'])){
+            $qb->join('e.materiale', 'm');
+            $qb->andWhere('m.id = :idMateriale')
+               ->setParameter('idMateriale', $criteria['materiale']);
+            unset($criteria['materiale']);
+        }
+
+        if(isset($criteria['utente'])){
+            $qb->join('e.utente', 'u');
+            $qb->andWhere('u.id = :idUtente')
+               ->setParameter('idUtente', $criteria['utente']);
+            unset($criteria['utente']);
+        }
+    }
+    if($class === Materiale::class){
     /*
      * 1) TIPOLGIA (Appunto / Esame)
      */
@@ -161,6 +210,7 @@ public function countAll(string $class, array $criteria = []): int {
         // LIKE solo sui campi semplici
         $qb->andWhere("e.$field LIKE :$field")
            ->setParameter($field, $value);
+    }
     }
     return (int) $qb->getQuery()->getSingleScalarResult();
 }
