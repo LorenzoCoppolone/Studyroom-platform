@@ -1,4 +1,4 @@
-{extends file="layout.tpl"}
+{extends file="layout/layout.tpl"}
 
 {block name="title"}Le mie recensioni | StudyRoom{/block}
 

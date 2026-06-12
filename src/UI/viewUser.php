@@ -35,7 +35,7 @@ class viewUser {
         header("Expires: 0");
         $this->smarty->assign("studente", $studente);
         $this->smarty->assign("base64", $base64);
-        $this->smarty->display("home.tpl");
+        $this->smarty->display("layout/home.tpl");
     }
 
     /**
@@ -47,7 +47,7 @@ class viewUser {
         header("Cache-Control: post-check=0, pre-check=0", false);
         header("Pragma: no-cache");
         header("Expires: 0");
-        $this->smarty->display("registrationForm.tpl");
+        $this->smarty->display("auth/registrationForm.tpl");
     }
 
     /**
@@ -60,7 +60,7 @@ class viewUser {
         header("Cache-Control: post-check=0, pre-check=0", false);
         header("Pragma: no-cache");
         header("Expires: 0");
-        $this->smarty->display("loginForm.tpl");
+        $this->smarty->display("auth/loginForm.tpl");
     }
 
     /** -------------------------------------------------------------
@@ -77,7 +77,7 @@ class viewUser {
         header("Cache-Control: post-check=0, pre-check=0", false);
         header("Pragma: no-cache");
         header("Expires: 0");
-        $this->smarty->display("recuperoPassword.tpl");
+        $this->smarty->display("auth/recuperoPassword.tpl");
     }
 
     /**
@@ -102,7 +102,7 @@ class viewUser {
         header("Pragma: no-cache");
         header("Expires: 0");
         $this->smarty->assign("token", $token);
-        $this->smarty->display("reimpostaPassword.tpl");
+        $this->smarty->display("auth/reimpostaPassword.tpl");
     }
 
     /**
@@ -136,7 +136,7 @@ class viewUser {
         $this->smarty->assign("utente", $utente);
         $this->smarty->assign("base64", $utente['foto']);
         $this->smarty->assign("studente", $utente['username']);
-        $this->smarty->display("profiloUtente.tpl");
+        $this->smarty->display("utente/profiloUtente.tpl");
     }
 
     /**
@@ -149,7 +149,7 @@ class viewUser {
         $this->smarty->assign("utente", $utente);
         $this->smarty->assign("base64", $utente['foto']);
         $this->smarty->assign("studente", $utente['username']);
-        $this->smarty->display("modificaProfilo.tpl");
+        $this->smarty->display("utente/modificaProfilo.tpl");
     }
 
     /**
@@ -248,7 +248,7 @@ class viewUser {
         header("Pragma: no-cache");
         header("Expires: 0");
         $this->smarty->assign("errore", $messaggio);
-        $this->smarty->display("error.tpl");
+        $this->smarty->display("feedback/error.tpl");
     }
 
     /**
@@ -263,7 +263,7 @@ class viewUser {
         header("Pragma: no-cache");
         header("Expires: 0");
         $this->smarty->assign("email", $email);
-        $this->smarty->display("verificationPage.tpl");
+        $this->smarty->display("auth/verificationPage.tpl");
     }
 
     /**
@@ -272,7 +272,7 @@ class viewUser {
      * @return void
      */
     public function mostraConvalidaEmail() : void {
-        $this->smarty->display("confirmVerificationPage.tpl");
+        $this->smarty->display("auth/confirmVerificationPage.tpl");
     }
 
     /**
@@ -287,7 +287,7 @@ class viewUser {
         header("Pragma: no-cache");
         header("Expires: 0");
         $this->smarty->assign("successo", $messaggio);
-        $this->smarty->display("successo.tpl");
+        $this->smarty->display("feedback/successo.tpl");
     }
 
     /** -------------------------------------------------------------
@@ -306,7 +306,7 @@ class viewUser {
         $this->smarty->assign('page', $page);
         $this->smarty->assign('studente', $username);
         $this->smarty->assign('base64', $base64);
-        $this->smarty->display('recensioniUtente.tpl');
+        $this->smarty->display('utente/recensioniUtente.tpl');
     }
 
 }

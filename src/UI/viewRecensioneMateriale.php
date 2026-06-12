@@ -44,14 +44,6 @@ class viewRecensioneMateriale {
         return $_POST['commento'] ?? null;
     }
 
-    /**
-     * Mostra il form di recensione.
-     *
-     * @return void
-     */
-    public function mostraFormRecensione() : void {
-        $this->smarty->display('formRecensione.tpl');
-    }
 
     /**
      * Mostra il pop-up di conferma della recensione.

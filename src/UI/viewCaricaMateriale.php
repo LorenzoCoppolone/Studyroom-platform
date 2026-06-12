@@ -24,7 +24,7 @@ class viewCaricaMateriale {
     */
     public function mostraFormErrore(string $messaggio) : void {
         $this->smarty->assign('errore', $messaggio);
-        $this->smarty->display('error.tpl');
+        $this->smarty->display('feedback/error.tpl');
     }
 
     /**
@@ -38,7 +38,7 @@ class viewCaricaMateriale {
     public function mostraFormSuccesso(string $messaggio) : void {
         $this->smarty->assign('successo', $messaggio);
         $this->smarty->assign('ricarica', '/CaricaMateriale/carica');
-        $this->smarty->display('successo.tpl');
+        $this->smarty->display('feedback/successo.tpl');
     }
 
     /**
@@ -50,7 +50,7 @@ class viewCaricaMateriale {
         $this->smarty->assign('insegnamenti', $insegnamenti);
         $this->smarty->assign('studente', $username);
         $this->smarty->assign('base64', $base64);
-        $this->smarty->display('caricaMateriale.tpl');
+        $this->smarty->display('materiale/caricaMateriale.tpl');
     }
 
     public function getIdCorsoDiLaurea() : string {
