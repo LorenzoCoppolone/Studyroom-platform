@@ -45,7 +45,7 @@ class viewHome{
         header("Expires: 0");
         $this->smarty->assign('studente', $username);
         $this->smarty->assign('base64', $base64);
-        $this->smarty->display('home.tpl');
+        $this->smarty->display('layout/home.tpl');
     }
 
     public function getCookieRemember() : string|null {

@@ -88,6 +88,11 @@ class MaterialeRepository {
         return $result;
     }
 
+    /**
+     * Ritorna i dettagli di un materiale specifico.
+     * @param int $idMateriale L'ID del materiale da cercare.
+     * @return array Un array di materiali che corrispondono ai criteri di ricerca, ritorna ogetti materiale, studente, insegnamento, corso + i download per ognuno.
+     */
     public function dettagliMateriale(
         int $idMateriale
     ): array {
@@ -159,7 +164,6 @@ class MaterialeRepository {
             'm.titolo AS titoloMateriale',
             'i.nomeInsegnamento AS insegnamento',
             'c.nomeCorso AS corso_di_Laurea',
-            's.username AS nome_studente',
             'COUNT(DISTINCT d.id) AS numeroDownload',
             'COUNT(DISTINCT r.id) AS numeroRecensioni',
             'AVG(r.voto) AS mediaValutazione',
@@ -174,7 +178,6 @@ class MaterialeRepository {
         ->from(Materiale::class, 'm')
         ->leftJoin('m.downloads', 'd')
         ->leftJoin('m.recensioni', 'r')
-        ->join('m.studente', 's')
         ->join('m.insegnamento', 'i')
         ->join('i.corsoDiLaurea', 'c')
         ->groupBy('m.id')

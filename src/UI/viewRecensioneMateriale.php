@@ -44,14 +44,6 @@ class viewRecensioneMateriale {
         return $_POST['commento'] ?? null;
     }
 
-    /**
-     * Mostra il form di recensione.
-     *
-     * @return void
-     */
-    public function mostraFormRecensione() : void {
-        $this->smarty->display('formRecensione.tpl');
-    }
 
     /**
      * Mostra il pop-up di conferma della recensione.
@@ -60,5 +52,10 @@ class viewRecensioneMateriale {
      */
     public function mostraPopUpConfermaRecensione() : void {
         $this->smarty->display('popUpConfermaRecensione.tpl');
+    }
+
+    public function mostraFormErrore(string $messaggio) : void {
+        $this->smarty->assign('errore', $messaggio);
+        $this->smarty->display('feedback/error.tpl');
     }
 }

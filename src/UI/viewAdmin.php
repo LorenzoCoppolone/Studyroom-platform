@@ -44,7 +44,7 @@ class viewAdmin {
      */
     public function mostraDashboardAdmin(array $segnalazioni): void {
         $this->smarty->assign('segnalazioni', $segnalazioni);
-        $this->smarty->display('dashboardAdmin.tpl');
+        $this->smarty->display('admin/dashboardAdmin.tpl');
     }
 
     /** -------------------------------------------------------------

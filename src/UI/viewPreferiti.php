@@ -51,9 +51,8 @@ class ViewPreferiti {
     }
 
     public function mostraFormErrore(string $errore) : void {
-        $this->smarty->assign('messaggio', $errore);
-        $this->smarty->assign('tipo', "erroreo");
-        $this->smarty->display('popupPreferiti.tpl'); 
+        $this->smarty->assign('errore', $errore);
+        $this->smarty->display('feedback/error.tpl'); 
         
     }
 }

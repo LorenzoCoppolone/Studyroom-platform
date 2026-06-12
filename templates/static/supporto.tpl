@@ -1,4 +1,4 @@
-{extends file="layout.tpl"}
+{extends file="layout/layout.tpl"}
 
 {block name="title"}Supporto - StudyRoom{/block}
 
