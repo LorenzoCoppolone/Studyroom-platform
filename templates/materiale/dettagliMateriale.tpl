@@ -137,7 +137,7 @@
                     <summary class="btn-azione">
                         <i class="fa fa-star"></i> Lascia una recensione
                     </summary>
-                    <form class="materiale-form" action="/recensioneMateriale/inserisciRecensioneController" method="POST">
+                    <form class="materiale-form" action="/recensioneMateriale/inserisciRecensione" method="POST">
                         <input type="hidden" name="idMateriale" value="{$materiale.idMateriale|escape:'html'}">
 
                         <label for="voto">Voto</label>
