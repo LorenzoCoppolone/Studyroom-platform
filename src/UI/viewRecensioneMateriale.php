@@ -44,16 +44,6 @@ class viewRecensioneMateriale {
         return $_POST['commento'] ?? null;
     }
 
-
-    /**
-     * Mostra il pop-up di conferma della recensione.
-     *
-     * @return void
-     */
-    public function mostraPopUpConfermaRecensione() : void {
-        $this->smarty->display('popUpConfermaRecensione.tpl');
-    }
-
     public function mostraFormErrore(string $messaggio) : void {
         $this->smarty->assign('errore', $messaggio);
         $this->smarty->display('feedback/error.tpl');
@@ -87,5 +77,18 @@ class viewRecensioneMateriale {
         $this->smarty->assign('studente', $username);
         $this->smarty->assign('base64', $base64);
         $this->smarty->display('materiale/recensioniMateriale.tpl');
+    }
+
+    /**
+     * Reindirizza alla pagina di dettaglio del materiale (pattern PRG).
+     * L'header di redirect è emesso qui, nella view; il flash message viene
+     * impostato in sessione dal controller.
+     *
+     * @param int $idMateriale Materiale a cui tornare.
+     * @return void
+     */
+    public function redirectMateriale(int $idMateriale) : void {
+        header('Location: /RicercaMateriale/dettagli/' . $idMateriale);
+        exit;
     }
 }

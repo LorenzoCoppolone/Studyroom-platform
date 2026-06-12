@@ -41,7 +41,7 @@ class recensioneMaterialeController {
 
         // Validazione commento
         if (strlen($commento) > 255) {
-            $view->mostraFormErrore('Il commento non può superare i 255 caratteri!');
+            $this->mostraEsito($view, $idMateriale,'errore', 'Il commento non può superare i 255 caratteri!');
             return;
         }
         
@@ -65,13 +65,15 @@ class recensioneMaterialeController {
 
                 $pm->save($nuovaRecensione);
 
-                $view->mostraPopUpConfermaRecensione();
+                $this->mostraEsito($view, $idMateriale,'successo', 'Recensione inviata con successo!');
+            } else {
+                $this->mostraEsito($view, $idMateriale,'errore', 'Hai già recensito questo materiale.');
             }
 
-        } catch(PDOExcception $e) {
-            throw new RuntimeException("Errore DB durante l'inserimento della recensione': " . $e->getMessage());
+        } catch(PDOException $e) {
+            $this->mostraEsito($view, $idMateriale,'errore', "Errore DB durante l'inserimento della recensione.");
         } catch (\Exception $e) {
-            throw new RuntimeException("Errore imprevisto: " . $e->getMessage());
+            $this->mostraEsito($view, $idMateriale,'errore', 'Errore imprevisto.');
         }
     }
 
@@ -154,5 +156,21 @@ class recensioneMaterialeController {
         } catch (\Exception $e) {
             throw new RuntimeException("Errore imprevisto: " . $e->getMessage());
         }
+    }
+
+    /**
+     * Imposta il flash message in sessione e reindirizza alla pagina del materiale,
+     * dove verrà mostrato il toast di esito (pattern PRG). La sessione è gestita qui,
+     * nel controller; il redirect (header) è demandato alla view.
+     *
+     * @param ViewRecensioneMateriale $view View che esegue il redirect.
+     * @param int $idMateriale Materiale a cui tornare.
+     * @param string $tipo 'successo' oppure 'errore'.
+     * @param string $testo Messaggio del toast.
+     * @return void
+     */
+    private function mostraEsito(ViewRecensioneMateriale $view, int $idMateriale, string $tipo, string $testo): void {
+        Session::getInstance()->setSessionElement('flash', ['tipo' => $tipo, 'testo' => $testo]);
+        $view->redirectMateriale($idMateriale);
     }
 }

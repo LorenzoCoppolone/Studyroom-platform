@@ -1,27 +1,84 @@
+/* =============================================
+   TOAST DI ESITO (successo / errore)
+   Usato dopo preferiti, recensione e segnalazione.
+   Markup: #popup-preferiti > .popup-messaggio
+   Il JS aggiunge .show per ~2,5s.
+   ============================================= */
+
 #popup-preferiti {
     position: fixed;
-    top: 20px;
+    top: 24px;
     left: 50%;
-    transform: translateX(-50%);
-    padding: 14px 22px;
-    border-radius: 8px;
-    color: white;
-    font-size: 17px;
-    font-weight: 500;
+
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+
+    max-width: min(90vw, 420px);
+    padding: 0.95rem 1.3rem;
+
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+
+    color: #fff;
+    font-family: 'Poppins', system-ui, sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.3;
+
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
     z-index: 9999;
+
+    /* Stato nascosto: leggermente sopra + trasparente */
     opacity: 0;
+    transform: translate(-50%, -18px);
     pointer-events: none;
-    transition: opacity 0.4s ease;
+
+    transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.21, 1.02, 0.73, 1);
 }
 
+/* Icona a sinistra del messaggio (Font Awesome, già caricato nel layout) */
+#popup-preferiti::before {
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    font-size: 1.15rem;
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.popup-messaggio {
+    flex: 1;
+}
+
+/* ── SUCCESSO ── */
 .popup-successo {
-    background-color: #28a745;
+    background: linear-gradient(135deg, #2fb457, #1e9e48);
 }
 
+.popup-successo::before {
+    content: "\f058"; /* circle-check */
+}
+
+/* ── ERRORE ── */
 .popup-errore {
-    background-color: #dc3545;
+    background: linear-gradient(135deg, #e8505b, #d23645);
 }
 
+.popup-errore::before {
+    content: "\f057"; /* circle-xmark */
+}
+
+/* ── STATO VISIBILE ── */
 #popup-preferiti.show {
     opacity: 1;
+    transform: translate(-50%, 0);
+    pointer-events: auto;
+}
+
+/* Rispetta chi preferisce meno animazioni */
+@media (prefers-reduced-motion: reduce) {
+    #popup-preferiti {
+        transition: opacity 0.2s ease;
+        transform: translate(-50%, 0);
+    }
 }

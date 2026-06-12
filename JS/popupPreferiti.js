@@ -6,5 +6,5 @@ window.addEventListener("DOMContentLoaded", () => {
 
     setTimeout(() => {
         popup.classList.remove("show");
-    }, 2500);
+    }, 4000);
 });

@@ -48,27 +48,6 @@ class ViewSegnalazioni {
     }
 
     /**
-     * Mostra il popup di conferma dopo l'invio della segnalazione.
-     *
-     * @return void
-     */
-    public function mostraConfermaSegnalazione(): void {
-        $this->smarty->assign('messaggio', "Segnalazione inviata con successo!");
-        echo $this->smarty->fetch('popupSegnalazione.tpl');
-    }
-
-    /**
-     * Mostra un popup di errore generico.
-     *
-     * @param string $messaggio
-     * @return void
-     */
-    public function mostraErrore(string $messaggio): void {
-        $this->smarty->assign('messaggio', $messaggio);
-        echo $this->smarty->fetch('popupSegnalazioneErrore.tpl');
-    }
-
-    /**
      * Mostra un popup di errore relativo al form.
      *
      * @param string $messaggio
@@ -77,5 +56,18 @@ class ViewSegnalazioni {
     public function mostraFormErrore(string $messaggio): void {
         $this->smarty->assign('errore', $messaggio);
         $this->smarty->display('feedback/error.tpl');
+    }
+
+    /**
+     * Reindirizza alla pagina di dettaglio del materiale (pattern PRG).
+     * L'header di redirect è emesso qui, nella view; il flash message viene
+     * impostato in sessione dal controller.
+     *
+     * @param int $idMateriale Materiale a cui tornare.
+     * @return void
+     */
+    public function redirectMateriale(int $idMateriale): void {
+        header('Location: /RicercaMateriale/dettagli/' . $idMateriale);
+        exit;
     }
 }

@@ -47,13 +47,26 @@ class ViewPreferiti {
     public function mostraPopUpRimosso() : void {
        $this->smarty->assign('messaggio', "Materiale rimosso dai preferiti!");
         $this->smarty->assign('tipo', "erroreo");
-      $this->smarty->display('popupPreferiti.tpl');
+      $this->smarty->display('feedback/popup.tpl');
     }
 
     public function mostraFormErrore(string $errore) : void {
         $this->smarty->assign('errore', $errore);
-        $this->smarty->display('feedback/error.tpl'); 
-        
+        $this->smarty->display('feedback/error.tpl');
+
+    }
+
+    /**
+     * Reindirizza alla pagina di dettaglio del materiale (pattern PRG).
+     * L'header di redirect è emesso qui, nella view; il flash message viene
+     * impostato in sessione dal controller.
+     *
+     * @param int $idMateriale Materiale a cui tornare.
+     * @return void
+     */
+    public function redirectMateriale(int $idMateriale) : void {
+        header('Location: /RicercaMateriale/dettagli/' . $idMateriale);
+        exit;
     }
 }
    

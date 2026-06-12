@@ -31,8 +31,9 @@ class SegnalazioneContenutiController {
     public function inserisciSegnalazione() : void {
         
         $view = new ViewSegnalazioni();
+        $idMateriale = $view->getIdMateriale();
         try {
-            $idMateriale = $view->getIdMateriale();
+         
             $motivo      = $view->getMotivo();
             $session     = Session::getInstance();
             $idUtente    = $session->getSessionElement('studente');
@@ -55,17 +56,38 @@ class SegnalazioneContenutiController {
             if($segnalazioneEsistente === null) {
                 $materiale = $pm->find(Materiale::class,$idMateriale);
                 $studente = $pm->find(Studente::class,$idUtente);
-                $admin = $pm->findOneBy(Amministratore::class,[$idAdmin => 1]);
+                $admin = $pm->findOneBy(Amministratore::class, ['id' => 1]);
                 $segnalazione = new Segnalazione($motivo, $studente, $materiale, $admin);
                 $pm->save($segnalazione);
-                $view->mostraConfermaSegnalazione();
+                $this->mostraEsito($view, $idMateriale,'successo', 'Segnalazione inviata con successo!');
             } else {
-                throw new RuntimeException("Hai già segnalato questo materiale");
+                $this->mostraEsito($view, $idMateriale,'errore', 'Hai già segnalato questo materiale.');
             }
+        } catch (InvalidArgumentException $e) {
+            // Contesto mancante (utente non loggato / motivo troppo lungo): pagina di errore intera.
+            $view->mostraFormErrore($e->getMessage());
         } catch (PDOException $e) {
-            $view->mostraErrore("Errore durante l'inserimento della segnalazione");
+            $this->mostraEsito($view, $idMateriale,'errore', "Errore durante l'inserimento della segnalazione.");
+        } catch (RuntimeException $e) {
+            $this->mostraEsito($view, $idMateriale,'errore', $e->getMessage());
         } catch (\Exception $e) {
-            $view->mostraFormErrore("Errore durante l'inserimento della segnalazione: " . $e->getMessage());
+            $this->mostraEsito($view, $idMateriale,'errore', 'Errore imprevisto.');
         }
+    }
+
+    /**
+     * Imposta il flash message in sessione e reindirizza alla pagina del materiale,
+     * dove verrà mostrato il toast di esito (pattern PRG). La sessione è gestita qui,
+     * nel controller; il redirect (header) è demandato alla view.
+     *
+     * @param ViewSegnalazioni $view View che esegue il redirect.
+     * @param int $idMateriale Materiale a cui tornare.
+     * @param string $tipo 'successo' oppure 'errore'.
+     * @param string $testo Messaggio del toast.
+     * @return void
+     */
+    private function mostraEsito(ViewSegnalazioni $view, int $idMateriale, string $tipo, string $testo): void {
+        Session::getInstance()->setSessionElement('flash', ['tipo' => $tipo, 'testo' => $testo]);
+        $view->redirectMateriale($idMateriale);
     }
 }

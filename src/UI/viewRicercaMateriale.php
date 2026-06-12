@@ -98,11 +98,12 @@ class viewRicercaMateriale {
         $this->smarty->display('feedback/error.tpl');
     }
 
-    public function mostraDettagliMateriale(array $materiale, ?string $username, ?string $base64Studente, bool $preferito = false) : void {
+    public function mostraDettagliMateriale(array $materiale, ?string $username, ?string $base64Studente, bool $preferito = false, ?array $flash = null) : void {
         $this->smarty->assign('materiale', $materiale);
         $this->smarty->assign('studente', $username);
         $this->smarty->assign('base64', $base64Studente);
         $this->smarty->assign('preferito', $preferito);
+        $this->smarty->assign('flash', $flash);
         $this->smarty->display('materiale/dettagliMateriale.tpl');
     }
 
@@ -123,6 +124,10 @@ class viewRicercaMateriale {
         header('Content-Type: ' . ($mimeType ?: 'application/pdf'));
         header('Content-Disposition: inline; filename="materiale-' . $id . '.pdf"');
         header('Content-Length: ' . strlen($contenuto));
+        // Cache lato browser: ad ogni reload della pagina di dettaglio il PDF
+        // non viene riscaricato, così l'iframe si ridipinge subito (meno flash).
+        header('Cache-Control: private, max-age=86400');
+        header('ETag: "materiale-' . $id . '"');
         echo $contenuto;
         exit;
     }

@@ -112,7 +112,11 @@ class RicercaMaterialeController
                     'materiale' => $id_materiale
                 ]) !== null;
             }
-            $view->mostraDettagliMateriale($materiale, $username, $immagineProfilo, $preferito);
+            // Flash message (toast di esito) impostato dalle azioni preferiti/recensione/segnalazione.
+            // Lo leggo e lo consumo subito, così appare una sola volta.
+            $flash = $session->getSessionElement('flash');
+            $session->unsetSessionElement('flash');
+            $view->mostraDettagliMateriale($materiale, $username, $immagineProfilo, $preferito, $flash);
         }catch (PDOException $e) {
             $view->mostraFormErrore("Errore DB durante la ricerca: " . $e->getMessage());
         }catch (\Exception $e) {

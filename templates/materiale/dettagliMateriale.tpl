@@ -8,6 +8,17 @@
 
 {block name="content"}
 
+{* Toast di esito (successo/errore) impostato dalle azioni preferiti,
+   recensione e segnalazione tramite flash message in sessione.
+   Riusa gli asset esistenti popupPreferiti.css/js (auto-dismiss). *}
+{if $flash}
+    <div id="popup-preferiti" class="popup {if $flash.tipo == 'successo'}popup-successo{else}popup-errore{/if}">
+        <span class="popup-messaggio">{$flash.testo|escape:'html'}</span>
+    </div>
+    <link rel="stylesheet" href="/../CSS/popupPreferiti.css">
+    <script src="/../JS/popupPreferiti.js"></script>
+{/if}
+
 {* ─────────────────────────────────────────────────────────────
    Pagina di dettaglio di un singolo materiale.
    Rotta prevista: /materiale/{id} → MaterialeController::mostra(id)
@@ -93,7 +104,7 @@
                     {/section}
                     <a class="materiale-rating__count"
                        href="/RecensioneMateriale/recensioni/{$materiale.idMateriale|escape:'url'}">
-                        ({$materiale.numeroRecensioni|default:0|escape:'html'}recensioni)
+                        ({$materiale.numeroRecensioni|default:0|escape:'html'} recensioni)
                     </a>
                 </div>
 
