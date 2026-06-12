@@ -25,18 +25,17 @@ class recensioneMaterialeController {
      *
      * @return void
      */
-    public function inserisciRecensioneController() : void {
+    public function inserisciRecensione() : void {
         
         $view = new ViewRecensioneMateriale();
+        try {
         $idMateriale = $view->getIdMateriale();
         $voto        = (float) $view->getVoto();
         $commento    = $view->getCommento();
         $idUtente = Session::getInstance()->getSessionElement('studente');
-        
         // Validazione utente
         if (empty($idUtente)) {
-            $view->mostraFormErrore('Utente non loggato!');
-            return;
+            throw new InvalidArgumentException("Utente non loggato.");
         }
 
         // Validazione commento
@@ -45,7 +44,6 @@ class recensioneMaterialeController {
             return;
         }
         
-        try {
             $pm = PersistentManager::getInstance();
 
             // Controllo se esiste già una recensione dello stesso studente

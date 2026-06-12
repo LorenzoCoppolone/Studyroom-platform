@@ -167,6 +167,7 @@ class RicercaMaterialeController
             $materiali = $pm->trovaMaterialiPopolari($arrayPaginazione['offset'], $arrayPaginazione['limit']);
             $session = Session::getInstance();
             $id = $session->getSessionElement('studente');
+            $session->unsetSessionElement('ricerca_titolo');
             if(isset($id)){
                 $studente = $pm->find(Studente::class, $id);
             }
@@ -226,9 +227,9 @@ class RicercaMaterialeController
             $insegnamenti = $pm->trovaInsegnamenti();
             $studente = $id !== null ? $pm->find(Studente::class, $id) : null;
             if($studente !== null) {
-                $view->mostraMateriali($materiali, $page, $arrayPaginazione['totPage'], $studente->getUsername(), $studente->getImmagineProfilo()->getBase64($studente), $corsiDiLaurea, $insegnamenti, $filtriAttuali);
+                $view->mostraMateriali($materiali, $page, $arrayPaginazione['totPage'], $studente->getUsername(), $studente->getImmagineProfilo()->getBase64($studente), $corsiDiLaurea, $insegnamenti, $filtri);
             } else {
-                $view->mostraMateriali($materiali, $page, $arrayPaginazione['totPage'], null, null, $corsiDiLaurea, $insegnamenti, $filtriAttuali);
+                $view->mostraMateriali($materiali, $page, $arrayPaginazione['totPage'], null, null, $corsiDiLaurea, $insegnamenti, $filtri);
             }
         } catch (PDOException $e) {
             $view->mostraFormErrore("Errore DB durante l'applicazione dei filtri: " . $e->getMessage());

@@ -80,7 +80,8 @@ class MaterialeRepository {
         if (!empty($criterio) && strtolower($criterio) === 'download') {
             $qb->orderBy('numeroDownload', 'DESC');
         } elseif (!empty($criterio) && strtolower($criterio) === 'valutazione') {
-            $qb->orderBy('mediaValutazione', 'DESC');
+            $qb->orderBy('mediaValutazione', 'DESC')
+               ->addOrderBy('numeroRecensioni', 'DESC');
         }
         $qb->setFirstResult($offset)
         ->setMaxResults($limit);
