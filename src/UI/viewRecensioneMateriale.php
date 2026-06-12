@@ -56,6 +56,6 @@ class viewRecensioneMateriale {
 
     public function mostraFormErrore(string $messaggio) : void {
         $this->smarty->assign('errore', $messaggio);
-        $this->smarty->display('error.tpl');
+        $this->smarty->display('layout/error.tpl');
     }
 }
