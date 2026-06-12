@@ -67,7 +67,7 @@ class viewRicercaMateriale {
         $this->smarty->assign("corsiDiLaurea", $corsiDiLaurea);
         $this->smarty->assign("insegnamenti", $insegnamenti);
         $this->smarty->assign("filtri", $filtri);
-        $this->smarty->display("ricercaMateriale.tpl");
+        $this->smarty->display("materiale/ricercaMateriale.tpl");
     }
 
     /**
@@ -78,7 +78,7 @@ class viewRicercaMateriale {
      */
     public function mostraFormErrore(string $messaggio) : void {
         $this->smarty->assign('errore', $messaggio);
-        $this->smarty->display('error.tpl');
+        $this->smarty->display('feedback/error.tpl');
     }
     
     public function getPage(): ?int {
@@ -95,7 +95,7 @@ class viewRicercaMateriale {
         header('HTTP/1.1 404 Not Found');
         $this->smarty->assign('errore', 'Materiale non trovato');
         $this->smarty->assign('dettaglio', 'Il materiale richiesto non esiste o è stato rimosso.');
-        $this->smarty->display('error.tpl');
+        $this->smarty->display('feedback/error.tpl');
     }
 
     public function mostraDettagliMateriale(array $materiale, ?string $username, ?string $base64Studente, bool $preferito = false) : void {
@@ -103,7 +103,7 @@ class viewRicercaMateriale {
         $this->smarty->assign('studente', $username);
         $this->smarty->assign('base64', $base64Studente);
         $this->smarty->assign('preferito', $preferito);
-        $this->smarty->display('dettagliMateriale.tpl');
+        $this->smarty->display('materiale/dettagliMateriale.tpl');
     }
 
     /**

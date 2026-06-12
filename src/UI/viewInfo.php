@@ -26,7 +26,7 @@ class viewInfo {
     public function chiSiamo(?string $username = null, ?string $base64 = null) : void {
         $this->smarty->assign('studente', $username);
         $this->smarty->assign('base64', $base64);
-        $this->smarty->display('chi-siamo.tpl');
+        $this->smarty->display('static/chi-siamo.tpl');
     }
 
     /**
@@ -39,7 +39,7 @@ class viewInfo {
     public function supporto(?string $username = null, ?string $base64 = null) : void {
         $this->smarty->assign('studente', $username);
         $this->smarty->assign('base64', $base64);
-        $this->smarty->display('supporto.tpl');
+        $this->smarty->display('static/supporto.tpl');
     }
 
     /**
@@ -52,7 +52,7 @@ class viewInfo {
     public function faq(?string $username = null, ?string $base64 = null) : void {
         $this->smarty->assign('studente', $username);
         $this->smarty->assign('base64', $base64);
-        $this->smarty->display('faq.tpl');
+        $this->smarty->display('static/faq.tpl');
     }
 
     /**
@@ -65,6 +65,6 @@ class viewInfo {
     public function termini(?string $username = null, ?string $base64 = null) : void {
         $this->smarty->assign('studente', $username);
         $this->smarty->assign('base64', $base64);
-        $this->smarty->display('termini.tpl');
+        $this->smarty->display('static/termini.tpl');
     }
 }

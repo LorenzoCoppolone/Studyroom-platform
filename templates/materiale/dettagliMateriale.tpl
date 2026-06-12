@@ -1,4 +1,4 @@
-{extends file="layout.tpl"}
+{extends file="layout/layout.tpl"}
 
 {block name="title"}{$materiale.titoloMateriale|default:'Materiale'|escape:'html'} — StudyRoom{/block}
 
