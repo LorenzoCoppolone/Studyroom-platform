@@ -38,6 +38,10 @@ class UtenteRepository{
         'COUNT(r.id) as numeroRecensioni',
         'AVG(r.voto) as mediaValutazione'
         )
+            ->addSelect("
+            CASE WHEN m INSTANCE OF Model\\Appunto THEN 'APPUNTO'
+            WHEN m INSTANCE OF Model\\Esame THEN 'ESAME'
+            ELSE 'ALTRO' END AS tipologia")
             ->from(Preferito::class, 'p')
             ->join('p.materiale', 'm')
             ->join('m.insegnamento', 'i')
@@ -79,7 +83,10 @@ class UtenteRepository{
         'COUNT(DISTINCT r.id) as numeroRecensioni',
         'AVG(r.voto) as mediaValutazione'
         )
-
+            ->addSelect("
+            CASE WHEN m INSTANCE OF Model\\Appunto THEN 'APPUNTO'
+            WHEN m INSTANCE OF Model\\Esame THEN 'ESAME'
+            ELSE 'ALTRO' END AS tipologia")
             ->from(Download::class, 'p')
             ->join('p.materiale', 'm')
             ->join('m.insegnamento', 'i')

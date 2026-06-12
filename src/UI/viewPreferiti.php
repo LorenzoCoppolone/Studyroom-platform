@@ -56,8 +56,5 @@ class ViewPreferiti {
         $this->smarty->display('popupPreferiti.tpl'); 
         
     }
-
-
-
 }
    
