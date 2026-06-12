@@ -84,6 +84,13 @@ class RicercaMaterialeController
 
             $pm = PersistentManager::getInstance();
             $materiale = $pm->trovaMateriale($id_materiale);
+            // La query usa funzioni di aggregazione senza GROUP BY: restituisce sempre una
+            // riga, con idMateriale = null quando il materiale non esiste. Intercetto qui
+            // il caso "non trovato" e mostro la pagina di errore 404.
+            if ($materiale === null || empty($materiale['idMateriale'])) {
+                $view->mostraMaterialeNonTrovato();
+                return;
+            }
             // Il PDF non viene più inlineato qui: è servito a parte dall'endpoint pdf().
             $session = Session::getInstance();
             $id = $session->getSessionElement('studente');

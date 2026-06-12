@@ -85,6 +85,19 @@ class viewRicercaMateriale {
         return isset($_GET['page']) ? (int)$_GET['page']: null;
     }
 
+    /**
+     * Mostra la pagina di errore quando il materiale richiesto non esiste,
+     * impostando lo stato HTTP 404 (gli header vanno emessi qui, nella view).
+     *
+     * @return void
+     */
+    public function mostraMaterialeNonTrovato() : void {
+        header('HTTP/1.1 404 Not Found');
+        $this->smarty->assign('errore', 'Materiale non trovato');
+        $this->smarty->assign('dettaglio', 'Il materiale richiesto non esiste o è stato rimosso.');
+        $this->smarty->display('error.tpl');
+    }
+
     public function mostraDettagliMateriale(array $materiale, ?string $username, ?string $base64Studente, bool $preferito = false) : void {
         $this->smarty->assign('materiale', $materiale);
         $this->smarty->assign('studente', $username);
