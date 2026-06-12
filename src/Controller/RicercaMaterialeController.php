@@ -163,6 +163,7 @@ class RicercaMaterialeController
             $materiali = $pm->trovaMaterialiPopolari($arrayPaginazione['offset'], $arrayPaginazione['limit']);
             $session = Session::getInstance();
             $id = $session->getSessionElement('studente');
+            $session->unsetSessionElement('ricerca_titolo');
             if(isset($id)){
                 $studente = $pm->find(Studente::class, $id);
             }
