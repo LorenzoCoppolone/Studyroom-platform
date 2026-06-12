@@ -91,9 +91,10 @@
                             <span class="star star--empty">★</span>
                         {/if}
                     {/section}
-                    <span class="materiale-rating__count">
-                        ({$materiale.numeroRecensioni|default:0|escape:'html'} recensioni)
-                    </span>
+                    <a class="materiale-rating__count"
+                       href="/RecensioneMateriale/recensioni/{$materiale.idMateriale|escape:'url'}">
+                        ({$materiale.numeroRecensioni|default:0|escape:'html'}recensioni)
+                    </a>
                 </div>
 
                 <div class="materiale-downloads" aria-label="{$materiale.numeroDownload|default:0} download">

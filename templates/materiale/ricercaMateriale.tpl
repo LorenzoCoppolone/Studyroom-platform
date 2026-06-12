@@ -147,7 +147,14 @@
 
                 {assign var="stelle" value=$mat.mediaValutazione|default:0|round}
 
-                <a href="/RicercaMateriale/dettagli/{$mat.idMateriale|escape}" class="card">
+                <div class="card">
+
+                    {* Link "principale" invisibile: si allunga via CSS a coprire
+                       tutta la card (stretched-link). Permette di avere altri link
+                       interni (es. recensioni) senza annidare <a> dentro <a>. *}
+                    <a class="card__link"
+                       href="/RicercaMateriale/dettagli/{$mat.idMateriale|escape}"
+                       aria-label="Apri il materiale {$mat.titoloMateriale|escape:'html'}"></a>
 
                     <div class="card__icon" aria-hidden="true">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 96" fill="none">
@@ -176,7 +183,9 @@
                                     <span class="star star--empty">★</span>
                                 {/if}
                             {/section}
-                            <span class="card__rating-count">({$mat.numeroRecensioni|default:0|escape:'html'} recensioni)</span>
+                            <a class="card__rating-count"
+                               href="/RecensioneMateriale/recensioni/{$mat.idMateriale|escape}"
+                               title="Vedi tutte le recensioni">({$mat.numeroRecensioni|default:0|escape:'html'} recensioni)</a>
                         </div>
 
                         <div class="card__footer">
@@ -192,7 +201,7 @@
                         </div>
                     </div>
 
-                </a>
+                </div>
 
             {/foreach}
 
