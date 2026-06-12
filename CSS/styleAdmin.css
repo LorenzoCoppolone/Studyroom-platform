@@ -75,19 +75,34 @@ header {
     text-decoration: none;
 }
 
-.header-badge {
-    padding: 0.35rem 0.8rem;
+.btn-logout {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    padding: 0.5rem 1.1rem;
 
     border-radius: 999px;
+    border: 1px solid var(--border);
 
-    background: var(--purple-light);
+    background: var(--card);
     color: var(--purple);
 
-    font-size: 0.75rem;
-    font-weight: 700;
+    font-size: 0.9rem;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
 
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+    text-decoration: none;
+    cursor: pointer;
+
+    transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-logout:hover {
+    background: var(--accent);
+    color: #ffffff;
+    border-color: var(--accent);
+    box-shadow: 0 4px 14px rgba(255, 107, 107, 0.35);
 }
 
 /* ── MAIN ── */

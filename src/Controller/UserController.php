@@ -157,6 +157,7 @@ class UserController {
      */
     public function logout() : void {
         $session = Session::getInstance();
+        $view = new viewUser();
         $idStudente = $session->getSessionElement('studente');
         if ($idStudente !== null){
             $pm = PersistentManager::getInstance();
@@ -171,10 +172,12 @@ class UserController {
          elseif ($session->getSessionElement('admin') !== null) {
             $session->unsetSessionElement('admin');
             $session->destroySession();
+            $view->mostraHome(null, null); // Dopo il logout, mostra la home page non loggata
+            exit;
+            
         }
         $session->unsetSessionElement('studente');
         $session->destroySession(); // Distrugge la sessione, effettivamente facendo il logout
-        $view = new viewUser();
         $view->mostraHome(null, null); // Dopo il logout, mostra la home page non loggata
     }
     

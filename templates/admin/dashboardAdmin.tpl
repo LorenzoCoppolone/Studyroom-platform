@@ -6,13 +6,16 @@
     <title>Dashboard Admin | StudyRoom</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Rajdhani:wght@700&family=Exo+2:wght@700&family=DM+Serif+Display&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/../CSS/styleAdmin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="icon" type="image/x-icon" href="/../img/studyroom_favicon.ico">
 </head>
 <body>
 
 <header>
-    <a href=/Home/dashboard class="logo">StudyRoom</a>
-    <span class="header-badge">Admin</span>
+    <span class="logo">StudyRoom</span>
+    <a href="/User/Logout" class="btn-logout">
+        <i class="fa-solid fa-right-from-bracket"></i> Logout
+    </a>
 </header>
 
 <main>
