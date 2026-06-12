@@ -75,7 +75,7 @@ class ViewSegnalazioni {
      * @return void
      */
     public function mostraFormErrore(string $messaggio): void {
-        $this->smarty->assign('messaggio', $messaggio);
-        echo $this->smarty->fetch('popupSegnalazioneErrore.tpl');
+        $this->smarty->assign('errore', $messaggio);
+        $this->smarty->fetch('error.tpl');
     }
 }

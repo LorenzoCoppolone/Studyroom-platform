@@ -156,13 +156,11 @@ class RicercaMaterialeController
     public function popolari(): void{
         $view = new ViewRicercaMateriale();
         try {
-            
             $page = $view->getPage() ?? 1;
             $arrayPaginazione = $this->paginazione(Materiale::class, $page);
             $pm        = PersistentManager::getInstance();
             $materiali = $pm->trovaMaterialiPopolari($arrayPaginazione['offset'], $arrayPaginazione['limit']);
             $session = Session::getInstance();
-            $session->setSessionElement('ricerca_titolo', '');
             $id = $session->getSessionElement('studente');
             $studente = $pm->find(Studente::class, $id);
             $corsiDiLaurea = $pm->trovaCorsiDiLaurea();
@@ -195,50 +193,36 @@ class RicercaMaterialeController
             
             $session = Session::getInstance();
             $titolo = $session->getSessionElement('ricerca_titolo') ?? '';
-            $nuoviFiltri = $view->getDatiFiltro(); // Filtri inviati dalla UI
+            $filtri = $view->getDatiFiltro(); // Filtri inviati dalla UI
             $page = $view->getPage() ?? 1; // Pagina corrente, default 1
             $arrayPaginazione = $this->paginazione(Materiale::class, $page);
-            $filtriAttuali = Session::getInstance()->getSessionElement('ricerca_filtri') ?? []; // Recupero i filtri già presenti in sessione
-            foreach ($nuoviFiltri as $chiave => $valore) {
-                if ($valore === null || $valore === '') {
-                    unset($filtriAttuali[$chiave]);
-            
-                } else {
-                    $filtriAttuali[$chiave] = $valore;
-                }
-            }
-            if (($filtriAttuali['tipologia'] ?? null) === 'esame') {
-                unset($filtriAttuali['tag']);
+            if (($filtri['tipologia'] ?? null) === 'esame') {
+                unset($filtri['tag']);
             }
             $tipologieValide = ['appunto', 'esame'];
-            if (isset($filtriAttuali['tipologia']) && !in_array($filtriAttuali['tipologia'], $tipologieValide, true)) {
-                unset($filtriAttuali['tipologia']);
+            if (isset($filtri['tipologia']) && !in_array($filtri['tipologia'], $tipologieValide, true)) {
+                unset($filtri['tipologia']);
             }
-            Session::getInstance()->setSessionElement('ricerca_filtri', $filtriAttuali);
             $pm = PersistentManager::getInstance();
             $materiali = $pm->cercaMateriale(
                 $titolo,
                 $arrayPaginazione['offset'],
                 $arrayPaginazione['limit'],
-                $filtriAttuali['insegnamento']         ?? '',
-                $filtriAttuali['tipologia']            ?? '',
-                $filtriAttuali['corso_di_laurea']      ?? '',
-                $filtriAttuali['tag']                  ?? '',
-                $filtriAttuali['criterio_ordinamento'] ?? ''
+                $filtri['insegnamento']         ?? '',
+                $filtri['tipologia']            ?? '',
+                $filtri['corso_di_laurea']      ?? '',
+                $filtri['tag']                  ?? '',
+                $filtri['criterio_ordinamento'] ?? ''
             );
-
             $id = $session->getSessionElement('studente');
             $corsiDiLaurea = $pm->trovaCorsiDiLaurea();
             $insegnamenti = $pm->trovaInsegnamenti();
             $studente = $id !== null ? $pm->find(Studente::class, $id) : null;
-
             if($studente !== null) {
                 $view->mostraMateriali($materiali, $page, $arrayPaginazione['totPage'], $studente->getUsername(), $studente->getImmagineProfilo()->getBase64($studente), $corsiDiLaurea, $insegnamenti, $filtriAttuali);
-
             } else {
                 $view->mostraMateriali($materiali, $page, $arrayPaginazione['totPage'], null, null, $corsiDiLaurea, $insegnamenti, $filtriAttuali);
             }
-    
         } catch (PDOException $e) {
             $view->mostraFormErrore("Errore DB durante l'applicazione dei filtri: " . $e->getMessage());
     
