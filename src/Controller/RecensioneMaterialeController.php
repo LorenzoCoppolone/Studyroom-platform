@@ -25,7 +25,7 @@ class recensioneMaterialeController {
      *
      * @return void
      */
-    public function inserisciRecensioneController() : void {
+    public function inserisciRecensione() : void {
         
         $view = new ViewRecensioneMateriale();
         $idMateriale = $view->getIdMateriale();
