@@ -462,6 +462,13 @@ main {
     transform: translateY(-1px);
 }
 
+.materiale-viewer__frame {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+}
+
 /* ── RESPONSIVE ── */
 @media (max-width: 768px) {
 

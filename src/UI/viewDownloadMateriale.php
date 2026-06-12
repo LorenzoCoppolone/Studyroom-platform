@@ -69,12 +69,13 @@ class viewDownloadMateriale {
 
 
     /**
-     * Mostra il popup per il download del materiale
+     * Visualizza un messaggio di errore.
      * 
      * @return void
      */
-    public function mostraPopUpDownload() :void {
-        // Implementazione futura: template popup
+    public function mostraFormErrore(string $messaggio) : void {
+        $this->smarty->assign('errore', $messaggio);
+        $this->smarty->display('feedback/error.tpl');
     }
 
 

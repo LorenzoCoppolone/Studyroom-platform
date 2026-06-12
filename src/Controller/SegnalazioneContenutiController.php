@@ -49,8 +49,8 @@ class SegnalazioneContenutiController {
                 throw new RuntimeException("Utente non verificato");
             }
             $risultati = $pm->findBy(Segnalazione::class, [
-                'studente'  => $idUtente,
-                'materiale' => $idMateriale
+                'segnalante'  => $idUtente,
+                'materialeSegnalato' => $idMateriale
             ]);
             $segnalazioneEsistente = $risultati[0] ?? null;
             if($segnalazioneEsistente === null) {
@@ -71,7 +71,7 @@ class SegnalazioneContenutiController {
         } catch (RuntimeException $e) {
             $this->mostraEsito($view, $idMateriale,'errore', $e->getMessage());
         } catch (\Exception $e) {
-            $this->mostraEsito($view, $idMateriale,'errore', 'Errore imprevisto.');
+            $this->mostraEsito($view, $idMateriale,'errore', $e->getMessage());
         }
     }
 

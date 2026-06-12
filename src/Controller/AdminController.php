@@ -127,4 +127,57 @@ class AdminController {
             $view->mostraErrore("Errore imprevisto: " . $e->getMessage());
         }
     }
+
+
+     /**
+     * Calcola offset, limit e numero totale di pagine.
+     * @param string $class
+     * @param int $page
+     * @param array $extraCriteria
+     * @return array
+     */
+    private function paginazione(string $class, int $page, array $extraCriteria = []) : array {
+    $page  = max(1, $page);
+    $limit = 10;
+    $offset = ($page - 1) * $limit;
+    $pm      = PersistentManager::getInstance();
+    $session = Session::getInstance();
+    $titolo = $session->getSessionElement('ricerca_titolo') ?? '';
+    $criteria = [];
+    // titolo
+    if ($titolo === '') {
+        $view = new ViewRicercaMateriale();
+        $titoloView = $view->getTitolo() ?? '';
+        if ($titoloView !== '') {
+            $criteria['titolo'] = '%' . $titoloView . '%';
+        }
+        $filtri = $view->getDatiFiltro();
+    } else {
+        $criteria['titolo'] = '%' . $titolo . '%';
+        $filtri = $session->getSessionElement('ricerca_filtri') ?? [];
+    }
+    // filtri opzionali
+    if (!empty($filtri)) {
+        if (!empty($filtri['tipologia'])) {
+            $criteria['tipologia'] = $filtri['tipologia'];
+        }
+        if (!empty($filtri['corso_di_laurea'])) {
+            // countAll si aspetta 'corso'
+            $criteria['corso'] = $filtri['corso_di_laurea'];
+        }
+        if (!empty($filtri['insegnamento'])) {
+            $criteria['insegnamento'] = $filtri['insegnamento'];
+        }
+        // 'tag' al momento in countAll non è gestito: o lo aggiungi lì, o lo togli qui
+    }
+    // criteri extra (es. utente per "Caricati")
+    $criteria = array_merge($criteria, $extraCriteria);
+    $totaleMateriali = $pm->countAll($class, $criteria);
+    $totPage = $totaleMateriali > 0 ? (int)ceil($totaleMateriali / $limit) : 1;
+    return [
+        'offset'  => $offset,
+        'limit'   => $limit,
+        'totPage' => $totPage,
+    ];
+    }
 }

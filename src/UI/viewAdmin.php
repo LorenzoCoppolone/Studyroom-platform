@@ -88,7 +88,7 @@ class viewAdmin {
             ]);
         }
         
-        $this->smarty->display('gestisciSegnalazione.tpl');
+        $this->smarty->display('admin/gestisciSegnalazione.tpl');
     }
 
     /** -------------------------------------------------------------

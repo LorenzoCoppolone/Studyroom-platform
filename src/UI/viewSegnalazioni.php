@@ -20,13 +20,8 @@ class ViewSegnalazioni {
      */
     private Smarty $smarty;
 
-    /**
-     * Costruttore: inizializza Smarty.
-     */
     public function __construct() {
-        $this->smarty = new Smarty();
-        $this->smarty->setTemplateDir(__DIR__ . '/../../templates/');
-        $this->smarty->setCompileDir(__DIR__ . '/../../templates_c/');
+        $this->smarty = StartSmarty::configuration();
     }
 
     /**

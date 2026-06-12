@@ -30,8 +30,7 @@ class DownloadMaterialeController {
         $session = Session::getInstance();
         $idUtente = $session->getSessionElement('studente');
         $pm = PersistentManager::getInstance();
-        $studente = $pm->find(Studente::class, $idUtente);
-        if (empty($studente)) {
+        if (empty($idUtente)) {
             throw new InvalidArgumentException("Utente non loggato!");
         }
         $downloadEsistente = $pm->findBy(Download::class, [
@@ -55,9 +54,9 @@ class DownloadMaterialeController {
             $materiale->getIdMateriale()
         );
     } catch(PDOException $e) {
-        throw new RuntimeException("Errore durante il download: " . $e->getMessage());
+        $view->mostraFormErrore("Errore DB durante il download del materiale: " . $e->getMessage());
     } catch (\Exception $e) {
-        throw new RuntimeException("Errore imprevisto: " . $e->getMessage());
+        $view->mostraFormErrore("Errore durante il download del materiale: " . $e->getMessage());
     }
 }
 

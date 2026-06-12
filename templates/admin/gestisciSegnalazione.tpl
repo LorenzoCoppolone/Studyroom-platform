@@ -35,23 +35,18 @@
                     <div class="file-meta-value">{$materiale.titolo|escape}</div>
                 </div>
 
-                {if $materiale.fileSrc}
-                    {if $materiale.isImage}
-                        <img src="{$materiale.fileSrc}"
-                             alt="Anteprima file"
-                             style="max-width:100%; border-radius:8px; margin-top:12px;">
-                    {else}
-                        <iframe src="{$materiale.fileSrc}"
-                                width="100%" height="400"
-                                style="border:none; border-radius:8px; margin-top:12px;">
-                        </iframe>
-                    {/if}
-                {else}
-                    <div class="file-preview">
-                        <span class="file-preview-icon">📄</span>
-                        <span>Anteprima non disponibile</span>
-                    </div>
-                {/if}
+                 <div class="materiale-viewer">
+            {if $materiale}
+                <iframe class="materiale-viewer__frame"
+                        src="/RicercaMateriale/pdf/{$materiale.idMateriale|escape:'url'}#toolbar=0&navpanes=0&scrollbar=0"
+                        title="Contenuto del materiale"></iframe>
+            {else}
+                <div class="materiale-viewer__empty">
+                    <i class="fa fa-file-pdf"></i>
+                    <p>Anteprima non disponibile</p>
+                </div>
+            {/if}
+        </div>
 
             </div>
         </div>
@@ -95,7 +90,7 @@
                             <input type="hidden" name="idUtente" value="{$utente.id|escape}">
                             <button type="submit" class="btn-action btn-success"
                                     onclick="return confirm('Accettare la segnalazione archivierà tutte le segnalazioni collegate. Continuare?')">
-                                ✓&nbsp; Accetta segnalazione
+                                ✓&nbsp; Annulla segnalazione
                             </button>
                         </form>
 
@@ -105,8 +100,8 @@
                             <input type="hidden" name="idMaterialeSegnalato" value="{$materiale.idMateriale|escape}">
                             <input type="hidden" name="idUtente" value="{$utente.id|escape}">
                             <button type="submit" class="btn-action btn-outline"
-                                    onclick="return confirm('Rifiutare la segnalazione eliminerà il materiale e tutte le segnalazioni ad esso associate. Continuare?')">
-                                ✕&nbsp; Rifiuta segnalazione (rimuovi materiale)
+                                    onclick="return confirm('Questo eliminerà il materiale e tutte le segnalazioni ad esso associate. Continuare?')">
+                                ✕&nbsp; Rimuovi materiale
                             </button>
                         </form>
 
