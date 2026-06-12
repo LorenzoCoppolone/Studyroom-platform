@@ -192,6 +192,19 @@
     font-size: 0.82rem;
     color: var(--color-text-muted);
     margin-left: 0.4rem;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+a.materiale-rating__count {
+    cursor: pointer;
+}
+
+a.materiale-rating__count:hover,
+a.materiale-rating__count:focus-visible {
+    color: var(--color-primary);
+    text-decoration: underline;
+    font-weight: 600;
 }
 
 .materiale-downloads {

@@ -124,6 +124,31 @@ class MaterialeRepository {
         return $result;
     }
 
+    /**
+     * Trova tutte le recensioni di un singolo materiale, con l'username di chi le ha scritte.
+     *
+     * @param int $idMateriale ID del materiale.
+     * @param int $offset Offset per la paginazione.
+     * @param int $limit Limite per la paginazione.
+     * @return array Recensioni del materiale (username, voto, commento).
+     */
+    public function trovaRecensioniMateriale(int $idMateriale, int $offset, int $limit): array {
+        $qb = $this->em->createQueryBuilder();
+        $qb->select(
+            's.username as nomeStudente',
+            'r.voto as votoRecensione',
+            'r.commento as commentoRecensione'
+        )
+            ->from(Recensione::class, 'r')
+            ->join('r.studente', 's')
+            ->where('r.materiale = :idMateriale')
+            ->setParameter('idMateriale', $idMateriale)
+            ->setFirstResult($offset)
+            ->setMaxResults($limit);
+
+        return $qb->getQuery()->getArrayResult();
+    }
+
 
     public function trovaMaterialiPopolari(int $offset = 0, int $limit = 10): array
     {

@@ -273,4 +273,9 @@ public function countAll(string $class, array $criteria = []): int
     public function trovaMateriale(int $id): array {
         return $this->materialeRepository->dettagliMateriale($id);
     }
+
+    
+    public function trovaRecensioniPerMateriale(int $idMateriale, int $offset, int $limit): array {
+        return $this->materialeRepository->trovaRecensioniMateriale($idMateriale, $offset, $limit);
+    }
 }

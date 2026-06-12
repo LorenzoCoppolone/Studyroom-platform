@@ -76,6 +76,45 @@ class recensioneMaterialeController {
     }
 
     /**
+     * Mostra la schermata con tutte le recensioni di un materiale.
+     * Raggiunta cliccando sul numero di recensioni nella pagina di dettaglio.
+     *
+     * @param int|null $idMateriale ID del materiale di cui mostrare le recensioni.
+     * @return void
+     */
+    public function recensioni(?int $idMateriale = 0) : void {
+        $view = new ViewRecensioneMateriale();
+        try {
+            $pm = PersistentManager::getInstance();
+
+            $page   = max(1, $view->getPagina() ?? 1);
+            $limit  = 10;
+            $offset = ($page - 1) * $limit;
+
+            $recensioni       = $pm->trovaRecensioniPerMateriale($idMateriale, $offset, $limit);
+            $numeroRecensioni = $pm->countAll(Recensione::class, ['materiale' => $idMateriale]);
+            $totPage          = $numeroRecensioni > 0 ? (int)ceil($numeroRecensioni / $limit) : 1;
+
+            // Dati per la navbar (utente loggato), opzionali.
+            $idStudente = Session::getInstance()->getSessionElement('studente');
+            $username = null;
+            $base64   = null;
+            if ($idStudente !== null) {
+                $studente = $pm->find(Studente::class, $idStudente);
+                $username = $studente?->getUsername();
+                $base64   = $studente?->getImmagineProfilo()?->getBase64($studente);
+            }
+
+            $view->mostraRecensioniMateriale($recensioni, $totPage, $page, $idMateriale, $username, $base64);
+
+        } catch (PDOException $e) {
+            $view->mostraFormErrore("Errore DB durante il recupero delle recensioni: " . $e->getMessage());
+        } catch (\Exception $e) {
+            $view->mostraFormErrore("Errore imprevisto: " . $e->getMessage());
+        }
+    }
+
+    /**
      * Elimina una recensione effettuata dallo studente.
      *
      * @return void

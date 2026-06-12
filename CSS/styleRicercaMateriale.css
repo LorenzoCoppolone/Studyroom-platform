@@ -339,8 +339,12 @@
 /* =============================================
    CARD MATERIALE
    ============================================= */
-/* L'intera card è un link al dettaglio del materiale */
+/* L'intera card è cliccabile verso il dettaglio del materiale.
+   La card è un contenitore relativo: il link "principale" (.card__link)
+   si allunga a coprirla tutta, mentre i link interni (es. recensioni)
+   restano cliccabili stando sopra di esso (stretched-link pattern). */
 .card {
+    position: relative;
     display: flex;
     align-items: flex-start;
     gap: 1.1rem;
@@ -353,6 +357,14 @@
     color: inherit;
     cursor: pointer;
     transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+
+/* Link "principale" invisibile che copre tutta la card */
+.card__link {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    border-radius: var(--radius-box);
 }
 
 .card:hover {
@@ -427,10 +439,24 @@
 .star--full  { color: #f5a623; }
 .star--empty { color: #d9d9e3; }
 
+/* Link recensioni: sta SOPRA il velo (.card__link) così è cliccabile da solo */
 .card__rating-count {
+    position: relative;
+    z-index: 2;
     font-size: 0.8rem;
     color: var(--color-text-muted);
     margin-left: 0.35rem;
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.card__rating-count:hover,
+.card__rating-count:focus-visible {
+    color: var(--color-primary);
+    text-decoration: underline;
+    font-weight: 600;
+    outline: none;
 }
 
 /* Download */
