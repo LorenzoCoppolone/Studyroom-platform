@@ -331,13 +331,11 @@ class RicercaMaterialeController
         try{
             
             $page = $view->getPage() ?? 1; // Ottieni la pagina corrente
-        
-            $arrayPaginazione = $this->paginazione(Materiale::class, $page); // Calcola l'offset per la query
-        
             $session = Session::getInstance(); // Ottieni l'istanza della sessione
             $idStudenteLoggato = $session->getSessionElement('studente');
             $pm = PersistentManager::getInstance();
             $studente = $pm->find(Studente::class, $idStudenteLoggato);
+            $arrayPaginazione = $this->paginazione(Materiale::class, $page, ['utente' => $idStudenteLoggato]); // Calcola l'offset per la query
             $corsiDiLaurea = $pm->trovaCorsiDiLaurea();
             $insegnamenti = $pm->trovaInsegnamenti();
             $filtri = $session->getSessionElement('ricerca_filtri') ?? [];
@@ -358,48 +356,52 @@ class RicercaMaterialeController
      *
      * @param string $class
      * @param int $page
+     * @param array $extraCriteria
      * @return array
      */
-    public function paginazione(string $class, int $page) : array {
-        $page = max(1, $page); // Assicurati che la pagina sia almeno 1
-        $limit = 10; // Numero di risultati per pagina
-        $offset = ($page - 1) * $limit; // Calcola l'offset per la query
-        $pm = PersistentManager::getInstance();
-        $session = Session::getInstance();
-        $titolo = $session->getSessionElement('ricerca_titolo') ?? '';
-        if($titolo === '') {
-            $view = new ViewRicercaMateriale();
-            if($view->getDatiFiltro() === []){
-                $totaleMateriali = $pm->countAll($class, ['titolo' => '%' . $view->getTitolo() . '%']);
-            } else {
-                $filtri = $view->getDatiFiltro();
-                $totaleMateriali = $pm->countAll($class, [
-                'titolo' => '%' . $view->getTitolo() . '%',
-                'tipologia' => $filtri['tipologia'] ?? null,
-                'corso_di_laurea' => $filtri['corso_di_laurea'] ?? null,
-                'insegnamento' => $filtri['insegnamento'] ?? null,
-                'tag' => $filtri['tag'] ?? null
-                ]);
-            }
-        } else {
-            if($session->getSessionElement('ricerca_filtri') === []) {
-                $totaleMateriali = $pm->countAll($class, ['titolo' => '%' . $titolo . '%']);
-            
-            } else {
-                $totaleMateriali = $pm->countAll($class, [
-                    'titolo' => '%' . $titolo . '%',
-                    'tipologia' => $filtri['tipologia'] ?? null,
-                    'corso_di_laurea' => $filtri['corso_di_laurea'] ?? null,
-                    'insegnamento' => $filtri['insegnamento'] ?? null,
-                    'tag' => $filtri['tag'] ?? null
-                ]);
-            }
+    public function paginazione(string $class, int $page, array $extraCriteria = []) : array {
+    $page  = max(1, $page);
+    $limit = 10;
+    $offset = ($page - 1) * $limit;
+    $pm      = PersistentManager::getInstance();
+    $session = Session::getInstance();
+    $titolo = $session->getSessionElement('ricerca_titolo') ?? '';
+    $criteria = [];
+    // titolo
+    if ($titolo === '') {
+        $view = new ViewRicercaMateriale();
+        $titoloView = $view->getTitolo() ?? '';
+        if ($titoloView !== '') {
+            $criteria['titolo'] = '%' . $titoloView . '%';
         }
-        $totPage = ceil($totaleMateriali / $limit);
+        $filtri = $view->getDatiFiltro();
+    } else {
+        $criteria['titolo'] = '%' . $titolo . '%';
+        $filtri = $session->getSessionElement('ricerca_filtri') ?? [];
+    }
+    // filtri opzionali
+    if (!empty($filtri)) {
+        if (!empty($filtri['tipologia'])) {
+            $criteria['tipologia'] = $filtri['tipologia'];
+        }
+        if (!empty($filtri['corso_di_laurea'])) {
+            // countAll si aspetta 'corso'
+            $criteria['corso'] = $filtri['corso_di_laurea'];
+        }
+        if (!empty($filtri['insegnamento'])) {
+            $criteria['insegnamento'] = $filtri['insegnamento'];
+        }
+        // 'tag' al momento in countAll non è gestito: o lo aggiungi lì, o lo togli qui
+    }
+    // criteri extra (es. utente per "Caricati")
+    $criteria = array_merge($criteria, $extraCriteria);
+    $totaleMateriali = $pm->countAll($class, $criteria);
+    $totPage = $totaleMateriali > 0 ? (int)ceil($totaleMateriali / $limit) : 1;
     return [
-        'offset' =>$offset,
-        'limit' => $limit,
-        'totPage' => $totPage
+        'offset'  => $offset,
+        'limit'   => $limit,
+        'totPage' => $totPage,
     ];
     }
+
 }

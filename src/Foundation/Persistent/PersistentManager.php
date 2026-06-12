@@ -103,117 +103,102 @@ class PersistentManager {
         return $this->em->getRepository($class)->findOneBy($criteria);
     }
 
-public function countAll(string $class, array $criteria = []): int {
+public function countAll(string $class, array $criteria = []): int
+{
     $qb = $this->em->createQueryBuilder();
     $qb->select('COUNT(e)')
        ->from($class, 'e');
 
-    if($class === Download::class){
-        if(isset($criteria['materiale'])){
-            $qb->join('e.materiale', 'm');
+    /*
+     * DOWNLOAD / PREFERITO / RECENSIONE
+     * (tutte hanno materiale e utente)
+     */
+    if (in_array($class, [Download::class, Preferito::class, Recensione::class], true)) {
+
+        // JOIN materiale (una sola volta)
+        if (isset($criteria['materiale'])) {
+            $qb->leftJoin('e.materiale', 'm');
             $qb->andWhere('m.id = :idMateriale')
                ->setParameter('idMateriale', $criteria['materiale']);
             unset($criteria['materiale']);
         }
 
-        if(isset($criteria['utente'])){
-            $qb->join('e.utente', 'u');
-            $qb->andWhere('u.id = :idUtente')
+        // JOIN utente (una sola volta)
+        if (isset($criteria['utente'])) {
+            $qb->leftJoin('e.studente', 's')
+                ->andWhere('s.id = :idUtente')
                ->setParameter('idUtente', $criteria['utente']);
             unset($criteria['utente']);
         }
     }
 
-    if($class === Preferito::class){
-        if(isset($criteria['materiale'])){
-            $qb->join('e.materiale', 'm');
-            $qb->andWhere('m.id = :idMateriale')
-               ->setParameter('idMateriale', $criteria['materiale']);
-            unset($criteria['materiale']);
+    /*
+    * MATERIALE
+    */
+    if ($class === Materiale::class) {
+        // JOIN insegnamento SEMPRE una sola volta
+        $qb->leftJoin('e.insegnamento', 'i');
+        /*
+         * TIPOLGIA (Appunto / Esame)
+         */
+        if (isset($criteria['tipologia'])) {
+            $tipo = strtolower($criteria['tipologia']);
+            if ($tipo === 'appunto') {
+                $qb->andWhere('e INSTANCE OF Model\Appunto');
+            } elseif ($tipo === 'esame') {
+                $qb->andWhere('e INSTANCE OF Model\Esame');
+            }
+            unset($criteria['tipologia']);
         }
-
-        if(isset($criteria['utente'])){
-            $qb->join('e.utente', 'u');
-            $qb->andWhere('u.id = :idUtente')
-               ->setParameter('idUtente', $criteria['utente']);
+        /*
+         * INSEGNAMENTO
+         */
+        if (isset($criteria['insegnamento'])) {
+            $qb->andWhere('i.nomeInsegnamento = :insegnamento')
+               ->setParameter('insegnamento', $criteria['insegnamento']);
+            unset($criteria['insegnamento']);
+        }
+        /*
+         * CORSO DI LAUREA (JOIN annidato)
+         */
+        if (isset($criteria['corso'])) {
+            $qb->leftJoin('i.corsoDiLaurea', 'c');
+            $qb->andWhere('c.nomeCorso = :corso')
+               ->setParameter('corso', $criteria['corso']);
+            unset($criteria['corso']);
+        }
+        /*
+        * UTENTE (materiali caricati da uno specifico utente)
+        */
+        if (isset($criteria['utente'])) {
+            $qb->leftJoin('e.studente', 's')
+                ->andWhere('s.id = :idUtente')
+                ->setParameter('idUtente', $criteria['utente']);
             unset($criteria['utente']);
         }
-    }
-    
-    if($class === Recensione::class){
-        if(isset($criteria['materiale'])){
-            $qb->join('e.materiale', 'm');
-            $qb->andWhere('m.id = :idMateriale')
-               ->setParameter('idMateriale', $criteria['materiale']);
-            unset($criteria['materiale']);
-        }
+        /*
+         * CAMPI SEMPLICI (LIKE)
+         */
+        $relationalFields = ['insegnamento', 'corso', 'corsoDiLaurea'];
 
-        if(isset($criteria['utente'])){
-            $qb->join('e.utente', 'u');
-            $qb->andWhere('u.id = :idUtente')
-               ->setParameter('idUtente', $criteria['utente']);
-            unset($criteria['utente']);
+        $realFields = array_map(
+            fn($prop) => $prop->getName(),
+            (new \ReflectionClass($class))->getProperties()
+        );
+        foreach ($criteria as $field => $value) {
+            if (in_array($field, $relationalFields, true)) {
+                continue;
+            }
+            if (!in_array($field, $realFields, true)) {
+                continue;
+            }
+            $qb->andWhere("e.$field LIKE :$field")
+               ->setParameter($field, $value);
         }
-    }
-    if($class === Materiale::class){
-    /*
-     * 1) TIPOLGIA (Appunto / Esame)
-     */
-    if (isset($criteria['tipologia'])) {
-        $tipo = strtolower($criteria['tipologia']);
-        if ($tipo === 'appunto') {
-            $qb->andWhere('e INSTANCE OF Model\Appunto');
-        } elseif ($tipo === 'esame') {
-            $qb->andWhere('e INSTANCE OF Model\Esame');
-        }
-        unset($criteria['tipologia']);
-    }
-    /*
-     * 2) INSEGNAMENTO (ManyToOne) → confronto esatto
-     */
-    if (isset($criteria['insegnamento'])) {
-        $qb->join('e.insegnamento', 'i');
-        $qb->andWhere('i.nomeInsegnamento = :insegnamento')
-           ->setParameter('insegnamento', $criteria['insegnamento']);
-        unset($criteria['insegnamento']);
-    }
-    /*
-     * 3) CORSO DI LAUREA (JOIN annidato) → confronto esatto
-     */
-    if (isset($criteria['corso'])) {
-        $qb->join('e.insegnamento', 'i2');
-        $qb->join('i2.corsoDiLaurea', 'c');
-        $qb->andWhere('c.nomeCorso = :corso')
-           ->setParameter('corso', $criteria['corso']);
-        unset($criteria['corso']);
-    }
-    /*
-     * 4) CAMPI RELAZIONALI DA ESCLUDERE DAL LIKE
-     */
-    $relationalFields = ['insegnamento', 'corso', 'corsoDiLaurea'];
-    /*
-     * 5) CAMPI REALI dell'entità (solo quelli semplici)
-     */
-    $realFields = array_map(
-        fn($prop) => $prop->getName(),
-        (new \ReflectionClass($class))->getProperties()
-    );
-    foreach ($criteria as $field => $value) {
-        // ignora campi relazionali
-        if (in_array($field, $relationalFields, true)) {
-            continue;
-        }
-        // ignora alias o campi inesistenti
-        if (!in_array($field, $realFields, true)) {
-            continue;
-        }
-        // LIKE solo sui campi semplici
-        $qb->andWhere("e.$field LIKE :$field")
-           ->setParameter($field, $value);
-    }
     }
     return (int) $qb->getQuery()->getSingleScalarResult();
 }
+
 
 
 

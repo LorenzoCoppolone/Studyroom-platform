@@ -69,7 +69,7 @@
 </section>
 
 {* ===================== PAGINAZIONE ===================== *}
-{if $totPage > 1}
+{if $totPage >= 1}
 <nav class="pagination" aria-label="Navigazione pagine">
 
     {if $page > 1}
