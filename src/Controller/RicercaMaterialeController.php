@@ -339,8 +339,7 @@ class RicercaMaterialeController
             $insegnamenti = $pm->trovaInsegnamenti();
             $filtri = $session->getSessionElement('ricerca_filtri') ?? [];
             $materialiPopolari = $pm->MaterialiPopolariUtente($idStudenteLoggato, $arrayPaginazione['offset'], $arrayPaginazione['limit']);
-        
-            $view->mostraMateriali($materialiPopolari, $page, $arrayPaginazione['totPage'], $studente->getUsername(), $studente->getImmagineProfilo()->getBase64($studente), $corsiDiLaurea, $insegnamenti, $filtri);
+            $view->mostraMateriali($materialiPopolari, $page, $arrayPaginazione['totPage'], $studente->getUsername(), $studente->getImmagineProfilo()->getBase64($studente), $corsiDiLaurea, $insegnamenti, $filtri, $arrayPaginazione['urlBasePagina']);
     
         } catch (PDOException $e) {
             $view->mostraFormErrore("Errore durante la ricerca: " . $e->getMessage());
@@ -392,6 +391,21 @@ class RicercaMaterialeController
         }
         // 'tag' al momento in countAll non è gestito: o lo aggiungi lì, o lo togli qui
     }
+    // Costruzione URL base con tutti i filtri attivi
+    $params = $filtri;
+    // Rimuovo il parametro page se presente
+    unset($params['page']);
+    // Ricostruisco la query string
+    $queryString = http_build_query($params);
+    // URL base (controller + metodo attuale)
+    $urlBasePagina = $_SERVER['PATH_INFO'] ?? $_SERVER['REQUEST_URI'];
+    // Rimuovo eventuale ?page=... residuo
+    $urlBasePagina = preg_replace('/(\?|&)page=\d+/', '', $urlBasePagina);
+    // Se ci sono altri parametri GET, li aggiungo
+    if (!empty($queryString)) {
+        $urlBasePagina .= '?' . $queryString;
+    }
+
     // criteri extra (es. utente per "Caricati")
     $criteria = array_merge($criteria, $extraCriteria);
     $totaleMateriali = $pm->countAll($class, $criteria);
@@ -400,6 +414,7 @@ class RicercaMaterialeController
         'offset'  => $offset,
         'limit'   => $limit,
         'totPage' => $totPage,
+        'urlBasePagina' => $urlBasePagina
     ];
     }
 

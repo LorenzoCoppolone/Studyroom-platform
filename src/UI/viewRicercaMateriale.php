@@ -58,12 +58,13 @@ class viewRicercaMateriale {
      * @param int $page Pagina corrente per la paginazione
      * @return void
      */
-    public function mostraMateriali(array $materiali, int $page, int $totPage, ?string $username, ?string $base64, array $corsiDiLaurea, array $insegnamenti, array $filtri) : void {
+    public function mostraMateriali(array $materiali, int $page, int $totPage, ?string $username, ?string $base64, array $corsiDiLaurea, array $insegnamenti, array $filtri, ?string $url = "/Materiali/ricerca") : void {
         $this->smarty->assign("materiali", $materiali);
         $this->smarty->assign("paginaCorrente", $page);
         $this->smarty->assign("totalePagine", $totPage);
         $this->smarty->assign("studente", $username);
         $this->smarty->assign("base64", $base64);
+        $this->smarty->assign("urlbasePagina", $url);
         $this->smarty->assign("corsiDiLaurea", $corsiDiLaurea);
         $this->smarty->assign("insegnamenti", $insegnamenti);
         $this->smarty->assign("filtri", $filtri);
