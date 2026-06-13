@@ -162,10 +162,13 @@ class RicercaMaterialeController
         try {
             $studente = null;
             $page = $view->getPage() ?? 1;
+            $session = Session::getInstance();
+            if($session->getSessionElement('ricerca_titolo') !== "") {
+                $session->unsetSessionElement('ricerca_titolo');
+            }
             $arrayPaginazione = $this->paginazione(Materiale::class, $page);
             $pm        = PersistentManager::getInstance();
             $materiali = $pm->trovaMaterialiPopolari($arrayPaginazione['offset'], $arrayPaginazione['limit']);
-            $session = Session::getInstance();
             $id = $session->getSessionElement('studente');
             $session->unsetSessionElement('ricerca_titolo');
             if(isset($id)){
