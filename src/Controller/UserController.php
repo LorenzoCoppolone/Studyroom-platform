@@ -8,6 +8,8 @@ use UI\viewUser;
 use Model\Studente;
 use Model\Amministratore;
 use Model\File;
+use Model\Recensione;
+use Controller\AdminController;
 use UI\viewAdmin;
 use PDOException;
 use Exception;
@@ -126,8 +128,7 @@ class UserController {
                     throw new \Exception("Credenziali non corrette.");
                 }
                 $session->setSessionElement('admin', $admin->getId());
-                $viewAdmin = new viewAdmin();
-                $viewAdmin->mostraDashboardAdmin($pm->trovaSegnalazioniAdmin(0,10));
+                $view->redirectAdmin();
                 return; // Login admin completato: non proseguire con i controlli dello studente
             }
             // login Studente
@@ -143,7 +144,7 @@ class UserController {
             $this->rememberMe($datiLogin['email'], $datiLogin['remember']);
             $session->setSessionElement('studente', $studente->getId());
             $base64 = $studente->getImmagineProfilo() ? $studente->getImmagineProfilo()->getBase64($studente) : null;
-            $view->mostraHome($studente->getUsername(), $base64);
+            $view->redirectHome();
         }
         catch (PDOException $e) {
             $view->mostraFormErrore("Errore durante il login dell'utente: " . $e->getMessage());
@@ -172,13 +173,13 @@ class UserController {
          elseif ($session->getSessionElement('admin') !== null) {
             $session->unsetSessionElement('admin');
             $session->destroySession();
-            $view->mostraHome(null, null); // Dopo il logout, mostra la home page non loggata
+            $view->redirectHome(); // Dopo il logout, mostra la home page non loggata
             exit;
             
         }
         $session->unsetSessionElement('studente');
         $session->destroySession(); // Distrugge la sessione, effettivamente facendo il logout
-        $view->mostraHome(null, null); // Dopo il logout, mostra la home page non loggata
+        $view->redirectHome(); // Dopo il logout, mostra la home page non loggata
     }
     
     /**
@@ -213,32 +214,18 @@ class UserController {
     public function cercaRecensioniUtente() : void {
         $view = new viewUser();
         $pm = PersistentManager::getInstance();
-
         $page = $view->getDatiPaginazione() ?? 1; // Ottieni la pagina corrente
-
-        $arrayPaginazione = $this->paginazione(\Model\Recensione::class, $page);
-
+        $arrayPaginazione = $this->paginazione(Recensione::class, $page);
         $offset = $arrayPaginazione['offset'];
         $limit  = $arrayPaginazione['limit'];
         $totPage = $arrayPaginazione['totPage'];
-        // $page = max(1, $page); // Assicurati che la pagina sia almeno 1
-        //$limit = 10; // Numero di elementi per pagina
-        //$offset = $this->paginazione($page, $limit); // Calcola l'offset per la query
-        
         $session = Session::getInstance(); // Ottieni l'istanza della sessione
         $idStudenteLoggato = $session->getSessionElement('studente');
-
         $studente = $pm->find(Studente::class, $idStudenteLoggato); // Serve per la navbar (username + foto)
         $username = $studente?->getUsername();
         $base64 = $studente?->getImmagineProfilo()?->getBase64($studente);
-
         $recensioni = $pm->trovaRecensioniPerUtente($idStudenteLoggato, $offset, $limit);
-        $numeroRecensioni = $pm->countAll(\Model\Recensione::class, ['Studente' => $idStudenteLoggato]);
-
-        // $numeroRecensioni = $pm->count(Recensione::class, ['Studente' => $idStudenteLoggato]);
-        $pagineTotali = ceil($numeroRecensioni / $limit);
-
-        $view->mostraRecensioniUtente($recensioni, $pagineTotali, $page, $username, $base64);
+        $view->mostraRecensioniUtente($recensioni, $totPage, $page, $username, $base64);
     }
 
     /**
@@ -517,10 +504,8 @@ class UserController {
         $page = max(1, $page);
         $limit = 10;
         $offset = ($page - 1) * $limit;
-
         $pm = PersistentManager::getInstance();
-        $totale = $pm->countAll($class);
-
+        $totale = $pm->countAll($class, []);
         return [
             'offset' => $offset,
             'limit' => $limit,

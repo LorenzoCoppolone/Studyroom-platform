@@ -110,12 +110,19 @@ public function countAll(string $class, array $criteria = []): int
        ->from($class, 'e');
 
     /*
+     * SEGNALAZIONE
+     */
+    if ($class === Segnalazione::class) {
+        $qb->leftJoin('e.materialeSegnalato', 'm');
+    }
+
+    /*
      * DOWNLOAD / PREFERITO / RECENSIONE
      * (tutte hanno materiale e utente)
      */
     if (in_array($class, [Download::class, Preferito::class, Recensione::class], true)) {
 
-        // JOIN materiale (una sola volta)
+        // JOIN materiale
         if (isset($criteria['materiale'])) {
             $qb->leftJoin('e.materiale', 'm');
             $qb->andWhere('m.id = :idMateriale')
@@ -123,21 +130,23 @@ public function countAll(string $class, array $criteria = []): int
             unset($criteria['materiale']);
         }
 
-        // JOIN utente (una sola volta)
+        // JOIN utente
         if (isset($criteria['utente'])) {
-            $qb->leftJoin('e.studente', 's')
-                ->andWhere('s.id = :idUtente')
+            $qb->leftJoin('e.studente', 's');
+            $qb->andWhere('s.id = :idUtente')
                ->setParameter('idUtente', $criteria['utente']);
             unset($criteria['utente']);
         }
     }
 
     /*
-    * MATERIALE
-    */
+     * MATERIALE
+     */
     if ($class === Materiale::class) {
-        // JOIN insegnamento SEMPRE una sola volta
+
+        // JOIN insegnamento SEMPRE
         $qb->leftJoin('e.insegnamento', 'i');
+
         /*
          * TIPOLGIA (Appunto / Esame)
          */
@@ -150,6 +159,7 @@ public function countAll(string $class, array $criteria = []): int
             }
             unset($criteria['tipologia']);
         }
+
         /*
          * INSEGNAMENTO
          */
@@ -158,8 +168,9 @@ public function countAll(string $class, array $criteria = []): int
                ->setParameter('insegnamento', $criteria['insegnamento']);
             unset($criteria['insegnamento']);
         }
+
         /*
-         * CORSO DI LAUREA (JOIN annidato)
+         * CORSO DI LAUREA
          */
         if (isset($criteria['corso'])) {
             $qb->leftJoin('i.corsoDiLaurea', 'c');
@@ -167,37 +178,42 @@ public function countAll(string $class, array $criteria = []): int
                ->setParameter('corso', $criteria['corso']);
             unset($criteria['corso']);
         }
+
         /*
-        * UTENTE (materiali caricati da uno specifico utente)
-        */
+         * UTENTE (materiali caricati da uno specifico utente)
+         */
         if (isset($criteria['utente'])) {
-            $qb->leftJoin('e.studente', 's')
-                ->andWhere('s.id = :idUtente')
-                ->setParameter('idUtente', $criteria['utente']);
+            $qb->leftJoin('e.studente', 's');
+            $qb->andWhere('s.id = :idUtente')
+               ->setParameter('idUtente', $criteria['utente']);
             unset($criteria['utente']);
         }
-        /*
-         * CAMPI SEMPLICI (LIKE)
-         */
-        $relationalFields = ['insegnamento', 'corso', 'corsoDiLaurea'];
-
-        $realFields = array_map(
-            fn($prop) => $prop->getName(),
-            (new \ReflectionClass($class))->getProperties()
-        );
-        foreach ($criteria as $field => $value) {
-            if (in_array($field, $relationalFields, true)) {
-                continue;
-            }
-            if (!in_array($field, $realFields, true)) {
-                continue;
-            }
-            $qb->andWhere("e.$field LIKE :$field")
-               ->setParameter($field, $value);
-        }
     }
+
+    /*
+     * CAMPI SEMPLICI (LIKE) — VALIDO PER TUTTE LE CLASSI
+     */
+    $relationalFields = ['insegnamento', 'corso', 'corsoDiLaurea'];
+
+    $realFields = array_map(
+        fn($prop) => $prop->getName(),
+        (new \ReflectionClass($class))->getProperties()
+    );
+
+    foreach ($criteria as $field => $value) {
+        if (in_array($field, $relationalFields, true)) {
+            continue;
+        }
+        if (!in_array($field, $realFields, true)) {
+            continue;
+        }
+        $qb->andWhere("e.$field LIKE :$field")
+           ->setParameter($field, $value);
+    }
+
     return (int) $qb->getQuery()->getSingleScalarResult();
 }
+
 
 
 

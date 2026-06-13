@@ -6,6 +6,7 @@ use Foundation\Persistent\PersistentManager;
 use Foundation\Session;
 use Model\Studente;
 use Model\Materiale;
+use Model\Segnalazione;
 use UI\viewAdmin;
 
 class AdminController {
@@ -36,19 +37,23 @@ class AdminController {
      * @return void
      */
     public function dashboard(): void {
+        try{
         $this->verificaAccessoAdmin();
-        
         $pm   = PersistentManager::getInstance();
         $view = new viewAdmin();
-        
-        $segnalazioni = $pm->trovaSegnalazioniAdmin(0, 10);
-        
-        $view->mostraDashboardAdmin($segnalazioni);
+        $page = $view->getPage() ?? 1;
+        $arrayPaginazione = $this->paginazione(Segnalazione::class, $page);
+        $segnalazioni = $pm->trovaSegnalazioniAdmin($arrayPaginazione['offset'], $arrayPaginazione['limit']);
+        $url = '/admin/dashboard';
+        $view->mostraDashboardAdmin($segnalazioni, $page, $arrayPaginazione['totPage'], $url);
+        } catch (\Exception $e) {
+            $view->mostraErrore("Errore imprevisto: " . $e->getMessage());
+        }
     }
 
     /**
      * Mostra i dettagli di un materiale segnalato per la gestione.
-     * URL: /Studyroom-platform/index.php/admin/gestisciSegnalazione/{id}
+     * URL: /Studyroom-platform/admin/gestisciSegnalazione/{id}
      *
      * @param int $id ID del materiale segnalato
      * @return void
@@ -141,37 +146,7 @@ class AdminController {
     $limit = 10;
     $offset = ($page - 1) * $limit;
     $pm      = PersistentManager::getInstance();
-    $session = Session::getInstance();
-    $titolo = $session->getSessionElement('ricerca_titolo') ?? '';
     $criteria = [];
-    // titolo
-    if ($titolo === '') {
-        $view = new ViewRicercaMateriale();
-        $titoloView = $view->getTitolo() ?? '';
-        if ($titoloView !== '') {
-            $criteria['titolo'] = '%' . $titoloView . '%';
-        }
-        $filtri = $view->getDatiFiltro();
-    } else {
-        $criteria['titolo'] = '%' . $titolo . '%';
-        $filtri = $session->getSessionElement('ricerca_filtri') ?? [];
-    }
-    // filtri opzionali
-    if (!empty($filtri)) {
-        if (!empty($filtri['tipologia'])) {
-            $criteria['tipologia'] = $filtri['tipologia'];
-        }
-        if (!empty($filtri['corso_di_laurea'])) {
-            // countAll si aspetta 'corso'
-            $criteria['corso'] = $filtri['corso_di_laurea'];
-        }
-        if (!empty($filtri['insegnamento'])) {
-            $criteria['insegnamento'] = $filtri['insegnamento'];
-        }
-        // 'tag' al momento in countAll non è gestito: o lo aggiungi lì, o lo togli qui
-    }
-    // criteri extra (es. utente per "Caricati")
-    $criteria = array_merge($criteria, $extraCriteria);
     $totaleMateriali = $pm->countAll($class, $criteria);
     $totPage = $totaleMateriali > 0 ? (int)ceil($totaleMateriali / $limit) : 1;
     return [

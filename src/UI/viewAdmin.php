@@ -42,8 +42,10 @@ class viewAdmin {
      * @param array $segnalazioni
      * @return void
      */
-    public function mostraDashboardAdmin(array $segnalazioni): void {
+    public function mostraDashboardAdmin(array $segnalazioni, int $page, int $totPage): void {
         $this->smarty->assign('segnalazioni', $segnalazioni);
+        $this->smarty->assign('page', $page);
+        $this->smarty->assign('totPage', $totPage);
         $this->smarty->display('admin/dashboardAdmin.tpl');
     }
 
@@ -60,34 +62,17 @@ class viewAdmin {
      * @return void
      */
     public function mostraGestisciSegnalazione(array $dati): void {
-        
-        if (!empty($dati)) {
-            $r        = $dati[0];
-            $mimeType = $r['mimeTypeFile'] ?? null;
-
-            // Incorpora il contenuto del file come data URI base64 (nessun endpoint esterno).
-            $fileSrc = null;
-            if (!empty($r['contenutoFile']) && $mimeType !== null) {
-                $fileSrc = 'data:' . $mimeType . ';base64,' . base64_encode($r['contenutoFile']);
-            }
-
             $this->smarty->assign('materiale', [
-                'idMateriale' => $r['idMateriale'],
-                'titolo'      => $r['titoloMateriale'],
-                'mimeType'    => $mimeType,
-                'isImage'     => $mimeType !== null && str_starts_with($mimeType, 'image/'),
-                'fileSrc'     => $fileSrc,
+                'idMateriale' => $dati['idMateriale'],
+                'titolo'      => $dati['titoloMateriale'],
             ]);
-            
             $this->smarty->assign('utente', [
-                'id'       => $r['idStudente'],
-                'nome'     => $r['nomeStudente'],
-                'cognome'  => $r['cognomeStudente'],
-                'username' => $r['usernameStudente'],
-                'email'    => $r['emailStudente'],
-            ]);
-        }
-        
+                'id'       => $dati['idStudente'],
+                'nome'     => $dati['nomeStudente'],
+                'cognome'  => $dati['cognomeStudente'],
+                'username' => $dati['usernameStudente'],
+                'email'    => $dati['emailStudente'],
+            ]);        
         $this->smarty->display('admin/gestisciSegnalazione.tpl');
     }
 
@@ -123,5 +108,9 @@ class viewAdmin {
      */
     public function mostra404(): void {
         header('HTTP/1.1 404 Not Found');
+    }
+
+    public function getPage(): int {
+        return (int)($_GET['page'] ?? 1);
     }
 }
