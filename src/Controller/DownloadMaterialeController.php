@@ -38,6 +38,7 @@ class DownloadMaterialeController {
             'materiale' => $idMateriale
         ]);
         $materiale = $pm->find(Materiale::class, $idMateriale);
+        $studente = $pm->find(Studente::class, $idUtente);
         if (empty($downloadEsistente) && $studente !== null && $materiale !== null){
             $nuovoDownload = new Download($studente, $materiale);
             $pm->save($nuovoDownload);
