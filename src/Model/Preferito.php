@@ -2,11 +2,18 @@
 namespace Model;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
+
+
 #[ORM\Entity]
+#[ORM\Table(
+    name: "preferito",
+    uniqueConstraints: [
+        new ORM\UniqueConstraint(
+            name: "unique_preferito",
+            columns: ["materiale_id", "studente_id"])]
+)]
 class Preferito {
-
     // Attributi
-
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: Types::INTEGER)] 

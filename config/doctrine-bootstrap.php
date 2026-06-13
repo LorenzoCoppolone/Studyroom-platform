@@ -17,6 +17,7 @@ $driver = new \Doctrine\ORM\Mapping\Driver\AttributeDriver([
 
 $config->setMetadataDriverImpl($driver);
 
+if(!isset($_ENV['DATABASE_URL'])) {
 $connectionParams = [
     'dbname'   => $_ENV['DB_NAME'],
     'user'     => $_ENV['DB_USER'],
@@ -25,7 +26,17 @@ $connectionParams = [
     'port'     => $_ENV['DB_PORT'],
     'driver'   => 'pdo_mysql',
 ];
-
+} else {
+    $url = parse_url($_ENV['DATABASE_URL']);
+    $connectionParams = [
+        'dbname'   => substr($url['path'], 1),
+        'user'     => $url['user'],
+        'password' => $url['pass'],
+        'host'     => $url['host'],
+        'port'     => $url['port'],
+        'driver'   => 'pdo_mysql',
+    ];
+}
 $connection = DriverManager::getConnection($connectionParams, $config);
 $entityManager = new EntityManager($connection, $config);
 

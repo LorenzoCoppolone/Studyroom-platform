@@ -5,6 +5,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\Common\Collections\ArrayCollection;
+
+#[ORM\Table(name: 'corsodilaurea')]
 #[ORM\Entity]
 class CorsoDiLaurea {
 

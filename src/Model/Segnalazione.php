@@ -6,7 +6,9 @@ use Doctrine\DBAL\Types\Types;
 
 
 #[ORM\Entity]
-#[ORM\Table(uniqueConstraints: [
+#[ORM\Table(
+    name: "segnalazione",
+    uniqueConstraints: [
         new ORM\UniqueConstraint(
             name: "unique_segnalazione",
             columns: ["materialeSegnalato_id", "segnalante_id"])]
