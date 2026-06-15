@@ -4,13 +4,13 @@ namespace Controller;
 
 use Foundation\Persistent\PersistentManager;
 use Foundation\Session;
-use UI\viewUser;
+use UI\ViewUser;
 use Model\Studente;
 use Model\Amministratore;
 use Model\File;
 use Model\Recensione;
 use Controller\AdminController;
-use UI\viewAdmin;
+use UI\ViewAdmin;
 use PDOException;
 use Exception;
 use InvalidArgumentException;
@@ -26,7 +26,7 @@ class UserController {
      * Mostra la form di login.
      */
     public function login() : void {
-        $view = new viewUser();
+        $view = new ViewUser();
         $view->mostraFormLogin();
     }
 
@@ -34,7 +34,7 @@ class UserController {
      * Mostra la form di registrazione.
      */
     public function registrazione() : void {
-        $view = new viewUser();
+        $view = new ViewUser();
         $view->mostraFormRegistrazione();
     }
 
@@ -42,7 +42,7 @@ class UserController {
      * Mostra la form per il recupero password.
      */
     public function recuperoPassword() : void {
-        $view = new viewUser();
+        $view = new ViewUser();
         $view->mostraFormRecuperoPassword();
     }
     
@@ -58,7 +58,7 @@ class UserController {
     public function effettuaRegistrazione(){
     try {
         $session = Session::getInstance();
-        $view = new viewUser();
+        $view = new ViewUser();
         $pm = PersistentManager::getInstance();
         $d = $view->getDatiRegistrazione();
         $studenteRegistrato = $pm->findoneby(Studente::class, ['email' => $d['email']]);
@@ -111,7 +111,7 @@ class UserController {
      * - gestione sessione
      */
     public function effettuaLogin() {
-        $view = new viewUser();
+        $view = new ViewUser();
         try {
             $session = Session::getInstance();
             $pm = PersistentManager::getInstance();
@@ -159,7 +159,7 @@ class UserController {
      */
     public function logout() : void {
         $session = Session::getInstance();
-        $view = new viewUser();
+        $view = new ViewUser();
         $idStudente = $session->getSessionElement('studente');
         if ($idStudente !== null){
             $pm = PersistentManager::getInstance();
@@ -191,7 +191,7 @@ class UserController {
      */
     public function verificaEmail(string $token) : void {
         try {
-            $view = new viewUser();
+            $view = new ViewUser();
             $pm = PersistentManager::getInstance();
             $studente = $pm->findOneBy(Studente::class, ['validationToken' => $token]); // Cerco lo studente nel DB per token
             if ($studente === null) {
@@ -213,7 +213,7 @@ class UserController {
     }
  
     public function cercaRecensioniUtente() : void {
-        $view = new viewUser();
+        $view = new ViewUser();
         $pm = PersistentManager::getInstance();
         $page = $view->getDatiPaginazione() ?? 1; // Ottieni la pagina corrente
         $arrayPaginazione = $this->paginazione(Recensione::class, $page);
@@ -233,7 +233,7 @@ class UserController {
      * Mostra il profilo dello studente loggato.
      */
     public function profiloStudente() : void {
-        $view = new viewUser();
+        $view = new ViewUser();
         try{
        
         $session = Session::getInstance(); // Ottieni l'istanza della sessione
@@ -261,7 +261,7 @@ class UserController {
      * Mostra la form per modificare il profilo dello studente.
      */
     public function modificaProfiloStudente() : void {
-        $view = new viewUser();
+        $view = new ViewUser();
        try{
         
         $session = Session::getInstance(); // Ottieni l'istanza della sessione
@@ -290,7 +290,7 @@ class UserController {
      * - immagine profilo (se caricata)
      */
     public function aggiornaProfiloStudente() : void {
-        $view = new viewUser();
+        $view = new ViewUser();
         
         try {
             $session = Session::getInstance();
@@ -366,7 +366,7 @@ class UserController {
      * - invia email con link di reset
      */
     public function effettuaRecuperoPassword(): void {
-        $view = new viewUser();
+        $view = new ViewUser();
         try {
             $pm = PersistentManager::getInstance();
             $email = $view->getEmailRecuperoPassword();
@@ -423,7 +423,7 @@ class UserController {
      * Mostra la form per impostare una nuova password tramite token.
      */
     public function reimpostaPassword(string $token): void {
-        $view = new viewUser();
+        $view = new ViewUser();
         try {
             
             $pm = PersistentManager::getInstance();
@@ -449,7 +449,7 @@ class UserController {
      * - invalidazione token
      */
     public function salvaNuovaPassword(): void{
-    $view = new viewUser();
+    $view = new ViewUser();
         try {
             $pm = PersistentManager::getInstance();
             $d = $view->getDatiNuovaPassword();
