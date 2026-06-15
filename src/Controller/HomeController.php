@@ -2,10 +2,12 @@
 
 namespace Controller;
 
-use UI\viewHome;
+use UI\ViewHome;
 use Foundation\Session;
 use Foundation\Persistent\PersistentManager;
 use Model\Studente;
+
+
 /**
  * HomeController
  *
@@ -20,7 +22,7 @@ class HomeController{
      * @return void
      */
     public function dashboard() : void {
-        $view = new viewHome();
+        $view = new ViewHome();
         $session = Session::getInstance();
         $user = $session->getSessionElement('studente');
         
@@ -30,6 +32,13 @@ class HomeController{
             $pm = PersistentManager::getInstance();
             $hashToken = hash('sha256', $view->getCookieRemember());
             $user = $pm->findOneBy(Studente::class, ['rememberMeToken' => $hashToken]);
+
+            if ($user === null) {
+                // Token non valido, rimuovo il cookie
+                setcookie('remember_me', '', time() - 3600, "/", "", true, true);
+                $view->mostraHome(null, null);
+                exit;
+            }
             
             $tokenTime = $user->getRememberTokenTime(); 
             $tokenTimestamp = $tokenTime->getTimestamp();
@@ -40,7 +49,7 @@ class HomeController{
                 $user->setRememberToken(null);
                 $user->setRememberTokenTime(null);
                 
-                $pm->update($user);
+                $pm->update();
             
             } else {
                 // Token valido -> rinnovo
@@ -51,7 +60,7 @@ class HomeController{
                 $hashToken = hash('sha256', $cookieValue);
                 $user->setRememberToken($hashToken);
                 
-                $pm->update($user);
+                $pm->update();
                 
                 $session->setSessionElement('studente', $user->getId());
             }
@@ -87,7 +96,7 @@ class HomeController{
      * @return void
      */
     public function index() : void {
-        $view = new viewHome();
+        $view = new ViewHome();
         $view->index();
     }
 }

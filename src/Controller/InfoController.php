@@ -1,7 +1,7 @@
 <?php
 namespace Controller;
 
-use UI\viewInfo;
+use UI\ViewInfo;
 use Foundation\Session;
 use Model\Studente;
 use Foundation\Persistent\PersistentManager;
@@ -30,7 +30,7 @@ class InfoController {
         $studente = $session->getSessionElement('studente');
         
         if (!isset($studente) || $studente === null) {
-            $view = new viewInfo();
+            $view = new ViewInfo();
             $view->chiSiamo(null, null);
             exit;
         
@@ -47,7 +47,7 @@ class InfoController {
                 $base64 = $studente->getImmagineProfilo()->getBase64($studente);
             }
             
-            $view = new viewInfo();
+            $view = new ViewInfo();
             $view->chiSiamo($username, $base64);
         }
     }
@@ -62,7 +62,7 @@ class InfoController {
         $studente = $session->getSessionElement('studente');
         
         if (!isset($studente) || $studente === null) {
-            $view = new viewInfo();
+            $view = new ViewInfo();
             $view->supporto(null, null);
             exit;
         
@@ -79,7 +79,7 @@ class InfoController {
                 $base64 = $studente->getImmagineProfilo()->getBase64($studente);
             }
             
-            $view = new viewInfo();
+            $view = new ViewInfo();
             $view->supporto($username, $base64);
         }
     }
@@ -95,7 +95,7 @@ class InfoController {
         $studente = $session->getSessionElement('studente');
         
         if (!isset($studente) || $studente === null) {
-            $view = new viewInfo();
+            $view = new ViewInfo();
             $view->faq(null, null);
             exit;
     
@@ -112,7 +112,7 @@ class InfoController {
                 $base64 = $studente->getImmagineProfilo()->getBase64($studente);
             }
             
-            $view = new viewInfo();
+            $view = new ViewInfo();
             $view->faq($username, $base64);
         }
     }
@@ -127,7 +127,7 @@ class InfoController {
         $studente = $session->getSessionElement('studente');
         
         if (!isset($studente) || $studente === null) {
-            $view = new viewInfo();
+            $view = new ViewInfo();
             $view->termini(null, null);
             exit;
         
@@ -144,7 +144,7 @@ class InfoController {
                 $base64 = $studente->getImmagineProfilo()->getBase64($studente);
             }
 
-            $view = new viewInfo();
+            $view = new ViewInfo();
             $view->termini($username, $base64);
         }
     }

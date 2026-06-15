@@ -15,8 +15,8 @@
     <div id="popup-preferiti" class="popup {if $flash.tipo == 'successo'}popup-successo{else}popup-errore{/if}">
         <span class="popup-messaggio">{$flash.testo|escape:'html'}</span>
     </div>
-    <link rel="stylesheet" href="/../CSS/popupPreferiti.css">
-    <script src="/../JS/popupPreferiti.js"></script>
+    <link rel="stylesheet" href="/../CSS/popup.css">
+    <script src="/../JS/popup.js"></script>
 {/if}
 
 {* ─────────────────────────────────────────────────────────────
@@ -199,6 +199,6 @@
 
 </section>
 
-<script src="/../js/downloadMateriale.js"></script>
+<script src="/../JS/downloadMateriale.js"></script>
 
 {/block}

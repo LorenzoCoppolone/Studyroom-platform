@@ -4,7 +4,7 @@ namespace Controller;
 
 use Foundation\Persistent\PersistentManager;
 use Foundation\Session;
-use UI\viewDownloadMateriale;
+use UI\ViewDownloadMateriale;
 use PDOException;
 use RuntimeException;
 use InvalidArgumentException;
@@ -25,7 +25,7 @@ class DownloadMaterialeController {
      * @throws RuntimeException Se si verificano errori durante il processo.
      */
     public function eseguiDownload(int $idMateriale) : void {
-    $view = new viewDownloadMateriale();
+    $view = new ViewDownloadMateriale();
     try {
         $session = Session::getInstance();
         $idUtente = $session->getSessionElement('studente');

@@ -5,7 +5,7 @@ use Smarty\Smarty;
 use config\StartSmarty;
 use Exception;
 
-class viewUser {
+class ViewUser {
 
     /** @var Smarty Istanza Smarty per la gestione dei template */
     private Smarty $smarty;

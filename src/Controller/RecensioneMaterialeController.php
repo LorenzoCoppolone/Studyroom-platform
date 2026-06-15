@@ -9,7 +9,6 @@ use Model\Recensione;
 use Model\Materiale;
 use Model\Studente;
 use PDOException;
-use RuntimeException;
 use InvalidArgumentException;
  
 /**
@@ -28,6 +27,7 @@ class recensioneMaterialeController {
     public function inserisciRecensione() : void {
         
         $view = new ViewRecensioneMateriale();
+        
         try {
         $idMateriale = $view->getIdMateriale();
         $voto        = (float) $view->getVoto();
@@ -69,9 +69,9 @@ class recensioneMaterialeController {
             }
 
         } catch(PDOException $e) {
-            $this->mostraEsito($view, $idMateriale,'errore', "Errore DB durante l'inserimento della recensione.");
+            $view->mostraFormErrore("Errore imprevisto.");
         } catch (\Exception $e) {
-            $this->mostraEsito($view, $idMateriale,'errore', 'Errore imprevisto.');
+            $view->mostraFormErrore('Errore imprevisto.');
         }
     }
 
@@ -108,51 +108,9 @@ class recensioneMaterialeController {
             $view->mostraRecensioniMateriale($recensioni, $totPage, $page, $idMateriale, $username, $base64);
 
         } catch (PDOException $e) {
-            $view->mostraFormErrore("Errore DB durante il recupero delle recensioni: " . $e->getMessage());
+            $view->mostraFormErrore("Errore imprevisto.");
         } catch (\Exception $e) {
-            $view->mostraFormErrore("Errore imprevisto: " . $e->getMessage());
-        }
-    }
-
-    /**
-     * Elimina una recensione effettuata dallo studente.
-     *
-     * @return void
-     */
-    public function eliminaRecensione() : void {
-
-   
-        $view = new ViewRecensioneMateriale();
-        $idMateriale = $view->getIdMateriale();
-        $idUtente = Session::getInstance()->getIdUtenteLoggato();
-
-        // Validazione utente
-        if (empty($idUtente)) {
-            throw new InvalidArgumentException("Utente non loggato.");
-        }
-        
-        try {
-            $pm = PersistentManager::getIstance();
-
-            // Trovo la recensione
-            $risultati = $pm->findBy(Recensione::class, [
-                'studente'  => $idUtente,
-                'materiale' => $idMateriale
-            ]);
-           
-            $recensioneSelezionato = $risultati[0] ?? null;
-
-            // Eliminazione
-            $pm->delete($recensioneSelezionato);
-
-            // Conferma
-            $view->mostraPopUpConferma();
-
-        } catch(PDOExcception $e) {
-            throw new RuntimeException("Errore DB durante l'eliminazione della recensione': " . $e->getMessage());
-        
-        } catch (\Exception $e) {
-            throw new RuntimeException("Errore imprevisto: " . $e->getMessage());
+            $view->mostraFormErrore("Errore imprevisto.");
         }
     }
 

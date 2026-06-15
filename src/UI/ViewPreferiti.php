@@ -34,7 +34,7 @@ class ViewPreferiti {
     public function mostraPopUpAggiunto() : void {
         $this->smarty->assign('messaggio', "Materiale aggiunto ai preferiti!");
         $this->smarty->assign('tipo', "successo");
-        $this->smarty->display('popupPreferiti.tpl');
+        $this->smarty->display('feedback/popup.tpl');
     }
     
 

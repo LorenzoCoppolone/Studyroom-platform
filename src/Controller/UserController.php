@@ -71,6 +71,7 @@ class UserController {
             ob_flush();
             flush();
             $this->inviaEmailVerifica($studenteRegistrato, $token);
+            return;
         }
         if (empty($d['nome']) || empty($d['cognome']) || empty($d['username']) || empty($d['email']) || empty($d['password'])) {
             throw new \Exception("Tutti i campi sono obbligatori.");
@@ -166,7 +167,7 @@ class UserController {
             if ($studente !== null && $studente->getRememberToken() !== null) {
                 $studente->setRememberToken(null);
                 $studente->setRememberTokenTime(null);
-                $pm->update($studente);
+                $pm->update();
                 setcookie('remember_me', '', time() - 3600, "/", "", true, true); // Rimuove il cookie
             }
         }
@@ -204,8 +205,8 @@ class UserController {
             $studente->setValidationToken(null); // Rimuovi il token dallo studente
             $studente->setValidationTokenTime(null); // Rimuovi la scadenza del token
             $studente->setIsVerified(true); // Imposta l'email come verificata
-            $pm->update($studente); // Salva le modifiche al database
-            $view->mostraConvalidaEmail($studente->getUsername(), null);
+            $pm->update(); // Salva le modifiche al database
+            $view->mostraConvalidaEmail();
         } catch (PDOException $e) {
            $view->mostraFormErrore("Errore durante la verifica dell'email: " . $e->getMessage());
         }
@@ -232,8 +233,9 @@ class UserController {
      * Mostra il profilo dello studente loggato.
      */
     public function profiloStudente() : void {
-        try{
         $view = new viewUser();
+        try{
+       
         $session = Session::getInstance(); // Ottieni l'istanza della sessione
         $pm = PersistentManager::getInstance();
         
@@ -259,8 +261,9 @@ class UserController {
      * Mostra la form per modificare il profilo dello studente.
      */
     public function modificaProfiloStudente() : void {
-       try{
         $view = new viewUser();
+       try{
+        
         $session = Session::getInstance(); // Ottieni l'istanza della sessione
         $pm = PersistentManager::getInstance();
         
@@ -349,7 +352,7 @@ class UserController {
               "Ciao {$studente->getNome()},\n\n" .
               "Per confermare la tua registrazione a StudyRoom, clicca sul link seguente:\n\n" .
               $link . "\n\n" .
-              "Il link sarà valido per 10 minuti.\n\nGrazie!";
+              "Il link rimane valido per 10 minuti.\n\nGrazie!";
               $mail->send();
         } catch (Exception $e) {
             echo "Errore nell'invio dell'email: {$mail->ErrorInfo}";
@@ -408,7 +411,7 @@ class UserController {
             "Clicca sul seguente link:\n\n" .
             $link .
             "\n\n" .
-            "Il link è valido per 10 minuti.\n\n" .
+            "Il link rimane valido per 10 minuti.\n\n" .
             "Se non hai richiesto tu il recupero password, ignora questa email.\n\n" .
             "Grazie!";
         if (!$mail->send()) {
@@ -420,8 +423,9 @@ class UserController {
      * Mostra la form per impostare una nuova password tramite token.
      */
     public function reimpostaPassword(string $token): void {
+        $view = new viewUser();
         try {
-            $view = new viewUser();
+            
             $pm = PersistentManager::getInstance();
             $studente = $pm->findOneBy(Studente::class,['validationToken' => $token]);
             if ($studente === null) {
@@ -497,7 +501,7 @@ class UserController {
         $hashToken = hash('sha256', $token);
         $studente->setRememberToken($hashToken);
         $studente->setRememberTokenTime((new \DateTime('now', new \DateTimeZone('Europe/Rome')))->modify('+30 days'));// Scadenza token in linea con il cookie
-        $pm->update($studente);
+        $pm->update();
     }
 
     private function paginazione(string $class, int $page): array {

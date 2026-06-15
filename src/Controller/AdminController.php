@@ -7,7 +7,7 @@ use Foundation\Session;
 use Model\Studente;
 use Model\Materiale;
 use Model\Segnalazione;
-use UI\viewAdmin;
+use UI\ViewAdmin;
 
 class AdminController {
 
@@ -22,7 +22,7 @@ class AdminController {
      */
     private function verificaAccessoAdmin(): void {
         $session = Session::getInstance(); 
-        $view = new viewAdmin();
+        $view = new ViewAdmin();
         
         if ($session->getSessionElement('admin') === null) {
             $view->mostra404();
@@ -37,14 +37,14 @@ class AdminController {
      * @return void
      */
     public function dashboard(): void {
+        $view = new ViewAdmin();
         try{
         $this->verificaAccessoAdmin();
         $pm   = PersistentManager::getInstance();
-        $view = new viewAdmin();
         $page = $view->getPage() ?? 1;
         $arrayPaginazione = $this->paginazione(Segnalazione::class, $page);
         $segnalazioni = $pm->trovaSegnalazioniAdmin($arrayPaginazione['offset'], $arrayPaginazione['limit']);
-        $url = '/admin/dashboard';
+        $url = '/Admin/dashboard';
         $view->mostraDashboardAdmin($segnalazioni, $page, $arrayPaginazione['totPage'], $url);
         } catch (\Exception $e) {
             $view->mostraErrore("Errore imprevisto: " . $e->getMessage());
@@ -62,7 +62,7 @@ class AdminController {
         $this->verificaAccessoAdmin();
         
         $pm   = PersistentManager::getInstance();
-        $view = new viewAdmin();
+        $view = new ViewAdmin();
         
         $dati = $pm->gestisciSegnalazioneMaterialeAdmin($id);
         
@@ -86,7 +86,7 @@ class AdminController {
     public function eseguiAzione(): void {
         $this->verificaAccessoAdmin();
         
-        $view   = new viewAdmin();
+        $view   = new ViewAdmin();
         $valore = $view->getDatiSegnalazione();
         
         $idMaterialeSegnalato = $valore['idMaterialeSegnalato'];

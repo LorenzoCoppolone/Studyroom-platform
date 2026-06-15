@@ -111,9 +111,13 @@ public function countAll(string $class, array $criteria = []): int
 
     /*
      * SEGNALAZIONE
+     * La dashboard admin raggruppa le segnalazioni per materiale (una riga
+     * per materiale), quindi il totale per la paginazione deve contare i
+     * materiali distinti segnalati, non le singole segnalazioni.
      */
     if ($class === Segnalazione::class) {
-        $qb->leftJoin('e.materialeSegnalato', 'm');
+        $qb->select('COUNT(DISTINCT m.id)')
+           ->leftJoin('e.materialeSegnalato', 'm');
     }
 
     /*

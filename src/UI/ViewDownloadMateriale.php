@@ -4,7 +4,7 @@ namespace UI;
 Use Smarty\Smarty;
 Use config\StartSmarty;
 
-class viewDownloadMateriale {
+class ViewDownloadMateriale {
 
     /** @var Smarty Istanza Smarty per la gestione dei template */
     private Smarty $smarty;

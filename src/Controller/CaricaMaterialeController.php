@@ -8,7 +8,6 @@ use UI\ViewCaricaMateriale;
 use Model\Appunto;
 use Model\Esame;
 use Model\Studente;
-use Model\Materiale;
 use Model\CorsoDiLaurea;
 use Model\Insegnamento;
 use Model\File;
@@ -156,7 +155,7 @@ class CaricaMaterialeController
      * @param string $tipologia
      * @param string $titolo
      * @param string|null $tag
-     * @param int $idCdl
+     * @param String $idCdl
      * @param int $idInsegnamento
      * @param bool $tac
      * @param array $fileCaricato

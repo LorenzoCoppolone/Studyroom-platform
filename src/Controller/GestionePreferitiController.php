@@ -9,7 +9,6 @@ use Model\Materiale;
 use Model\Studente;
 use UI\ViewPreferiti;
 use PDOException;
-use RuntimeException;
 use InvalidArgumentException;
 
 /**

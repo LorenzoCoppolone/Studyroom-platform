@@ -2,5 +2,5 @@
     <span class="popup-messaggio">{$messaggio}</span>
 </div>
 
-<link rel="stylesheet" href="/css/popupPreferiti.css">
-<script src="/js/popupPreferiti.js"></script>
+<link rel="stylesheet" href="/CSS/popup.css">
+<script src="/JS/popup.js"></script>

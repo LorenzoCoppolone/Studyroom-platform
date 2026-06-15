@@ -4,7 +4,7 @@ namespace UI;
 Use Smarty\Smarty;
 Use config\StartSmarty;
 
-class viewAdmin {
+class ViewAdmin {
     
     /** @var Smarty Istanza Smarty per la gestione dei template */
     private Smarty $smarty;
@@ -38,14 +38,18 @@ class viewAdmin {
      * --------------------------------------------------------------*/
     /**
      * Mostra la dashboard admin con la lista dei materiali segnalati.
-     * 
-     * @param array $segnalazioni
+     *
+     * @param array  $segnalazioni Materiali segnalati (raggruppati per materiale)
+     * @param int    $page         Pagina corrente
+     * @param int    $totPage      Numero totale di pagine
+     * @param string $url          URL base per i link di paginazione
      * @return void
      */
-    public function mostraDashboardAdmin(array $segnalazioni, int $page, int $totPage): void {
+    public function mostraDashboardAdmin(array $segnalazioni, int $page, int $totPage, string $url): void {
         $this->smarty->assign('segnalazioni', $segnalazioni);
-        $this->smarty->assign('page', $page);
-        $this->smarty->assign('totPage', $totPage);
+        $this->smarty->assign('paginaCorrente', $page);
+        $this->smarty->assign('totalePagine', $totPage);
+        $this->smarty->assign('urlBasePagina', $url);
         $this->smarty->display('admin/dashboardAdmin.tpl');
     }
 
@@ -98,7 +102,7 @@ class viewAdmin {
      */
     public function mostraErrore(string $messaggio): void {
         $this->smarty->assign('errore', $messaggio);
-        $this->smarty->display('error.tpl');
+        $this->smarty->display('feedback/error.tpl');
     }
 
     /**

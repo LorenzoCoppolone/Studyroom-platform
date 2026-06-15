@@ -4,18 +4,15 @@ namespace Controller;
 
 use Foundation\Persistent\PersistentManager;
 use Foundation\Session;
-use Foundation\Services\AnteprimaPdfService;
 use UI\ViewRicercaMateriale;
 use Model\Materiale;
 use Model\Preferito;
 use Model\Download;
 use Model\Studente;
-use Model\Recensione;
-use Model\Segnalazione;
-use Model\File;
 use PDOException;
 use RuntimeException;
 use InvalidArgumentException;
+use Exception;
 
 /**
  * RicercaMaterialeController
@@ -68,13 +65,13 @@ class RicercaMaterialeController
             }
     
         } catch (PDOException $e) {
-            $view->mostraFormErrore("Errore DB durante la ricerca: " . $e->getMessage());
+            $view->mostraFormErrore("Errore durante la ricerca: ");
     
         }catch (InvalidArgumentException $e) {
-            $view->mostraFormErrore("Errore di validazione: " . $e->getMessage());
+            $view->mostraFormErrore("Errore durante la ricerca: " . $e->getMessage());
         
         } catch (\Exception $e) {
-            $view->mostraFormErrore("Errore imprevisto: " . $e->getMessage());
+            $view->mostraFormErrore("Errore durante la ricerca: ");
         }
     }
 
@@ -118,9 +115,9 @@ class RicercaMaterialeController
             $session->unsetSessionElement('flash');
             $view->mostraDettagliMateriale($materiale, $username, $immagineProfilo, $preferito, $flash);
         }catch (PDOException $e) {
-            $view->mostraFormErrore("Errore DB durante la ricerca: " . $e->getMessage());
+            $view->mostraFormErrore("Errore durante la ricerca: ");
         }catch (\Exception $e) {
-            $view->mostraFormErrore("Errore imprevisto: " . $e->getMessage());
+            $view->mostraFormErrore("Errore durante la ricerca: ");
         }
     }
 
@@ -145,9 +142,9 @@ class RicercaMaterialeController
             }
             $view->mostraPdf($contenuto, $materiale['mimeTypeFile'] ?? null, $id_materiale);
         } catch (PDOException $e) {
-            $view->mostraFormErrore("Errore DB durante il recupero del PDF: " . $e->getMessage());
+            $view->mostraFormErrore("Errore durante il recupero del PDF:");
         } catch (\Exception $e) {
-            $view->mostraFormErrore("Errore imprevisto: " . $e->getMessage());
+            $view->mostraFormErrore("Errore imprevisto: ");
         }
     }
 
@@ -185,10 +182,10 @@ class RicercaMaterialeController
             }
         
         } catch (PDOException $e) {
-            $view->mostraFormErrore("Errore DB durante il recupero dei materiali: " . $e->getMessage());
+            $view->mostraFormErrore("Errore durante il recupero dei materiali: ");
     
         } catch (\Exception $e) {
-            $view->mostraFormErrore("Errore imprevisto: " . $e->getMessage());
+            $view->mostraFormErrore("Errore imprevisto: ");
         }
     }
 
@@ -235,7 +232,7 @@ class RicercaMaterialeController
                 $view->mostraMateriali($materiali, $page, $arrayPaginazione['totPage'], null, null, $corsiDiLaurea, $insegnamenti, $filtri);
             }
         } catch (PDOException $e) {
-            $view->mostraFormErrore("Errore DB durante l'applicazione dei filtri: " . $e->getMessage());
+            $view->mostraFormErrore("Errore durante l'applicazione dei filtri: " );
     
         } catch (\Exception $e) {
             $view->mostraFormErrore("Errore imprevisto: " . $e->getMessage());
@@ -267,13 +264,13 @@ class RicercaMaterialeController
             $filtri = $session->getSessionElement('ricerca_filtri') ?? [];
             $preferiti = $pm->trovaPreferitiPerUtente($idStudenteLoggato, $arrayPaginazione['offset'], $arrayPaginazione['limit']);
             
-            $view->mostraMateriali($preferiti, $arrayPaginazione['totPage'], $page, $studente->getUsername(), $studente->getImmagineProfilo()->getBase64($studente), $corsiDiLaurea, $insegnamenti, $filtri);
+            $view->mostraMateriali($preferiti, $page, $arrayPaginazione['totPage'], $studente->getUsername(), $studente->getImmagineProfilo()->getBase64($studente), $corsiDiLaurea, $insegnamenti, $filtri);
         
         } catch (PDOException $e) {
-            $view->mostraFormErrore("Errore durante la ricerca: " . $e->getMessage());
+            $view->mostraFormErrore("Errore durante la ricerca: ");
         
         } catch (Exception $e) {
-            $view->mostraFormErrore("Errore imprevisto: " . $e->getMessage());
+            $view->mostraFormErrore("Errore imprevisto: ");
         }
     }
 
@@ -345,10 +342,10 @@ class RicercaMaterialeController
             $view->mostraMateriali($materialiPopolari, $page, $arrayPaginazione['totPage'], $studente->getUsername(), $studente->getImmagineProfilo()->getBase64($studente), $corsiDiLaurea, $insegnamenti, $filtri, $arrayPaginazione['urlBasePagina']);
     
         } catch (PDOException $e) {
-            $view->mostraFormErrore("Errore durante la ricerca: " . $e->getMessage());
+            $view->mostraFormErrore("Errore durante la ricerca: ");
         
         } catch (Exception $e) {
-            $view->mostraFormErrore("Errore imprevisto: " . $e->getMessage());
+            $view->mostraFormErrore("Errore imprevisto: ");
         }
     }
 

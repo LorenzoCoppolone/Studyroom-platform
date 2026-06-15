@@ -4,7 +4,7 @@ namespace UI;
 use Smarty\Smarty;
 use config\StartSmarty;
 
-class viewHome{
+class ViewHome{
 
     /** @var Smarty Istanza Smarty per la gestione dei template */
     private Smarty $smarty;

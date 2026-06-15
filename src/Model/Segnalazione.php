@@ -25,6 +25,7 @@ class Segnalazione {
     private Studente $segnalante;
 
     #[ORM\ManyToOne(targetEntity: Materiale::class, inversedBy: "segnalazioni")]
+    
     private Materiale $materialeSegnalato;
 
     #[ORM\ManyToOne(targetEntity: Amministratore::class, inversedBy: "segnalazioni")]

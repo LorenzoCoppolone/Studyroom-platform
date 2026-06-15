@@ -72,7 +72,7 @@
 <nav class="pagination" aria-label="Navigazione pagine">
 
     {if $page > 1}
-        <a href="/recensioneMateriale/mostraRecensioniMateriale/{$idMateriale|escape}?pagina={$page - 1}"
+        <a href="/recensioneMateriale/recensioni/{$idMateriale|escape}?pagina={$page - 1}"
            class="pagination__btn" aria-label="Pagina precedente">
             <i class="fa fa-chevron-left"></i>
         </a>
@@ -86,12 +86,12 @@
         {if $p == $page}
             <span class="pagination__page pagination__page--active" aria-current="page">{$p}</span>
         {else}
-            <a href="/recensioneMateriale/mostraRecensioniMateriale/{$idMateriale|escape}?pagina={$p}" class="pagination__page">{$p}</a>
+            <a href="/recensioneMateriale/recensioni/{$idMateriale|escape}?pagina={$p}" class="pagination__page">{$p}</a>
         {/if}
     {/for}
 
     {if $page < $totPage}
-        <a href="/recensioneMateriale/mostraRecensioniMateriale/{$idMateriale|escape}?pagina={$page + 1}"
+        <a href="/recensioneMateriale/recensioni/{$idMateriale|escape}?pagina={$page + 1}"
            class="pagination__btn" aria-label="Pagina successiva">
             <i class="fa fa-chevron-right"></i>
         </a>
