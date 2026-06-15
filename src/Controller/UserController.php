@@ -75,7 +75,7 @@ class UserController {
         if (empty($d['nome']) || empty($d['cognome']) || empty($d['username']) || empty($d['email']) || empty($d['password'])) {
             throw new \Exception("Tutti i campi sono obbligatori.");
         }
-        if (!preg_match('/^[a-zA-Z0-9._%+-]+@student\.univaq\.it$/', $d['email'])) {
+        if (!preg_match('/^[a-zA-Z0-9._%+-]+@student\.univaq\.it$/', $d['email']) && !preg_match('/^[a-zA-Z0-9._%+-]+@univaq\.it$/', $d['email'])) {
             throw new \Exception("Devi usare la tua email universitaria.");
         }
         if (!empty($pm->findOneBy(Studente::class, ['email' => $d['email']]))) {

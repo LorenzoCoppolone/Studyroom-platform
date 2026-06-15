@@ -73,7 +73,7 @@
                 <div class="campo-input">
                     <input type="email" placeholder="Email" name="email" id="email"
                            value="{$old.email|default:''|escape:'html'}"
-                           pattern="[a-zA-Z0-9._%+\-]+@student\.univaq\.it"
+                           pattern="^[a-zA-Z0-9._%+\-]+@(student\.univaq\.it|univaq\.it)$"
                            title="Usa la tua email universitaria (@student.univaq.it)" required>
                     <i class="bx bx-envelope"></i>
                 </div>
