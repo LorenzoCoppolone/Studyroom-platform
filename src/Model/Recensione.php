@@ -38,7 +38,7 @@ class Recensione {
 
     #[ORM\ManyToOne(targetEntity: Materiale::class, inversedBy: "recensioni")]
 
-    #[ORM\JoinColumn(name: "materiale_id", referencedColumnName: "id")]
+    #[ORM\JoinColumn(name: "materiale_id", referencedColumnName: "id", onDelete: "CASCADE")]
     private Materiale $materiale;
 
     /**

@@ -26,6 +26,7 @@ class Segnalazione {
 
     #[ORM\ManyToOne(targetEntity: Materiale::class, inversedBy: "segnalazioni")]
     
+    #[ORM\JoinColumn(name: "materialeSegnalato_id", referencedColumnName: "id", onDelete: "CASCADE")]
     private Materiale $materialeSegnalato;
 
     #[ORM\ManyToOne(targetEntity: Amministratore::class, inversedBy: "segnalazioni")]

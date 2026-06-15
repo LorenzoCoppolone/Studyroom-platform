@@ -97,12 +97,12 @@ class AdminController {
             $pm = PersistentManager::getInstance();
 
             // ACCETTA SEGNALAZIONE → elimina solo la segnalazione
-            if ($bottonePremuto === 'accetta') {
+            if (strtolower($bottonePremuto) === 'accetta') {
                 $pm->eliminaSegnalazioniAdmin($idMaterialeSegnalato);
                 $view->mostraSuccesso();
 
             // BAN UTENTE
-            } elseif ($bottonePremuto === 'banUtente') {
+            } elseif (strtolower($bottonePremuto) === 'banUtente') {
                 $utente = $pm->find(Studente::class, $idUtente);
                 
                 if ($utente === null) {
@@ -121,10 +121,7 @@ class AdminController {
                 if ($materiale === null) {
                     throw new \RuntimeException("Materiale con ID $idMaterialeSegnalato non trovato.");
                 }
-                
-                $pm->eliminaSegnalazioniAdmin($idMaterialeSegnalato);
                 $pm->delete($materiale);
-                
                 $view->mostraSuccesso();
             }
 

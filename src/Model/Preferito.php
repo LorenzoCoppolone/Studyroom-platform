@@ -40,6 +40,7 @@ class Preferito {
      */
 
     #[ORM\ManyToOne(targetEntity: Materiale::class, inversedBy: 'preferiti')]
+    #[ORM\JoinColumn(name: "materiale_id", referencedColumnName: "id", onDelete: "CASCADE")]
     private Materiale $materiale;
 
     /**
