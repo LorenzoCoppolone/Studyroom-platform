@@ -29,6 +29,7 @@ class Download {
      */
 
     #[ORM\ManyToOne(targetEntity: Materiale::class, inversedBy: 'downloads')]
+    #[ORM\JoinColumn(name: "Materiale_id", referencedColumnName: "id", onDelete: "CASCADE")]
     private Materiale $materiale;
 
     /** @var Studente
