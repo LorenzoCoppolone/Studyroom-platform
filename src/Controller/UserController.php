@@ -579,13 +579,15 @@ class UserController {
         }
         $link = $domain . $controller . $token;
         $nome = $studente->getNome();
+        $tempo = $studente->getValidationTokenTime()->getTimestamp() - time();
+        $minuti = floor($tempo / 60) > 0 ? floor($tempo / 60) : 1;
         $mail->Body =
             "Ciao {$nome},\n\n" .
             "Hai richiesto il reinvio della mail.\n\n" .
             "Clicca sul seguente link:\n\n" .
             $link .
             "\n\n" .
-            "Il link rimane valido per 10 minuti.\n\n" .
+            "Il link rimane valido per {$minuti} minuti.\n\n" .
             "Se non hai richiesto tu questa email, ignorala.\n\n" .
             "Grazie!";
         if (!$mail->send()) {
