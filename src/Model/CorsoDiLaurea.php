@@ -30,7 +30,6 @@ class CorsoDiLaurea {
     * quindi è una relazione OneToMany tra CorsoDiLaurea e Insegnamento,
     * ma ogni insegnamento è associato a un solo corso di laurea.
     */
-    
     #[ORM\OneToMany(mappedBy: 'corsoDiLaurea', targetEntity: Insegnamento::class)]
     private Collection $insegnamenti; //relazione uno a molti con Insegnamento
 
@@ -40,7 +39,6 @@ class CorsoDiLaurea {
      * @param int $codiceCorso Codice del corso di laurea.
      * @param string $nomeCorso Nome del corso di laurea.
      */
-
     public function __construct(
         int $codiceCorso, 
         string $nomeCorso,
@@ -97,5 +95,4 @@ class CorsoDiLaurea {
     public function getInsegnamenti(): Collection {
         return $this->insegnamenti;
     }
-
 }

@@ -38,7 +38,6 @@ class Preferito {
      * La proprietà "materiale" rappresenta il materiale aggiunto ai preferiti.
      * La colonna "materiale_id" nella tabella "preferito" fa riferimento alla colonna "id" della tabella "materiale".
      */
-
     #[ORM\ManyToOne(targetEntity: Materiale::class, inversedBy: 'preferiti')]
     #[ORM\JoinColumn(name: "materiale_id", referencedColumnName: "id", onDelete: "CASCADE")]
     private Materiale $materiale;
@@ -48,7 +47,6 @@ class Preferito {
      * @param Studente $studente studente che ha aggiunto il materiale ai preferiti.
      * @param Materiale $materiale materiale aggiunto ai preferiti.
      */
-
     public function __construct(
         Studente $studente, 
         Materiale $materiale
@@ -104,7 +102,4 @@ class Preferito {
     public function getMaterialePreferito(): Materiale {
         return $this->materiale;
     }
-
-    
-    
 }
