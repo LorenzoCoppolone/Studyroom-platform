@@ -34,7 +34,8 @@ try {
     $mail->setFrom($_ENV['MAIL_FROM_ADDRESS'], $_ENV['MAIL_FROM_NAME']);
 
 } catch (Exception $e) {
-    die("Mailer Error: {$mail->ErrorInfo}");
+    error_log("Mailer configuration error: {$mail->ErrorInfo}");
+    throw new \RuntimeException("Impossibile inizializzare il servizio email.");
 }
 
 return $mail;

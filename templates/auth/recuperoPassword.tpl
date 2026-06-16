@@ -25,6 +25,7 @@
         <h2>Recupero Password</h2>
 
         <form method="POST" action="/User/effettuaRecuperoPassword">
+            <input type="hidden" name="csrf_token" value="{$csrf_token}">
 
             <!-- Email -->
                 <div class="campo-input">

@@ -29,6 +29,9 @@ class recensioneMaterialeController {
         $view = new ViewRecensioneMateriale();
         
         try {
+        if (!\Foundation\Csrf::check($_POST['csrf_token'] ?? null)) {
+            throw new InvalidArgumentException("Richiesta non valida.");
+        }
         $idMateriale = $view->getIdMateriale();
         $voto        = (float) $view->getVoto();
         $commento    = $view->getCommento();
@@ -41,6 +44,12 @@ class recensioneMaterialeController {
         // Validazione commento
         if (strlen($commento) > 255) {
             $this->mostraEsito($view, $idMateriale,'errore', 'Il commento non può superare i 255 caratteri!');
+            return;
+        }
+
+        // Validazione voto: deve essere un intero tra 1 e 5 (difesa server-side, il form invia solo 1-5)
+        if ($voto < 1 || $voto > 5 || floor($voto) !== $voto) {
+            $this->mostraEsito($view, $idMateriale,'errore', 'Il voto deve essere un valore intero tra 1 e 5.');
             return;
         }
         

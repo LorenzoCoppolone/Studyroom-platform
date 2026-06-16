@@ -33,6 +33,8 @@
             <form action="/User/effettuaRegistrazione" method="post" id="formRegistrazione">
                 <h2>Registrati</h2>
 
+                <input type="hidden" name="csrf_token" value="{$csrf_token}">
+
                 {* Token CSRF — decommentare se il backend lo fornisce *}
                 {* <input type="hidden" name="csrf_token" value="{$csrfToken|escape:'html'}"> *}
 

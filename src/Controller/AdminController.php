@@ -94,6 +94,9 @@ class AdminController {
         $idUtente             = $valore['idUtente'];
 
         try {
+            if (!\Foundation\Csrf::check($_POST['csrf_token'] ?? null)) {
+                throw new \Exception("Richiesta non valida.");
+            }
             $pm = PersistentManager::getInstance();
 
             // ACCETTA SEGNALAZIONE → elimina solo la segnalazione

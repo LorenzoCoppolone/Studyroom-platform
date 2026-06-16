@@ -9,7 +9,8 @@ use Dotenv\Dotenv;
 $dotenv = Dotenv::createImmutable(__DIR__ . '/..');
 $dotenv->load();
 
-$config = ORMSetup::createConfiguration(true);
+$isDevMode = filter_var($_ENV['APP_DEBUG'] ?? false, FILTER_VALIDATE_BOOL);
+$config = ORMSetup::createConfiguration($isDevMode);
 
 $driver = new \Doctrine\ORM\Mapping\Driver\AttributeDriver([
     __DIR__ . '/../src/Model'

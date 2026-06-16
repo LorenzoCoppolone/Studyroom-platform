@@ -23,6 +23,27 @@ class UserController {
     }
 
     /**
+     * Limita la frequenza di un'azione sensibile (login, recupero password)
+     * per la sessione corrente, contro brute force e abuso.
+     * @param string $chiave Identificatore dell'azione in sessione.
+     * @param int $maxTentativi Numero massimo di tentativi nella finestra.
+     * @param int $finestraSecondi Durata della finestra temporale in secondi.
+     * @throws Exception Se il numero di tentativi consentiti è superato.
+     */
+    private function applicaRateLimit(string $chiave, int $maxTentativi, int $finestraSecondi): void {
+        Session::getInstance(); // assicura che la sessione sia avviata
+        $ora = time();
+        $tentativi = Session::getSessionElement($chiave) ?? [];
+        // Mantieni solo i tentativi ancora dentro la finestra temporale.
+        $tentativi = array_values(array_filter($tentativi, fn($t) => ($ora - $t) < $finestraSecondi));
+        if (count($tentativi) >= $maxTentativi) {
+            throw new Exception("Troppi tentativi. Riprova più tardi.");
+        }
+        $tentativi[] = $ora;
+        Session::setSessionElement($chiave, $tentativi);
+    }
+
+    /**
      * Mostra la form di login.
      */
     public function login() : void {
@@ -56,9 +77,12 @@ class UserController {
      * - invio email di conferma
      */
     public function effettuaRegistrazione(){
+    $view = new ViewUser();
     try {
         $session = Session::getInstance();
-        $view = new ViewUser();
+        if (!\Foundation\Csrf::check($_POST['csrf_token'] ?? null)) {
+            throw new Exception("Richiesta non valida.");
+        }
         $pm = PersistentManager::getInstance();
         $d = $view->getDatiRegistrazione();
         $studenteRegistrato = $pm->findoneby(Studente::class, ['email' => $d['email']]);
@@ -114,6 +138,10 @@ class UserController {
         $view = new ViewUser();
         try {
             $session = Session::getInstance();
+            if (!\Foundation\Csrf::check($_POST['csrf_token'] ?? null)) {
+                throw new Exception("Richiesta non valida.");
+            }
+            $this->applicaRateLimit('rl_login', 5, 300); // max 5 tentativi / 5 minuti
             $pm = PersistentManager::getInstance();
             $datiLogin = $view->getDatiLogin();
             if (empty($datiLogin['email'])) throw new \Exception("L'email è obbligatoria.");
@@ -128,6 +156,7 @@ class UserController {
                 if (!password_verify($datiLogin['password'], $admin->getPassword())) {
                     throw new \Exception("Credenziali non corrette.");
                 }
+                session_regenerate_id(true); // previene la session fixation
                 $session->setSessionElement('admin', $admin->getId());
                 $view->redirectAdmin();
                 return; // Login admin completato: non proseguire con i controlli dello studente
@@ -142,6 +171,7 @@ class UserController {
             if ($studente->getIsBanned()) {
                 throw new \Exception("Il tuo account è stato sospeso, contatta l'amministratore per maggiori informazioni."); // Lancia un'ecezione per indicare che l'account è sospeso
             }
+            session_regenerate_id(true); // previene la session fixation
             $this->rememberMe($datiLogin['email'], $datiLogin['remember']);
             $session->setSessionElement('studente', $studente->getId());
             $base64 = $studente->getImmagineProfilo() ? $studente->getImmagineProfilo()->getBase64($studente) : null;
@@ -190,8 +220,8 @@ class UserController {
      * - attivazione account
      */
     public function verificaEmail(string $token) : void {
+        $view = new ViewUser();
         try {
-            $view = new ViewUser();
             $pm = PersistentManager::getInstance();
             $studente = $pm->findOneBy(Studente::class, ['validationToken' => $token]); // Cerco lo studente nel DB per token
             if ($studente === null) {
@@ -208,6 +238,8 @@ class UserController {
             $pm->update(); // Salva le modifiche al database
             $view->mostraConvalidaEmail();
         } catch (PDOException $e) {
+           $view->mostraFormErrore("Errore durante la verifica dell'email: " . $e->getMessage());
+        } catch (Exception $e) {
            $view->mostraFormErrore("Errore durante la verifica dell'email: " . $e->getMessage());
         }
     }
@@ -294,6 +326,9 @@ class UserController {
         
         try {
             $session = Session::getInstance();
+            if (!\Foundation\Csrf::check($_POST['csrf_token'] ?? null)) {
+                throw new Exception("Richiesta non valida.");
+            }
             $pm = PersistentManager::getInstance();
 
             $id = $session->getSessionElement('studente');
@@ -347,7 +382,7 @@ class UserController {
             require __DIR__ . '/../../config/mailer-bootstrap.php';
             $mail->addAddress ($studente->getEmail());
             $mail->Subject = 'Conferma la tua registrazione a StudyRoom';
-            $link = "https://Studyroom-platform.test/User/verificaEmail/" . $token;
+            $link = rtrim($_ENV['APP_URL'] ?? '', '/') . "/User/verificaEmail/" . $token;
             $mail->Body =
               "Ciao {$studente->getNome()},\n\n" .
               "Per confermare la tua registrazione a StudyRoom, clicca sul link seguente:\n\n" .
@@ -360,6 +395,40 @@ class UserController {
     }
 
     /**
+     * Reinvia l'email di verifica (link "Invia di nuovo" nella pagina di verifica).
+     * Rigenera il token e lo invia all'indirizzo passato in query string.
+     */
+    public function reinviaEmailVerifica(): void {
+        $view = new ViewUser();
+        try {
+            $email = trim($_GET['email'] ?? '');
+            if ($email === '') {
+                throw new Exception("Email mancante.");
+            }
+            $pm = PersistentManager::getInstance();
+            $studente = $pm->findOneBy(Studente::class, ['email' => $email]);
+            // Rigenera e reinvia solo se l'utente esiste e non è già verificato.
+            if ($studente !== null && $studente->getIsVerified() === false) {
+                $token = bin2hex(random_bytes(32));
+                $studente->setValidationToken($token);
+                $studente->setValidationTokenTime(
+                    (new \DateTime('now', new \DateTimeZone('Europe/Rome')))->add(new \DateInterval('PT10M'))
+                );
+                $pm->update();
+                $view->mostraVerificaEmail($email);
+                ob_flush();
+                flush();
+                $this->inviaEmailVerifica($studente, $token);
+                return;
+            }
+            // Non riveliamo se l'email esiste o è già verificata: mostriamo comunque la pagina.
+            $view->mostraVerificaEmail($email);
+        } catch (Exception $e) {
+            $view->mostraFormErrore("Errore durante il reinvio dell'email: " . $e->getMessage());
+        }
+    }
+
+    /**
      * Gestisce la richiesta di recupero password:
      * - verifica email
      * - genera token
@@ -368,6 +437,10 @@ class UserController {
     public function effettuaRecuperoPassword(): void {
         $view = new ViewUser();
         try {
+            if (!\Foundation\Csrf::check($_POST['csrf_token'] ?? null)) {
+                throw new Exception("Richiesta non valida.");
+            }
+            $this->applicaRateLimit('rl_recupero', 3, 3600); // max 3 richieste / ora
             $pm = PersistentManager::getInstance();
             $email = $view->getEmailRecuperoPassword();
             if (empty($email)) {
@@ -403,7 +476,7 @@ class UserController {
         require __DIR__ . '/../../config/mailer-bootstrap.php';
         $mail->addAddress($studente->getEmail());
         $mail->Subject ='Recupero password StudyRoom';
-        $link ="https://Studyroom-platform.test/User/reimpostaPassword/" . $token;
+        $link = rtrim($_ENV['APP_URL'] ?? '', '/') . "/User/reimpostaPassword/" . $token;
         $nome = $studente->getNome();
         $mail->Body =
             "Ciao {$nome},\n\n" .
@@ -451,6 +524,9 @@ class UserController {
     public function salvaNuovaPassword(): void{
     $view = new ViewUser();
         try {
+            if (!\Foundation\Csrf::check($_POST['csrf_token'] ?? null)) {
+                throw new Exception("Richiesta non valida.");
+            }
             $pm = PersistentManager::getInstance();
             $d = $view->getDatiNuovaPassword();
             $token   = $d['token'];

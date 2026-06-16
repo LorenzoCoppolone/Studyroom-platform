@@ -40,7 +40,7 @@ class Download {
     * quindi è una relazione molti a uno tra Download e Studente,
     * La proprietà "studente" rappresenta lo studente che ha effettuato il download.
     */
-    #[ORM\ManyToOne(targetEntity: Studente::class, inversedBy: 'downloads')]
+    #[ORM\ManyToOne(targetEntity: Studente::class, inversedBy: 'downloadEffettuati')]
     private Studente $studente;
 
     /**

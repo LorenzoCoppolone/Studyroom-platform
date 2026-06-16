@@ -33,7 +33,9 @@ class SegnalazioneContenutiController {
         $view = new ViewSegnalazioni();
         $idMateriale = $view->getIdMateriale();
         try {
-         
+            if (!\Foundation\Csrf::check($_POST['csrf_token'] ?? null)) {
+                throw new InvalidArgumentException("Richiesta non valida.");
+            }
             $motivo      = $view->getMotivo();
             $session     = Session::getInstance();
             $idUtente    = $session->getSessionElement('studente');

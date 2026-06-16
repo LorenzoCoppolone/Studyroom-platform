@@ -31,6 +31,9 @@ class GestionePreferitiController {
         $session = Session::getInstance();
         $idUtente = $session->getSessionElement('studente');
         try {
+            if (!\Foundation\Csrf::check($_POST['csrf_token'] ?? null)) {
+                throw new InvalidArgumentException("Richiesta non valida.");
+            }
             if (empty($idUtente)) {
                 throw new InvalidArgumentException("Utente non loggato!");
             }

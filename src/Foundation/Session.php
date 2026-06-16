@@ -16,6 +16,16 @@ class Session{
      private static $instance;
 
      private function __construct() {
+        // Hardening del cookie di sessione: non accessibile da JS (HttpOnly),
+        // inviato solo su HTTPS quando disponibile (Secure), e protetto da CSRF
+        // cross-site di base (SameSite=Lax).
+        session_set_cookie_params([
+            'lifetime' => 0,
+            'path'     => '/',
+            'httponly' => true,
+            'samesite' => 'Lax',
+            'secure'   => (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off'),
+        ]);
         session_start(); //start the session
      }
  

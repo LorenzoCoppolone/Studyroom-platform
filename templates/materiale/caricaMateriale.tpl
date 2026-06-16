@@ -25,6 +25,7 @@
 
     <!-- FORM PRINCIPALE -->
     <form method="POST" enctype="multipart/form-data" action="/CaricaMateriale/salva" class="upload-form">
+        <input type="hidden" name="csrf_token" value="{$csrf_token}">
         <input type="hidden" name="tipo" id="tipoInput" value="{$tipo|default:'appunto'}">
 
         <!-- FILE UPLOAD -->

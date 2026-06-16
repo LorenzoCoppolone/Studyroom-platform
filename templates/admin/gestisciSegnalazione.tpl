@@ -85,6 +85,7 @@
 
                         <!-- Accetta: archivia le segnalazioni, il materiale rimane -->
                         <form method="post" action="/Admin/eseguiAzione">
+                            <input type="hidden" name="csrf_token" value="{$csrf_token}">
                             <input type="hidden" name="bottonePremuto" value="accetta">
                             <input type="hidden" name="idMaterialeSegnalato" value="{$materiale.idMateriale|escape}">
                             <input type="hidden" name="idUtente" value="{$utente.id|escape}">
@@ -96,6 +97,7 @@
 
                         <!-- Rifiuta: elimina il materiale e le segnalazioni -->
                         <form method="post" action="/Admin/eseguiAzione">
+                            <input type="hidden" name="csrf_token" value="{$csrf_token}">
                             <input type="hidden" name="bottonePremuto" value="rifiuta">
                             <input type="hidden" name="idMaterialeSegnalato" value="{$materiale.idMateriale|escape}">
                             <input type="hidden" name="idUtente" value="{$utente.id|escape}">
@@ -107,6 +109,7 @@
 
                         <!-- Banna utente -->
                         <form method="post" action="/Admin/eseguiAzione">
+                            <input type="hidden" name="csrf_token" value="{$csrf_token}">
                             <input type="hidden" name="bottonePremuto" value="banUtente">
                             <input type="hidden" name="idMaterialeSegnalato" value="{$materiale.idMateriale|escape}">
                             <input type="hidden" name="idUtente" value="{$utente.id|escape}">
