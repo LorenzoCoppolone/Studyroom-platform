@@ -20,6 +20,9 @@ class ViewSegnalazioni {
      */
     private Smarty $smarty;
 
+    /**
+     * Costruttore: inizializza Smarty tramite configurazione centralizzata.
+     */
     public function __construct() {
         $this->smarty = StartSmarty::configuration();
     }

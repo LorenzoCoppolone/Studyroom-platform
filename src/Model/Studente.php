@@ -11,28 +11,61 @@ class Studente extends Utente {
 
     // Private properties
     
+    /**
+     * @var string
+     * username dello studente
+     */
     #[ORM\Column(type: Types::STRING, length: 50, unique: true)]
     private string $username; 
 
+    /**
+     * @var bool
+     * indica se l'utente è bannato
+     */
     #[ORM\Column(type: Types::BOOLEAN)]
     private bool $isBanned = false;
 
+    /**
+     * @var string
+     * stringa generata per l'autenticazione dell'utente
+     * via email
+     */
     #[ORM\Column(type: Types::STRING, nullable: true)]
     private ?string $validationToken; //stringa generata per l'autenticazione dell'utente via email
 
+    /**
+     * @var \DateTime
+     * data di scadenza del token di autenticazione
+     */
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTime $validationTokenTime; //data di scadenza del token
 
-
+    /**
+     * @var string
+     * stringa generata per l'auto login dell'utente
+     * via cookie
+     */
     #[ORM\Column(type: Types::STRING, nullable: true)]
     private ?string $rememberMeToken; //stringa generata per l'autenticazione dell'utente via cookie
 
+    /**
+     * @var \DateTime
+     * data di scadenza del token per l'auto login
+     */
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTime $rememberMeTokenTime; //data di scadenza del token di autenticazione via cookie
 
+    /**
+     * @var bool
+     * indica se l'utente ha verificato la propria email
+     */
     #[ORM\Column(type: Types::BOOLEAN)]
     private bool $isVerified = false; //indica se l'utente ha verificato la propria email
 
+    /**
+     * @var File
+     * immagine di profilo dell'utente
+     */
     #[ORM\Embedded(class: File::class)]
     private ?File $immagineProfilo = null;
 
@@ -43,7 +76,6 @@ class Studente extends Utente {
      * quindi è una relazione OneToMany tra Utente e Segnalazione, 
      * ma ogni segnalazione e associata a un solo utente segnalante.
     */
-
     #[ORM\OneToMany(targetEntity: Segnalazione::class, mappedBy: "segnalante", fetch: "EXTRA_LAZY")]
     private Collection $segnalazioniFatte;
 
@@ -52,7 +84,6 @@ class Studente extends Utente {
      * quindi è una relazione OneToMany tra Utente e Materiale,  
      * ma ogni materiale è associato a un solo utente.
     */
-
     #[ORM\OneToMany(targetEntity: Materiale::class, mappedBy: "studente", fetch: "EXTRA_LAZY")]
     private Collection $uploadEffettuati;
 
@@ -61,7 +92,6 @@ class Studente extends Utente {
      * quindi è una relazione OneToMany tra Utente e Download,  
      * ma ogni download è associato a un solo utente.
     */
-
     #[ORM\OneToMany(targetEntity: Download::class, mappedBy: "studente", fetch: "EXTRA_LAZY")]
     private Collection $downloadEffettuati;
 
@@ -70,7 +100,6 @@ class Studente extends Utente {
      * quindi è una relazione OneToMany tra Utente e Preferito, 
      * ma ogni preferito è associato a un solo utente.
     */
-
     #[ORM\OneToMany(targetEntity: Preferito::class, mappedBy: "studente", fetch: "EXTRA_LAZY")]
     private Collection $preferiti;
 
@@ -79,7 +108,6 @@ class Studente extends Utente {
      * quindi è una relazione OneToMany tra Utente e Recensione, 
      * ma ogni recensione è associata a un solo utente.
     */
-
     #[ORM\OneToMany(targetEntity: Recensione::class, mappedBy: "studente", fetch: "EXTRA_LAZY")]
     private Collection $recensioni;
 

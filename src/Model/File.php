@@ -16,13 +16,21 @@ use Model\Studente;
 
 #[ORM\Embeddable]
 class File{
-
+    /**
+     * Contenuto del file, salvato nel db come un BLOB.
+     */
     #[ORM\Column(type: Types::BLOB, nullable: true)]
     private mixed $contenutoFile;
 
+    /**
+     * Tipo del file.
+     */
     #[ORM\Column(type: Types::STRING, nullable: true)]
     private ?string $mimeTypeFile;
 
+    /**
+     * Dimensione del file.
+     */
     #[ORM\Column(type: Types::FLOAT, nullable: true)]
     private ?float $dimensioneFile;
 
@@ -96,6 +104,13 @@ class File{
         return $this->contenutoFile;
     }
 
+    /**
+     * Ottiene il contenuto del file come base64.
+     * passando un oggetto studente.
+     * serve nel caso in cui si debba accedere all'immagine del profilo dello studente
+     * @param Studente $studente L'oggetto studente.
+     * @return string|null Il contenuto del file come base64.
+     */
     public function getBase64(Studente $studente): ?string {
       $img = $studente->getImmagineProfilo();
 $base64 = null;
@@ -119,6 +134,11 @@ if ($img) {
 return $base64;
     }
 
+    /**
+     * Ottiene il contenuto del file come base64.
+     * Vale per tutti i tipi di file.
+     * @return string|null Il contenuto del file come base64.
+     */
     public function fileToBase64(): ?string
     {
 

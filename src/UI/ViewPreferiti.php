@@ -50,6 +50,12 @@ class ViewPreferiti {
       $this->smarty->display('feedback/popup.tpl');
     }
 
+    /**
+     * Mostra un form con il messaggio di errore all'utente.
+     *
+     * @param string $errore
+     * @return void
+     */
     public function mostraFormErrore(string $errore) : void {
         $this->smarty->assign('errore', $errore);
         $this->smarty->display('feedback/error.tpl');

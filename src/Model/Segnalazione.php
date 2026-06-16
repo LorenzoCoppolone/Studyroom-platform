@@ -15,20 +15,44 @@ use Doctrine\DBAL\Types\Types;
 )]
 class Segnalazione {
 
+    /**
+     * ID della segnalazione
+     * @var int
+     *@ORM\Column(type: "integer")
+     */
     #[ORM\Column(type: Types::INTEGER), ORM\Id, ORM\GeneratedValue(strategy: "AUTO")]
     private int $id;
 
+    /**
+     * Motivo della segnalazione
+     * @var string
+     * @ORM\Column(type: "string")
+     */
     #[ORM\Column(type: Types::STRING)]
     private string $motivo;
     
+    /**
+     * Studente che ha segnalato
+     * @var Studente
+     * @ORM\ManyToOne(targetEntity: Studente::class, inversedBy: "segnalazioniFatte")
+     */
     #[ORM\ManyToOne(targetEntity: Studente::class, inversedBy: "segnalazioniFatte")]
     private Studente $segnalante;
 
+    /**
+     * Materiale segnalato
+     * @var Materiale
+     * @ORM\ManyToOne(targetEntity: Materiale::class, inversedBy: "segnalazioni")
+     */
     #[ORM\ManyToOne(targetEntity: Materiale::class, inversedBy: "segnalazioni")]
-    
     #[ORM\JoinColumn(name: "materialeSegnalato_id", referencedColumnName: "id", onDelete: "CASCADE")]
     private Materiale $materialeSegnalato;
 
+    /**
+     * Amministratore che gestisce la segnalazione
+     * @var Amministratore
+     * @ORM\ManyToOne(targetEntity: Amministratore::class, inversedBy: "segnalazioni")
+     */
     #[ORM\ManyToOne(targetEntity: Amministratore::class, inversedBy: "segnalazioni")]
     private Amministratore $amministratore;
 
@@ -39,7 +63,6 @@ class Segnalazione {
      * @param Materiale $materialeSegnalato materiale segnalato.
      * @param Amministratore $amministratore amministratore che gestisce la segnalazione.
      */
-
     public function __construct(
         string $motivo,  
         Studente $segnalante,

@@ -14,6 +14,11 @@ class InsegnamentoRepository {
         $this->em = $entityManager;
     }
 
+
+    /**
+     * @return array trova tutti gli insegnamenti nel db
+     * js li filtrerà per corso di laurea
+     */
   public function trovaInsegnamenti(): array {
     $qb = $this->em->createQueryBuilder();
 
@@ -29,6 +34,10 @@ class InsegnamentoRepository {
 }
 
 
+    /**
+     * @return array trova tutti i corsi di laurea nel db
+     * js li utilizerà per filtrare gli insegnamenti
+     */
     public function trovaCorsiDiLaurea(): array {
         $qb = $this->em->createQueryBuilder();
         $qb->select('

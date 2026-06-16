@@ -15,7 +15,6 @@ class Amministratore extends Utente{
     * quindi è una relazione OneToMany tra Amministratore e Segnalazione, 
     * ma ogni segnalazione è gestita da un solo amministratore.
     */
-    
     #[ORM\OneToMany(targetEntity: Segnalazione::class, mappedBy: "amministratore", fetch: "EXTRA_LAZY")]
     private Collection $segnalazioni;
 
@@ -25,8 +24,7 @@ class Amministratore extends Utente{
      * @param string $cognome Cognome dell'amministratore.
      * @param string $email Email dell'amministratore.
      * @param string $passwordHash Password dell'amministratore.
-     */ 
-
+     */
     public function __construct( 
         string $nome, 
         string $cognome, 

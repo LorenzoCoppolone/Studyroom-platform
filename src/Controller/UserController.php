@@ -487,6 +487,10 @@ class UserController {
         }
     }
 
+    /**
+     * Gestisce l'auto login dell'utente.
+     * mediante il token per il remember me
+     */
     private function rememberMe(string $email, ?bool $remember): void {
         if($remember !== true) {
             return; // L'utente non ha selezionato "Remember Me", quindi non facciamo nulla
@@ -504,6 +508,15 @@ class UserController {
         $pm->update();
     }
 
+    /**
+     * Gestisce la paginazione.
+     * - calcolo offset e limit
+     * - calcolo numero di pagine
+     * - restituisce un array con offset, limit e totPage
+     * @param string $class prende la classe da paginare
+     * @param int $page pagina corrente
+     * @return array
+     */
     private function paginazione(string $class, int $page): array {
         $page = max(1, $page);
         $limit = 10;

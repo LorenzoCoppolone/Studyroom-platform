@@ -16,7 +16,10 @@ class MaterialeRepository {
 
     /**
      * cerca i materiali per titolo, insegnamento, tipologia, corso di laurea, tag e un eventuale criterio di ordinamento.
-    * 
+    * Questa query fa ogni tipo di filtraggio possibile in base alle circostanze, 
+    * si è scelto questo approccio per coesione.
+    * i risultati sono in forma di array associativo.
+    * in modo da garantire una gestione semplice del template.
     * @param string $titolo Il titolo del materiale da cercare.
     * @param string $insegnamento Il nome dell'insegnamento da cercare.
      * @param string $tipologia La tipologia del materiale da cercare.
@@ -91,6 +94,8 @@ class MaterialeRepository {
 
     /**
      * Ritorna i dettagli di un materiale specifico.
+     * i dati vengono restituiti come array associativo
+     * in modo che la gestione del template sia piu semplice
      * @param int $idMateriale L'ID del materiale da cercare.
      * @return array Un array di materiali che corrispondono ai criteri di ricerca, ritorna ogetti materiale, studente, insegnamento, corso + i download per ognuno.
      */
@@ -155,7 +160,12 @@ class MaterialeRepository {
         return $qb->getQuery()->getArrayResult();
     }
 
-
+    /**
+     * Trova i materiali piu popolari.
+     * @param int $offset Offset per la paginazione.
+     * @param int $limit Limite per la paginazione.
+     * @return array Materiali piu popolari.
+     */
     public function trovaMaterialiPopolari(int $offset = 0, int $limit = 10): array
     {
         $qb = $this->em->createQueryBuilder();
@@ -190,7 +200,4 @@ class MaterialeRepository {
 
         return $qb->getQuery()->getArrayResult();
     }
-
-
-
 }

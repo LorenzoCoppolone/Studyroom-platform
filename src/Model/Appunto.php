@@ -9,6 +9,10 @@ use Doctrine\DBAL\Types\Types;
 #[ORM\Entity]
 class Appunto extends Materiale {
 
+    /**
+     * Tag degli appunti, definito come enum.
+     * @var Tag
+     */
     #[ORM\Column(type: Types::STRING, enumType: Tag::class)]
      private Tag $tag;
 

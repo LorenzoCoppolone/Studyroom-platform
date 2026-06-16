@@ -309,10 +309,19 @@ class ViewUser {
         $this->smarty->display('utente/recensioniUtente.tpl');
     }
 
+    /**
+     * Reindirizza l'utente alla dashboard dell'admin.
+     * viene utilizzato solo per il login dell'admin
+     * @return void
+     */
     public function redirectAdmin() : void {
         header("Location: /admin/dashboard");
     }
 
+    /**
+     * Reindirizza l'utente alla home.
+     * @return void
+     */
     public function redirectHome() : void {
         header("Location: /Home/dashboard");
     }

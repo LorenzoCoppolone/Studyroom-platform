@@ -5,13 +5,18 @@ use Model\Materiale;
 use Model\Segnalazione;
 
 class AdminRepository {
+
+    /**
+     * @var EntityManagerInterface
+     */
     private EntityManagerInterface $em;
+
+    /**
+     * @param EntityManagerInterface $em
+     */
     public function __construct(EntityManagerInterface $em) {
         $this->em = $em;
     }
-
-    
-
 
   /**
      * Materiali segnalati che recupera l'admin
@@ -77,7 +82,10 @@ class AdminRepository {
     return $result;
     }
 
-
+    /**
+     * Elimina tutte le segnalazioni di un materiale.
+     * @param int $id_materiale
+     */
     public function eliminaSegnalazioni(int $id_materiale){
         $qb = $this->em->createQueryBuilder();
         $qb->delete(Segnalazione::class, 'se')

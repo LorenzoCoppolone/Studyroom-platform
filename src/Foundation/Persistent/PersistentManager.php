@@ -24,6 +24,9 @@ class PersistentManager {
     }
 
     // Ottieni l'istanza unica
+    /**
+     * @return PersistentManager
+     */
     public static function getInstance(): self {
         if (self::$instance === null) {
             $em = require __DIR__ . '/../../../config/doctrine-bootstrap.php';
@@ -103,6 +106,17 @@ class PersistentManager {
         return $this->em->getRepository($class)->findOneBy($criteria);
     }
 
+
+    /**
+     * Conta le entità secondo determinati criteri,
+     * utilizzato per paginazione.
+     * L'implementazione è semplice in modo da garantire una query
+     * adatta a tutti i tipi di entità.
+     * Chiaramente le performance della paginazione ne risentono.
+     * @param class La classe in cui cercare
+     * @param criteria Lista di criteri
+     * @return int Restituisce il numero di oggetti trovati
+     */
 public function countAll(string $class, array $criteria = []): int
 {
     $qb = $this->em->createQueryBuilder();
@@ -225,7 +239,9 @@ public function countAll(string $class, array $criteria = []): int
 
 
     // Query custom
-
+    /**
+     * Chiama la funzione di ricerca del materiale repository
+     */
     public function cercaMateriale(    
         string $titolo,
         int $offset,
@@ -247,6 +263,9 @@ public function countAll(string $class, array $criteria = []): int
             $criterio);
     }
 
+    /**
+     * Chiama la funzione di ricerca dei materiali popolari del materiale repository
+     */
     public function trovaMaterialiPopolari(
         int $offset,
         int $limit
@@ -256,45 +275,82 @@ public function countAll(string $class, array $criteria = []): int
             $limit
         );
     }
+
+    /**
+     * Chiama la funzione di ricerca dei preferiti di utente repository
+     */
     public function trovaPreferitiPerUtente(int $id_studente, int $offset, int $limit): array {
         return $this->utenteRepository->trovaPreferiti($id_studente, $offset, $limit);
     }
+
+    /**
+     * Chiama la funzione di ricerca dei download di utente repository
+     */
     public function trovaDownloadPerUtente(int $id_studente, int $offset, int $limit): array {
         return $this->utenteRepository->trovaDownload($id_studente, $offset, $limit);
     }
+
+    /**
+     * Chiama la funzione di ricerca delle recensioni di utente repository
+     */
     public function trovaRecensioniPerUtente(int $id_studente, int $offset, int $limit): array {
         return $this->utenteRepository->trovaRecensioni($id_studente, $offset, $limit);
     }
 
+    /**
+     * Chiama la funzione di ricerca dei materiali popolari di utente repository
+     * serve per la sezione "caricati" dell'utente
+     */
     public function materialiPopolariUtente(int $id_studente, int $offset, int $limit): array {
     return $this->utenteRepository->materialiPopolari($id_studente, $offset, $limit);
     }
 
+    /**
+     * Chiama la funzione di ricerca delle segnalazioni di admin repository
+     */
     public function trovaSegnalazioniAdmin(int $offset, int $limit): array {
        return $this->adminRepository->trovaSegnalazioni($offset, $limit);
     }
 
+    /**
+     * Chiama la funzione di ricerca delle segnalazioni di admin repository
+     */
     public function gestisciSegnalazioneMaterialeAdmin(int $id_materiale): array {
         return $this->adminRepository->gestisciSegnalazioneMateriale($id_materiale);
     }
 
+    /**
+     * Chiama la funzione di eliminazione delle segnalazioni di admin repository
+     */
     public function eliminaSegnalazioniAdmin(int $id_materiale): void {
         $this->adminRepository->eliminaSegnalazioni($id_materiale);
     }
 
+    /**
+     * Chiama la funzione di ricerca degli insegnamenti di insegnamento repository
+     */
     public function trovaInsegnamenti(): array {
         return $this->insegnamentoRepository->trovaInsegnamenti();
     }
 
+    /**
+     * Chiama la funzione di ricerca dei corsi di laurea di insegnamento repository
+     */
     public function trovaCorsiDiLaurea(): array {
         return $this->insegnamentoRepository->trovaCorsiDiLaurea();
     }
 
+    /**
+     * Chiama la funzione di dettaglio dei materiali di materiale repository
+     */
     public function trovaMateriale(int $id): array {
         return $this->materialeRepository->dettagliMateriale($id);
     }
 
-    
+    /**
+     * Chiama la funzione di ricerca delle recensioni di materiale repository
+     * restituisce le recensioni di un determinato materiale.
+     */
     public function trovaRecensioniPerMateriale(int $idMateriale, int $offset, int $limit): array {
         return $this->materialeRepository->trovaRecensioniMateriale($idMateriale, $offset, $limit);
     }

@@ -53,6 +53,10 @@ class ViewCaricaMateriale {
         $this->smarty->display('materiale/caricaMateriale.tpl');
     }
 
+    /**
+     * Restituisce l'id del corso di laurea scelto dall'utente.
+     * @return string
+     */
     public function getIdCorsoDiLaurea() : string {
         return $_POST['cdl'];
     }

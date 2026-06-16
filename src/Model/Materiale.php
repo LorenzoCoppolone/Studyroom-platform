@@ -15,13 +15,30 @@ use Doctrine\Common\Collections\Collection;
 abstract class Materiale {
     
     // Protected properties
+
+    /**
+     * @var int
+     * @ORM\Id  
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
+     * Id del materiale
+     */
     #[ORM\Column(type: Types::INTEGER), ORM\Id, ORM\GeneratedValue(strategy: "AUTO")]
     protected ?int $id = null;
 
-
+    /**
+     * @var string
+     * @ORM\Column(type="string")
+     * Titolo del materiale
+     */
     #[ORM\Column(type: Types::STRING)]
     protected string $titolo;
 
+    /**
+     * @var File
+     * @ORM\Embedded(class="File")
+     * Contenuto del materiale
+     */
     #[ORM\Embedded(class: File::class)]
     protected File $file; //relazione 1:1
 
@@ -30,7 +47,6 @@ abstract class Materiale {
      * quindi è una relazione OneToMany tra Materiale e Segnalazione,
      * ma ogni segnalazione è associata a un solo materiale.
     */
-
     #[ORM\OneToMany(targetEntity: Segnalazione::class, mappedBy: "materialeSegnalato", fetch: "EXTRA_LAZY", cascade: ["remove"])]
     protected Collection $segnalazioni;
     
@@ -39,7 +55,6 @@ abstract class Materiale {
      * quindi è una relazione OneToMany tra Materiale e Recensione,
      * ma ogni recensione associata a un solo materiale
     */
-
     #[ORM\OneToMany(targetEntity: Recensione::class, mappedBy: "materiale", fetch: "EXTRA_LAZY", cascade: ["remove"])]
     protected Collection $recensioni;
 
@@ -48,7 +63,6 @@ abstract class Materiale {
      * quindi è una relazione OneToMany tra Materiale e Download,
      * ma ogni download associato a un solo materiale
     */
-
     #[ORM\OneToMany(targetEntity: Download::class, mappedBy: "materiale", fetch: "EXTRA_LAZY", cascade: ["remove"])]
     protected Collection $downloads;
 
@@ -57,7 +71,6 @@ abstract class Materiale {
      * quindi è una relazione OneToMany tra Materiale e Preferito,
      * ma ogni preferito associato a un solo materiale
      */
-
     #[ORM\OneToMany(targetEntity: Preferito::class, mappedBy: "materiale", fetch: "EXTRA_LAZY", cascade: ["remove"])]
     protected Collection $preferiti;
 
@@ -66,7 +79,6 @@ abstract class Materiale {
      * ma ogni insegnamento puo' avere piu' materiali,
      * quindi è una relazione molti a uno tra Materiale e Insegnamento,
      */
-
     #[ORM\ManyToOne(targetEntity: Insegnamento::class, inversedBy: "materiali")]
     protected Insegnamento $insegnamento; //relazione molti a uno
 
@@ -75,7 +87,6 @@ abstract class Materiale {
      * ma ogni studente puo' caricare piu' materiali,
      * quindi è una relazione molti a uno tra Materiale e Studente,
      */
-    
     #[ORM\ManyToOne(targetEntity: Studente::class, inversedBy: "materiali")]
     protected Studente $studente; //relazione molti a uno
 
@@ -86,7 +97,6 @@ abstract class Materiale {
      * @param Insegnamento $insegnamento L'insegnamento associato al materiale.
      * @param Studente $studente Lo studente che ha caricato il materiale.
      */
-
     public function __construct(
         string $titolo, 
         File $file,

@@ -82,6 +82,11 @@ class ViewRicercaMateriale {
         $this->smarty->display('feedback/error.tpl');
     }
     
+    /**
+     * Restituisce la pagina corrente per la paginazione.
+     *
+     * @return ?int
+     */
     public function getPage(): ?int {
         return isset($_GET['page']) ? (int)$_GET['page']: null;
     }

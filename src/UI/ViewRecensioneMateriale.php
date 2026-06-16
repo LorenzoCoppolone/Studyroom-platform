@@ -44,6 +44,12 @@ class ViewRecensioneMateriale {
         return $_POST['commento'] ?? null;
     }
 
+    /**
+     * Mostra un form con il messaggio di errore all'utente.
+     *
+     * @param string $messaggio
+     * @return void
+     */
     public function mostraFormErrore(string $messaggio) : void {
         $this->smarty->assign('errore', $messaggio);
         $this->smarty->display('feedback/error.tpl');

@@ -114,6 +114,11 @@ class ViewAdmin {
         header('HTTP/1.1 404 Not Found');
     }
 
+    /**
+     * Restituisce la pagina corrente.
+     *
+     * @return int
+     */
     public function getPage(): int {
         return (int)($_GET['page'] ?? 1);
     }

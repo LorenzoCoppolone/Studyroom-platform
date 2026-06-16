@@ -10,10 +10,18 @@ use Doctrine\Common\Collections\ArrayCollection;
 #[ORM\Entity]
 class CorsoDiLaurea {
 
+    /**
+     * Codice del corso di laurea.
+     * @var string
+     */
     #[ORM\Id]
     #[ORM\Column(type: Types::STRING, unique: true, length: 10)]
     private string $codiceCorso;
 
+    /**
+    * Nome del corso di laurea.
+    * @var string
+    */
     #[ORM\Column(type: Types::STRING)]
     private string $nomeCorso;
 

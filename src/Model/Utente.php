@@ -9,23 +9,41 @@ use Doctrine\DBAL\Types\Types;
 abstract class Utente {
 
     // Protected properties
-
+    
+    /**
+     * Id dell'utente
+     * @var int
+     */
     #[ORM\Column(type: Types::INTEGER)]
-   
     #[ORM\Id]
-
     #[ORM\GeneratedValue(strategy: "AUTO")]
     protected int $id;
 
+    /**
+     * Nome dell'utente
+     * @var string
+     */
     #[ORM\Column(type: Types::STRING)]
     protected string $nome;
 
+    /**
+     * Cognome dell'utente
+     * @var string
+     */
     #[ORM\Column(type: Types::STRING)]
     protected string $cognome; 
 
+    /**
+     * Email dell'utente
+     * @var string
+     */
     #[ORM\Column(type: Types::STRING)]
     protected string $email;
 
+    /**
+     * Password dell'utente
+     * @var string
+     */
     #[ORM\Column(type: Types::STRING)]
     protected string $passwordHash;
 
@@ -36,7 +54,6 @@ abstract class Utente {
      * @param string $email Email dell'utente.
      * @param string $passwordHash Password dell'utente.
      */
-    
     public function __construct( 
         string $nome, 
         string $cognome, 

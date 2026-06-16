@@ -28,7 +28,7 @@ class ViewDownloadMateriale {
 /**
  * View: effettua il download del materiale salvato nel DB (BLOB),
  * senza nome originale.
- * @param string $mimeType
+ * @param string $mimeType, nella prima versione solo pdf, ma può gestire anche altri formati in futuro.
  * @param int    $dimensione
  * @param string $contenuto  Contenuto binario del file (BLOB)
  * @param int    $idMateriale  (opzionale) per generare un nome coerente

@@ -48,6 +48,11 @@ class ViewHome{
         $this->smarty->display('layout/home.tpl');
     }
 
+    /**
+     * Restituisce il valore del cookie "remember_me".
+     * 
+     * @return string|null
+     */
     public function getCookieRemember() : string|null {
         return isset($_COOKIE['remember_me']) ? $_COOKIE['remember_me'] :  null;
     }
