@@ -347,7 +347,9 @@ class UserController {
             require __DIR__ . '/../../config/mailer-bootstrap.php';
             $mail->addAddress ($studente->getEmail());
             $mail->Subject = 'Conferma la tua registrazione a StudyRoom';
-            $link = "https://Studyroom-platform.test/User/verificaEmail/" . $token;
+            $view = new ViewUser();
+            $domain = $view->getDomain();
+            $link = $domain . "/User/verificaEmail/" . $token;
             $mail->Body =
               "Ciao {$studente->getNome()},\n\n" .
               "Per confermare la tua registrazione a StudyRoom, clicca sul link seguente:\n\n" .
@@ -369,7 +371,7 @@ class UserController {
         $view = new ViewUser();
         try {
             $pm = PersistentManager::getInstance();
-            $email = $view->getEmailRecuperoPassword();
+            $email = $view->getEmail();
             if (empty($email)) {
                 throw new Exception("Inserisci un indirizzo email.");
             }
@@ -403,7 +405,9 @@ class UserController {
         require __DIR__ . '/../../config/mailer-bootstrap.php';
         $mail->addAddress($studente->getEmail());
         $mail->Subject ='Recupero password StudyRoom';
-        $link ="https://Studyroom-platform.test/User/reimpostaPassword/" . $token;
+        $view = new ViewUser();
+        $domain = $view->getDomain();
+        $link = $domain . "/User/reimpostaPassword/" . $token;
         $nome = $studente->getNome();
         $mail->Body =
             "Ciao {$nome},\n\n" .
@@ -523,11 +527,69 @@ class UserController {
         $offset = ($page - 1) * $limit;
         $pm = PersistentManager::getInstance();
         $totale = $pm->countAll($class, []);
+        $totPage = ceil($totale / $limit);
+        if($totPage > 50) {
+            $totPage = 50;
+        }
         return [
             'offset' => $offset,
             'limit' => $limit,
-            'totPage' => ceil($totale / $limit)
+            'totPage' => $totPage
         ];
     }
+    
+    public function reinviaEmail(): void {
+        $view = new ViewUser();
+        try{
+            $email = $view->getEmail();
+            $pm = PersistentManager::getInstance();
+            $studente = $pm->findOneBy(Studente::class, ['email' => $email]);
+            if($studente === null) {
+                throw new Exception("utente non trovato.");
+            }
+            $token = $studente->getValidationToken();
+            $timestamp = $studente->getValidationTokenTime()->getTimestamp();
+            if(time() > $timestamp && $token != null) {
+                $studente->setValidationToken(null);
+                $studente->setValidationTokenTime(null);
+                $pm->update();
+                throw new Exception("Token scaduto.");
+            }
+            $view->mostraVerificaEmail($email);
+            ob_flush();
+            flush();
+            $this->reinviaEmailGenerica($studente, $token);
+        } catch (Exception $e) {
+            $view->mostraFormErrore("Errore: " . $e->getMessage());
+        } catch (PDOException $e) {
+            $view->mostraFormErrore("Errore imprevisto");
+        }
+    }
 
+    public function reinviaEmailGenerica(Studente $studente, string $token): void {
+        require __DIR__ . '/../../config/mailer-bootstrap.php';
+        $mail->addAddress($studente->getEmail());
+        $mail->Subject ='Reinvio mail Studyroom';
+        $view = new ViewUser();
+        $domain = $view->getDomain();
+        if($studente->getIsVerified() === false) {
+            $controller = '/User/verificaEmail/';
+        } else {
+            $controller = '/User/reimpostaPassword/';
+        }
+        $link = $domain . $controller . $token;
+        $nome = $studente->getNome();
+        $mail->Body =
+            "Ciao {$nome},\n\n" .
+            "Hai richiesto il reinvio della mail.\n\n" .
+            "Clicca sul seguente link:\n\n" .
+            $link .
+            "\n\n" .
+            "Il link rimane valido per 10 minuti.\n\n" .
+            "Se non hai richiesto tu questa email, ignorala.\n\n" .
+            "Grazie!";
+        if (!$mail->send()) {
+            throw new Exception("Invio email non riuscito: " . $mail->ErrorInfo);
+        }
+    }
 }

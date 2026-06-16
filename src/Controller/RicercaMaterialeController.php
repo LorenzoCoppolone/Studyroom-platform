@@ -410,6 +410,9 @@ class RicercaMaterialeController
     $criteria = array_merge($criteria, $extraCriteria);
     $totaleMateriali = $pm->countAll($class, $criteria);
     $totPage = $totaleMateriali > 0 ? (int)ceil($totaleMateriali / $limit) : 1;
+    if($totPage > 50) {
+        $totPage = 50;
+    }
     return [
         'offset'  => $offset,
         'limit'   => $limit,

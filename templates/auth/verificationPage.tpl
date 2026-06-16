@@ -35,7 +35,7 @@
             </div>
             <div class="resend-row">
                 <span>Non hai ricevuto nulla?</span>
-               <a href="/User/EmailVerifica?email={$email}" class="resend-btn">
+               <a href="/User/reinviaEmail/?email={$email}" class="resend-btn">
                     Invia di nuovo
                 </a>
 
