@@ -36,11 +36,11 @@ class CorsoDiLaurea {
     /**
      * Costruttore di corso di laurea.
      * 
-     * @param int $codiceCorso Codice del corso di laurea.
+     * @param string $codiceCorso Codice del corso di laurea.
      * @param string $nomeCorso Nome del corso di laurea.
      */
     public function __construct(
-        int $codiceCorso, 
+        string $codiceCorso, 
         string $nomeCorso,
         ) {
         $this->codiceCorso = $codiceCorso;
@@ -50,17 +50,17 @@ class CorsoDiLaurea {
 
     /**
      * Imposta/modifica il codice del corso di laurea.
-     * @param int $codiceCorso Nuovo codice del corso.
+     * @param string $codiceCorso Nuovo codice del corso.
      */
-    public function setCodiceCorso(int $codiceCorso): void {
+    public function setCodiceCorso(string $codiceCorso): void {
         $this->codiceCorso = $codiceCorso;
     }
 
     /**
      * Restituisce il codice del corso di laurea.
-     * @return int
+     * @return string
      */
-    public function getCodiceCorso(): int {
+    public function getCodiceCorso(): string {
         return $this->codiceCorso;
     }
 

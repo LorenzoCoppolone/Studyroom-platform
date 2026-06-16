@@ -1,4 +1,13 @@
 RewriteEngine On
+
+# --- Protezione file e cartelle sensibili (Apache) ---
+# Blocca i dotfile (.env, .git, ...) tranne /.well-known/
+RewriteRule "(^|/)\.(?!well-known/)" - [F]
+# Blocca file di configurazione/dipendenze e backup
+RewriteRule "\.(env|md|lock|json|dist|bak|tmp|log)$" - [F]
+# Blocca l'accesso diretto alle cartelle applicative
+RewriteRule "^(src|config|bin|vendor|templates|templates_c|cache)/" - [F]
+
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^ index.php [QSA,L]
