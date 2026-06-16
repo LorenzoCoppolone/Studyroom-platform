@@ -132,9 +132,7 @@
 
 
                 <!-- Preferiti -->
-                <form action="/GestionePreferiti/gestionePreferitoController" method="POST">
-                    <input type="hidden" name="csrf_token" value="{$csrf_token}">
-                    <input type="hidden" name="idMateriale" value="{$materiale.idMateriale|escape:'html'}">
+                <form action="/GestionePreferiti/gestionePreferitoController" method="POST">                    <input type="hidden" name="idMateriale" value="{$materiale.idMateriale|escape:'html'}">
                     <button type="submit" class="btn-azione {if $preferito}btn-azione--active{/if}">
                         {if $preferito}
                             <i class="fa fa-heart"></i> Rimuovi dai preferiti
@@ -149,9 +147,7 @@
                     <summary class="btn-azione">
                         <i class="fa fa-star"></i> Lascia una recensione
                     </summary>
-                    <form class="materiale-form" action="/recensioneMateriale/inserisciRecensione" method="POST">
-                        <input type="hidden" name="csrf_token" value="{$csrf_token}">
-                        <input type="hidden" name="idMateriale" value="{$materiale.idMateriale|escape:'html'}">
+                    <form class="materiale-form" action="/recensioneMateriale/inserisciRecensione" method="POST">                        <input type="hidden" name="idMateriale" value="{$materiale.idMateriale|escape:'html'}">
 
                         <label for="voto">Voto</label>
                         <select id="voto" name="voto" required>
@@ -178,9 +174,7 @@
                     <summary class="btn-azione btn-azione--danger">
                         <i class="fa fa-flag"></i> Segnala materiale
                     </summary>
-                    <form class="materiale-form" action="/segnalazioneContenuti/inserisciSegnalazione" method="POST">
-                        <input type="hidden" name="csrf_token" value="{$csrf_token}">
-                        <input type="hidden" name="idMateriale" value="{$materiale.idMateriale|escape:'html'}">
+                    <form class="materiale-form" action="/segnalazioneContenuti/inserisciSegnalazione" method="POST">                        <input type="hidden" name="idMateriale" value="{$materiale.idMateriale|escape:'html'}">
 
                         <label for="motivo">Motivo della segnalazione</label>
                         <textarea id="motivo" name="motivo" rows="3" maxlength="255" required

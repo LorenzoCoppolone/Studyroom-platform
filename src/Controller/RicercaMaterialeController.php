@@ -51,8 +51,6 @@ class RicercaMaterialeController
             $arrayPaginazione = $this->paginazione(Materiale::class, $page);
             $pm = PersistentManager::getInstance();
             $materiali = $pm->cercaMateriale($titolo, $arrayPaginazione['offset'], $arrayPaginazione['limit']);
-            $session = Session::getInstance();
-            $session->setSessionElement('ricerca_titolo', $titolo);
             $id = $session->getSessionElement('studente');
             $corsiDiLaurea = $pm->trovaCorsiDiLaurea();
             $insegnamenti = $pm->trovaInsegnamenti();

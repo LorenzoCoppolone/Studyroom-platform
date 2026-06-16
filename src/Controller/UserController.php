@@ -79,10 +79,6 @@ class UserController {
     public function effettuaRegistrazione(){
     $view = new ViewUser();
     try {
-        $session = Session::getInstance();
-        if (!\Foundation\Csrf::check($_POST['csrf_token'] ?? null)) {
-            throw new Exception("Richiesta non valida.");
-        }
         $pm = PersistentManager::getInstance();
         $d = $view->getDatiRegistrazione();
         $studenteRegistrato = $pm->findoneby(Studente::class, ['email' => $d['email']]);
@@ -120,8 +116,9 @@ class UserController {
         ob_flush();
         flush();
         $this->inviaEmailVerifica($studente, $token);
-        $session->setSessionElement('studente', $studente->getId());
-    
+        // Nessuna sessione qui: l'utente deve prima verificare l'email e poi
+        // effettuare il login. Impostare 'studente' ora aggirerebbe la verifica.
+
     } catch (\Exception $e) {
         $view->mostraFormErrore("Errore durante la registrazione: " . $e->getMessage());
     }
@@ -137,11 +134,7 @@ class UserController {
     public function effettuaLogin() {
         $view = new ViewUser();
         try {
-            $session = Session::getInstance();
-            if (!\Foundation\Csrf::check($_POST['csrf_token'] ?? null)) {
-                throw new Exception("Richiesta non valida.");
-            }
-            $this->applicaRateLimit('rl_login', 5, 300); // max 5 tentativi / 5 minuti
+            $session = Session::getInstance();            $this->applicaRateLimit('rl_login', 5, 300); // max 5 tentativi / 5 minuti
             $pm = PersistentManager::getInstance();
             $datiLogin = $view->getDatiLogin();
             if (empty($datiLogin['email'])) throw new \Exception("L'email è obbligatoria.");
@@ -174,7 +167,6 @@ class UserController {
             session_regenerate_id(true); // previene la session fixation
             $this->rememberMe($datiLogin['email'], $datiLogin['remember']);
             $session->setSessionElement('studente', $studente->getId());
-            $base64 = $studente->getImmagineProfilo() ? $studente->getImmagineProfilo()->getBase64($studente) : null;
             $view->redirectHome();
         }
         catch (PDOException $e) {
@@ -198,7 +190,7 @@ class UserController {
                 $studente->setRememberToken(null);
                 $studente->setRememberTokenTime(null);
                 $pm->update();
-                setcookie('remember_me', '', time() - 3600, "/", "", true, true); // Rimuove il cookie
+                setcookie('remember_me', '', time() - 3600, "/", "", $this->richiestaSicura(), true); // Rimuove il cookie
             }
         }
          elseif ($session->getSessionElement('admin') !== null) {
@@ -325,11 +317,7 @@ class UserController {
         $view = new ViewUser();
         
         try {
-            $session = Session::getInstance();
-            if (!\Foundation\Csrf::check($_POST['csrf_token'] ?? null)) {
-                throw new Exception("Richiesta non valida.");
-            }
-            $pm = PersistentManager::getInstance();
+            $session = Session::getInstance();            $pm = PersistentManager::getInstance();
 
             $id = $session->getSessionElement('studente');
 
@@ -390,7 +378,9 @@ class UserController {
               "Il link rimane valido per 10 minuti.\n\nGrazie!";
               $mail->send();
         } catch (Exception $e) {
-            echo "Errore nell'invio dell'email: {$mail->ErrorInfo}";
+            // La pagina di verifica è già stata inviata all'utente: non esponiamo
+            // i dettagli SMTP, ma logghiamo l'errore per la diagnosi lato server.
+            error_log("Invio email di verifica fallito: " . ($mail->ErrorInfo ?? $e->getMessage()));
         }
     }
 
@@ -436,32 +426,28 @@ class UserController {
      */
     public function effettuaRecuperoPassword(): void {
         $view = new ViewUser();
-        try {
-            if (!\Foundation\Csrf::check($_POST['csrf_token'] ?? null)) {
-                throw new Exception("Richiesta non valida.");
-            }
-            $this->applicaRateLimit('rl_recupero', 3, 3600); // max 3 richieste / ora
+        try {            $this->applicaRateLimit('rl_recupero', 3, 3600); // max 3 richieste / ora
             $pm = PersistentManager::getInstance();
             $email = $view->getEmailRecuperoPassword();
             if (empty($email)) {
                 throw new Exception("Inserisci un indirizzo email.");
             }
-            $studente = $pm->findOneBy(
-                Studente::class,
-            [   'email' => $email]
-            );
-            if ($studente === null) {
-               throw new Exception("Nessun account trovato con questa email.");
+            $studente = $pm->findOneBy(Studente::class, ['email' => $email]);
+            // Non riveliamo se l'email è registrata: inviamo il link solo se
+            // l'account esiste, ma mostriamo sempre la stessa pagina di conferma.
+            if ($studente !== null) {
+                $token = bin2hex(random_bytes(32));
+                $studente->setValidationToken($token);
+                $scadenzaToken = (new \DateTime('now',new \DateTimeZone('Europe/Rome')))->add(new \DateInterval('PT10M'));
+                $studente->setValidationTokenTime($scadenzaToken);
+                $pm->update();
+                $view->mostraVerificaEmail($email);
+                ob_flush();
+                flush();
+                $this->inviaEmailRecuperoPassword($studente, $token);
+                return;
             }
-            $token = bin2hex(random_bytes(32));
-            $studente->setValidationToken($token);
-            $scadenzaToken = (new \DateTime('now',new \DateTimeZone('Europe/Rome')))->add(new \DateInterval('PT10M'));
-            $studente->setValidationTokenTime($scadenzaToken);
-            $pm->update($studente);
             $view->mostraVerificaEmail($email);
-            ob_flush();
-            flush();
-            $this->inviaEmailRecuperoPassword($studente, $token);
         } catch (Exception $e) {
             $view->mostraFormErrore("Errore durante il recupero password: " . $e->getMessage());
         }
@@ -523,11 +509,7 @@ class UserController {
      */
     public function salvaNuovaPassword(): void{
     $view = new ViewUser();
-        try {
-            if (!\Foundation\Csrf::check($_POST['csrf_token'] ?? null)) {
-                throw new Exception("Richiesta non valida.");
-            }
-            $pm = PersistentManager::getInstance();
+        try {            $pm = PersistentManager::getInstance();
             $d = $view->getDatiNuovaPassword();
             $token   = $d['token'];
             $pass    = $d['password'];
@@ -577,7 +559,7 @@ class UserController {
             return;
         }
         $token = bin2hex(random_bytes(32));
-        setcookie('remember_me', $token, time() + (60 * 60 * 24 * 30), "/", "", true, true); // Cookie valido per 30 giorni
+        setcookie('remember_me', $token, time() + (60 * 60 * 24 * 30), "/", "", $this->richiestaSicura(), true); // Cookie valido per 30 giorni
         $hashToken = hash('sha256', $token);
         $studente->setRememberToken($hashToken);
         $studente->setRememberTokenTime((new \DateTime('now', new \DateTimeZone('Europe/Rome')))->modify('+30 days'));// Scadenza token in linea con il cookie
@@ -604,6 +586,16 @@ class UserController {
             'limit' => $limit,
             'totPage' => ceil($totale / $limit)
         ];
+    }
+
+    /**
+     * Indica se la richiesta corrente viaggia su HTTPS. Usato per impostare il
+     * flag Secure dei cookie solo quando ha senso, così il "remember me" funziona
+     * anche in sviluppo locale su HTTP.
+     * @return bool
+     */
+    private function richiestaSicura(): bool {
+        return !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
     }
 
 }

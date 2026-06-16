@@ -39,7 +39,10 @@ class DownloadMaterialeController {
         ]);
         $materiale = $pm->find(Materiale::class, $idMateriale);
         $studente = $pm->find(Studente::class, $idUtente);
-        if (empty($downloadEsistente) && $studente !== null && $materiale !== null){
+        if ($materiale === null) {
+            throw new InvalidArgumentException("Materiale non trovato.");
+        }
+        if (empty($downloadEsistente) && $studente !== null){
             $nuovoDownload = new Download($studente, $materiale);
             $pm->save($nuovoDownload);
         }

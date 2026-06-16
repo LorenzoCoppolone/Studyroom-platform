@@ -84,9 +84,7 @@
                     <div class="action-group">
 
                         <!-- Accetta: archivia le segnalazioni, il materiale rimane -->
-                        <form method="post" action="/Admin/eseguiAzione">
-                            <input type="hidden" name="csrf_token" value="{$csrf_token}">
-                            <input type="hidden" name="bottonePremuto" value="accetta">
+                        <form method="post" action="/Admin/eseguiAzione">                            <input type="hidden" name="bottonePremuto" value="accetta">
                             <input type="hidden" name="idMaterialeSegnalato" value="{$materiale.idMateriale|escape}">
                             <input type="hidden" name="idUtente" value="{$utente.id|escape}">
                             <button type="submit" class="btn-action btn-success"
@@ -96,9 +94,7 @@
                         </form>
 
                         <!-- Rifiuta: elimina il materiale e le segnalazioni -->
-                        <form method="post" action="/Admin/eseguiAzione">
-                            <input type="hidden" name="csrf_token" value="{$csrf_token}">
-                            <input type="hidden" name="bottonePremuto" value="rifiuta">
+                        <form method="post" action="/Admin/eseguiAzione">                            <input type="hidden" name="bottonePremuto" value="rifiuta">
                             <input type="hidden" name="idMaterialeSegnalato" value="{$materiale.idMateriale|escape}">
                             <input type="hidden" name="idUtente" value="{$utente.id|escape}">
                             <button type="submit" class="btn-action btn-outline"
@@ -108,9 +104,7 @@
                         </form>
 
                         <!-- Banna utente -->
-                        <form method="post" action="/Admin/eseguiAzione">
-                            <input type="hidden" name="csrf_token" value="{$csrf_token}">
-                            <input type="hidden" name="bottonePremuto" value="banUtente">
+                        <form method="post" action="/Admin/eseguiAzione">                            <input type="hidden" name="bottonePremuto" value="banUtente">
                             <input type="hidden" name="idMaterialeSegnalato" value="{$materiale.idMateriale|escape}">
                             <input type="hidden" name="idUtente" value="{$utente.id|escape}">
                             <button type="submit" class="btn-action btn-danger"

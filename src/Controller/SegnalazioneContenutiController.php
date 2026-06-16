@@ -33,9 +33,6 @@ class SegnalazioneContenutiController {
         $view = new ViewSegnalazioni();
         $idMateriale = $view->getIdMateriale();
         try {
-            if (!\Foundation\Csrf::check($_POST['csrf_token'] ?? null)) {
-                throw new InvalidArgumentException("Richiesta non valida.");
-            }
             $motivo      = $view->getMotivo();
             $session     = Session::getInstance();
             $idUtente    = $session->getSessionElement('studente');
@@ -58,7 +55,12 @@ class SegnalazioneContenutiController {
             if($segnalazioneEsistente === null) {
                 $materiale = $pm->find(Materiale::class,$idMateriale);
                 $studente = $pm->find(Studente::class,$idUtente);
-                $admin = $pm->findOneBy(Amministratore::class, ['id' => 1]);
+                // Assegna la segnalazione al primo amministratore disponibile,
+                // senza dipendere da un ID fisso che potrebbe non esistere.
+                $admin = $pm->findOneBy(Amministratore::class, []);
+                if ($admin === null) {
+                    throw new RuntimeException("Nessun amministratore disponibile per gestire la segnalazione.");
+                }
                 $segnalazione = new Segnalazione($motivo, $studente, $materiale, $admin);
                 $pm->save($segnalazione);
                 $this->mostraEsito($view, $idMateriale,'successo', 'Segnalazione inviata con successo!');

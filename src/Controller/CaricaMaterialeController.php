@@ -83,9 +83,6 @@ class CaricaMaterialeController
         $idUtente       = $session->getSessionElement('studente');
         
         try {
-            if (!\Foundation\Csrf::check($_POST['csrf_token'] ?? null)) {
-                throw new \InvalidArgumentException("Richiesta non valida.");
-            }
             // VALIDAZIONE
             $this->validaDatiCaricamento(
                 $tipologia,

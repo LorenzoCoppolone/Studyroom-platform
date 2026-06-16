@@ -24,9 +24,9 @@
         </div>
 
         <div class="profile-identity">
-            <h1 class="profile-name">{$utente.nome} {$utente.cognome}</h1>
-            <p class="profile-meta"><i class="fa fa-envelope"></i> {$utente.email}</p>
-            <p class="profile-meta"><i class="fa fa-at"></i> {$utente.username}</p>
+            <h1 class="profile-name">{$utente.nome|escape:'html'} {$utente.cognome|escape:'html'}</h1>
+            <p class="profile-meta"><i class="fa fa-envelope"></i> {$utente.email|escape:'html'}</p>
+            <p class="profile-meta"><i class="fa fa-at"></i> {$utente.username|escape:'html'}</p>
 
             <a href="/User/modificaProfiloStudente" class="btn btn-primary btn-modifica">
                 <i class="fa fa-pen"></i> Modifica

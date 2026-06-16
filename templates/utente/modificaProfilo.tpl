@@ -19,7 +19,6 @@
 
     <form action="/User/aggiornaProfiloStudente" method="post"
           enctype="multipart/form-data" class="edit-form" id="formModificaProfilo">
-        <input type="hidden" name="csrf_token" value="{$csrf_token}">
 
         <!-- FOTO PROFILO -->
         <div class="edit-photo-block">

@@ -32,7 +32,4 @@ $smarty->setTemplateDir(__DIR__ . '/../templates/');
 $smarty->setCompileDir($templatesC);
 $smarty->setCacheDir($cacheDir);
 
-// Token CSRF disponibile in tutti i template come {$csrf_token}.
-$smarty->assign('csrf_token', \Foundation\Csrf::token());
-
 return $smarty;

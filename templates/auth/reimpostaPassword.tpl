@@ -26,7 +26,6 @@
 
         <form method="POST" action="/User/salvaNuovaPassword">
 
-            <input type="hidden" name="csrf_token" value="{$csrf_token}">
             <input type="hidden" name="token" value="{$token}">
 
             <!-- NUOVA PASSWORD -->

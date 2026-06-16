@@ -12,12 +12,12 @@ use PDOException;
 use InvalidArgumentException;
  
 /**
- * recensioneMaterialeController
+ * RecensioneMaterialeController
  *
  * Gestisce l'inserimento e l'eliminazione delle recensioni
  * effettuate dagli studenti sui materiali.
  */
-class recensioneMaterialeController {
+class RecensioneMaterialeController {
 
     /**
      * Inserisce una recensione effettuata dallo studente.
@@ -29,9 +29,6 @@ class recensioneMaterialeController {
         $view = new ViewRecensioneMateriale();
         
         try {
-        if (!\Foundation\Csrf::check($_POST['csrf_token'] ?? null)) {
-            throw new InvalidArgumentException("Richiesta non valida.");
-        }
         $idMateriale = $view->getIdMateriale();
         $voto        = (float) $view->getVoto();
         $commento    = $view->getCommento();
