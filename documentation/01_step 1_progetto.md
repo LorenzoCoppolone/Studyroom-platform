@@ -1,10 +1,10 @@
-### StudyRoom 
+## StudyRoom 
 ## Piattaforma di Condivisione Materiale Didattico
 Progetto di Programmazione Web  
 Università degli Studi dell’Aquila (UNIVAQ)
 
 
-## ## Descrizione del Progetto
+## Descrizione del Progetto
 StudyRoom è una piattaforma web che permette agli studenti di condividere appunti universitari e prove d’esame degli anni passati.  
 Il sistema è progettato per l’Università degli Studi dell’Aquila (UNIVAQ), ma può essere esteso facilmente ad altri Atenei.
 
@@ -15,9 +15,9 @@ L’obiettivo principale è fornire un ambiente semplice e organizzato per:
 - migliorare la collaborazione tra studenti
 
 
-## ## Tipologie di Utenti
+## Tipologie di Utenti
 
-### ### Utente non registrato
+### Utente non registrato
 - Visualizzare appunti
 - Visualizzare esami passati
 - Cercare materiali per corso di laurea e insegnamento
@@ -25,7 +25,7 @@ L’obiettivo principale è fornire un ambiente semplice e organizzato per:
 - Visualizzare valutazione media degli appunti
 - Visualizzare le recensioni
 
-### ### Utente registrato
+### Utente registrato
 - Caricare appunti
 - Caricare esami passati
 - Scaricare materiali
@@ -34,7 +34,7 @@ L’obiettivo principale è fornire un ambiente semplice e organizzato per:
 - Salvare materiali tra i preferiti
 - Segnalare contenuti non adeguati
 
-### ### Amministratore
+### Amministratore
 - Moderare contenuti
 - Gestire utenti
 - Gestire corsi di laurea e insegnamenti
@@ -43,7 +43,7 @@ L’obiettivo principale è fornire un ambiente semplice e organizzato per:
 - Eliminare appunti ed esami inappropriati
 
 
-## ## Registrazione Utenti
+## Registrazione Utenti
 Per garantire la qualità dei contenuti, la registrazione richiede l’utilizzo di una email universitaria.
 
 Esempio valido:  
@@ -57,7 +57,7 @@ Durante la registrazione vengono richiesti:
 - password
 
 
-## ## Sezione Appunti
+## Sezione Appunti
 Ogni appunto caricato contiene:
 - corso di laurea
 - insegnamento
@@ -67,7 +67,7 @@ Ogni appunto caricato contiene:
 
 ---
 
-## ## Sezione Esami Passati
+## Sezione Esami Passati
 Ogni esame caricato contiene:
 - corso di laurea
 - insegnamento
@@ -75,33 +75,33 @@ Ogni esame caricato contiene:
 - file PDF
 
 
-## ## Funzionalità Aggiuntive
+## Funzionalità Aggiuntive
 
-### ### Sistema di preferiti
+### Sistema di preferiti
 Gli utenti registrati possono salvare materiali tra i preferiti.
 
-### ### Profilo utente
+### Profilo utente
 Ogni utente dispone di una pagina personale con:
 - materiali caricati
 - materiali scaricati
 - recensioni effetuate
 - materiali preferiti
 
-### ### Sistema di ranking
+### Sistema di ranking
 I materiali possono essere ordinati per:
 - valutazione
 - numero di download
 
 
-## ## Possibili Sviluppi Futuri
+## Possibili Sviluppi Futuri
 
-### ### Integrazione di AI
+### Integrazione di AI
 - suggerimento automatico dei tag
 - generazione automatica di riassunti
 - ricerca intelligente nei documenti
 - automazione delle attività dell’amministratore
 
-### ### Forum
+### Forum
 La piattaforma può includere una sezione forum dedicata alla discussione tra studenti.
 
 Funzionalità previste:
