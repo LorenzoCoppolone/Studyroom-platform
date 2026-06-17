@@ -37,9 +37,6 @@ class GestionePreferitiController {
             if(empty($idMateriale)) {
                 throw new InvalidArgumentException("ID materiale mancante!");
             }
-            $idMateriale = $view->getIdMateriale();
-            $session = Session::getInstance();
-            $idUtente = $session->getSessionElement('studente');
             $pm = PersistentManager::getInstance();
             $risultati = $pm->findBy(Preferito::class, [
                 'studente'  => $idUtente,

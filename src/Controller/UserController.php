@@ -56,9 +56,9 @@ class UserController {
      * - invio email di conferma
      */
     public function effettuaRegistrazione(){
+        $view = new ViewUser();
     try {
         $session = Session::getInstance();
-        $view = new ViewUser();
         $pm = PersistentManager::getInstance();
         $d = $view->getDatiRegistrazione();
         $studenteRegistrato = $pm->findoneby(Studente::class, ['email' => $d['email']]);
@@ -96,8 +96,6 @@ class UserController {
         ob_flush();
         flush();
         $this->inviaEmailVerifica($studente, $token);
-        $session->setSessionElement('studente', $studente->getId());
-    
     } catch (\Exception $e) {
         $view->mostraFormErrore("Errore durante la registrazione: " . $e->getMessage());
     }
@@ -144,7 +142,6 @@ class UserController {
             }
             $this->rememberMe($datiLogin['email'], $datiLogin['remember']);
             $session->setSessionElement('studente', $studente->getId());
-            $base64 = $studente->getImmagineProfilo() ? $studente->getImmagineProfilo()->getBase64($studente) : null;
             $view->redirectHome();
         }
         catch (PDOException $e) {
@@ -190,8 +187,8 @@ class UserController {
      * - attivazione account
      */
     public function verificaEmail(string $token) : void {
+        	$view = new ViewUser();
         try {
-            $view = new ViewUser();
             $pm = PersistentManager::getInstance();
             $studente = $pm->findOneBy(Studente::class, ['validationToken' => $token]); // Cerco lo studente nel DB per token
             if ($studente === null) {
@@ -280,7 +277,7 @@ class UserController {
         } catch (Exception $e) {
             $view->mostraFormErrore("Errore durante la modifica del profilo: " . $e->getMessage());
         } catch (PDOException $e) {
-            $view->mostraFormErrore("Errore durante la modifica del profilo: " . $e->getMessage());
+            $view->mostraFormErrore("Errore durante la modifica del profilo");
         }
     }
 
@@ -345,17 +342,20 @@ class UserController {
     public function inviaEmailVerifica(studente $studente, string $token): void {
         try {
             require __DIR__ . '/../../config/mailer-bootstrap.php';
-            $mail->addAddress ($studente->getEmail());
+            $mail->addAddress (trim($studente->getEmail()));
             $mail->Subject = 'Conferma la tua registrazione a StudyRoom';
-            $link = "https://Studyroom-platform.test/User/verificaEmail/" . $token;
+            $view = new ViewUser();
+            $domain = $view->getDomain();
+            $link = $domain . "/User/verificaEmail/" . $token;
             $mail->Body =
               "Ciao {$studente->getNome()},\n\n" .
               "Per confermare la tua registrazione a StudyRoom, clicca sul link seguente:\n\n" .
               $link . "\n\n" .
               "Il link rimane valido per 10 minuti.\n\nGrazie!";
-              $mail->send();
+              if(!$mail->send()) throw new Exception("Invio email non riuscito: " . $mail->ErrorInfo);
+              return;
         } catch (Exception $e) {
-            echo "Errore nell'invio dell'email: {$mail->ErrorInfo}";
+            $view->mostraFormErrore("Errore durante l'invio dell'email di verifica: " . $e->getMessage());
         }
     }
 
@@ -369,7 +369,7 @@ class UserController {
         $view = new ViewUser();
         try {
             $pm = PersistentManager::getInstance();
-            $email = $view->getEmailRecuperoPassword();
+            $email = trim($view->getEmail());
             if (empty($email)) {
                 throw new Exception("Inserisci un indirizzo email.");
             }
@@ -400,10 +400,13 @@ class UserController {
      * può mostrare un errore invece di confermare un'operazione non riuscita.
      */
     public function inviaEmailRecuperoPassword(Studente $studente, string $token): void {
+        try{
         require __DIR__ . '/../../config/mailer-bootstrap.php';
-        $mail->addAddress($studente->getEmail());
+        $mail->addAddress(trim($studente->getEmail()));
         $mail->Subject ='Recupero password StudyRoom';
-        $link ="https://Studyroom-platform.test/User/reimpostaPassword/" . $token;
+        $view = new ViewUser();
+        $domain = $view->getDomain();
+        $link = $domain . "/User/reimpostaPassword/" . $token;
         $nome = $studente->getNome();
         $mail->Body =
             "Ciao {$nome},\n\n" .
@@ -416,6 +419,10 @@ class UserController {
             "Grazie!";
         if (!$mail->send()) {
             throw new Exception("Invio email non riuscito: " . $mail->ErrorInfo);
+        }
+        return;
+        }catch(Exception $e){
+        $view->mostraFormErrore("Errore durante invio email: " . $e->getMessage());
         }
     }
 
@@ -523,11 +530,75 @@ class UserController {
         $offset = ($page - 1) * $limit;
         $pm = PersistentManager::getInstance();
         $totale = $pm->countAll($class, []);
+        $totPage = ceil($totale / $limit);
+        if($totPage > 50) {
+            $totPage = 50;
+        }
         return [
             'offset' => $offset,
             'limit' => $limit,
-            'totPage' => ceil($totale / $limit)
+            'totPage' => $totPage
         ];
     }
+    
+    public function reinviaEmail(): void {
+        $view = new ViewUser();
+        try{
+            $email = $view->getEmail();
+            $pm = PersistentManager::getInstance();
+            $studente = $pm->findOneBy(Studente::class, ['email' => $email]);
+            if($studente === null) {
+                throw new Exception("utente non trovato.");
+            }
+            $token = $studente->getValidationToken();
+            $timestamp = $studente->getValidationTokenTime()->getTimestamp();
+            if(time() > $timestamp && $token != null) {
+                $studente->setValidationToken(null);
+                $studente->setValidationTokenTime(null);
+                $pm->update();
+                throw new Exception("Token scaduto.");
+            }
+            $view->mostraVerificaEmail($email);
+            ob_flush();
+            flush();
+            $this->reinviaEmailGenerica($studente, $token);
+        } catch (Exception $e) {
+            $view->mostraFormErrore("Errore: " . $e->getMessage());
+        } catch (PDOException $e) {
+            $view->mostraFormErrore("Errore imprevisto");
+        }
+    }
 
+    public function reinviaEmailGenerica(Studente $studente, string $token): void {
+        try{
+        require __DIR__ . '/../../config/mailer-bootstrap.php';
+        $mail->addAddress(trim($studente->getEmail()));
+        $mail->Subject ='Reinvio mail Studyroom';
+        $view = new ViewUser();
+        $domain = $view->getDomain();
+        if($studente->getIsVerified() === false) {
+            $controller = '/User/verificaEmail/';
+        } else {
+            $controller = '/User/reimpostaPassword/';
+        }
+        $link = $domain . $controller . $token;
+        $nome = $studente->getNome();
+        $tempo = $studente->getValidationTokenTime()->getTimestamp() - time();
+        $minuti = floor($tempo / 60) > 0 ? floor($tempo / 60) : 1;
+        $mail->Body =
+            "Ciao {$nome},\n\n" .
+            "Hai richiesto il reinvio della mail.\n\n" .
+            "Clicca sul seguente link:\n\n" .
+            $link .
+            "\n\n" .
+            "Il link rimane valido per {$minuti} minuti.\n\n" .
+            "Se non hai richiesto tu questa email, ignorala.\n\n" .
+            "Grazie!";
+        if (!$mail->send()) {
+            throw new Exception("Invio email non riuscito: " . $mail->ErrorInfo);
+        }
+      }catch(Exception $e){
+       $view->mostraFormErrore("Invio email non riuscito: " . $e->getMessage()); 
+       }
+    }
 }

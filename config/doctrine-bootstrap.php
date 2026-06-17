@@ -11,6 +11,10 @@ $dotenv->load();
 
 $config = ORMSetup::createConfiguration(true);
 
+$config->setProxyDir(__DIR__ . '/../var/doctrine-proxy');
+$config->setProxyNamespace('DoctrineProxies');
+
+
 $driver = new \Doctrine\ORM\Mapping\Driver\AttributeDriver([
     __DIR__ . '/../src/Model'
 ]);

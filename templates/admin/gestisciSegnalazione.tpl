@@ -8,35 +8,26 @@
     <link rel="icon" type="image/x-icon" href="/../img/studyroom_favicon.ico">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Rajdhani:wght@700&family=Exo+2:wght@700&family=DM+Serif+Display&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/../CSS/styleAdmin.css">
-    <link rel="icon" type="image/x-icon" href="/../img/studyroom_favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
 
 <header>
     <span class="logo">StudyRoom</span>
-    <span class="header-badge">Admin</span>
+    <a href="/Admin/dashboard" class="btn-logout"><i class="fa fa-arrow-left"></i> Dashboard</a>
 </header>
 
 <main>
 
-<a href="/Admin/dashboard" class="back-link"><i class="fa fa-arrow-left"></i> Torna alla home</a>
+    <a href="/Admin/dashboard" class="back-link"><i class="fa fa-arrow-left"></i> Torna alla dashboard</a>
 
     <h1 class="page-title">Gestisci Segnalazione</h1>
 
-    <div class="detail-grid">
+    <div class="materiale-layout">
 
-        <!-- ── COLONNA SINISTRA: file ── -->
-        <div class="detail-card">
-            <div class="detail-card-title">File segnalato</div>
-            <div class="detail-card-body">
-
-                <div class="file-meta">
-                    <div class="file-meta-label">Titolo</div>
-                    <div class="file-meta-value">{$materiale.titolo|escape}</div>
-                </div>
-
-                 <div class="materiale-viewer">
-            {if $materiale}
+        <!-- ===================== CONTENUTO PDF ===================== -->
+        <div class="materiale-viewer">
+            {if $materiale.idMateriale}
                 <iframe class="materiale-viewer__frame"
                         src="/RicercaMateriale/pdf/{$materiale.idMateriale|escape:'url'}#toolbar=0&navpanes=0&scrollbar=0"
                         title="Contenuto del materiale"></iframe>
@@ -47,82 +38,83 @@
                 </div>
             {/if}
         </div>
+        <!-- ===================== /CONTENUTO PDF ===================== -->
 
-            </div>
-        </div>
+        <!-- ===================== INFO + AZIONI ===================== -->
+        <aside class="materiale-info">
 
-        <!-- ── COLONNA DESTRA: utente + azioni ── -->
-        <div class="detail-col">
+            <h1 class="materiale-info__title">{$materiale.titolo|escape:'html'}</h1>
+
+            <span class="materiale-info__tipo">Materiale segnalato</span>
+
+            <!-- Caricato da -->
+            <p class="materiale-info__author">
+                <i class="fa fa-circle-user"></i>
+                Caricato da <strong>{$utente.username|escape:'html'}</strong>
+            </p>
 
             <!-- Dati utente -->
-            <div class="detail-card">
-                <div class="detail-card-title">Dati Utente</div>
-                <div class="detail-card-body">
-                    <div class="user-field">
-                        <span class="user-field-label">Nome</span>
-                        <span class="user-field-value">{$utente.nome|escape}</span>
-                    </div>
-                    <div class="user-field">
-                        <span class="user-field-label">Cognome</span>
-                        <span class="user-field-value">{$utente.cognome|escape}</span>
-                    </div>
-                    <div class="user-field">
-                        <span class="user-field-label">Username</span>
-                        <span class="user-field-value">{$utente.username|escape}</span>
-                    </div>
-                    <div class="user-field">
-                        <span class="user-field-label">Email</span>
-                        <span class="user-field-value">{$utente.email|escape}</span>
-                    </div>
-                </div>
+            <ul class="materiale-meta">
+                <li>
+                    <i class="fa fa-id-card"></i>
+                    <span class="materiale-meta__label">Nome</span>
+                    <span class="materiale-meta__value">{$utente.nome|escape:'html'} {$utente.cognome|escape:'html'}</span>
+                </li>
+                <li>
+                    <i class="fa fa-at"></i>
+                    <span class="materiale-meta__label">Username</span>
+                    <span class="materiale-meta__value">{$utente.username|escape:'html'}</span>
+                </li>
+                <li>
+                    <i class="fa fa-envelope"></i>
+                    <span class="materiale-meta__label">Email</span>
+                    <span class="materiale-meta__value">{$utente.email|escape:'html'}</span>
+                </li>
+            </ul>
+
+            <!-- ===================== AZIONI ===================== -->
+            <div class="materiale-actions">
+
+                <!-- Accetta: archivia le segnalazioni, il materiale rimane -->
+                <form method="post" action="/Admin/eseguiAzione">
+                    <input type="hidden" name="bottonePremuto" value="accetta">
+                    <input type="hidden" name="idMaterialeSegnalato" value="{$materiale.idMateriale|escape:'html'}">
+                    <input type="hidden" name="idUtente" value="{$utente.id|escape:'html'}">
+                    <button type="submit" class="btn-azione btn-azione--primary"
+                            onclick="return confirm('Accettare la segnalazione archivierà tutte le segnalazioni collegate. Continuare?')">
+                        <i class="fa fa-check"></i> Annulla segnalazione
+                    </button>
+                </form>
+
+                <!-- Rifiuta: elimina il materiale e le segnalazioni -->
+                <form method="post" action="/Admin/eseguiAzione">
+                    <input type="hidden" name="bottonePremuto" value="rifiuta">
+                    <input type="hidden" name="idMaterialeSegnalato" value="{$materiale.idMateriale|escape:'html'}">
+                    <input type="hidden" name="idUtente" value="{$utente.id|escape:'html'}">
+                    <button type="submit" class="btn-azione"
+                            onclick="return confirm('Questo eliminerà il materiale e tutte le segnalazioni ad esso associate. Continuare?')">
+                        <i class="fa fa-trash"></i> Rimuovi materiale
+                    </button>
+                </form>
+
+                <!-- Banna utente -->
+                <form method="post" action="/Admin/eseguiAzione">
+                    <input type="hidden" name="bottonePremuto" value="banUtente">
+                    <input type="hidden" name="idMaterialeSegnalato" value="{$materiale.idMateriale|escape:'html'}">
+                    <input type="hidden" name="idUtente" value="{$utente.id|escape:'html'}">
+                    <button type="submit" class="btn-azione btn-azione--danger"
+                            onclick="return confirm('Sei sicuro di voler bannare questo utente?')">
+                        <i class="fa fa-ban"></i> Banna utente
+                    </button>
+                </form>
+
             </div>
+            <!-- ===================== /AZIONI ===================== -->
 
-            <!-- Azioni -->
-            <div class="detail-card">
-                <div class="detail-card-title">Azioni</div>
-                <div class="detail-card-body">
-                    <div class="action-group">
+        </aside>
+        <!-- ===================== /INFO + AZIONI ===================== -->
 
-                        <!-- Accetta: archivia le segnalazioni, il materiale rimane -->
-                        <form method="post" action="/Admin/eseguiAzione">
-                            <input type="hidden" name="bottonePremuto" value="accetta">
-                            <input type="hidden" name="idMaterialeSegnalato" value="{$materiale.idMateriale|escape}">
-                            <input type="hidden" name="idUtente" value="{$utente.id|escape}">
-                            <button type="submit" class="btn-action btn-success"
-                                    onclick="return confirm('Accettare la segnalazione archivierà tutte le segnalazioni collegate. Continuare?')">
-                                ✓&nbsp; Annulla segnalazione
-                            </button>
-                        </form>
-
-                        <!-- Rifiuta: elimina il materiale e le segnalazioni -->
-                        <form method="post" action="/Admin/eseguiAzione">
-                            <input type="hidden" name="bottonePremuto" value="rifiuta">
-                            <input type="hidden" name="idMaterialeSegnalato" value="{$materiale.idMateriale|escape}">
-                            <input type="hidden" name="idUtente" value="{$utente.id|escape}">
-                            <button type="submit" class="btn-action btn-outline"
-                                    onclick="return confirm('Questo eliminerà il materiale e tutte le segnalazioni ad esso associate. Continuare?')">
-                                ✕&nbsp; Rimuovi materiale
-                            </button>
-                        </form>
-
-                        <!-- Banna utente -->
-                        <form method="post" action="/Admin/eseguiAzione">
-                            <input type="hidden" name="bottonePremuto" value="banUtente">
-                            <input type="hidden" name="idMaterialeSegnalato" value="{$materiale.idMateriale|escape}">
-                            <input type="hidden" name="idUtente" value="{$utente.id|escape}">
-                            <button type="submit" class="btn-action btn-danger"
-                                    onclick="return confirm('Sei sicuro di voler bannare questo utente?')">
-                                ⛔&nbsp; Banna utente
-                            </button>
-                        </form>
-
-                    </div>
-                </div>
-            </div>
-
-        </div><!-- /detail-col -->
-
-    </div><!-- /detail-grid -->
+    </div>
 
 </main>
 

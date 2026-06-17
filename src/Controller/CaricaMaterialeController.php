@@ -96,7 +96,7 @@ class CaricaMaterialeController
 
             // LETTURA FILE
             $contenutoFile  = file_get_contents($fileCaricato['tmp_name']);
-            $mimeTypeFile   = mime_content_type($fileCaricato['tmp_name']);
+            $mimeTypeFile   = (new \finfo(FILEINFO_MIME_TYPE))->file($fileCaricato['tmp_name']);
             $dimensioneFile = (float) $fileCaricato['size'];
             $pm = PersistentManager::getInstance();
             // STUDENTE
@@ -210,7 +210,8 @@ class CaricaMaterialeController
             throw new InvalidArgumentException("Il file supera il limite di 2MB.");
         }
 
-        if (mime_content_type($fileCaricato['tmp_name']) !== 'application/pdf') {
+        $finfo = new \finfo(FILEINFO_MIME_TYPE);
+        if ($finfo->file($fileCaricato['tmp_name']) !== 'application/pdf') {
             throw new InvalidArgumentException("Sono accettati solo file PDF.");
         }
     }

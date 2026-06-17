@@ -33,9 +33,6 @@
             <form action="/User/effettuaRegistrazione" method="post" id="formRegistrazione">
                 <h2>Registrati</h2>
 
-                {* Token CSRF — decommentare se il backend lo fornisce *}
-                {* <input type="hidden" name="csrf_token" value="{$csrfToken|escape:'html'}"> *}
-
                 {* Errore globale (es. email gia registrata) *}
                 {if isset($errore)}
                     <span class="msg-errore">{$errore|escape:'html'}</span>

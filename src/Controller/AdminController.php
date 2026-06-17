@@ -102,7 +102,7 @@ class AdminController {
                 $view->mostraSuccesso();
 
             // BAN UTENTE
-            } elseif (strtolower($bottonePremuto) === 'banUtente') {
+            } elseif (strtolower($bottonePremuto) === 'banutente') {
                 $utente = $pm->find(Studente::class, $idUtente);
                 
                 if ($utente === null) {

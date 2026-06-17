@@ -16,6 +16,16 @@ class Session{
      private static $instance;
 
      private function __construct() {
+        // Hardening del cookie di sessione: non accessibile da JS (HttpOnly),
+        // inviato solo su HTTPS quando disponibile (Secure) e con invio
+        // cross-site limitato (SameSite=Lax).
+        session_set_cookie_params([
+            'lifetime' => 0,
+            'path'     => '/',
+            'httponly' => true,
+            'samesite' => 'Lax',
+            'secure'   => (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off'),
+        ]);
         session_start(); //start the session
      }
  
@@ -52,6 +62,22 @@ class Session{
      * destroy the session
      */
     public static function destroySession(){
+        // Azzera i dati in memoria...
+        $_SESSION = [];
+        // ...elimina il cookie di sessione lato client...
+        if (ini_get('session.use_cookies')) {
+            $params = session_get_cookie_params();
+            setcookie(
+                session_name(),
+                '',
+                time() - 42000,
+                $params['path'],
+                $params['domain'],
+                $params['secure'],
+                $params['httponly']
+            );
+        }
+        // ...e infine distrugge la sessione lato server.
         session_destroy();
     }
 

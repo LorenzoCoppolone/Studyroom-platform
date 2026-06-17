@@ -34,9 +34,6 @@
             <form action="/User/effettuaLogin" method="post">
                 <h2>Accedi</h2>
 
-                {* Token CSRF — decommentare se il backend lo fornisce *}
-                {* <input type="hidden" name="csrf_token" value="{$csrfToken|escape:'html'}"> *}
-
                 {* Errore di autenticazione (credenziali errate) *}
                 {if isset($error)}
                     <span class="msg-errore">{$error|escape:'html'}</span>

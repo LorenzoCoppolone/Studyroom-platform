@@ -87,7 +87,7 @@ abstract class Materiale {
      * ma ogni studente puo' caricare piu' materiali,
      * quindi è una relazione molti a uno tra Materiale e Studente,
      */
-    #[ORM\ManyToOne(targetEntity: Studente::class, inversedBy: "materiali")]
+    #[ORM\ManyToOne(targetEntity: Studente::class, inversedBy: "uploadEffettuati")]
     protected Studente $studente; //relazione molti a uno
 
   /**
