@@ -378,7 +378,8 @@ class UserController {
               "Per confermare la tua registrazione a StudyRoom, clicca sul link seguente:\n\n" .
               $link . "\n\n" .
               "Il link rimane valido per 10 minuti.\n\nGrazie!";
-              $mail->send();
+              if(!$mail->send()) throw new Exception("Invio email non riuscito: " . $mail->ErrorInfo);
+              return;
         } catch (Exception $e) {
             // La pagina di verifica è già stata inviata all'utente: non esponiamo
             // i dettagli SMTP, ma logghiamo l'errore per la diagnosi lato server.
@@ -480,6 +481,7 @@ class UserController {
         if (!$mail->send()) {
             throw new Exception("Invio email non riuscito: " . $mail->ErrorInfo);
         }
+        return;
     }
 
     /**
