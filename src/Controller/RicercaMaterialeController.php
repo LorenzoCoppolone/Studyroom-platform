@@ -237,7 +237,7 @@ class RicercaMaterialeController
         }
     }
 
-    /**
+     /**
      * Mostra i materiali preferiti dell’utente.
      *
      * @throws RuntimeException Se si verifica un errore DB.
@@ -256,13 +256,9 @@ class RicercaMaterialeController
         
             $pm = PersistentManager::getInstance();
             $studente = $pm->find(Studente::class, $idStudenteLoggato);
-        
-            $corsiDiLaurea = $pm->trovaCorsiDiLaurea();
-            $insegnamenti = $pm->trovaInsegnamenti();
-            $filtri = $session->getSessionElement('ricerca_filtri') ?? [];
             $preferiti = $pm->trovaPreferitiPerUtente($idStudenteLoggato, $arrayPaginazione['offset'], $arrayPaginazione['limit']);
             
-            $view->mostraMateriali($preferiti, $page, $arrayPaginazione['totPage'], $studente->getUsername(), $studente->getImmagineProfilo()->getBase64($studente), $corsiDiLaurea, $insegnamenti, $filtri);
+            $view->mostraPreferitiUtente($preferiti, $page, $arrayPaginazione['totPage'], $studente->getUsername(), $studente->getImmagineProfilo()->getBase64($studente));
         
         } catch (PDOException $e) {
             $view->mostraFormErrore("Errore durante la ricerca: ");
@@ -289,26 +285,16 @@ class RicercaMaterialeController
             $idStudenteLoggato = $session->getSessionElement('studente');
             
             $pm = PersistentManager::getInstance();
-            $studente = $pm->find(Studente::class, $idStudenteLoggato);
-            
-            $corsiDiLaurea = $pm->trovaCorsiDiLaurea();
-            $insegnamenti = $pm->trovaInsegnamenti();
-            $filtri = $session->getSessionElement('ricerca_filtri') ?? [];
-            
+            $studente = $pm->find(Studente::class, $idStudenteLoggato);  
             $download = $pm->trovaDownloadPerUtente($idStudenteLoggato, $arrayPaginazione['offset'], $arrayPaginazione['limit']);
         
-            $view->mostraMateriali(
+            $view->mostraDownloadUtente(
                 $download,
                 $page,
                 $arrayPaginazione['totPage'],
                 $studente->getUsername(),
-                $studente->getImmagineProfilo()->getBase64($studente),
-                $corsiDiLaurea,
-                $insegnamenti,
-                $filtri
+                $studente->getImmagineProfilo()->getBase64($studente)
             );
-
-        
         } catch (PDOException $e) {
             $view->mostraFormErrore("Errore durante la ricerca: " . $e->getMessage());
         
@@ -333,11 +319,8 @@ class RicercaMaterialeController
             $pm = PersistentManager::getInstance();
             $studente = $pm->find(Studente::class, $idStudenteLoggato);
             $arrayPaginazione = $this->paginazione(Materiale::class, $page, ['utente' => $idStudenteLoggato]); // Calcola l'offset per la query
-            $corsiDiLaurea = $pm->trovaCorsiDiLaurea();
-            $insegnamenti = $pm->trovaInsegnamenti();
-            $filtri = $session->getSessionElement('ricerca_filtri') ?? [];
             $materialiPopolari = $pm->MaterialiPopolariUtente($idStudenteLoggato, $arrayPaginazione['offset'], $arrayPaginazione['limit']);
-            $view->mostraMateriali($materialiPopolari, $page, $arrayPaginazione['totPage'], $studente->getUsername(), $studente->getImmagineProfilo()->getBase64($studente), $corsiDiLaurea, $insegnamenti, $filtri, $arrayPaginazione['urlBasePagina']);
+            $view->mostraCaricatiUtente($materialiPopolari, $page, $arrayPaginazione['totPage'], $studente->getUsername(), $studente->getImmagineProfilo()->getBase64($studente));
     
         } catch (PDOException $e) {
             $view->mostraFormErrore("Errore durante la ricerca: ");
@@ -346,7 +329,6 @@ class RicercaMaterialeController
             $view->mostraFormErrore("Errore imprevisto: ");
         }
     }
-
     /**
      * Calcola offset, limit e numero totale di pagine.
      *

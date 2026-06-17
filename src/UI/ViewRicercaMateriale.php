@@ -71,6 +71,37 @@ class ViewRicercaMateriale {
         $this->smarty->display("materiale/ricercaMateriale.tpl");
     }
 
+      public function mostraPreferitiUtente(array $materiali, int $page, int $totPage, ?string $username, ?string $base64, ?string $url = "/Materiali/preferiti"){
+        $this->smarty->assign("materiali", $materiali);
+        $this->smarty->assign("paginaCorrente", $page);
+        $this->smarty->assign("totalePagine", $totPage);
+        $this->smarty->assign("studente", $username);
+        $this->smarty->assign("base64", $base64);
+        $this->smarty->assign("urlbasePagina", $url);
+        $this->smarty->display("utente/materialiUtente.tpl");
+    }
+    
+    public function mostraCaricatiUtente(array $materiali, int $page, int $totPage, ?string $username, ?string $base64, ?string $url = "/Materiali/popolariUtente"){
+        $this->smarty->assign("materiali", $materiali);
+        $this->smarty->assign("paginaCorrente", $page);
+        $this->smarty->assign("totalePagine", $totPage);
+        $this->smarty->assign("studente", $username);
+        $this->smarty->assign("base64", $base64);
+        $this->smarty->assign("urlbasePagina", $url);
+        $this->smarty->display("utente/materialiUtente.tpl");
+    }
+    
+    public function mostradownloadUtente(array $materiali, int $page, int $totPage, ?string $username, ?string $base64, ?string $url = "/Materiali/download"){
+        $this->smarty->assign("materiali", $materiali);
+        $this->smarty->assign("paginaCorrente", $page);
+        $this->smarty->assign("totalePagine", $totPage);
+        $this->smarty->assign("studente", $username);
+        $this->smarty->assign("base64", $base64);
+        $this->smarty->assign("urlbasePagina", $url);
+        $this->smarty->display("utente/materialiUtente.tpl");
+    }
+    
+
     /**
      * Mostra un form con il messaggio di errore all'utente.
      *

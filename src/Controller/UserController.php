@@ -23,27 +23,6 @@ class UserController {
     }
 
     /**
-     * Limita la frequenza di un'azione sensibile (login, recupero password)
-     * per la sessione corrente, contro brute force e abuso.
-     * @param string $chiave Identificatore dell'azione in sessione.
-     * @param int $maxTentativi Numero massimo di tentativi nella finestra.
-     * @param int $finestraSecondi Durata della finestra temporale in secondi.
-     * @throws Exception Se il numero di tentativi consentiti è superato.
-     */
-    private function applicaRateLimit(string $chiave, int $maxTentativi, int $finestraSecondi): void {
-        Session::getInstance(); // assicura che la sessione sia avviata
-        $ora = time();
-        $tentativi = Session::getSessionElement($chiave) ?? [];
-        // Mantieni solo i tentativi ancora dentro la finestra temporale.
-        $tentativi = array_values(array_filter($tentativi, fn($t) => ($ora - $t) < $finestraSecondi));
-        if (count($tentativi) >= $maxTentativi) {
-            throw new Exception("Troppi tentativi. Riprova più tardi.");
-        }
-        $tentativi[] = $ora;
-        Session::setSessionElement($chiave, $tentativi);
-    }
-
-    /**
      * Mostra la form di login.
      */
     public function login() : void {
@@ -77,8 +56,9 @@ class UserController {
      * - invio email di conferma
      */
     public function effettuaRegistrazione(){
-    $view = new ViewUser();
+        $view = new ViewUser();
     try {
+        $session = Session::getInstance();
         $pm = PersistentManager::getInstance();
         $d = $view->getDatiRegistrazione();
         $studenteRegistrato = $pm->findoneby(Studente::class, ['email' => $d['email']]);
@@ -116,9 +96,6 @@ class UserController {
         ob_flush();
         flush();
         $this->inviaEmailVerifica($studente, $token);
-        // Nessuna sessione qui: l'utente deve prima verificare l'email e poi
-        // effettuare il login. Impostare 'studente' ora aggirerebbe la verifica.
-
     } catch (\Exception $e) {
         $view->mostraFormErrore("Errore durante la registrazione: " . $e->getMessage());
     }
@@ -134,7 +111,7 @@ class UserController {
     public function effettuaLogin() {
         $view = new ViewUser();
         try {
-            $session = Session::getInstance();            $this->applicaRateLimit('rl_login', 5, 300); // max 5 tentativi / 5 minuti
+            $session = Session::getInstance();
             $pm = PersistentManager::getInstance();
             $datiLogin = $view->getDatiLogin();
             if (empty($datiLogin['email'])) throw new \Exception("L'email è obbligatoria.");
@@ -149,7 +126,6 @@ class UserController {
                 if (!password_verify($datiLogin['password'], $admin->getPassword())) {
                     throw new \Exception("Credenziali non corrette.");
                 }
-                session_regenerate_id(true); // previene la session fixation
                 $session->setSessionElement('admin', $admin->getId());
                 $view->redirectAdmin();
                 return; // Login admin completato: non proseguire con i controlli dello studente
@@ -164,7 +140,6 @@ class UserController {
             if ($studente->getIsBanned()) {
                 throw new \Exception("Il tuo account è stato sospeso, contatta l'amministratore per maggiori informazioni."); // Lancia un'ecezione per indicare che l'account è sospeso
             }
-            session_regenerate_id(true); // previene la session fixation
             $this->rememberMe($datiLogin['email'], $datiLogin['remember']);
             $session->setSessionElement('studente', $studente->getId());
             $view->redirectHome();
@@ -190,7 +165,7 @@ class UserController {
                 $studente->setRememberToken(null);
                 $studente->setRememberTokenTime(null);
                 $pm->update();
-                setcookie('remember_me', '', time() - 3600, "/", "", $this->richiestaSicura(), true); // Rimuove il cookie
+                setcookie('remember_me', '', time() - 3600, "/", "", true, true); // Rimuove il cookie
             }
         }
          elseif ($session->getSessionElement('admin') !== null) {
@@ -212,7 +187,7 @@ class UserController {
      * - attivazione account
      */
     public function verificaEmail(string $token) : void {
-        $view = new ViewUser();
+        	$view = new ViewUser();
         try {
             $pm = PersistentManager::getInstance();
             $studente = $pm->findOneBy(Studente::class, ['validationToken' => $token]); // Cerco lo studente nel DB per token
@@ -230,8 +205,6 @@ class UserController {
             $pm->update(); // Salva le modifiche al database
             $view->mostraConvalidaEmail();
         } catch (PDOException $e) {
-           $view->mostraFormErrore("Errore durante la verifica dell'email: " . $e->getMessage());
-        } catch (Exception $e) {
            $view->mostraFormErrore("Errore durante la verifica dell'email: " . $e->getMessage());
         }
     }
@@ -304,7 +277,7 @@ class UserController {
         } catch (Exception $e) {
             $view->mostraFormErrore("Errore durante la modifica del profilo: " . $e->getMessage());
         } catch (PDOException $e) {
-            $view->mostraFormErrore("Errore durante la modifica del profilo: " . $e->getMessage());
+            $view->mostraFormErrore("Errore durante la modifica del profilo");
         }
     }
 
@@ -317,7 +290,8 @@ class UserController {
         $view = new ViewUser();
         
         try {
-            $session = Session::getInstance();            $pm = PersistentManager::getInstance();
+            $session = Session::getInstance();
+            $pm = PersistentManager::getInstance();
 
             $id = $session->getSessionElement('studente');
 
@@ -368,7 +342,7 @@ class UserController {
     public function inviaEmailVerifica(studente $studente, string $token): void {
         try {
             require __DIR__ . '/../../config/mailer-bootstrap.php';
-            $mail->addAddress ($studente->getEmail());
+            $mail->addAddress (trim($studente->getEmail()));
             $mail->Subject = 'Conferma la tua registrazione a StudyRoom';
             $view = new ViewUser();
             $domain = $view->getDomain();
@@ -381,43 +355,7 @@ class UserController {
               if(!$mail->send()) throw new Exception("Invio email non riuscito: " . $mail->ErrorInfo);
               return;
         } catch (Exception $e) {
-            // La pagina di verifica è già stata inviata all'utente: non esponiamo
-            // i dettagli SMTP, ma logghiamo l'errore per la diagnosi lato server.
-            error_log("Invio email di verifica fallito: " . ($mail->ErrorInfo ?? $e->getMessage()));
-        }
-    }
-
-    /**
-     * Reinvia l'email di verifica (link "Invia di nuovo" nella pagina di verifica).
-     * Rigenera il token e lo invia all'indirizzo passato in query string.
-     */
-    public function reinviaEmailVerifica(): void {
-        $view = new ViewUser();
-        try {
-            $email = trim($_GET['email'] ?? '');
-            if ($email === '') {
-                throw new Exception("Email mancante.");
-            }
-            $pm = PersistentManager::getInstance();
-            $studente = $pm->findOneBy(Studente::class, ['email' => $email]);
-            // Rigenera e reinvia solo se l'utente esiste e non è già verificato.
-            if ($studente !== null && $studente->getIsVerified() === false) {
-                $token = bin2hex(random_bytes(32));
-                $studente->setValidationToken($token);
-                $studente->setValidationTokenTime(
-                    (new \DateTime('now', new \DateTimeZone('Europe/Rome')))->add(new \DateInterval('PT10M'))
-                );
-                $pm->update();
-                $view->mostraVerificaEmail($email);
-                ob_flush();
-                flush();
-                $this->inviaEmailVerifica($studente, $token);
-                return;
-            }
-            // Non riveliamo se l'email esiste o è già verificata: mostriamo comunque la pagina.
-            $view->mostraVerificaEmail($email);
-        } catch (Exception $e) {
-            $view->mostraFormErrore("Errore durante il reinvio dell'email: " . $e->getMessage());
+            $view->mostraFormErrore("Errore durante l'invio dell'email di verifica: " . $e->getMessage());
         }
     }
 
@@ -429,28 +367,28 @@ class UserController {
      */
     public function effettuaRecuperoPassword(): void {
         $view = new ViewUser();
-        try {            $this->applicaRateLimit('rl_recupero', 3, 3600); // max 3 richieste / ora
+        try {
             $pm = PersistentManager::getInstance();
-            $email = $view->getEmail();
+            $email = trim($view->getEmail());
             if (empty($email)) {
                 throw new Exception("Inserisci un indirizzo email.");
             }
-            $studente = $pm->findOneBy(Studente::class, ['email' => $email]);
-            // Non riveliamo se l'email è registrata: inviamo il link solo se
-            // l'account esiste, ma mostriamo sempre la stessa pagina di conferma.
-            if ($studente !== null) {
-                $token = bin2hex(random_bytes(32));
-                $studente->setValidationToken($token);
-                $scadenzaToken = (new \DateTime('now',new \DateTimeZone('Europe/Rome')))->add(new \DateInterval('PT10M'));
-                $studente->setValidationTokenTime($scadenzaToken);
-                $pm->update();
-                $view->mostraVerificaEmail($email);
-                ob_flush();
-                flush();
-                $this->inviaEmailRecuperoPassword($studente, $token);
-                return;
+            $studente = $pm->findOneBy(
+                Studente::class,
+            [   'email' => $email]
+            );
+            if ($studente === null) {
+               throw new Exception("Nessun account trovato con questa email.");
             }
+            $token = bin2hex(random_bytes(32));
+            $studente->setValidationToken($token);
+            $scadenzaToken = (new \DateTime('now',new \DateTimeZone('Europe/Rome')))->add(new \DateInterval('PT10M'));
+            $studente->setValidationTokenTime($scadenzaToken);
+            $pm->update($studente);
             $view->mostraVerificaEmail($email);
+            ob_flush();
+            flush();
+            $this->inviaEmailRecuperoPassword($studente, $token);
         } catch (Exception $e) {
             $view->mostraFormErrore("Errore durante il recupero password: " . $e->getMessage());
         }
@@ -462,8 +400,9 @@ class UserController {
      * può mostrare un errore invece di confermare un'operazione non riuscita.
      */
     public function inviaEmailRecuperoPassword(Studente $studente, string $token): void {
+        try{
         require __DIR__ . '/../../config/mailer-bootstrap.php';
-        $mail->addAddress($studente->getEmail());
+        $mail->addAddress(trim($studente->getEmail()));
         $mail->Subject ='Recupero password StudyRoom';
         $view = new ViewUser();
         $domain = $view->getDomain();
@@ -482,6 +421,9 @@ class UserController {
             throw new Exception("Invio email non riuscito: " . $mail->ErrorInfo);
         }
         return;
+        }catch(Exception $e){
+        $view->mostraFormErrore("Errore durante invio email: " . $e->getMessage());
+        }
     }
 
     /**
@@ -515,7 +457,8 @@ class UserController {
      */
     public function salvaNuovaPassword(): void{
     $view = new ViewUser();
-        try {            $pm = PersistentManager::getInstance();
+        try {
+            $pm = PersistentManager::getInstance();
             $d = $view->getDatiNuovaPassword();
             $token   = $d['token'];
             $pass    = $d['password'];
@@ -565,7 +508,7 @@ class UserController {
             return;
         }
         $token = bin2hex(random_bytes(32));
-        setcookie('remember_me', $token, time() + (60 * 60 * 24 * 30), "/", "", $this->richiestaSicura(), true); // Cookie valido per 30 giorni
+        setcookie('remember_me', $token, time() + (60 * 60 * 24 * 30), "/", "", true, true); // Cookie valido per 30 giorni
         $hashToken = hash('sha256', $token);
         $studente->setRememberToken($hashToken);
         $studente->setRememberTokenTime((new \DateTime('now', new \DateTimeZone('Europe/Rome')))->modify('+30 days'));// Scadenza token in linea con il cookie
@@ -627,8 +570,9 @@ class UserController {
     }
 
     public function reinviaEmailGenerica(Studente $studente, string $token): void {
+        try{
         require __DIR__ . '/../../config/mailer-bootstrap.php';
-        $mail->addAddress($studente->getEmail());
+        $mail->addAddress(trim($studente->getEmail()));
         $mail->Subject ='Reinvio mail Studyroom';
         $view = new ViewUser();
         $domain = $view->getDomain();
@@ -653,5 +597,8 @@ class UserController {
         if (!$mail->send()) {
             throw new Exception("Invio email non riuscito: " . $mail->ErrorInfo);
         }
+      }catch(Exception $e){
+       $view->mostraFormErrore("Invio email non riuscito: " . $e->getMessage()); 
+       }
     }
 }

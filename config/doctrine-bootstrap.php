@@ -9,8 +9,11 @@ use Dotenv\Dotenv;
 $dotenv = Dotenv::createImmutable(__DIR__ . '/..');
 $dotenv->load();
 
-$isDevMode = filter_var($_ENV['APP_DEBUG'] ?? false, FILTER_VALIDATE_BOOL);
-$config = ORMSetup::createConfiguration($isDevMode);
+$config = ORMSetup::createConfiguration(true);
+
+$config->setProxyDir(__DIR__ . '/../var/doctrine-proxy');
+$config->setProxyNamespace('DoctrineProxies');
+
 
 $driver = new \Doctrine\ORM\Mapping\Driver\AttributeDriver([
     __DIR__ . '/../src/Model'

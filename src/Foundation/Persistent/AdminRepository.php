@@ -56,8 +56,6 @@ class AdminRepository {
     $qb->select(
     'm.id as idMateriale',
     'm.titolo as titoloMateriale',
-    'm.file.contenutoFile as contenutoFile',
-    'm.file.mimeTypeFile as mimeTypeFile',
     's.nome as nomeStudente',
     's.cognome as cognomeStudente',
     's.username as usernameStudente',
@@ -68,17 +66,7 @@ class AdminRepository {
         ->join('m.studente', 's')
         ->where('m.id = :id_materiale')
         ->setParameter('id_materiale', $id_materiale);
-    $result = $qb->getQuery()->getArrayResult();
-
-    // Il contenuto del file è di tipo BLOB: Doctrine lo idrata come resource (stream),
-    // quindi lo convertiamo in stringa binaria per restituire dati puliti alla view.
-    foreach ($result as &$riga) {
-        if (is_resource($riga['contenutoFile'])) {
-            $riga['contenutoFile'] = stream_get_contents($riga['contenutoFile']);
-        }
-    }
-    unset($riga);
-
+    $result = $qb->getQuery()->getOneOrNullResult() ?? [];
     return $result;
     }
 

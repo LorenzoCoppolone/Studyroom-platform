@@ -24,8 +24,8 @@ if (!is_dir($cacheDir)) {
 // In produzione (APP_DEBUG=false) i template sono pre-compilati: niente ricompilazione a ogni richiesta.
 $debug = filter_var($_ENV['APP_DEBUG'] ?? false, FILTER_VALIDATE_BOOL);
 $smarty = new Smarty();
-$smarty->compile_check = $debug;
-$smarty->force_compile = $debug;
+$smarty->compile_check = true;
+$smarty->force_compile = true;
 $smarty->caching = false;
 // cartelle nella root del progetto
 $smarty->setTemplateDir(__DIR__ . '/../templates/');
