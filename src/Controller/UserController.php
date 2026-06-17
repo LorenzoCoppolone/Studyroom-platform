@@ -355,9 +355,10 @@ class UserController {
               "Per confermare la tua registrazione a StudyRoom, clicca sul link seguente:\n\n" .
               $link . "\n\n" .
               "Il link rimane valido per 10 minuti.\n\nGrazie!";
-              $mail->send();
+              if(!$mail->send()) throw new Exception("Invio email non riuscito: " . $mail->ErrorInfo);
+              return;
         } catch (Exception $e) {
-            echo "Errore nell'invio dell'email: {$mail->ErrorInfo}";
+            $view->mostraFormErrore("Errore durante l'invio dell'email di verifica: " . $e->getMessage());
         }
     }
 
@@ -421,6 +422,7 @@ class UserController {
         if (!$mail->send()) {
             throw new Exception("Invio email non riuscito: " . $mail->ErrorInfo);
         }
+        return;
     }
 
     /**

@@ -185,7 +185,7 @@ class RicercaMaterialeController
             $view->mostraFormErrore("Errore durante il recupero dei materiali: ");
     
         } catch (\Exception $e) {
-            $view->mostraFormErrore("Errore imprevisto: ");
+            $view->mostraFormErrore("Errore imprevisto: ". $e->getMessage());
         }
     }
 
