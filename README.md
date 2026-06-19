@@ -87,7 +87,7 @@ php bin/doctrine.php orm:schema-tool:update --force
 
 #### 5.5 Installazione documentazione
 ```bash
-php vendor/bin/doctum.php update doctum.php
+php vendor/bin/doctum.php update config/doctum.php
 ```
 
 #### 5.6 Visualizzazione DB
