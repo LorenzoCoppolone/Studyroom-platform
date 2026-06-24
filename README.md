@@ -95,7 +95,8 @@ php vendor/bin/doctum.php update config/doctum.php
 Per visualizzare il DB appena creato , andare su  **phpMyAdmin** oppure installare su VS l`estensione **"DataBase Client"** e connettersi al db impostando le variabili dambiente .
 
 
----
+## Struttura del progetto
+```
 
 studyroom-platform/
 ├── bin/
@@ -171,6 +172,7 @@ studyroom-platform/
 ├── composer.lock
 ├── .env                                     # Variabili ambiente (DB, mail, ecc.)
 └── README.md
+```
 
 ##  Funzionalità principali
 
