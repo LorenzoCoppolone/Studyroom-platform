@@ -97,22 +97,40 @@ Per visualizzare il DB appena creato , andare su  **phpMyAdmin** oppure installa
 
 ---
 
-##  Struttura del progetto
-```
 studyroom-platform/
 ├── bin/
-│   └── doctrine.php                        # CLI Doctrine per gestione schema DB
+│   └── doctrine.php                        # CLI Doctrine per gestione schema DB (migrate, update, validate)
+│
+├── config/                                 # Bootstrap dell’applicazione
+│   ├── StartSmarty.php                     # Inizializzazione motore Smarty
+│   ├── bootstrap-Smarty.php                # Configurazione template engine
+│   ├── doctrine-bootstrap.php              # Configurazione EntityManager Doctrine
+│   ├── doctrine.php                        # Setup generale Doctrine ORM
+│   └── mailer-bootstrap.php                # Configurazione PHPMailer per invio email
+│
 ├── src/
-│   ├── Controller/                         # Logica di controllo (MVC)
-│   │   ├── LoginUtenteController.php
-│   │   ├── ModerazioneContenutiController.php
-│   │   ├── RecensioneMaterialeController.php
-│   │   ├── RegistrazioneUtenteController.php
-│   │   ├── RicercaMaterialeController.php
-│   │   └── SegnalazioneContenutiController.php
+│   ├── Controller/                         # Controller MVC: gestiscono il flusso applicativo
+│   │   ├── AdminController.php             # Funzioni amministratore (ban, moderazione, gestione corsi)
+│   │   ├── CaricaMaterialeController.php   # Upload appunti/esami con validazioni
+│   │   ├── DownloadMaterialeController.php # Gestione download e statistiche
+│   │   ├── FrontController.php             # Router principale dell’applicazione
+│   │   ├── GestionePreferitiController.php # Aggiunta/rimozione materiali dai preferiti
+│   │   ├── HomeController.php              # Homepage e dashboard utente
+│   │   ├── RecensioneMaterialeController.php # Inserimento e gestione recensioni
+│   │   ├── RicercaMaterialeController.php  # Ricerca avanzata per corso/insegnamento/tag
+│   │   ├── SegnalazioneContenutiController.php # Segnalazioni utenti/materiali
+│   │   └── UserController.php              # Login, registrazione, profilo utente
+│
 │   ├── Foundation/
-│   │   └── Persistent/                     # Configurazione e accesso Doctrine
-│   ├── Model/                              # Entità Doctrine
+│   │   ├── Session.php                     # Gestione sessioni utente
+│   │   └── Persistent/                     # Accesso al DB tramite Doctrine
+│   │       ├── PersistentManager.php       # Factory per EntityManager
+│   │       ├── AdminRepository.php         # Query personalizzate per Amministratore
+│   │       ├── InsegnamentoRepository.php  # Query per insegnamenti
+│   │       ├── MaterialeRepository.php     # Query per materiali (appunti/esami)
+│   │       └── UtenteRepository.php        # Query per utenti e studenti
+│
+│   ├── Model/                              # Entità Doctrine (mappate su tabelle DB)
 │   │   ├── Utente.php
 │   │   ├── Studente.php
 │   │   ├── Amministratore.php
@@ -127,12 +145,32 @@ studyroom-platform/
 │   │   ├── Esame.php
 │   │   ├── Insegnamento.php
 │   │   └── CorsoDiLaurea.php
-│   └── UI/                                 # Template e interfaccia utente
-├── vendor/                                 # Dipendenze Composer (auto-generata)
-├── composer.json
+│
+│   └── View/                               # Classi View che preparano i dati per Smarty
+│       ├── ViewAdmin.php
+│       ├── ViewCaricaMateriale.php
+│       ├── ViewDownloadMateriale.php
+│       ├── ViewHome.php
+│       ├── ViewInfo.php
+│       ├── ViewPreferiti.php
+│       ├── ViewRecensioneMateriale.php
+│       ├── ViewRicercaMateriale.php
+│       ├── ViewSegnalazioni.php
+│       └── ViewUser.php
+│
+├── templates/                              # Template Smarty (.tpl)
+│
+├── CSS/                                     # Stili e layout
+├── JS/                                      # Script lato client
+├── img/                                     # Risorse grafiche
+│
+├── vendor/                                  # Dipendenze Composer (auto-generata)
+│
+├── index.php                                # Entry point dell’applicazione (Front Controller)
+├── composer.json                            # Configurazione Composer
 ├── composer.lock
-└── .env
-```
+├── .env                                     # Variabili ambiente (DB, mail, ecc.)
+└── README.md
 
 ##  Funzionalità principali
 
