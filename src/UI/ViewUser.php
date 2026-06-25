@@ -85,7 +85,7 @@ class ViewUser {
      * 
      * @return string
      */
-    public function getEmailRecuperoPassword(): string {
+    public function getEmail(): string {
         $dati = array_merge($_POST, $_GET);
         return trim($dati['email'] ?? '');
     }
@@ -324,5 +324,13 @@ class ViewUser {
      */
     public function redirectHome() : void {
         header("Location: /Home/dashboard");
+    }
+
+    public function getDomain(): string {
+    $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+        ? "https://"
+        : "http://";
+    $host = $_SERVER['HTTP_HOST']; // es: localhost, studyroom.it
+    return $protocol . $host;
     }
 }

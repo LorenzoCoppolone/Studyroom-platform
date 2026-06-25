@@ -55,7 +55,6 @@ class CorsoDiLaurea {
      * @param string $codiceCorso Nuovo codice del corso.
      */
     public function setCodiceCorso(string $codiceCorso): void {
-    public function setCodiceCorso(string $codiceCorso): void {
         $this->codiceCorso = $codiceCorso;
     }
 
@@ -64,7 +63,7 @@ class CorsoDiLaurea {
      * @return string
      * @return string
      */
-    public function getCodiceCorso(): string {
+
     public function getCodiceCorso(): string {
         return $this->codiceCorso;
     }

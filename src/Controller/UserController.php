@@ -66,7 +66,7 @@ class UserController {
             $token = bin2hex(random_bytes(32));
             $studenteRegistrato->setValidationToken($token);
             $studenteRegistrato->setValidationTokenTime((new \DateTime('now', new \DateTimeZone('Europe/Rome')))->add(new \DateInterval('PT10M')));
-            $pm->update($studenteRegistrato);
+            $pm->update();
             $view->mostraVerificaEmail($studenteRegistrato->getEmail());
             ob_flush();
             flush();
@@ -325,7 +325,7 @@ class UserController {
                 $studente->setImmagineProfilo(new File($contenuto, $mimeType, $dimensione));
             }
             
-            $pm->update($studente);
+            $pm->update();
             
             $view->mostraFormSuccesso("Profilo aggiornato con successo.");
         
@@ -384,7 +384,7 @@ class UserController {
             $studente->setValidationToken($token);
             $scadenzaToken = (new \DateTime('now',new \DateTimeZone('Europe/Rome')))->add(new \DateInterval('PT10M'));
             $studente->setValidationTokenTime($scadenzaToken);
-            $pm->update($studente);
+            $pm->update();
             $view->mostraVerificaEmail($email);
             ob_flush();
             flush();
