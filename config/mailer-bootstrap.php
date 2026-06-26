@@ -17,11 +17,11 @@ try {
     $mail->isSMTP();
     $mail->Host       = $_ENV['MAIL_HOST'];
     $mail->Port       = $_ENV['MAIL_PORT'];
-    $mail->SMTPAuth = true;
+    $mail->SMTPAuth = false;
     $mail->Username   = $_ENV['MAIL_USERNAME'];
     $mail->Password   = $_ENV['MAIL_PASSWORD'];
     // Encryption
-   $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+   $mail->SMTPSecure = false;
    // Mittente
     $mail->setFrom($_ENV['MAIL_FROM_ADDRESS'], $_ENV['MAIL_FROM_NAME']);
 
