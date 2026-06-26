@@ -28,7 +28,7 @@ class MaterialeRepository {
      * @param string $criterio Il criterio di ricerca da applicare.
      * @param int $offset L'offset da utilizzare per la paginazione.
      * @param int $limit Il limite di materiali da ritornare.
-     * @throws Exception Se il titolo è vuoto.
+     * @throws exception Se il titolo è vuoto.
      * @return array Un array di materiali che corrispondono ai criteri di ricerca, ritorna ogetti materiale, studente, insegnamento, corso + i download per ognuno.
      */
     public function cerca(    
